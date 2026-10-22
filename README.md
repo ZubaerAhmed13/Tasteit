@@ -26,9 +26,10 @@ GitHub Actions also runs a separate **Playwright headless browser smoke test** (
 ## First-release capabilities
 
 - Search real recipes by name and browse source-provided cuisines, with credited photographs, ingredients and instructions. The discovery feed mixes several starting letters instead of presenting only one alphabetical slice.
-- Save **Want to try**, **Usual dishes**, and **Favourites** independently; record ratings and cooking notes with dates; add and edit your own usual recipes.
+- Save **Want to try**, **Usual dishes**, and **Favourites** independently; record cooking ratings/notes, add and edit personal recipes, and organise anything in named labels such as Weeknight or Family.
+- Search and sort your private cookbook by name, cuisine, last cooked, most cooked or your own labels. Labels and cooking notes persist in JSON backups.
 - Add ingredients to your personal pantry with amount, unit, storage location and optional expiry date; edit and remove them.
-- Find recipe candidates from up to four pantry ingredients. Match ingredient names and report **missing**, **insufficient** or **uncertain** amounts when the recipe and pantry units permit a safe comparison.
+- Find recipe candidates from up to four pantry ingredients. Match ingredient names (including a small vetted set of regional synonyms such as aubergine/eggplant and garbanzo/chickpea) and report **missing**, **insufficient** or **uncertain** amounts when units permit a conservative comparison.
 - Plan the next seven days and generate a shopping list that totals compatible amounts across days, subtracts measured pantry stock, and flags vague or incompatible quantities for checking.
 - Local persistence via localStorage, JSON backup export/import, accessible controls, loading/empty/error states and responsive navigation.
 
@@ -43,8 +44,8 @@ GitHub Actions also runs a separate **Playwright headless browser smoke test** (
 ## Product roadmap
 
 1. **Foundation** — diverse discovery, recipe details, personal recipes, local collections, backups and browser acceptance (this PR).
-2. **Personalisation** — cooking history/notes and custom recipes started; richer filters, tags, last-cooked reminders and personal photo uploads remain.
-3. **Kitchen intelligence** — conservative amount comparisons added; improve ingredient synonyms, shopping quantities, expiry-based priority and combined inventory lots.
+2. **Personalisation** — cooking history/notes, custom recipes, saved labels, collection search and sorting added; scheduled reminders and personal photo uploads remain.
+3. **Kitchen intelligence** — conservative amount comparisons and vetted name aliases added; improve product specificity, serving scaling, expiry priorities and multi-lot stock handling.
 4. **Trustworthy world coverage** — licensed expanded sources, multiple genuine regional variants, editorial provenance and image rights.
 5. **Accounts and synchronisation** — optional private backend, migration from local data, privacy and security acceptance.
 6. **Advanced conveniences** — optional barcode/photo capture with mandatory user confirmation, multilingual UI and guided cooking.
