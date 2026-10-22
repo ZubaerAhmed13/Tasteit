@@ -259,3 +259,12 @@ h3 { font-size: 24px }
 .bulk-errors {margin:0;padding:12px 12px 12px 29px;border-radius:12px;background:#fff2eb;color:#9b4032;font-size:12px;line-height:1.6}
 .bulk-preview>.btn {align-self:flex-start}
 @media(max-width:470px) { .bulk-items li {align-items:flex-start;flex-direction:column;gap:3px} .bulk-items span {text-align:left} }
+
+/* Multiple dated batches of the same ingredient, with visible "use soon" guidance */
+.due-soon {margin-top:16px;background:#fffcf6;border-color:#eddfc7}
+.due-soon .section-head {align-items:start}
+.due-list {display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.due-item {display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid #eee4d4;font-size:12px;align-items:center}
+.due-item strong {font-weight:750;color:var(--forest)}
+.due-item span {text-align:right;color:#a36b3f}
+@media (max-width:760px) {.due-item {flex-wrap:wrap}}
