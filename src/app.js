@@ -43,7 +43,9 @@ function notice(message) {
   toastTimer = setTimeout(() => { toastRoot.hidden = true; }, 3600);
 }
 function save() {
-  if (!persistStore(store)) notice('Could not save changes to this browser. Check privacy or storage settings.');
+  const saved = persistStore(store);
+  if (!saved) notice('Could not save changes to this browser. Check privacy or storage settings.');
+  return saved;
 }
 function findMeal(id) {
   return activeMeals.find(x => x.idMeal === id) || store.saved[id]?.meal || (selectedMeal?.idMeal === id ? selectedMeal : null);
@@ -335,9 +337,9 @@ async function markRecipe(id, field) {
   if (flags(entry)) store.saved[id] = entry;
   else { delete store.saved[id]; for (const day of Object.keys(store.plan)) if (store.plan[day] === id) delete store.plan[day]; }
   if (selectedMeal?.idMeal === id) selectedMeal = meal;
-  save();
+  const stored = save();
   render();
-  notice(field === 'cookedCount' ? 'Added to your cooking history!' : 'Your cookbook is updated.');
+  if (stored) notice(field === 'cookedCount' ? 'Added to your cooking history!' : 'Your cookbook is updated.');
 }
 
 document.addEventListener('click', async event => {
@@ -379,7 +381,7 @@ document.addEventListener('click', async event => {
   }
   if (action === 'edit-pantry') { editingId = id; render(); document.getElementById('ingredient-name')?.focus(); return; }
   if (action === 'cancel-edit') { editingId = null; render(); return; }
-  if (action === 'remove-pantry') { store.pantry = store.pantry.filter(x => x.id !== id); if (editingId === id) editingId = null; save(); render(); notice('Ingredient removed.'); return; }
+  if (action === 'remove-pantry') { store.pantry = store.pantry.filter(x => x.id !== id); if (editingId === id) editingId = null; const stored = save(); render(); if (stored) notice('Ingredient removed.'); return; }
   if (action === 'start-cooking') { stepIndex = 0; renderDialog(); overlayRoot.querySelector('.dialog-close')?.focus(); return; }
   if (action === 'step-back') { stepIndex = Math.max(0,stepIndex - 1); renderDialog(); return; }
   if (action === 'step-next') { stepIndex = Math.min(instructions(selectedMeal).length - 1,stepIndex + 1); renderDialog(); return; }
@@ -409,7 +411,7 @@ document.addEventListener('submit', event => {
       const previous = store.saved[id] || { wanted:false, usual:true, favourite:false, cookedCount:0 };
       store.saved[id] = { ...previous, meal, usual:true };
       showRecipeForm = false; editingRecipeId = null; libraryTab = 'all';
-      save(); render(); notice('Your personal recipe has been saved.');
+      const stored = save(); render(); if (stored) notice('Your personal recipe has been saved.');
     } catch (error) { notice(error.message); }
     return;
   }
@@ -429,7 +431,7 @@ document.addEventListener('submit', event => {
     if (editingId) store.pantry = store.pantry.map(x => x.id === editingId ? item : x);
     else store.pantry.push(item);
     editingId = null;
-    save(); render(); notice('Kitchen inventory updated.');
+    const stored = save(); render(); if (stored) notice('Kitchen inventory updated.');
   }
 });
 
@@ -442,11 +444,12 @@ document.addEventListener('change', async event => {
       const restored = parseBackup(await file.text());
       const yes = window.confirm('Import this backup? Your current Tasteit recipes, kitchen and plans in this browser will be replaced.');
       if (!yes) return;
+      if (!persistStore(restored)) throw new Error('The backup could not be saved in this browser. Your previous data is unchanged.');
       store.pantry = restored.pantry;
       store.saved = restored.saved;
       store.plan = restored.plan;
       showRecipeForm = false; editingRecipeId = null;
-      save(); render(); notice('Your Tasteit backup has been restored.');
+      render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
     finally { event.target.value = ''; }
     return;
@@ -457,7 +460,7 @@ document.addEventListener('change', async event => {
   const id = select.value;
   if (id && store.saved[id]?.meal) store.plan[day] = id;
   else delete store.plan[day];
-  save(); render(); notice('Meal plan updated.');
+  const stored = save(); render(); if (stored) notice('Meal plan updated.');
 });
 
 document.addEventListener('keydown', event => {
