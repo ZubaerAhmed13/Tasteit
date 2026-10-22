@@ -1,8 +1,9 @@
 import { evaluateQuantity } from './quantities.js';
+import { plannedIngredients, validServings } from './servings.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
-  return { pantry: [], saved: {}, plan: {} };
+  return { pantry: [], saved: {}, plan: {}, planServings: {} };
 }
 
 export function loadStore(storage) {
@@ -13,7 +14,8 @@ export function loadStore(storage) {
     return {
       pantry: Array.isArray(parsed.pantry) ? parsed.pantry.filter(x => x && typeof x.name === 'string') : [],
       saved: parsed.saved && typeof parsed.saved === 'object' && !Array.isArray(parsed.saved) ? parsed.saved : {},
-      plan: parsed.plan && typeof parsed.plan === 'object' && !Array.isArray(parsed.plan) ? parsed.plan : {}
+      plan: parsed.plan && typeof parsed.plan === 'object' && !Array.isArray(parsed.plan) ? parsed.plan : {},
+      planServings: parsed.planServings && typeof parsed.planServings === 'object' && !Array.isArray(parsed.planServings) ? parsed.planServings : {}
     };
   } catch {
     return emptyStore();
@@ -110,14 +112,15 @@ export function analyseMeal(meal, pantry) {
   };
 }
 
-export function shoppingList(plan, saved, pantry) {
+export function shoppingList(plan, saved, pantry, planServings = {}) {
   // Each planned day counts. This deliberately does not mutate stock when a meal is planned.
   const usable = pantry.filter(item => usablePantryItem(item));
   const grouped = new Map();
-  for (const mealId of Object.values(plan)) {
-    const meal = saved[mealId]?.meal;
+  for (const [day, mealId] of Object.entries(plan)) {
+    const recipe = saved[mealId];
+    const meal = recipe?.meal;
     if (!meal) continue;
-    for (const ingredient of ingredientsOf(meal)) {
+    for (const ingredient of plannedIngredients(meal, recipe.baseServings, planServings?.[day])) {
       const key = normalizeIngredient(ingredient.name);
       if (!key) continue;
       if (!grouped.has(key)) grouped.set(key, {
@@ -153,7 +156,8 @@ const MAX_BACKUP_SIZE = 2_000_000;
 export function exportBackup(store, now = new Date()) {
   return JSON.stringify({
     format: 'tasteit-backup', version: 1, exportedAt: now.toISOString(),
-    data: { pantry: store.pantry, saved: store.saved, plan: store.plan }
+    data: { pantry: store.pantry, saved: store.saved, plan: store.plan,
+      ...(store.planServings === undefined ? {} : { planServings:store.planServings }) }
   }, null, 2);
 }
 
@@ -164,12 +168,15 @@ export function parseBackup(text) {
   if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
     throw new Error('This is not a supported Tasteit backup.');
   }
-  const { pantry, saved, plan } = backup.data;
+  const { pantry, saved, plan, planServings } = backup.data;
   if (!Array.isArray(pantry) || !saved || typeof saved !== 'object' || Array.isArray(saved) || !plan || typeof plan !== 'object' || Array.isArray(plan)) {
     throw new Error('The backup is missing its recipe, pantry or plan records.');
   }
-  if (pantry.length > 3000 || Object.keys(saved).length > 3000 || Object.keys(plan).length > 1000) {
+  if (pantry.length > 3000 || Object.keys(saved).length > 3000 || Object.keys(plan).length > 1000 || (planServings && Object.keys(planServings).length > 1000)) {
     throw new Error('Backup contains too many items.');
+  }
+  if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && validServings(n) === n))) {
+    throw new Error('The backup contains invalid meal serving counts.');
   }
   if (!pantry.every(item => item && typeof item.name === 'string' && item.name.length <= 150) ||
       !Object.entries(saved).every(([key, entry]) => key.length < 160 && entry && typeof entry === 'object' &&
@@ -177,7 +184,7 @@ export function parseBackup(text) {
       !Object.entries(plan).every(([key, id]) => /^\d{4}-\d{2}-\d{2}$/.test(key) && typeof id === 'string')) {
     throw new Error('The backup contains invalid records.');
   }
-  return { pantry, saved, plan };
+  return { pantry, saved, plan, ...(planServings === undefined ? {} : { planServings }) };
 }
 
 export function createPersonalMeal(input, id) {
