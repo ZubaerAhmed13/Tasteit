@@ -118,7 +118,7 @@ function card(meal) {
   const isPersonal = Boolean(meal.strPersonal);
   return '<article class="recipe-card">' +
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
-    photo(meal) + (analysis ? '<span class="mini-pill">' + analysis.percent + '% ingredients matched*</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
+    photo(meal) + (analysis ? '<span class="mini-pill">' + (analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(category) + '</span></div>' +
     '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
@@ -142,7 +142,7 @@ function discoverPage() {
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
   const nextToTry = Object.values(store.saved).filter(entry => entry.wanted && entry.meal)
-    .sort((a,b) => analyseMeal(b.meal,store.pantry).percent - analyseMeal(a.meal,store.pantry).percent)
+    .sort((a,b) => Number(analyseMeal(b.meal,store.pantry).isQuantityConfirmed) - Number(analyseMeal(a.meal,store.pantry).isQuantityConfirmed) || analyseMeal(b.meal,store.pantry).percent - analyseMeal(a.meal,store.pantry).percent)
     .slice(0,4).map(entry => entry.meal);
   const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && discoveryMode !== 'search' && discoveryMode !== 'pantry' ? ' selected' : '') +
     '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && discoveryMode !== 'search' && discoveryMode !== 'pantry') + '">' + escapeHtml(c) + '</button>').join('');
@@ -156,10 +156,10 @@ function discoverPage() {
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
     '<button type="button" class="feature-card" data-nav="library"><span class="feature-icon" aria-hidden="true">♡</span><div><b>My cookbook</b><span>' + countSaved + ' saved or cooked recipes</span></div></button>' +
     '<button type="button" class="feature-card" data-action="suggest"><span class="feature-icon" aria-hidden="true">✦</span><div><b>What can I make?</b><span>Find recipes using my ingredients</span></div></button></div>' +
-    (nextToTry.length ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Your saved Want to try dishes, ordered by ingredient-name overlap with your kitchen.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
-    '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; quantities and substitutions are not checked.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
+    (nextToTry.length ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Saved dishes to try, prioritising confirmed available amounts, then ingredient overlap.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
+    '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
-    '<div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages check ingredient names only, not amounts, expiry, allergies or suitable substitutions. Zero missing ingredients does not guarantee that you can cook the full recipe.</p>' : '') +
+    '<div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
     currentResults + '</section>';
 }
 
@@ -231,7 +231,7 @@ function pantryPage() {
     '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' different ingredients</p></div></div>' + inventory + '</section></div>' +
     '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">expired or expiring within 3 days</span></div>' +
     '<button type="button" class="btn" data-action="suggest" style="width:100%;margin:14px 0">✦ Find recipes with my food</button>' +
-    '<p class="panel-note">Ingredient matching uses names only. Expired or zero-quantity items are excluded from recipe matching and shopping-list availability. Amounts for other items are not verified.</p></div></aside></div>';
+    '<p class="panel-note">Ingredient names are matched first. When both recipe amounts and pantry units are clear, shortages are calculated. Ambiguous units or amounts are flagged for checking.</p></div></aside></div>';
 }
 
 function planPage() {
@@ -243,14 +243,14 @@ function planPage() {
     '</select></div>').join('');
   const week = Object.fromEntries(dates.map(x => [x.key, store.plan[x.key]]).filter(([,id]) => id));
   const shopping = shoppingList(week, store.saved, store.pantry);
-  const list = shopping.length ? shopping.map(x => '<div class="shopping-row"><div><div class="shopping-name">' + escapeHtml(x.name) + '</div><div class="shopping-meta">For ' + escapeHtml(x.meals.join(', ')) + '</div></div><span class="source-line">CHECK AMOUNT</span></div>').join('') :
-    '<p class="panel-note">Choose recipes for the week. Ingredients not in your kitchen list will show up here.</p>';
+  const list = shopping.length ? shopping.map(x => '<div class="shopping-row"><div><div class="shopping-name">' + escapeHtml(x.name) + '</div><div class="shopping-meta">For ' + escapeHtml(x.meals.join(', ')) + '</div></div><span class="shopping-amount">' + escapeHtml(x.label) + '</span></div>').join('') :
+    '<p class="panel-note">Choose recipes for the week. Missing, insufficient and uncertain quantities will show up here.</p>';
   return '<div class="page-top"><div class="eyebrow">PLAN AHEAD, WORRY LESS</div><h1>What’s cooking <em>this week?</em></h1><p class="lead">Choose from recipes you have saved and see which ingredients you still need to buy.</p></div>' +
     (!saved.length ? '<div class="note" style="margin-bottom:23px">First save some recipes in My recipes. They will appear as options in your meal plan.</div>' : '') +
     '<div class="page-grid"><section class="panel"><h3>Next seven days</h3><div class="list-sections">' + rows + '</div></section>' +
-    '<aside class="panel"><div class="section-head"><div><h3>Shopping list</h3><p>Missing ingredient names</p></div></div><div>' + list + '</div>' +
+    '<aside class="panel"><div class="section-head"><div><h3>Shopping list</h3><p>Items to buy or check</p></div></div><div>' + list + '</div>' +
     (shopping.length ? '<button class="btn secondary" type="button" data-action="copy-shopping" style="width:100%;margin:18px 0">Copy shopping list ↗</button>' : '') +
-    '<p class="panel-note">The list merges ingredient names, not quantities. Check how much each recipe requires before shopping.</p></aside></div>';
+    '<p class="panel-note">Where units are compatible, amounts are added across planned days and compared with stock. Check unclear measurements and substitutions manually.</p></aside></div>';
 }
 
 function render() {
@@ -285,15 +285,17 @@ function renderDialog() {
       (stepIndex < total - 1 ? '<button type="button" class="btn" data-action="step-next">Next step →</button>' : '<button type="button" class="btn" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">Finish cooking ✓</button>') +
       '<button type="button" class="btn ghost" data-action="exit-cooking">View full recipe</button></div></div>';
   } else {
-    const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + ingredientItems.map(x => {
-      const match = store.pantry.some(p => normalizeIngredient(p.name) === normalizeIngredient(x.name));
-      return '<li class="' + (match ? '' : 'missing') + '"><span>' + (match ? '✓ ' : '○ ') + escapeHtml(x.name) + '</span><span>' + escapeHtml(x.measure) + '</span></li>';
+    const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + score.availability.map(x => {
+      const enough = x.status === 'enough';
+      const marker = enough ? '✓ ' : x.status === 'review' ? '? ' : '○ ';
+      const amount = x.measure ? x.measure + ' · ' : '';
+      return '<li class="' + (enough ? '' : 'missing') + '"><span>' + marker + escapeHtml(x.name) + '</span><span>' + escapeHtml(amount + x.label) + '</span></li>';
     }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p>';
     contents = '<div class="dialog-content"><div class="dialog-actions">' + actionButton('wanted',meal,'＋','Want to try') +
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
-      '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. Quantities not checked.' : 'Ingredients pending') + '</p>' + ingredientHtml +
+      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p><div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (score.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       (parts.length ? '<button type="button" class="btn" data-action="start-cooking" style="margin-top:20px">Start guided cooking →</button>' : '') +
       '</section></div><div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
@@ -402,7 +404,7 @@ document.addEventListener('click', async event => {
   if (action === 'copy-shopping') {
     const dates = nextSevenDates().map(x => x.key);
     const week = Object.fromEntries(dates.map(day => [day,store.plan[day]]).filter(([,v]) => v));
-    const text = shoppingList(week,store.saved,store.pantry).map(x => '☐ ' + x.name + ' (check amount)').join('\n');
+    const text = shoppingList(week,store.saved,store.pantry).map(x => '☐ ' + x.name + ' — ' + x.label).join('\n');
     try { await navigator.clipboard.writeText(text); notice('Shopping list copied.'); }
     catch { notice('Clipboard is unavailable. Select and copy the shopping list manually.'); }
   }
