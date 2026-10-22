@@ -141,6 +141,9 @@ function discoverPage() {
   const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'search' ? 'Search results' : 'Discover something delicious';
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
+  const nextToTry = Object.values(store.saved).filter(entry => entry.wanted && entry.meal)
+    .sort((a,b) => analyseMeal(b.meal,store.pantry).percent - analyseMeal(a.meal,store.pantry).percent)
+    .slice(0,4).map(entry => entry.meal);
   const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && discoveryMode !== 'search' && discoveryMode !== 'pantry' ? ' selected' : '') +
     '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && discoveryMode !== 'search' && discoveryMode !== 'pantry') + '">' + escapeHtml(c) + '</button>').join('');
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
@@ -153,6 +156,7 @@ function discoverPage() {
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
     '<button type="button" class="feature-card" data-nav="library"><span class="feature-icon" aria-hidden="true">♡</span><div><b>My cookbook</b><span>' + countSaved + ' saved or cooked recipes</span></div></button>' +
     '<button type="button" class="feature-card" data-action="suggest"><span class="feature-icon" aria-hidden="true">✦</span><div><b>What can I make?</b><span>Find recipes using my ingredients</span></div></button></div>' +
+    (nextToTry.length ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Your saved Want to try dishes, ordered by ingredient-name overlap with your kitchen.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
     '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; quantities and substitutions are not checked.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
     '<div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages check ingredient names only, not amounts, expiry, allergies or suitable substitutions. Zero missing ingredients does not guarantee that you can cook the full recipe.</p>' : '') +
