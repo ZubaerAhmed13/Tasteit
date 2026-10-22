@@ -16,7 +16,28 @@ async function request(endpoint, params = {}, signal) {
 const asMeals = data => Array.isArray(data?.meals) ? data.meals : [];
 
 export async function featured(signal) {
-  return asMeals(await request('search.php', { f: 'b' }, signal)).slice(0, 18);
+  // Browse several starting letters, rather than presenting only 'B' dishes as a global catalogue.
+  const letters = ['a', 'b', 'c', 'm', 'p', 's'];
+  const offset = Math.floor(Date.now() / 86_400_000) % letters.length;
+  const selection = [0, 2, 4, 5].map(step => letters[(offset + step) % letters.length]);
+  const results = await Promise.allSettled(selection.map(f => request('search.php', { f }, signal)));
+  if (signal?.aborted) throw new DOMException('Request aborted', 'AbortError');
+  const successful = results.filter(x => x.status === 'fulfilled');
+  if (!successful.length) throw new Error('Recipe service unavailable');
+  const groups = successful.map(x => asMeals(x.value).slice(0, 7));
+  const unique = new Map();
+  for (let index = 0; index < 7; index += 1) {
+    for (const group of groups) {
+      const meal = group[index];
+      if (meal?.idMeal) unique.set(meal.idMeal, meal);
+    }
+  }
+  return [...unique.values()].slice(0, 24);
+}
+export async function availableAreas(signal) {
+  const areas = asMeals(await request('list.php', { a: 'list' }, signal))
+    .map(x => String(x.strArea || '').trim()).filter(Boolean);
+  return [...new Set(areas)].sort((a,b) => a.localeCompare(b));
 }
 export async function searchMeals(query, signal) {
   return asMeals(await request('search.php', { s: query }, signal));
