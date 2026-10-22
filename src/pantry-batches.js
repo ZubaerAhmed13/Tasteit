@@ -41,7 +41,10 @@ export function rankByKitchen(meals,pantry,now=new Date()) {
   return [...meals].sort((a,b)=>{
     const score=meal=>{
       const analysis=analyseMeal(meal,pantry);
-      const urgency=recipeUseSoon(meal,pantry,now).length;
+      const used = new Set(recipeUseSoon(meal,pantry,now).map(normalizeIngredient));
+      const urgency = expiringBatches(pantry,now)
+        .filter(item=>used.has(normalizeIngredient(item.name)))
+        .reduce((score,item)=>score+Math.max(1,4-item.dateInfo.days),0);
       return (analysis.isQuantityConfirmed ? 1000 : 0) + analysis.percent*2 + urgency*30;
     };
     return score(b)-score(a) || String(a.strMeal || '').localeCompare(String(b.strMeal || ''));
