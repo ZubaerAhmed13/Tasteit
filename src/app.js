@@ -1,4 +1,4 @@
-import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal } from './model.js';
+import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
 import { featured, searchMeals, cuisineMeals, mealDetails, pantryCandidates, availableAreas } from './api.js';
 
 const appRoot = document.getElementById('app');
@@ -17,6 +17,7 @@ let discoveryMode = 'featured';
 let libraryTab = 'all';
 let selectedMeal = null;
 let stepIndex = -1;
+let showCookingLog = false;
 let editingId = null;
 let showRecipeForm = false;
 let editingRecipeId = null;
@@ -276,7 +277,17 @@ function renderDialog() {
   const score = analyseMeal(meal, store.pantry);
   const parts = instructions(meal);
   let contents;
-  if (stepIndex >= 0) {
+  if (showCookingLog) {
+    contents = '<div class="dialog-content"><div class="eyebrow">YOUR COOKING JOURNAL</div><h3>How did it turn out?</h3>' +
+      '<p class="panel-note" style="margin-bottom:16px">Save a little reminder for next time. The rating and notes are optional.</p>' +
+      '<form id="cooking-log-form" class="personal-recipe-form">' +
+      '<div class="field"><label for="cooking-rating">Your rating</label><select name="rating" id="cooking-rating">' +
+      '<option value="0">Not rated</option>' + [1,2,3,4,5].map(n => '<option value="' + n + '">' + n + ' / 5</option>').join('') + '</select></div>' +
+      '<div class="field wide"><label for="cooking-note">What would you change or remember next time?</label>' +
+      '<textarea id="cooking-note" name="note" rows="5" maxlength="1000" placeholder="More chilli next time, cook 3 minutes less, use fresh coriander..."></textarea></div>' +
+      '<div class="field wide dialog-actions"><button type="submit" class="btn">Save cooking experience ✓</button>' +
+      '<button type="button" class="btn secondary" data-action="cancel-cook-log">Back to recipe</button></div></form></div>';
+  } else if (stepIndex >= 0) {
     const total = parts.length;
     contents = '<div class="dialog-content"><div class="eyebrow">COOKING MODE</div><h3>Step ' + (stepIndex + 1) + ' of ' + total + '</h3>' +
       '<div class="progress-bar"><span style="width:' + (100 * (stepIndex + 1) / Math.max(1,total)) + '%"></span></div>' +
@@ -291,6 +302,11 @@ function renderDialog() {
       const amount = x.measure ? x.measure + ' · ' : '';
       return '<li class="' + (enough ? '' : 'missing') + '"><span>' + marker + escapeHtml(x.name) + '</span><span>' + escapeHtml(amount + x.label) + '</span></li>';
     }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p>';
+    const history = (Array.isArray(savedEntry(meal.idMeal).cookingHistory) ? savedEntry(meal.idMeal).cookingHistory : []).slice(0, 3);
+    const journalHtml = history.length ? '<section class="cooking-journal"><h3>My cooking notes</h3>' +
+      history.map(log => '<div class="cooking-log"><strong>' + escapeHtml(new Date(log.date).toLocaleDateString('en',{year:'numeric',month:'short',day:'numeric'})) +
+      (log.rating ? ' · ' + log.rating + '/5 ★' : '') + '</strong>' +
+      (log.note ? '<p>' + escapeHtml(log.note) + '</p>' : '<p>Cooked without a note.</p>') + '</div>').join('') + '</section>' : '';
     contents = '<div class="dialog-content"><div class="dialog-actions">' + actionButton('wanted',meal,'＋','Want to try') +
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
@@ -298,7 +314,7 @@ function renderDialog() {
       '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p><div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (score.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       (parts.length ? '<button type="button" class="btn" data-action="start-cooking" style="margin-top:20px">Start guided cooking →</button>' : '') +
-      '</section></div><div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
+      '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
   }
   const source = externalUrl(meal.strSource);
   const sourceLink = source ? '<a href="' + source + '" target="_blank" rel="noopener noreferrer" class="btn secondary small">Original source ↗</a>' : '';
@@ -319,6 +335,7 @@ function closeDialog() {
   if (!selectedMeal) return;
   selectedMeal = null;
   stepIndex = -1;
+  showCookingLog = false;
   overlayRoot.innerHTML = '';
   document.body.style.overflow = '';
   if (dialogReturnFocus?.isConnected) dialogReturnFocus.focus();
@@ -333,6 +350,7 @@ async function openMeal(id) {
     selectedMeal = ingredientsOf(possible).length && possible.strInstructions ? possible : await mealDetails(id);
     if (store.saved[id]) { store.saved[id].meal = selectedMeal; save(); }
     stepIndex = -1;
+    showCookingLog = false;
     renderDialog();
     overlayRoot.querySelector('.dialog-close')?.focus();
   } catch {
@@ -368,7 +386,8 @@ document.addEventListener('click', async event => {
   if (action === 'close') { closeDialog(); return; }
   if (action === 'open') { await openMeal(id); return; }
   if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action); return; }
-  if (action === 'cook-done') { await markRecipe(id,'cookedCount'); stepIndex = -1; return; }
+  if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
+  if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
   if (action === 'area') { await discover(button.dataset.area === 'All' ? 'featured' : 'area',button.dataset.area); return; }
   if (action === 'featured') { await discover(); return; }
   if (action === 'suggest') {
@@ -416,6 +435,20 @@ document.addEventListener('submit', event => {
     const value = String(new FormData(event.target).get('query') || '').trim();
     if (value) discover('search',value);
     else discover();
+  }
+  if (event.target.id === 'cooking-log-form') {
+    event.preventDefault();
+    if (!selectedMeal) return;
+    const id = selectedMeal.idMeal;
+    const input = Object.fromEntries(new FormData(event.target).entries());
+    try {
+      const current = { ...savedEntry(id), meal:selectedMeal };
+      store.saved[id] = recordCooking(current, input);
+      showCookingLog = false; stepIndex = -1;
+      const stored = save(); render();
+      if (stored) notice('Added to your cooking journal.');
+    } catch (error) { notice(error.message || 'Could not save cooking notes.'); }
+    return;
   }
   if (event.target.id === 'personal-recipe-form') {
     event.preventDefault();
