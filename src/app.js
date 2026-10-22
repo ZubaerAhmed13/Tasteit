@@ -515,6 +515,16 @@ document.addEventListener('click', async event => {
   }
 });
 
+document.addEventListener('input', event => {
+  if (event.target.id !== 'bulk-input') return;
+  bulkDraft = event.target.value;
+  if (bulkPreview) {
+    bulkPreview = null;
+    // Do not leave an outdated confirmation button active after the input changed.
+    document.querySelector('.bulk-preview')?.remove();
+  }
+});
+
 document.addEventListener('submit', event => {
   if (event.target.id === 'cookbook-search-form') {
     event.preventDefault();
