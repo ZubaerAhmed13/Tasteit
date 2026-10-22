@@ -1,0 +1,13 @@
+{
+  "name": "tasteit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal recipe discovery and kitchen inventory prototype",
+  "scripts": {
+    "check": "node --check src/model.js && node --check src/api.js && node --check src/app.js",
+    "test": "node --test",
+    "verify": "npm run check && npm test"
+  },
+  "engines": { "node": ">=20" }
+}
