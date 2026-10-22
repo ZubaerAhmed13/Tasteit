@@ -12,6 +12,7 @@ const meal = {
   strIngredient1: 'Tomatoes', strMeasure1: '2',
   strIngredient2: 'Rice', strMeasure2: '1 cup',
   strMealThumb: 'https://www.themealdb.com/images/media/meals/example.jpg',
+  strYoutube: 'https://www.youtube.com/watch?v=example123',
   strSource: 'https://www.themealdb.com/'
 };
 const headers = { 'Content-Type':'application/json', 'Access-Control-Allow-Origin':'*' };
@@ -61,6 +62,7 @@ try {
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   assert.equal(await page.locator('.ingredient-list li').count(),2);
+  assert.equal(await page.getByRole('link',{name:'Watch source video'}).count(),1,'source video links are visible when provided');
   await page.locator('[data-action="cook-done"]').click();
   await page.locator('#cooking-rating').selectOption('5');
   await page.locator('#cooking-note').fill('Lovely with extra herbs.');
