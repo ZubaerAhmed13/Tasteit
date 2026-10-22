@@ -186,3 +186,22 @@ export function createPersonalMeal(input, id) {
   });
   return meal;
 }
+
+export function recordCooking(entry, { rating = 0, note = '' } = {}, when = new Date()) {
+  const value = Number(rating || 0);
+  const message = String(note || '').trim();
+  if (!Number.isInteger(value) || value < 0 || value > 5) throw new Error('Choose a rating from 1 to 5, or leave it unrated.');
+  if (message.length > 1000) throw new Error('Cooking notes must be 1,000 characters or fewer.');
+  if (!(when instanceof Date) || !Number.isFinite(when.getTime())) throw new Error('Invalid cooking date.');
+  const log = {
+    date: when.toISOString(),
+    rating: value,
+    note: message
+  };
+  return {
+    ...entry,
+    cookedCount: (Number.isSafeInteger(entry.cookedCount) && entry.cookedCount >= 0 ? entry.cookedCount : 0) + 1,
+    lastCooked: log.date,
+    cookingHistory: [log, ...(Array.isArray(entry.cookingHistory) ? entry.cookingHistory : [])].slice(0, 30)
+  };
+}
