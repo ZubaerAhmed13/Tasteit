@@ -225,3 +225,20 @@ h3 { font-size: 24px }
 .cooking-log strong { color:var(--forest); font-size:13px; }
 .cooking-log p { color:var(--muted); font-size:13px; line-height:1.6; margin-top:7px; white-space:pre-wrap; overflow-wrap:anywhere; }
 .shopping-amount { background:#f4ece4; color:#8b5638; font-size:11px; text-align:right; max-width:145px; padding:7px 9px; border-radius:8px; font-weight:700; }
+
+/* Personal cookbook: searchable, readable and touch-friendly. */
+.cookbook-toolbar {display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:15px;align-items:end;margin:5px 0 20px}
+.cookbook-search {display:flex;flex-direction:column;gap:7px;min-width:0}
+.cookbook-search label,.recipe-tags strong {font-size:12px;font-weight:750;color:#576d5f}
+.cookbook-search-row {display:flex;gap:8px;align-items:center}
+.cookbook-search-row input,.tag-entry-form input {min-width:0;flex:1;border:1px solid #dce4dc;border-radius:10px;background:white;color:var(--ink);padding:11px;min-height:43px}
+.cookbook-tag-filters {display:flex;gap:8px;align-items:center;overflow-x:auto;padding:4px 0 17px;scrollbar-width:thin;white-space:nowrap}
+.cookbook-tag-filters .chip {flex-shrink:0}
+.recipe-tags {margin:19px 0 5px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tag-heading {display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.recipe-tag-list {display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:13px 0}
+.recipe-tag {display:inline-flex;gap:7px;align-items:center;padding:5px 8px 5px 11px;border-radius:100px;background:#e6eee5;color:var(--forest);font-size:12px;font-weight:750}
+.recipe-tag button {border:0;background:transparent;color:var(--forest);border-radius:50%;min-height:26px;min-width:26px;font-size:17px}
+.recipe-tag button:hover {background:#cddfcb}
+.tag-entry-form {display:flex;flex-wrap:wrap;gap:8px;max-width:450px}
+@media(max-width:760px){.cookbook-toolbar {grid-template-columns:1fr}.cookbook-search-row input {width:100%}}
