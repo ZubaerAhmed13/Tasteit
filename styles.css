@@ -242,3 +242,20 @@ h3 { font-size: 24px }
 .recipe-tag button:hover {background:#cddfcb}
 .tag-entry-form {display:flex;flex-wrap:wrap;gap:8px;max-width:450px}
 @media(max-width:760px){.cookbook-toolbar {grid-template-columns:1fr}.cookbook-search-row input {width:100%}}
+
+/* Clear, horizontal browse controls, separate from personal library tags. */
+.browse-filters { margin:4px 0 20px; background:#fff; padding:15px 17px 2px; border:1px solid var(--line); border-radius:16px; }
+.filter-heading {font-size:13px;font-weight:800; color:var(--forest);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.filter-heading span {color:var(--muted);font-size:11px;font-weight:450}
+.browse-filters .chips {margin:8px 0 12px}
+.bulk-panel {margin-top:16px}
+.bulk-panel .field {gap:10px}
+.bulk-panel .field textarea {min-height:170px}
+.bulk-preview {border-top:1px solid var(--line);margin-top:22px;padding-top:20px;display:flex;flex-direction:column;gap:12px}
+.bulk-preview h3 {font-size:22px;margin:0}
+.bulk-items {padding:0;list-style:none;margin:0;display:grid;gap:7px;max-height:270px;overflow-y:auto}
+.bulk-items li {border:1px solid var(--line);border-radius:10px;background:#fafbf8;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px}
+.bulk-items span {color:var(--muted);text-align:right}
+.bulk-errors {margin:0;padding:12px 12px 12px 29px;border-radius:12px;background:#fff2eb;color:#9b4032;font-size:12px;line-height:1.6}
+.bulk-preview>.btn {align-self:flex-start}
+@media(max-width:470px) { .bulk-items li {align-items:flex-start;flex-direction:column;gap:3px} .bulk-items span {text-align:left} }
