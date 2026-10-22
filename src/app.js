@@ -2,7 +2,7 @@ import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMea
 import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
-import { validServings, scaledIngredients, plannedIngredients, setRecipeServings, resolvePlanServings } from './servings.js';
+import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -283,7 +283,8 @@ function pantryPage() {
 
 function planPage() {
   const dates = nextSevenDates();
-  const saved = Object.entries(store.saved).filter(([,entry]) => flags(entry) && entry.meal);
+  const plannedIds = new Set(Object.values(store.plan));
+  const saved = Object.entries(store.saved).filter(([id,entry]) => (flags(entry) || plannedIds.has(id)) && entry.meal);
   const options = saved.map(([id, entry]) => '<option value="' + escapeHtml(id) + '">' + escapeHtml(entry.meal.strMeal) + '</option>');
   const rows = dates.map(day => {
     const mealId = store.plan[day.key];
@@ -337,14 +338,11 @@ function renderDialog() {
   const focusedId = focusedControl?.dataset.id;
   const meal = selectedMeal;
   const ingredientItems = ingredientsOf(meal);
-  const score = analyseMeal(meal, store.pantry);
   const parts = instructions(meal);
   const originalServings = validServings(savedEntry(meal.idMeal).baseServings);
   const targetServings = originalServings ? (validServings(detailTargetServings) || originalServings) : null;
   const prepared = scaledIngredients(meal,originalServings,targetServings);
-  const scaledMeal = {...meal};
-  prepared.forEach((item,i) => { scaledMeal['strMeasure' + (i+1)] = item.machineMeasure; });
-  const measuredScore = analyseMeal(scaledMeal,store.pantry);
+  const measuredScore = analyseMeal(scaledRecipeForComparison(meal,originalServings,targetServings),store.pantry);
   let contents;
   if (showCookingLog) {
     contents = '<div class="dialog-content"><div class="eyebrow">YOUR COOKING JOURNAL</div><h3>How did it turn out?</h3>' +
