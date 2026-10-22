@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {validServings,scaleMeasure,scaledIngredients,plannedIngredients,setRecipeServings,resolvePlanServings} from '../src/servings.js';
+import {validServings,scaleMeasure,scaledIngredients,plannedIngredients,scaledRecipeForComparison,setRecipeServings,resolvePlanServings} from '../src/servings.js';
 
 const dish={strMeal:'Family Rice',strIngredient1:'Rice',strMeasure1:'300 g',strIngredient2:'Eggs',strMeasure2:'1',strIngredient3:'Salt',strMeasure3:'to taste',strIngredient4:'Milk',strMeasure4:'½ l'};
 
@@ -42,4 +42,14 @@ test('fractional count measures and unclear quantities require manual review',()
   const ingredients=plannedIngredients(dish,2,4);
   assert.equal(ingredients[0].measure,'600 g');
   assert.equal(ingredients[2].measure,'');
+});
+
+test('comparison keeps sparse provider ingredient positions intact',()=>{
+  const unusual={strMeal:'Soup',strIngredient1:'Rice',strMeasure1:'100 g',
+    strIngredient3:'Carrot',strMeasure3:'2'};
+  const result=scaledRecipeForComparison(unusual,2,4);
+  assert.equal(result.strMeasure1,'200 g');
+  assert.equal(result.strMeasure2,undefined);
+  assert.equal(result.strMeasure3,'4 pcs');
+  assert.equal(unusual.strMeasure1,'100 g');
 });
