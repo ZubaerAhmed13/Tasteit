@@ -1,6 +1,7 @@
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
 import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
+import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -29,6 +30,7 @@ let selectedMeal = null;
 let stepIndex = -1;
 let showCookingLog = false;
 let editingId = null;
+let newBatchName = null;
 let showRecipeForm = false;
 let editingRecipeId = null;
 let requestNumber = 0;
@@ -104,7 +106,7 @@ async function discover(mode = 'featured', value = '') {
     else if (mode === 'category') meals = await categoryMeals(value, controller.signal);
     else if (mode === 'pantry') {
       meals = await pantryCandidates(store.pantry.filter(item => usablePantryItem(item)), controller.signal);
-      meals.sort((a, b) => analyseMeal(b, store.pantry).percent - analyseMeal(a, store.pantry).percent);
+      meals = rankByKitchen(meals, store.pantry);
     } else meals = await featured(controller.signal);
     if (thisRequest !== requestNumber) return;
     activeMeals = meals;
@@ -125,13 +127,14 @@ function card(meal) {
   const id = escapeHtml(meal.idMeal);
   const entry = savedEntry(meal.idMeal);
   const analysis = ingredientsOf(meal).length && store.pantry.length ? analyseMeal(meal, store.pantry) : null;
+  const useSoon = analysis && recipeUseSoon(meal,store.pantry);
   const region = meal.strArea || 'World kitchen';
   const category = meal.strCategory || 'Recipe';
   const isSaved = Boolean(entry.wanted);
   const isPersonal = Boolean(meal.strPersonal);
   return '<article class="recipe-card">' +
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
-    photo(meal) + (analysis ? '<span class="mini-pill">' + (analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
+    photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(category) + '</span></div>' +
     '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
@@ -154,9 +157,7 @@ function discoverPage() {
   const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'category' ? category + ' recipes' : discoveryMode === 'search' ? 'Search results' : 'Discover something delicious';
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
-  const nextToTry = Object.values(store.saved).filter(entry => entry.wanted && entry.meal)
-    .sort((a,b) => Number(analyseMeal(b.meal,store.pantry).isQuantityConfirmed) - Number(analyseMeal(a.meal,store.pantry).isQuantityConfirmed) || analyseMeal(b.meal,store.pantry).percent - analyseMeal(a.meal,store.pantry).percent)
-    .slice(0,4).map(entry => entry.meal);
+  const nextToTry = rankByKitchen(Object.values(store.saved).filter(entry => entry.wanted && entry.meal).map(entry => entry.meal),store.pantry).slice(0,4);
   const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured')) ? ' selected' : '') +
     '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured'))) + '">' + escapeHtml(c) + '</button>').join('');
   const courseChips = categories.map(c => '<button type="button" class="chip' + (category === c && discoveryMode === 'category' ? ' selected' : '') + '" data-action="course" data-course="' + escapeHtml(c) + '" aria-pressed="' + (category === c && discoveryMode === 'category') + '">' + escapeHtml(c) + '</button>').join('');
@@ -237,6 +238,7 @@ function expiryText(value) {
 }
 function pantryPage() {
   const edit = store.pantry.find(x => x.id === editingId);
+  const soon = expiringBatches(store.pantry);
   const bulkUi = bulkOpen ? '<section class="panel bulk-panel" aria-label="Add many ingredients">' +
     '<div class="section-head"><div><h3>Add several ingredients</h3><p>Paste a shopping list, then review before adding. Existing items remain unchanged.</p></div>' +
     '<button type="button" class="btn ghost small" data-action="bulk-close">Close ×</button></div>' +
@@ -256,27 +258,28 @@ function pantryPage() {
     '</section>' : '';
   const rows = [...store.pantry].sort((a, b) => a.name.localeCompare(b.name));
   const form = '<form id="pantry-form" class="pantry-form">' +
-    '<div class="field wide"><label for="ingredient-name">Ingredient name *</label><input name="name" id="ingredient-name" placeholder="e.g. tomatoes, chicken breast, rice..." maxlength="80" value="' + escapeHtml(edit?.name || '') + '" required></div>' +
+    (newBatchName && !edit ? '<p class="note" style="grid-column:1/-1">New batch of ' + escapeHtml(newBatchName) + '. Its quantity, location and date will be kept separate from your existing stock.</p>' : '') + '<div class="field wide"><label for="ingredient-name">Ingredient name *</label><input name="name" id="ingredient-name" placeholder="e.g. tomatoes, chicken breast, rice..." maxlength="80" value="' + escapeHtml(edit?.name || newBatchName || '') + '" required></div>' +
     '<div class="field"><label for="ingredient-quantity">Amount</label><input name="quantity" id="ingredient-quantity" type="number" min="0" step="any" placeholder="500" value="' + escapeHtml(edit?.quantity || '') + '"></div>' +
     '<div class="field"><label for="ingredient-unit">Unit</label><select name="unit" id="ingredient-unit">' +
     ['pcs','g','kg','ml','l','tsp','tbsp','cups','packs'].map(x => '<option value="' + x + '"' + ((edit?.unit || 'pcs') === x ? ' selected' : '') + '>' + x + '</option>').join('') + '</select></div>' +
     '<div class="field"><label for="ingredient-location">Stored in</label><select name="location" id="ingredient-location">' +
     ['Pantry','Fridge','Freezer','Other'].map(x => '<option' + ((edit?.location || 'Pantry') === x ? ' selected' : '') + '>' + x + '</option>').join('') + '</select></div>' +
     '<div class="field"><label for="ingredient-expiry">Best before (optional)</label><input id="ingredient-expiry" name="expiry" type="date" value="' + escapeHtml(edit?.expiry || '') + '"></div>' +
-    '<div class="field buttons"><button class="btn" type="submit">' + (edit ? 'Save changes' : '+ Add ingredient') + '</button>' + (edit ? '<button type="button" class="btn secondary" data-action="cancel-edit">Cancel</button>' : '') + '</div></form>';
+    '<div class="field buttons"><button class="btn" type="submit">' + (edit ? 'Save changes' : newBatchName ? '+ Save separate batch' : '+ Add ingredient') + '</button>' + (edit || newBatchName ? '<button type="button" class="btn secondary" data-action="cancel-edit">Cancel</button>' : '') + '</div></form>';
   const inventory = rows.length ? '<div class="inventory-list">' + rows.map(x => {
     const meta = [x.quantity ? x.quantity + ' ' + (x.unit || '') : 'Amount not set', x.location || 'Pantry'].join(' · ');
     return '<div class="inventory-row"><div><div class="inventory-name">' + escapeHtml(x.name) + '</div><div class="inventory-meta">' + escapeHtml(meta) + (x.expiry ? ' · ' + expiryText(x.expiry) : '') + '</div></div>' +
-      '<div class="row-actions"><button class="icon-button" type="button" data-action="edit-pantry" data-id="' + escapeHtml(x.id) + '" aria-label="Edit ' + escapeHtml(x.name) + '">✎</button>' +
+      '<div class="row-actions"><button class="icon-button" type="button" data-action="add-batch" data-id="' + escapeHtml(x.id) + '" aria-label="Add another batch of ' + escapeHtml(x.name) + '">＋</button><button class="icon-button" type="button" data-action="edit-pantry" data-id="' + escapeHtml(x.id) + '" aria-label="Edit ' + escapeHtml(x.name) + '">✎</button>' +
       '<button class="icon-button" type="button" data-action="remove-pantry" data-id="' + escapeHtml(x.id) + '" aria-label="Remove ' + escapeHtml(x.name) + '">×</button></div></div>';
   }).join('') + '</div>' : empty('🥬','Your kitchen is empty','Add the ingredients in your fridge, freezer or cupboards to get relevant cooking ideas.');
-  const expiring = rows.filter(x => x.expiry && expiryText(x.expiry).includes('expiry-')).length;
+  const expiring = rows.filter(x => ['soon','past'].includes(dateStatus(x.expiry).kind)).length;
+  const dueSoon = soon.length ? '<section class="panel due-soon" aria-label="Ingredients dated soon"><div class="section-head"><div><h3>Use these soon</h3><p>Recorded dates within three days, starting today</p></div><button type="button" class="btn secondary small" data-action="suggest">Find recipes ↗</button></div><div class="due-list">' + soon.map(item => '<div class="due-item"><strong>' + escapeHtml(item.name) + '</strong><span>' + escapeHtml(item.dateInfo.label) + '</span></div>').join('') + '</div><p class="panel-note">These are your recorded dates, not a food-safety decision. Always check storage and freshness.</p></section>' : '';
   return '<div class="page-top"><div class="eyebrow">KNOW WHAT YOU HAVE</div><h1>Your kitchen, <em>organised.</em></h1><p class="lead">Keep a simple inventory and find recipes that match what is already at home.</p></div>' +
     '<div class="page-grid"><div><div class="panel"><div class="section-head"><h3>' + (edit ? 'Edit an ingredient' : 'Add to your kitchen') + '</h3><button type="button" class="btn secondary small" data-action="bulk-open">+ Add many at once</button></div>' + form + '</div>' + bulkUi +
-    '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' different ingredients</p></div></div>' + inventory + '</section></div>' +
+    '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' recorded batches</p></div></div>' + inventory + '</section></div>' +
     '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">expired or expiring within 3 days</span></div>' +
     '<button type="button" class="btn" data-action="suggest" style="width:100%;margin:14px 0">✦ Find recipes with my food</button>' +
-    '<p class="panel-note">Ingredient names are matched first. When both recipe amounts and pantry units are clear, shortages are calculated. Ambiguous units or amounts are flagged for checking.</p></div></aside></div>';
+    '<p class="panel-note">Keep purchases with different dates as separate batches using ＋. Names are matched first; amounts are added only when compatible. Recorded best-before dates are not proof that food is safe or unsafe.</p></div>' + dueSoon + '</aside></div>';
 }
 
 function planPage() {
@@ -502,9 +505,20 @@ document.addEventListener('click', async event => {
     } catch(error) { notice(error.message || 'Unable to add these ingredients.'); }
     return;
   }
-  if (action === 'edit-pantry') { editingId = id; render(); document.getElementById('ingredient-name')?.focus(); return; }
-  if (action === 'cancel-edit') { editingId = null; render(); return; }
-  if (action === 'remove-pantry') { store.pantry = store.pantry.filter(x => x.id !== id); if (editingId === id) editingId = null; const stored = save(); render(); if (stored) notice('Ingredient removed.'); return; }
+  if (action === 'add-batch') {
+    const item = store.pantry.find(x=>x.id === id);
+    if (!item) return;
+    editingId = null; newBatchName = item.name;
+    render(); document.getElementById('ingredient-name')?.focus(); return;
+  }
+  if (action === 'edit-pantry') { newBatchName = null; editingId = id; render(); document.getElementById('ingredient-name')?.focus(); return; }
+  if (action === 'cancel-edit') { editingId = null; newBatchName = null; render(); return; }
+  if (action === 'remove-pantry') {
+    const next = store.pantry.filter(x => x.id !== id);
+    if (!persistStore({ ...store, pantry:next })) { notice('Unable to save this change. No ingredient was removed.'); return; }
+    store.pantry = next; if (editingId === id) editingId = null; newBatchName = null;
+    render(); notice('Ingredient batch removed.'); return;
+  }
   if (action === 'start-cooking') { stepIndex = 0; renderDialog(); overlayRoot.querySelector('.dialog-close')?.focus(); return; }
   if (action === 'step-back') { stepIndex = Math.max(0,stepIndex - 1); renderDialog(); return; }
   if (action === 'step-next') { stepIndex = Math.min(instructions(selectedMeal).length - 1,stepIndex + 1); renderDialog(); return; }
@@ -596,17 +610,17 @@ document.addEventListener('submit', event => {
     const name = String(form.get('name') || '').trim();
     if (!name) return;
     const duplicate = store.pantry.some(x => normalizeIngredient(x.name) === normalizeIngredient(name) && x.id !== editingId);
-    if (duplicate) { notice('This ingredient already exists. Edit the existing item instead.'); return; }
+    if (duplicate && (!newBatchName || normalizeIngredient(name) !== normalizeIngredient(newBatchName))) { notice('Already recorded. Use ＋ beside the ingredient to add a separate batch.'); return; }
     const current = store.pantry.find(x => x.id === editingId);
     const item = {
       id: current?.id || globalThis.crypto?.randomUUID?.() || String(Date.now()) + '-' + String(Math.random()).slice(2),
       name, quantity: String(form.get('quantity') || '').trim(), unit: String(form.get('unit') || 'pcs'),
       location: String(form.get('location') || 'Pantry'), expiry: String(form.get('expiry') || '')
     };
-    if (editingId) store.pantry = store.pantry.map(x => x.id === editingId ? item : x);
-    else store.pantry.push(item);
-    editingId = null;
-    const stored = save(); render(); if (stored) notice('Kitchen inventory updated.');
+    const next = editingId ? store.pantry.map(x => x.id === editingId ? item : x) : [...store.pantry,item];
+    if (!persistStore({ ...store, pantry:next })) { notice('Unable to save this change. Your kitchen was not modified.'); return; }
+    store.pantry = next; editingId = null; newBatchName = null;
+    render(); notice('Kitchen inventory updated.');
   }
 });
 
