@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -125,6 +125,17 @@ try {
   await page.locator('#ingredient-expiry').fill('2020-01-01');
   await page.locator('#pantry-form button[type=submit]').click();
   assert.equal(await page.locator('.inventory-row').count(),2);
+  // A second purchase with the same ingredient must be kept as its own dated batch.
+  await page.getByRole('button',{name:'Add another batch of Rice'}).click();
+  assert.equal(await page.locator('#ingredient-name').inputValue(),'Rice');
+  await page.locator('#ingredient-quantity').fill('2');
+  await page.locator('#ingredient-unit').selectOption('cups');
+  const dueSoon = new Date(Date.now() + 2*24*60*60*1000).toISOString().slice(0,10);
+  await page.locator('#ingredient-expiry').fill(dueSoon);
+  await page.locator('#pantry-form button[type=submit]').click();
+  assert.equal(await page.locator('.inventory-row').count(),3,'separate purchase is retained');
+  assert.equal(await page.getByRole('button',{name:'Add another batch of Rice'}).count(),2);
+  await page.getByRole('heading',{name:'Use these soon'}).waitFor();
 
   await page.locator('.site-nav [data-nav="plan"]').click();
   const selects=page.locator('[data-plan-day]');
@@ -141,7 +152,7 @@ try {
   const backupText = await readFile(await download.path(),'utf8');
   const backup = JSON.parse(backupText);
   assert.equal(backup.format,'tasteit-backup');
-  assert.equal(backup.data.pantry.length,2);
+  assert.equal(backup.data.pantry.length,3);
   assert.equal(Object.keys(backup.data.saved).length,2);
   assert.ok(Object.values(backup.data.saved).some(x => x.meal.strMeal === 'My favourite family curry' && x.tags.includes('Weeknight')), 'JSON backups retain user labels');
   await page.evaluate(() => localStorage.clear());
@@ -166,7 +177,7 @@ try {
   const width = await page.evaluate(() => ({inner:window.innerWidth,scroll:document.documentElement.scrollWidth}));
   assert.ok(width.scroll<=width.inner+2,'mobile should not overflow viewport: '+JSON.stringify(width));
   await page.locator('.site-nav [data-nav="pantry"]').click();
-  assert.equal(await page.locator('.inventory-row').count(),2,'pantry restored and mobile navigation works');
+  assert.equal(await page.locator('.inventory-row').count(),3,'pantry lots restored and mobile navigation works');
 
   // Bulk additions require an explicit review; invalid lines cannot be silently applied.
   await page.locator('[data-action="bulk-open"]').click();
@@ -184,9 +195,9 @@ try {
   assert.equal(await page.locator('.bulk-items li').count(),2);
 
   await page.locator('[data-action="bulk-confirm"]').click();
-  assert.equal(await page.locator('.inventory-row').count(),4);
+  assert.equal(await page.locator('.inventory-row').count(),5);
   const inventoryAfterBulk = await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).pantry);
-  assert.equal(inventoryAfterBulk.find(x=>x.name==='Rice').quantity,'1','bulk flow must not overwrite existing rice');
+  assert.deepEqual(inventoryAfterBulk.filter(x=>x.name==='Rice').map(x=>x.quantity).sort(),['1','2'],'bulk flow must not overwrite existing batches');
   assert.equal(inventoryAfterBulk.find(x=>x.name==='Carrots').location,'Fridge');
 
   assert.deepEqual(errors,[],'uncaught browser errors');
