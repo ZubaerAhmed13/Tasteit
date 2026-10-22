@@ -20,7 +20,7 @@ test('identifies missing ingredients without claiming quantities', () => {
   assert.equal(analyseMeal(meal,[{name:'tomatoes'},{name:'garlic'},{name:'pasta'}]).isPresenceMatch,true);
 });
 test('creates a deduplicated shopping list from scheduled saved recipes', () => {
-  const list = shoppingList({'2026-10-22':'7','2026-10-23':'8'}, {'7':{meal},'8':{meal:{...meal,strMeal:'Pasta again'}}}, [{name:'tomato'}]);
+  const list = shoppingList({'2026-10-22':'7','2026-10-23':'8'}, {'7':{meal},'8':{meal:{...meal,strMeal:'Pasta again'}}}, [{name:'tomato',quantity:'4',unit:'pcs'}]);
   assert.deepEqual(list.map(x => x.name), ['Garlic','Pasta']);
   assert.equal(list[0].meals.length, 2);
 });
