@@ -91,6 +91,7 @@ try {
   await page.locator('.site-nav [data-nav="pantry"]').click();
   await page.locator('#ingredient-name').fill('Rice');
   await page.locator('#ingredient-quantity').fill('1');
+  await page.locator('#ingredient-unit').selectOption('cups');
   await page.locator('#pantry-form button[type=submit]').click();
   await page.locator('#ingredient-name').fill('Onion');
   await page.locator('#ingredient-quantity').fill('1');
