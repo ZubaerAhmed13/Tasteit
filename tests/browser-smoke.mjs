@@ -91,6 +91,20 @@ try {
   await page.locator('#personal-title').fill('My favourite family curry');
   await page.locator('#personal-recipe-form button[type=submit]').click();
   await page.getByRole('button',{name:'My favourite family curry'}).first().waitFor();
+  // Tag the homemade dish, filter by its label, search, and restore a clear view.
+  await page.locator('.recipe-card').filter({hasText:'My favourite family curry'}).locator('.recipe-title').click();
+  await page.locator('#recipe-tag-input').fill('Weeknight');
+  await page.locator('#recipe-tag-form button[type=submit]').click();
+  await page.locator('.recipe-tag').getByText('Weeknight').waitFor();
+  await page.keyboard.press('Escape');
+  await page.locator('[data-action="tag-filter"][data-tag="Weeknight"]').click();
+  assert.equal(await page.locator('.recipe-card').count(),1,'label filters the saved cookbook');
+  await page.locator('#cookbook-query').fill('does-not-exist');
+  await page.locator('#cookbook-search-form button[type=submit]').click();
+  assert.equal(await page.locator('.recipe-card').count(),0,'collection search applies');
+  await page.locator('[data-action="clear-library-filters"]').click();
+  assert.equal(await page.locator('.recipe-card').count(),2,'clear restores all saved dishes');
+
 
   // Expired pantry items are visible but excluded from cookability/shopping.
   await page.locator('.site-nav [data-nav="pantry"]').click();
@@ -121,6 +135,7 @@ try {
   assert.equal(backup.format,'tasteit-backup');
   assert.equal(backup.data.pantry.length,2);
   assert.equal(Object.keys(backup.data.saved).length,2);
+  assert.ok(Object.values(backup.data.saved).some(x => x.meal.strMeal === 'My favourite family curry' && x.tags.includes('Weeknight')), 'JSON backups retain user labels');
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await page.locator('.site-nav [data-nav="library"]').click();
