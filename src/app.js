@@ -90,7 +90,7 @@ async function discover(mode = 'featured', value = '') {
     if (mode === 'search') meals = await searchMeals(value, controller.signal);
     else if (mode === 'area') meals = await cuisineMeals(value, controller.signal);
     else if (mode === 'pantry') {
-      meals = await pantryCandidates(store.pantry.filter(usablePantryItem), controller.signal);
+      meals = await pantryCandidates(store.pantry.filter(item => usablePantryItem(item)), controller.signal);
       meals.sort((a, b) => analyseMeal(b, store.pantry).percent - analyseMeal(a, store.pantry).percent);
     } else meals = await featured(controller.signal);
     if (thisRequest !== requestNumber) return;
