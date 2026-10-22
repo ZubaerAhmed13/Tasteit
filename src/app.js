@@ -237,6 +237,23 @@ function expiryText(value) {
 }
 function pantryPage() {
   const edit = store.pantry.find(x => x.id === editingId);
+  const bulkUi = bulkOpen ? '<section class="panel bulk-panel" aria-label="Add many ingredients">' +
+    '<div class="section-head"><div><h3>Add several ingredients</h3><p>Paste a shopping list, then review before adding. Existing items remain unchanged.</p></div>' +
+    '<button type="button" class="btn ghost small" data-action="bulk-close">Close ×</button></div>' +
+    '<form id="bulk-pantry-form" class="field"><label for="bulk-input">Ingredients — one per line, or names separated by commas</label>' +
+    '<textarea id="bulk-input" name="bulk" rows="6" maxlength="15000" required placeholder="Rice | 1 kg | Pantry&#10;Eggs | 6 pcs | Fridge&#10;Tomatoes&#10;Chicken | 500 g | Freezer | 2026-11-15">' + escapeHtml(bulkDraft) + '</textarea>' +
+    '<p class="panel-note">Optional format: Name | amount + unit | Pantry/Fridge/Freezer/Other | YYYY-MM-DD. Missing quantities stay unknown; we never assume you have enough.</p>' +
+    '<div class="dialog-actions"><button class="btn" type="submit">Preview ingredients →</button>' +
+    '<button class="btn secondary" type="button" data-action="bulk-clear">Clear</button></div></form>' +
+    (bulkPreview ? '<div class="bulk-preview" role="status"><h3>Review your ingredients</h3>' +
+    '<p class="panel-note">' + bulkPreview.items.length + ' ready to add · ' + bulkPreview.skipped.length + ' duplicates skipped · ' + bulkPreview.errors.length + ' lines need fixing</p>' +
+    (bulkPreview.items.length ? '<ul class="bulk-items">' + bulkPreview.items.map(item => '<li><strong>' + escapeHtml(item.name) + '</strong><span>' +
+       escapeHtml((item.quantity ? item.quantity + ' ' + item.unit : 'Amount unknown') + ' · ' + item.location + (item.expiry ? ' · ' + item.expiry : '')) + '</span></li>').join('') + '</ul>' : '') +
+    (bulkPreview.skipped.length ? '<p class="note">Already listed: ' + escapeHtml(bulkPreview.skipped.map(x => x.name).join(', ')) + ' — these will not be overwritten.</p>' : '') +
+    (bulkPreview.errors.length ? '<ul class="bulk-errors">' + bulkPreview.errors.map(x => '<li>Line ' + x.line + ': ' + escapeHtml(x.message) + '</li>').join('') + '</ul>' : '') +
+    (bulkPreview.items.length && !bulkPreview.errors.length ? '<button class="btn" type="button" data-action="bulk-confirm">Add ' + bulkPreview.items.length + ' ingredients ✓</button>' :
+      '<p class="panel-note">Fix any invalid lines above before importing.</p>') + '</div>' : '') +
+    '</section>' : '';
   const rows = [...store.pantry].sort((a, b) => a.name.localeCompare(b.name));
   const form = '<form id="pantry-form" class="pantry-form">' +
     '<div class="field wide"><label for="ingredient-name">Ingredient name *</label><input name="name" id="ingredient-name" placeholder="e.g. tomatoes, chicken breast, rice..." maxlength="80" value="' + escapeHtml(edit?.name || '') + '" required></div>' +
@@ -255,7 +272,7 @@ function pantryPage() {
   }).join('') + '</div>' : empty('🥬','Your kitchen is empty','Add the ingredients in your fridge, freezer or cupboards to get relevant cooking ideas.');
   const expiring = rows.filter(x => x.expiry && expiryText(x.expiry).includes('expiry-')).length;
   return '<div class="page-top"><div class="eyebrow">KNOW WHAT YOU HAVE</div><h1>Your kitchen, <em>organised.</em></h1><p class="lead">Keep a simple inventory and find recipes that match what is already at home.</p></div>' +
-    '<div class="page-grid"><div><div class="panel"><h3>' + (edit ? 'Edit an ingredient' : 'Add to your kitchen') + '</h3>' + form + '</div>' +
+    '<div class="page-grid"><div><div class="panel"><div class="section-head"><h3>' + (edit ? 'Edit an ingredient' : 'Add to your kitchen') + '</h3><button type="button" class="btn secondary small" data-action="bulk-open">+ Add many at once</button></div>' + form + '</div>' + bulkUi +
     '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' different ingredients</p></div></div>' + inventory + '</section></div>' +
     '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">expired or expiring within 3 days</span></div>' +
     '<button type="button" class="btn" data-action="suggest" style="width:100%;margin:14px 0">✦ Find recipes with my food</button>' +
@@ -464,6 +481,24 @@ document.addEventListener('click', async event => {
     setTimeout(() => URL.revokeObjectURL(url), 3000);
     notice('Backup downloaded. Keep it somewhere private.'); return;
   }
+  if (action === 'bulk-open') { bulkOpen = true; bulkPreview = null; render(); document.getElementById('bulk-input')?.focus(); return; }
+  if (action === 'bulk-close') { bulkOpen = false; bulkPreview = null; bulkDraft = ''; render(); return; }
+  if (action === 'bulk-clear') { bulkDraft = ''; bulkPreview = null; render(); document.getElementById('bulk-input')?.focus(); return; }
+  if (action === 'bulk-confirm') {
+    if (!bulkPreview || bulkPreview.errors.length || !bulkPreview.items.length) return;
+    const countBefore = store.pantry.length;
+    try {
+      const next = applyBulkPantry(store.pantry, bulkPreview, () => globalThis.crypto?.randomUUID?.() || String(Date.now()) + '-' + String(Math.random()).slice(2));
+      if (next.length <= countBefore) { notice('All the items were already in your kitchen.'); return; }
+      // Persist before updating the visible working state.
+      if (!persistStore({ ...store, pantry:next })) { notice('Unable to save ingredients in this browser. No items were added.'); return; }
+      store.pantry = next;
+      const added = next.length - countBefore;
+      bulkOpen = false; bulkDraft = ''; bulkPreview = null;
+      render(); notice(added + ' ingredients added to your kitchen.');
+    } catch(error) { notice(error.message || 'Unable to add these ingredients.'); }
+    return;
+  }
   if (action === 'edit-pantry') { editingId = id; render(); document.getElementById('ingredient-name')?.focus(); return; }
   if (action === 'cancel-edit') { editingId = null; render(); return; }
   if (action === 'remove-pantry') { store.pantry = store.pantry.filter(x => x.id !== id); if (editingId === id) editingId = null; const stored = save(); render(); if (stored) notice('Ingredient removed.'); return; }
@@ -532,6 +567,14 @@ document.addEventListener('submit', event => {
       showRecipeForm = false; editingRecipeId = null; libraryTab = 'all';
       const stored = save(); render(); if (stored) notice('Your personal recipe has been saved.');
     } catch (error) { notice(error.message); }
+    return;
+  }
+  if (event.target.id === 'bulk-pantry-form') {
+    event.preventDefault();
+    bulkDraft = String(new FormData(event.target).get('bulk') || '');
+    bulkPreview = parseBulkPantry(bulkDraft, store.pantry);
+    render();
+    document.querySelector('.bulk-preview')?.scrollIntoView({block:'nearest'});
     return;
   }
   if (event.target.id === 'pantry-form') {
