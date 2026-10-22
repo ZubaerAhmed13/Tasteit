@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { featured, availableAreas, pantryCandidates, searchMeals, cuisineMeals } from '../src/api.js';
+import { featured, availableAreas, availableCategories, pantryCandidates, searchMeals, cuisineMeals, categoryMeals } from '../src/api.js';
 
 test('recipe API combines diverse initial results, dedupes, lists cuisines and resolves ingredient candidates', async () => {
   const originalFetch = globalThis.fetch;
@@ -12,7 +12,9 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
       const endpoint = u.pathname.split('/').pop();
       let meals;
       if (endpoint === 'list.php') {
-        meals = [{strArea:'Italian'}, {strArea:'Bangladeshi'}, {strArea:'Italian'}, {strArea:''}];
+        meals = u.searchParams.has('c')
+          ? [{strCategory:'Seafood'}, {strCategory:'Dessert'}, {strCategory:'Seafood'}]
+          : [{strArea:'Italian'}, {strArea:'Bangladeshi'}, {strArea:'Italian'}, {strArea:''}];
       } else if (endpoint === 'search.php') {
         const f = u.searchParams.get('f');
         meals = f ? [
@@ -35,6 +37,8 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
     assert.equal(new Set(set.map(m=>m.idMeal)).size,set.length);
     assert.equal(requests.filter(x=>x.includes('search.php?f=')).length,4);
     assert.deepEqual(await availableAreas(),['Bangladeshi','Italian']);
+    assert.deepEqual(await availableCategories(),['Dessert','Seafood']);
+    assert.equal((await categoryMeals('Seafood'))[0].strMeal,'Area dish');
     assert.equal((await searchMeals('rice'))[0].strMeal,'Rice');
     assert.equal((await cuisineMeals('Italian'))[0].strMeal,'Area dish');
     const results = await pantryCandidates([{name:'Rice'},{name:'Onion'}]);
