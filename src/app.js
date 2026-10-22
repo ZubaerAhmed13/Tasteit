@@ -319,6 +319,16 @@ function renderDialog() {
       const amount = x.measure ? x.measure + ' · ' : '';
       return '<li class="' + (enough ? '' : 'missing') + '"><span>' + marker + escapeHtml(x.name) + '</span><span>' + escapeHtml(amount + x.label) + '</span></li>';
     }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p>';
+    const recipeTags = tagsOf(savedEntry(meal.idMeal));
+    const tagEditor = '<section class="recipe-tags" aria-label="My recipe labels"><div class="tag-heading"><strong>My labels</strong>' +
+      '<span class="panel-note">Organise this recipe your way</span></div>' +
+      '<div class="recipe-tag-list">' + (recipeTags.length ? recipeTags.map(tag =>
+        '<span class="recipe-tag">' + escapeHtml(tag) + '<button type="button" data-action="remove-tag" data-id="' + escapeHtml(meal.idMeal) +
+        '" data-tag="' + escapeHtml(tag) + '" aria-label="Remove label ' + escapeHtml(tag) + ' from ' + escapeHtml(meal.strMeal) + '">×</button></span>').join('') :
+        '<span class="panel-note">No labels yet. Try Weeknight, Family or Meal prep.</span>') + '</div>' +
+      '<form id="recipe-tag-form" class="tag-entry-form"><label class="visually-hidden" for="recipe-tag-input">Add a personal label</label>' +
+      '<input id="recipe-tag-input" name="tag" maxlength="30" placeholder="Add a label…" aria-label="Add a personal label" required>' +
+      '<button class="btn secondary small" type="submit">+ Add label</button></form></section>';
     const history = (Array.isArray(savedEntry(meal.idMeal).cookingHistory) ? savedEntry(meal.idMeal).cookingHistory : []).slice(0, 3);
     const journalHtml = history.length ? '<section class="cooking-journal"><h3>My cooking notes</h3>' +
       history.map(log => '<div class="cooking-log"><strong>' + escapeHtml(new Date(log.date).toLocaleDateString('en',{year:'numeric',month:'short',day:'numeric'})) +
@@ -328,7 +338,7 @@ function renderDialog() {
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
-      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p><div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (score.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
+      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (score.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       (parts.length ? '<button type="button" class="btn" data-action="start-cooking" style="margin-top:20px">Start guided cooking →</button>' : '') +
       '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
@@ -413,6 +423,19 @@ document.addEventListener('click', async event => {
   }
   if (action === 'retry') { await discover(discoveryMode, discoveryMode === 'search' ? searchTerm : area); return; }
   if (action === 'collection') { libraryTab = button.dataset.value; render(); return; }
+  if (action === 'tag-filter') { libraryTag = button.dataset.tag || ''; render(); return; }
+  if (action === 'clear-library-filters') { libraryTag = ''; librarySearch = ''; libraryTab = 'all'; librarySort = 'name'; render(); return; }
+  if (action === 'remove-tag') {
+    const meal = store.saved[id]?.meal;
+    if (!meal) return;
+    const next = removeTag(store.saved[id], button.dataset.tag);
+    if (flags(next)) store.saved[id] = next;
+    else {
+      delete store.saved[id];
+      for (const day of Object.keys(store.plan)) if (store.plan[day] === id) delete store.plan[day];
+    }
+    const stored = save(); render(); if (stored) notice('Label removed.'); return;
+  }
   if (action === 'new-recipe') { showRecipeForm = true; editingRecipeId = null; libraryTab = 'all'; render(); document.getElementById('personal-title')?.focus(); return; }
   if (action === 'cancel-recipe') { showRecipeForm = false; editingRecipeId = null; render(); return; }
   if (action === 'edit-recipe') {
@@ -447,6 +470,26 @@ document.addEventListener('click', async event => {
 });
 
 document.addEventListener('submit', event => {
+  if (event.target.id === 'cookbook-search-form') {
+    event.preventDefault();
+    librarySearch = String(new FormData(event.target).get('query') || '').trim();
+    render();
+    document.getElementById('cookbook-query')?.focus();
+    return;
+  }
+  if (event.target.id === 'recipe-tag-form') {
+    event.preventDefault();
+    if (!selectedMeal) return;
+    const raw = new FormData(event.target).get('tag');
+    try {
+      const id = selectedMeal.idMeal;
+      store.saved[id] = addTag({ ...savedEntry(id), meal:selectedMeal },raw);
+      const stored = save(); render();
+      overlayRoot.querySelector('#recipe-tag-input')?.focus();
+      if (stored) notice('Label saved on this recipe.');
+    } catch (error) { notice(error.message || 'Could not save label.'); }
+    return;
+  }
   if (event.target.id === 'search-form') {
     event.preventDefault();
     const value = String(new FormData(event.target).get('query') || '').trim();
@@ -501,6 +544,12 @@ document.addEventListener('submit', event => {
 });
 
 document.addEventListener('change', async event => {
+  if (event.target.matches('[data-library-sort]')) {
+    librarySort = event.target.value;
+    render();
+    document.getElementById('cookbook-sort')?.focus();
+    return;
+  }
   if (event.target.id === 'backup-file') {
     const file = event.target.files?.[0];
     if (!file) return;
