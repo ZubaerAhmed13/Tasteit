@@ -371,13 +371,16 @@ function renderDialog() {
       '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
   }
   const source = externalUrl(meal.strSource);
+  const video = externalUrl(meal.strYoutube);
   const sourceLink = source ? '<a href="' + source + '" target="_blank" rel="noopener noreferrer" class="btn secondary small">Original source ↗</a>' : '';
+  const videoLink = video && !meal.strPersonal ? '<a href="' + video + '" target="_blank" rel="noopener noreferrer" class="btn secondary small">Watch source video ↗</a>' : '';
   overlayRoot.innerHTML = '<div class="overlay" data-action="overlay" role="presentation"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">' +
     '<button class="dialog-close" data-action="close" type="button" aria-label="Close recipe">×</button>' +
     '<div class="dialog-hero">' + (externalUrl(meal.strMealThumb,true) ? '<img class="dialog-photo" src="' + externalUrl(meal.strMealThumb,true) + '" alt="' + escapeHtml(meal.strMeal) + '">' : '<div class="hero-placeholder">🍲</div>') +
     '<div class="dialog-intro"><div class="eyebrow">' + escapeHtml(meal.strArea || 'World cuisine') + ' · ' + escapeHtml(meal.strCategory || 'Home cooking') + '</div><h2 id="dialog-title">' + escapeHtml(meal.strMeal) + '</h2>' +
-    '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink +
-    (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') + '</div></div></div>' + contents + '</section></div>';
+    '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink + videoLink +
+    (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
+    '</div><p class="panel-note">' + (meal.strPersonal ? 'Personal recipe written by you.' : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
   if (focusedAction) {
     const nextFocus = [...overlayRoot.querySelectorAll('[data-action]')].find(node =>
