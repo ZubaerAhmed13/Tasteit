@@ -284,11 +284,28 @@ function planPage() {
   const dates = nextSevenDates();
   const saved = Object.entries(store.saved).filter(([,entry]) => flags(entry) && entry.meal);
   const options = saved.map(([id, entry]) => '<option value="' + escapeHtml(id) + '">' + escapeHtml(entry.meal.strMeal) + '</option>');
-  const rows = dates.map(day => '<div class="day-row"><div class="day-name">' + day.label + '<span class="day-date">' + day.date + '</span></div><select class="plan-select" data-plan-day="' + day.key + '" aria-label="Recipe for ' + day.label + ' ' + day.date + '">' +
-    '<option value="">Choose a recipe...</option>' + options.map((option, i) => option.replace('<option value=', '<option' + (saved[i][0] === store.plan[day.key] ? ' selected' : '') + ' value=')).join('') +
-    '</select></div>').join('');
+  const rows = dates.map(day => {
+    const mealId = store.plan[day.key];
+    const reference = validServings(store.saved[mealId]?.baseServings);
+    const intended = resolvePlanServings(store.saved[mealId],store.planServings?.[day.key]);
+    const servingInput = reference
+      ? '<div class="plan-serving-control"><label for="plan-servings-' + day.key + '">Servings</label>' +
+        '<input id="plan-servings-' + day.key + '" data-plan-servings="' + day.key +
+        '" type="number" inputmode="numeric" min="1" max="24" step="1" value="' + intended + '">' +
+        '<span class="panel-note">Original serves ' + reference + '</span></div>'
+      : mealId
+        ? '<div class="plan-serving-unset"><span class="panel-note">Amounts as written — original servings unknown.</span>' +
+          '<button type="button" class="btn ghost small" data-action="open" data-id="' + escapeHtml(mealId) + '">Set reference ↗</button></div>'
+        : '';
+    return '<div class="day-row"><div class="day-name">' + day.label + '<span class="day-date">' + day.date +
+      '</span></div><div class="day-recipe-controls"><select class="plan-select" data-plan-day="' + day.key +
+      '" aria-label="Recipe for ' + day.label + ' ' + day.date + '">' +
+      '<option value="">Choose a recipe...</option>' + options.map((option, i) =>
+        option.replace('<option value=', '<option' + (saved[i][0] === mealId ? ' selected' : '') + ' value=')).join('') +
+      '</select>' + servingInput + '</div></div>';
+  }).join('');
   const week = Object.fromEntries(dates.map(x => [x.key, store.plan[x.key]]).filter(([,id]) => id));
-  const shopping = shoppingList(week, store.saved, store.pantry);
+  const shopping = shoppingList(week, store.saved, store.pantry, store.planServings);
   const list = shopping.length ? shopping.map(x => '<div class="shopping-row"><div><div class="shopping-name">' + escapeHtml(x.name) + '</div><div class="shopping-meta">For ' + escapeHtml(x.meals.join(', ')) + '</div></div><span class="shopping-amount">' + escapeHtml(x.label) + '</span></div>').join('') :
     '<p class="panel-note">Choose recipes for the week. Missing, insufficient and uncertain quantities will show up here.</p>';
   return '<div class="page-top"><div class="eyebrow">PLAN AHEAD, WORRY LESS</div><h1>What’s cooking <em>this week?</em></h1><p class="lead">Choose from recipes you have saved and see which ingredients you still need to buy.</p></div>' +
@@ -353,7 +370,7 @@ function renderDialog() {
       const item = prepared[i];
       const amount = item.value ? item.value + (item.status === 'review' ? ' · review scaling' : '') + ' · ' : '';
       return '<li class="' + (enough ? '' : 'missing') + '"><span>' + marker + escapeHtml(x.name) + '</span><span>' + escapeHtml(amount + x.label) + '</span></li>';
-    }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p';
+    }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p>';
     const servingControls = '<section class="serving-panel" aria-label="Serving size"><div class="tag-heading"><strong>Serving size</strong>' +
       '<span class="panel-note">The original serving count must be confirmed by you.</span></div>' +
       '<form id="original-servings-form" class="serving-original-form"><label for="base-servings-input">Original recipe serves</label>' +
@@ -544,7 +561,7 @@ document.addEventListener('click', async event => {
   if (action === 'copy-shopping') {
     const dates = nextSevenDates().map(x => x.key);
     const week = Object.fromEntries(dates.map(day => [day,store.plan[day]]).filter(([,v]) => v));
-    const text = shoppingList(week,store.saved,store.pantry).map(x => '☐ ' + x.name + ' — ' + x.label).join('\n');
+    const text = shoppingList(week,store.saved,store.pantry,store.planServings).map(x => '☐ ' + x.name + ' — ' + x.label).join('\n');
     try { await navigator.clipboard.writeText(text); notice('Shopping list copied.'); }
     catch { notice('Clipboard is unavailable. Select and copy the shopping list manually.'); }
   }
@@ -661,19 +678,37 @@ document.addEventListener('change', async event => {
       store.pantry = restored.pantry;
       store.saved = restored.saved;
       store.plan = restored.plan;
+      store.planServings = restored.planServings || {};
       showRecipeForm = false; editingRecipeId = null;
       render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
     finally { event.target.value = ''; }
     return;
   }
+  const servingInput = event.target.closest('[data-plan-servings]');
+  if (servingInput) {
+    const day = servingInput.dataset.planServings;
+    const chosen = validServings(servingInput.value);
+    const ref = validServings(store.saved[store.plan[day]]?.baseServings);
+    if (!chosen || !ref) { notice('Enter between 1 and 24 servings after confirming the recipe reference.'); render(); return; }
+    const next = { ...store.planServings, [day]:chosen };
+    if (!persistStore({ ...store, planServings:next })) { notice('Could not save servings in this browser.'); render(); return; }
+    store.planServings = next; render(); notice('Meal servings updated.'); return;
+  }
   const select = event.target.closest('[data-plan-day]');
   if (!select) return;
   const day = select.dataset.planDay;
   const id = select.value;
-  if (id && store.saved[id]?.meal) store.plan[day] = id;
-  else delete store.plan[day];
-  const stored = save(); render(); if (stored) notice('Meal plan updated.');
+  const nextPlan = {...store.plan};
+  const nextServings = {...store.planServings};
+  if (id && store.saved[id]?.meal) nextPlan[day] = id;
+  else delete nextPlan[day];
+  delete nextServings[day]; // Avoid applying a prior recipe's portion preference.
+  if (!persistStore({...store,plan:nextPlan,planServings:nextServings})) {
+    notice('Could not save the meal plan. Nothing was changed.'); render(); return;
+  }
+  store.plan = nextPlan; store.planServings = nextServings;
+  render(); notice('Meal plan updated.');
 });
 
 document.addEventListener('keydown', event => {
@@ -695,6 +730,7 @@ window.addEventListener('storage', event => {
   store.pantry = fresh.pantry;
   store.saved = fresh.saved;
   store.plan = fresh.plan;
+  store.planServings = fresh.planServings;
   render();
 });
 
