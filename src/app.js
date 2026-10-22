@@ -1,12 +1,12 @@
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal } from './model.js';
-import { featured, searchMeals, cuisineMeals, mealDetails, pantryCandidates } from './api.js';
+import { featured, searchMeals, cuisineMeals, mealDetails, pantryCandidates, availableAreas } from './api.js';
 
 const appRoot = document.getElementById('app');
 const overlayRoot = document.getElementById('overlay-root');
 const toastRoot = document.getElementById('toast');
 const store = loadStore();
 
-const cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
+let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
 let view = 'discover';
 let activeMeals = [];
 let loading = true;
@@ -481,3 +481,8 @@ window.addEventListener('storage', event => {
 
 render();
 discover();
+availableAreas().then(areas => {
+  if (!areas.length) return;
+  cuisines = ['All', ...areas];
+  if (view === 'discover') render();
+}).catch(() => { /* Keep fallback cuisines when the area endpoint is unavailable. */ });
