@@ -61,3 +61,14 @@ export function resolvePlanServings(entry, dayValue) {
   const planned=validServings(dayValue);
   return base ? (planned || base) : null;
 }
+
+
+// Preserve original ingredient slot numbers: third-party recipes may leave gaps.
+export function scaledRecipeForComparison(meal, base, target) {
+  const copy={...meal};
+  for(let i=1;i<=20;i++){
+    if (!String(meal?.['strIngredient'+i] || '').trim()) continue;
+    copy['strMeasure'+i]=scaleMeasure(meal['strMeasure'+i],base,target).machineMeasure;
+  }
+  return copy;
+}
