@@ -225,7 +225,7 @@ function pantryPage() {
     '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' different ingredients</p></div></div>' + inventory + '</section></div>' +
     '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">expired or expiring within 3 days</span></div>' +
     '<button type="button" class="btn" data-action="suggest" style="width:100%;margin:14px 0">✦ Find recipes with my food</button>' +
-    '<p class="panel-note">Ingredient matching uses names only. It does not confirm that you have enough of each ingredient. Check freshness and expiry before cooking.</p></div></aside></div>';
+    '<p class="panel-note">Ingredient matching uses names only. Expired or zero-quantity items are excluded from recipe matching and shopping-list availability. Amounts for other items are not verified.</p></div></aside></div>';
 }
 
 function planPage() {
@@ -283,10 +283,11 @@ function renderDialog() {
     contents = '<div class="dialog-content"><div class="dialog-actions">' + actionButton('wanted',meal,'＋','Want to try') +
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
+      (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
       '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. Quantities not checked.' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       (parts.length ? '<button type="button" class="btn" data-action="start-cooking" style="margin-top:20px">Start guided cooking →</button>' : '') +
-      '</section></div><div style="margin-top:27px" class="note">Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.</div></div>';
+      '</section></div><div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
   }
   const source = externalUrl(meal.strSource);
   const sourceLink = source ? '<a href="' + source + '" target="_blank" rel="noopener noreferrer" class="btn secondary small">Original source ↗</a>' : '';
@@ -295,7 +296,7 @@ function renderDialog() {
     '<div class="dialog-hero">' + (externalUrl(meal.strMealThumb,true) ? '<img class="dialog-photo" src="' + externalUrl(meal.strMealThumb,true) + '" alt="' + escapeHtml(meal.strMeal) + '">' : '<div class="hero-placeholder">🍲</div>') +
     '<div class="dialog-intro"><div class="eyebrow">' + escapeHtml(meal.strArea || 'World cuisine') + ' · ' + escapeHtml(meal.strCategory || 'Home cooking') + '</div><h2 id="dialog-title">' + escapeHtml(meal.strMeal) + '</h2>' +
     '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink +
-    '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a></div></div></div>' + contents + '</section></div>';
+    (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') + '</div></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
 }
 function closeDialog() {
@@ -354,11 +355,28 @@ document.addEventListener('click', async event => {
   if (action === 'area') { await discover(button.dataset.area === 'All' ? 'featured' : 'area',button.dataset.area); return; }
   if (action === 'featured') { await discover(); return; }
   if (action === 'suggest') {
-    if (!store.pantry.length) { changeView('pantry'); notice('Add some ingredients to your kitchen first.'); return; }
+    if (!store.pantry.some(i => usablePantryItem(i))) { changeView('pantry'); notice('Add an available, unexpired ingredient to your kitchen first.'); return; }
     await discover('pantry'); return;
   }
   if (action === 'retry') { await discover(discoveryMode, discoveryMode === 'search' ? searchTerm : area); return; }
   if (action === 'collection') { libraryTab = button.dataset.value; render(); return; }
+  if (action === 'new-recipe') { showRecipeForm = true; editingRecipeId = null; libraryTab = 'all'; render(); document.getElementById('personal-title')?.focus(); return; }
+  if (action === 'cancel-recipe') { showRecipeForm = false; editingRecipeId = null; render(); return; }
+  if (action === 'edit-recipe') {
+    if (!store.saved[id]?.meal?.strPersonal) return;
+    closeDialog(); view = 'library'; libraryTab = 'all'; showRecipeForm = true; editingRecipeId = id;
+    render(); document.getElementById('personal-title')?.focus(); return;
+  }
+  if (action === 'export-data') {
+    const blob = new Blob([exportBackup(store)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'tasteit-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+    notice('Backup downloaded. Keep it somewhere private.'); return;
+  }
   if (action === 'edit-pantry') { editingId = id; render(); document.getElementById('ingredient-name')?.focus(); return; }
   if (action === 'cancel-edit') { editingId = null; render(); return; }
   if (action === 'remove-pantry') { store.pantry = store.pantry.filter(x => x.id !== id); if (editingId === id) editingId = null; save(); render(); notice('Ingredient removed.'); return; }
@@ -382,6 +400,19 @@ document.addEventListener('submit', event => {
     if (value) discover('search',value);
     else discover();
   }
+  if (event.target.id === 'personal-recipe-form') {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.target).entries());
+    const id = editingRecipeId || ('personal-' + (globalThis.crypto?.randomUUID?.() || Date.now() + '-' + String(Math.random()).slice(2)));
+    try {
+      const meal = createPersonalMeal(data,id);
+      const previous = store.saved[id] || { wanted:false, usual:true, favourite:false, cookedCount:0 };
+      store.saved[id] = { ...previous, meal, usual:true };
+      showRecipeForm = false; editingRecipeId = null; libraryTab = 'all';
+      save(); render(); notice('Your personal recipe has been saved.');
+    } catch (error) { notice(error.message); }
+    return;
+  }
   if (event.target.id === 'pantry-form') {
     event.preventDefault();
     const form = new FormData(event.target);
@@ -402,7 +433,24 @@ document.addEventListener('submit', event => {
   }
 });
 
-document.addEventListener('change', event => {
+document.addEventListener('change', async event => {
+  if (event.target.id === 'backup-file') {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      if (file.size > 2_000_000) throw new Error('Backup is too large (max 2 MB).');
+      const restored = parseBackup(await file.text());
+      const yes = window.confirm('Import this backup? Your current Tasteit recipes, kitchen and plans in this browser will be replaced.');
+      if (!yes) return;
+      store.pantry = restored.pantry;
+      store.saved = restored.saved;
+      store.plan = restored.plan;
+      showRecipeForm = false; editingRecipeId = null;
+      save(); render(); notice('Your Tasteit backup has been restored.');
+    } catch (error) { notice(error.message || 'Import failed.'); }
+    finally { event.target.value = ''; }
+    return;
+  }
   const select = event.target.closest('[data-plan-day]');
   if (!select) return;
   const day = select.dataset.planDay;
