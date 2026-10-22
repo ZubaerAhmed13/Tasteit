@@ -102,7 +102,7 @@ try {
   await page.locator('#cookbook-query').fill('does-not-exist');
   await page.locator('#cookbook-search-form button[type=submit]').click();
   assert.equal(await page.locator('.recipe-card').count(),0,'collection search applies');
-  await page.locator('[data-action="clear-library-filters"]').click();
+  await page.getByRole('button',{name:'Clear filters'}).click();
   assert.equal(await page.locator('.recipe-card').count(),2,'clear restores all saved dishes');
 
 
