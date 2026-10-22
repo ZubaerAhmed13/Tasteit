@@ -264,6 +264,9 @@ function actionButton(type, meal, icon, label) {
 }
 function renderDialog() {
   if (!selectedMeal) { overlayRoot.innerHTML = ''; return; }
+  const focusedControl = overlayRoot.contains(document.activeElement) ? document.activeElement.closest('[data-action]') : null;
+  const focusedAction = focusedControl?.dataset.action;
+  const focusedId = focusedControl?.dataset.id;
   const meal = selectedMeal;
   const ingredientItems = ingredientsOf(meal);
   const score = analyseMeal(meal, store.pantry);
@@ -300,6 +303,11 @@ function renderDialog() {
     '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink +
     (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') + '</div></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
+  if (focusedAction) {
+    const nextFocus = [...overlayRoot.querySelectorAll('[data-action]')].find(node =>
+      node.dataset.action === focusedAction && node.dataset.id === focusedId);
+    nextFocus?.focus();
+  }
 }
 function closeDialog() {
   if (!selectedMeal) return;
@@ -307,7 +315,8 @@ function closeDialog() {
   stepIndex = -1;
   overlayRoot.innerHTML = '';
   document.body.style.overflow = '';
-  dialogReturnFocus?.focus?.();
+  if (dialogReturnFocus?.isConnected) dialogReturnFocus.focus();
+  else document.querySelector('.site-nav .active')?.focus();
   dialogReturnFocus = null;
 }
 async function openMeal(id) {
@@ -469,6 +478,9 @@ document.addEventListener('keydown', event => {
   const elements = [...overlayRoot.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled)')].filter(x => x.getClientRects().length > 0);
   if (!elements.length) return;
   const first = elements[0], last = elements[elements.length - 1];
+  if (!overlayRoot.contains(document.activeElement)) {
+    event.preventDefault(); first.focus(); return;
+  }
   if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
   else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
 });
