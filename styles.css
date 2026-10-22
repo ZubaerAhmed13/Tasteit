@@ -268,3 +268,18 @@ h3 { font-size: 24px }
 .due-item strong {font-weight:750;color:var(--forest)}
 .due-item span {text-align:right;color:#a36b3f}
 @media (max-width:760px) {.due-item {flex-wrap:wrap}}
+
+/* Serving references and per-day portion editing */
+.serving-panel { background:#f5f7f1; border:1px solid #dfe7db; padding:16px 18px; border-radius:15px; margin:18px 0 4px; display:flex; flex-direction:column; gap:12px }
+.serving-original-form { display:flex; gap:9px; align-items:center; flex-wrap:wrap }
+.serving-original-form label { font-size:13px; color:var(--forest); font-weight:750 }
+.serving-original-form input { width:95px; min-height:39px; border:1px solid #dce4dc; border-radius:9px; padding:8px; background:white; color:var(--ink) }
+.serving-adjust { display:flex; gap:12px; align-items:center; flex-wrap:wrap; font-size:13px }
+.serving-adjust strong { width:32px; text-align:center; font-size:19px; color:var(--forest) }
+.day-recipe-controls { display:flex; flex-direction:column; gap:10px; min-width:0 }
+.plan-serving-control { display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+.plan-serving-control label { font-size:12px; color:var(--ink); font-weight:750 }
+.plan-serving-control input { width:75px; min-height:36px; border:1px solid #dce4dc; border-radius:9px; padding:8px; background:white; color:var(--ink) }
+.plan-serving-unset { display:flex; align-items:center; flex-wrap:wrap; gap:8px }
+.plan-serving-unset .panel-note { margin:0 }
+@media (max-width:440px) {.serving-original-form {align-items:flex-start}.serving-original-form label {flex-basis:100%}.day-row {padding:12px}.serving-panel {padding:13px}}
