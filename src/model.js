@@ -32,20 +32,40 @@ export function persistStore(store, storage) {
 }
 
 export function normalizeIngredient(value) {
-  const singular = {
-    tomatoes: 'tomato', potatoes: 'potato', chillies: 'chilli',
-    chilies: 'chilli', leaves: 'leaf', cloves: 'clove',
-    eggs: 'egg', 'spring onions': 'spring onion', scallions: 'spring onion',
-    'bell peppers': 'bell pepper', capsicum: 'bell pepper',
-    'garlic cloves': 'garlic', 'cloves garlic': 'garlic'
+  // Only genuinely equivalent regional labels are combined.
+  // Never generalise "chicken" to "chicken breast", "milk" to "oat milk",
+  // fresh coriander to coriander seeds, or chilli to bell pepper.
+  const aliases = {
+    tomatoes:'tomato', potatoes:'potato', eggs:'egg',
+    onions:'onion', carrots:'carrot', lemons:'lemon',
+    limes:'lime', mushrooms:'mushroom', lentils:'lentil',
+    chickpeas:'chickpea', 'chick peas':'chickpea',
+    'garbanzo bean':'chickpea', 'garbanzo beans':'chickpea',
+    'spring onions':'spring onion', scallion:'spring onion',
+    scallions:'spring onion', 'green onion':'spring onion',
+    'green onions':'spring onion',
+    'garlic cloves':'garlic', 'cloves garlic':'garlic',
+    'bell peppers':'bell pepper', capsicum:'bell pepper',
+    aubergine:'eggplant', aubergines:'eggplant',
+    eggplants:'eggplant', courgette:'zucchini',
+    courgettes:'zucchini', zucchinis:'zucchini',
+    chilies:'chilli', chillies:'chilli', chili:'chilli', chilis:'chilli',
+    'red chillies':'red chilli', 'red chilies':'red chilli',
+    'red chilis':'red chilli',
+    'red onions':'red onion', 'white onions':'white onion',
+    'shallots':'shallot', 'garlic bulbs':'garlic bulb'
   };
   const base = String(value || '')
     .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
     .toLowerCase().replace(/[_-]/g, ' ')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
-  if (singular[base]) return singular[base];
-  if (base.endsWith('ies') && base.length > 5) return base.slice(0, -3) + 'y';
-  if (base.endsWith('s') && !base.endsWith('ss') && base.length > 4) return base.slice(0, -1);
+  if (!base) return '';
+  if (aliases[base]) return aliases[base];
+  // Prevent irreversible singularisation of mass nouns ending with "s".
+  if (['couscous','hummus','asparagus','citrus','molasses','treacle',
+    'watercress','bass','sea bass'].includes(base)) return base;
+  if (base.endsWith('ies') && base.length > 5) return base.slice(0,-3) + 'y';
+  if (base.endsWith('s') && !base.endsWith('ss') && base.length > 4) return base.slice(0,-1);
   return base;
 }
 
