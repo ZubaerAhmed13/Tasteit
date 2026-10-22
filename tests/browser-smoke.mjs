@@ -55,6 +55,11 @@ try {
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   assert.equal(await page.locator('.ingredient-list li').count(),2);
+  await page.locator('[data-action="cook-done"]').click();
+  await page.locator('#cooking-rating').selectOption('5');
+  await page.locator('#cooking-note').fill('Lovely with extra herbs.');
+  await page.locator('#cooking-log-form button[type=submit]').click();
+  await page.getByText('Lovely with extra herbs.').waitFor();
   await page.locator('[data-action="favourite"]').click();
   assert.equal(await page.locator('[data-action="favourite"]').evaluate(element => element === document.activeElement), true, 'modal focus remains on saved action');
   await page.keyboard.press('Escape');
@@ -127,6 +132,10 @@ try {
   });
   await page.locator('.recipe-card').first().waitFor({timeout:7000});
   assert.equal(await page.locator('.recipe-card').count(),2,'backup restore repopulates library');
+  const journalEntry = await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).saved['1']);
+  assert.equal(journalEntry.cookedCount,1);
+  assert.equal(journalEntry.cookingHistory[0].rating,5);
+  assert.equal(journalEntry.cookingHistory[0].note,'Lovely with extra herbs.');
 
   await page.setViewportSize({width:375,height:812});
   await page.locator('.site-nav [data-nav="discover"]').click();
