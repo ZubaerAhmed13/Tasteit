@@ -21,26 +21,28 @@ No npm install is needed. Node 20+ runs automated tests:
 npm run verify
 ~~~
 
+GitHub Actions also runs a separate **Playwright headless browser smoke test** (against fixture-backed API responses) covering discovery, saving, personal recipes, expired pantry ingredients, meal planning, data backup/restore and narrow mobile layout. Browser fixtures test UI reliability, not live API uptime or image licensing.
+
 ## First-release capabilities
 
-- Search real recipes by name and browse by cuisine, with source-provided photographs, ingredients, steps and attributions.
-- Save **Want to try**, **Usual dishes**, and **Favourites** independently; mark a dish as cooked.
+- Search real recipes by name and browse source-provided cuisines, with credited photographs, ingredients and instructions. The discovery feed mixes several starting letters instead of presenting only one alphabetical slice.
+- Save **Want to try**, **Usual dishes**, and **Favourites** independently; mark a dish as cooked; add and edit your own usual recipes.
 - Add ingredients to your personal pantry with amount, unit, storage location and optional expiry date; edit and remove them.
 - Find candidate recipes from up to four pantry ingredients, then compare **exact ingredient-name presence**, clearly distinguishing missing ingredients and *not* claiming you own sufficient quantities.
 - Plan the next seven days from saved recipes and generate a deduplicated list of missing ingredients (quantities require manual verification).
-- Local persistence via localStorage, accessible controls, loading/empty/error states and responsive navigation.
+- Local persistence via localStorage, JSON backup export/import, accessible controls, loading/empty/error states and responsive navigation.
 
 ## Limits (intentional)
 
 - The developer key \`1\` is for testing/education/personal projects. **Before any public launch** secure a production arrangement with TheMealDB and review its image/content terms. Never claim user-submitted source photography as original Tasteit work.
 - TheMealDB is not every recipe in the world, and regional names do not constitute verification of authenticity. Display source and acknowledge variants.
 - Browser-local storage is device-specific and can be cleared. There is **no account, cloud sync, backup, or offline recipe guarantee** yet.
-- TheMealDB v1 allows single-ingredient filtering. The app aggregates a small set of queries to propose candidates and checks ingredients client-side. Amounts, substitutions, dietary/allergen safety, exact measurements and expiry-based cookability are **not** verified.
+- TheMealDB v1 allows single-ingredient filtering. The app aggregates a small set of queries to propose candidates and checks ingredients client-side. Expired or zero-quantity pantry entries are excluded; sufficient amounts, substitutions, dietary/allergen safety and exact measurements are **not** verified.
 - Recipe content and pictures require network access. Do not deploy this developer prototype publicly without reviewing API and image licensing.
 
 ## Product roadmap
 
-1. **Foundation** — live discovery, recipe details and reliable local collections (this PR).
+1. **Foundation** — diverse discovery, recipe details, personal recipes, local collections, backups and browser acceptance (this PR).
 2. **Personalisation** — personal cooking notes, custom recipes and collection filters.
 3. **Kitchen intelligence** — quantity-aware unit conversions, expiry prioritisation, safer matching and shopping workflows.
 4. **Trustworthy world coverage** — licensed expanded sources, multiple genuine regional variants, editorial provenance and image rights.

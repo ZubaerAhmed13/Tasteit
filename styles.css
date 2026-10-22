@@ -61,7 +61,8 @@ h3 { font-size: 24px }
 .section { margin-top:38px }
 .section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:20px }
 .section-head p { color:var(--muted); font-size:14px; margin-top:6px }
-.chips { display:flex; flex-wrap:wrap; gap:9px; margin:18px 0 26px }
+.chips { display:flex; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:thin; gap:9px; padding:3px 2px 13px; margin:18px 0 18px; overscroll-behavior-x:contain }
+.chips .chip { white-space:nowrap; flex-shrink:0 }
 .chip { border:1px solid #dfe5dc; border-radius:100px; padding:9px 16px; background:white; color:#607368; font-size:13px; font-weight:650 }
 .chip:hover, .chip.selected { color:white; border-color:var(--forest); background:var(--forest) }
 .recipe-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:22px }
