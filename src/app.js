@@ -1,5 +1,6 @@
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
-import { featured, searchMeals, cuisineMeals, mealDetails, pantryCandidates, availableAreas } from './api.js';
+import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories } from './api.js';
+import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -8,11 +9,16 @@ const toastRoot = document.getElementById('toast');
 const store = loadStore();
 
 let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
+let categories = ['All', 'Chicken', 'Seafood', 'Vegetarian', 'Pasta', 'Dessert', 'Vegan'];
 let view = 'discover';
 let activeMeals = [];
 let loading = true;
 let problem = '';
 let area = 'All';
+let category = 'All';
+let bulkOpen = false;
+let bulkDraft = '';
+let bulkPreview = null;
 let searchTerm = '';
 let discoveryMode = 'featured';
 let libraryTab = 'all';
@@ -88,12 +94,14 @@ async function discover(mode = 'featured', value = '') {
   problem = '';
   searchTerm = mode === 'search' ? value : '';
   area = mode === 'area' ? value : 'All';
+  category = mode === 'category' ? value : 'All';
   updateNav();
   render();
   try {
     let meals;
     if (mode === 'search') meals = await searchMeals(value, controller.signal);
     else if (mode === 'area') meals = await cuisineMeals(value, controller.signal);
+    else if (mode === 'category') meals = await categoryMeals(value, controller.signal);
     else if (mode === 'pantry') {
       meals = await pantryCandidates(store.pantry.filter(item => usablePantryItem(item)), controller.signal);
       meals.sort((a, b) => analyseMeal(b, store.pantry).percent - analyseMeal(a, store.pantry).percent);
@@ -143,14 +151,15 @@ function loadingBox() {
 function discoverPage() {
   const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb, true));
   const heroPhoto = spotlight ? photo(spotlight) : '<div class="hero-placeholder" aria-hidden="true">🍝</div>';
-  const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'search' ? 'Search results' : 'Discover something delicious';
+  const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'category' ? category + ' recipes' : discoveryMode === 'search' ? 'Search results' : 'Discover something delicious';
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
   const nextToTry = Object.values(store.saved).filter(entry => entry.wanted && entry.meal)
     .sort((a,b) => Number(analyseMeal(b.meal,store.pantry).isQuantityConfirmed) - Number(analyseMeal(a.meal,store.pantry).isQuantityConfirmed) || analyseMeal(b.meal,store.pantry).percent - analyseMeal(a.meal,store.pantry).percent)
     .slice(0,4).map(entry => entry.meal);
-  const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && discoveryMode !== 'search' && discoveryMode !== 'pantry' ? ' selected' : '') +
-    '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && discoveryMode !== 'search' && discoveryMode !== 'pantry') + '">' + escapeHtml(c) + '</button>').join('');
+  const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured')) ? ' selected' : '') +
+    '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured'))) + '">' + escapeHtml(c) + '</button>').join('');
+  const courseChips = categories.map(c => '<button type="button" class="chip' + (category === c && discoveryMode === 'category' ? ' selected' : '') + '" data-action="course" data-course="' + escapeHtml(c) + '" aria-pressed="' + (category === c && discoveryMode === 'category') + '">' + escapeHtml(c) + '</button>').join('');
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
     activeMeals.length ? cards(activeMeals) : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>');
   return '<section class="hero"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
@@ -164,7 +173,8 @@ function discoverPage() {
     (nextToTry.length ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Saved dishes to try, prioritising confirmed available amounts, then ingredient overlap.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
     '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
-    '<div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
+    '<div class="browse-filters"><div class="filter-heading">Browse by cuisine <span>Provider region labels</span></div><div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' +
+    '<div class="filter-heading">Browse by meal type <span>Provider categories, not verified diet or allergy information</span></div><div class="chips" aria-label="Browse recipes by meal category">' + courseChips + '</div></div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
     currentResults + '</section>';
 }
 
@@ -416,6 +426,7 @@ document.addEventListener('click', async event => {
   if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
   if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
   if (action === 'area') { await discover(button.dataset.area === 'All' ? 'featured' : 'area',button.dataset.area); return; }
+  if (action === 'course') { await discover(button.dataset.course === 'All' ? 'featured' : 'category',button.dataset.course); return; }
   if (action === 'featured') { await discover(); return; }
   if (action === 'suggest') {
     if (!store.pantry.some(i => usablePantryItem(i))) { changeView('pantry'); notice('Add an available, unexpired ingredient to your kitchen first.'); return; }
@@ -606,3 +617,8 @@ availableAreas().then(areas => {
   cuisines = ['All', ...areas];
   if (view === 'discover') render();
 }).catch(() => { /* Keep fallback cuisines when the area endpoint is unavailable. */ });
+availableCategories().then(values => {
+  if (!values.length) return;
+  categories = ['All', ...values];
+  if (view === 'discover') render();
+}).catch(() => { /* Keep fallback meal categories when the endpoint is unavailable. */ });
