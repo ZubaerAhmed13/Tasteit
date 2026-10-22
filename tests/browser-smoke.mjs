@@ -55,6 +55,8 @@ try {
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   assert.equal(await page.locator('.ingredient-list li').count(),2);
+  await page.locator('[data-action="favourite"]').click();
+  assert.equal(await page.locator('[data-action="favourite"]').evaluate(element => element === document.activeElement), true, 'modal focus remains on saved action');
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('[role="dialog"]').count(),0,'dialog closes on Escape');
 
