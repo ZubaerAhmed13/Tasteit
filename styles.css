@@ -219,3 +219,9 @@ h3 { font-size: 24px }
   .personal-recipe-form { grid-template-columns:1fr }
   .personal-recipe-form .field.wide { grid-column:auto }
 }
+
+.cooking-journal { margin-top:30px; padding-top:20px; border-top:1px solid var(--line); }
+.cooking-log { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:11px 0; }
+.cooking-log strong { color:var(--forest); font-size:13px; }
+.cooking-log p { color:var(--muted); font-size:13px; line-height:1.6; margin-top:7px; white-space:pre-wrap; overflow-wrap:anywhere; }
+.shopping-amount { background:#f4ece4; color:#8b5638; font-size:11px; text-align:right; max-width:145px; padding:7px 9px; border-radius:8px; font-weight:700; }
