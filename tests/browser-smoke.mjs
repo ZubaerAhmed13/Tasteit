@@ -52,6 +52,12 @@ try {
   await page.goto(url);
   await page.locator('.recipe-card').first().waitFor({timeout:12000}).catch(async error => { throw new Error(error.message + '\nBrowser errors: ' + JSON.stringify(errors) + '\nPage snapshot: ' + (await page.locator('#app').innerText()).slice(0,900)); });
   assert.equal(await page.locator('.recipe-card').count(),1,'live discovery card from fixture');
+  await page.locator('[data-action="course"][data-course="Vegetarian"]').click();
+  await page.locator('.recipe-card').first().waitFor();
+  assert.ok((await page.locator('h2').allTextContents()).some(x=>x.includes('Vegetarian')),'provider category filter opens');
+  await page.locator('[data-action="course"][data-course="All"]').click();
+  await page.locator('.recipe-card').first().waitFor();
+
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   assert.equal(await page.locator('.ingredient-list li').count(),2);
@@ -169,6 +175,11 @@ try {
   await page.locator('#bulk-input').fill('Rice | 9 kg\nCarrots | 2 pcs | Fridge\nCumin | 50 g | Pantry');
   await page.locator('#bulk-pantry-form button[type=submit]').click();
   assert.equal(await page.locator('.bulk-items li').count(),2);
+  await page.locator('#bulk-input').fill('Carrots | 2 pcs | Fridge\nCumin | 50 g | Pantry');
+  assert.equal(await page.locator('[data-action="bulk-confirm"]').count(),0,'editing invalidates old preview');
+  await page.locator('#bulk-pantry-form button[type=submit]').click();
+  assert.equal(await page.locator('.bulk-items li').count(),2);
+
   assert.ok((await page.locator('.bulk-preview').innerText()).includes('Rice'),'existing rice is flagged as a duplicate');
   await page.locator('[data-action="bulk-confirm"]').click();
   assert.equal(await page.locator('.inventory-row').count(),4);
