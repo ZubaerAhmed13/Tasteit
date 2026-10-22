@@ -19,7 +19,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -159,6 +159,23 @@ try {
   assert.ok(width.scroll<=width.inner+2,'mobile should not overflow viewport: '+JSON.stringify(width));
   await page.locator('.site-nav [data-nav="pantry"]').click();
   assert.equal(await page.locator('.inventory-row').count(),2,'pantry restored and mobile navigation works');
+
+  // Bulk additions require an explicit review; invalid lines cannot be silently applied.
+  await page.locator('[data-action="bulk-open"]').click();
+  await page.locator('#bulk-input').fill('Eggs | 4\nCarrots | 2 pcs | Fridge');
+  await page.locator('#bulk-pantry-form button[type=submit]').click();
+  assert.ok(await page.locator('.bulk-errors').isVisible());
+  assert.equal(await page.locator('[data-action="bulk-confirm"]').count(),0);
+  await page.locator('#bulk-input').fill('Rice | 9 kg\nCarrots | 2 pcs | Fridge\nCumin | 50 g | Pantry');
+  await page.locator('#bulk-pantry-form button[type=submit]').click();
+  assert.equal(await page.locator('.bulk-items li').count(),2);
+  assert.ok((await page.locator('.bulk-preview').innerText()).includes('Rice'),'existing rice is flagged as a duplicate');
+  await page.locator('[data-action="bulk-confirm"]').click();
+  assert.equal(await page.locator('.inventory-row').count(),4);
+  const inventoryAfterBulk = await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).pantry);
+  assert.equal(inventoryAfterBulk.find(x=>x.name==='Rice').quantity,'1','bulk flow must not overwrite existing rice');
+  assert.equal(inventoryAfterBulk.find(x=>x.name==='Carrots').location,'Fridge');
+
   assert.deepEqual(errors,[],'uncaught browser errors');
   console.log('PASS browser smoke: discovery, recipe dialog, saves, personal recipes, edit, expiry, meal plan, backup, mobile viewport');
   await context.close();
