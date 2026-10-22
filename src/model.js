@@ -55,8 +55,19 @@ export function ingredientsOf(meal) {
   return ingredients;
 }
 
+export function usablePantryItem(item, today = new Date()) {
+  if (!item || !normalizeIngredient(item.name)) return false;
+  if (item.quantity !== '' && item.quantity !== null && item.quantity !== undefined && Number(item.quantity) <= 0) return false;
+  if (item.expiry && /^\d{4}-\d{2}-\d{2}$/.test(item.expiry)) {
+    const expiry = new Date(item.expiry + 'T00:00:00');
+    const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    if (!Number.isNaN(expiry.getTime()) && expiry < start) return false;
+  }
+  return true;
+}
+
 export function analyseMeal(meal, pantry) {
-  const available = new Set(pantry.map(i => normalizeIngredient(i.name)).filter(Boolean));
+  const available = new Set(pantry.filter(i => usablePantryItem(i)).map(i => normalizeIngredient(i.name)).filter(Boolean));
   const ingredients = ingredientsOf(meal);
   const have = ingredients.filter(i => available.has(normalizeIngredient(i.name)));
   const missing = ingredients.filter(i => !available.has(normalizeIngredient(i.name)));
@@ -69,7 +80,7 @@ export function analyseMeal(meal, pantry) {
 }
 
 export function shoppingList(plan, saved, pantry) {
-  const available = new Set(pantry.map(i => normalizeIngredient(i.name)));
+  const available = new Set(pantry.filter(i => usablePantryItem(i)).map(i => normalizeIngredient(i.name)));
   const shopping = new Map();
   for (const [day, mealId] of Object.entries(plan)) {
     const meal = saved[mealId]?.meal;
@@ -94,4 +105,63 @@ export function nextSevenDates(from = new Date()) {
     out.push({ key, label: new Intl.DateTimeFormat('en', { weekday: 'long' }).format(d), date: new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric' }).format(d) });
   }
   return out;
+}
+
+const MAX_BACKUP_SIZE = 2_000_000;
+
+export function exportBackup(store, now = new Date()) {
+  return JSON.stringify({
+    format: 'tasteit-backup', version: 1, exportedAt: now.toISOString(),
+    data: { pantry: store.pantry, saved: store.saved, plan: store.plan }
+  }, null, 2);
+}
+
+export function parseBackup(text) {
+  if (typeof text !== 'string' || text.length > MAX_BACKUP_SIZE) throw new Error('Backup must be a JSON file smaller than 2 MB.');
+  let backup;
+  try { backup = JSON.parse(text); } catch { throw new Error('This is not valid JSON.'); }
+  if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
+    throw new Error('This is not a supported Tasteit backup.');
+  }
+  const { pantry, saved, plan } = backup.data;
+  if (!Array.isArray(pantry) || !saved || typeof saved !== 'object' || Array.isArray(saved) || !plan || typeof plan !== 'object' || Array.isArray(plan)) {
+    throw new Error('The backup is missing its recipe, pantry or plan records.');
+  }
+  if (pantry.length > 3000 || Object.keys(saved).length > 3000 || Object.keys(plan).length > 1000) {
+    throw new Error('Backup contains too many items.');
+  }
+  if (!pantry.every(item => item && typeof item.name === 'string' && item.name.length <= 150) ||
+      !Object.entries(saved).every(([key, entry]) => key.length < 160 && entry && typeof entry === 'object' &&
+        entry.meal && typeof entry.meal.strMeal === 'string' && entry.meal.strMeal.length <= 200) ||
+      !Object.entries(plan).every(([key, id]) => /^\d{4}-\d{2}-\d{2}$/.test(key) && typeof id === 'string')) {
+    throw new Error('The backup contains invalid records.');
+  }
+  return { pantry, saved, plan };
+}
+
+export function createPersonalMeal(input, id) {
+  const title = String(input.title || '').trim();
+  const origin = String(input.origin || '').trim();
+  const instructions = String(input.instructions || '').trim();
+  const items = String(input.ingredients || '').split(/\r?\n/).map(row => row.trim()).filter(Boolean).map(row => {
+    const split = row.indexOf('|');
+    return split === -1 ? { name: row, measure: '' } : {
+      name: row.slice(0, split).trim(), measure: row.slice(split + 1).trim()
+    };
+  });
+  if (!title || title.length > 120) throw new Error('Enter a recipe name (up to 120 characters).');
+  if (origin.length > 80) throw new Error('Cuisine name is too long.');
+  if (!instructions || instructions.length > 15_000) throw new Error('Add cooking instructions (up to 15,000 characters).');
+  if (!items.length || items.length > 20 || items.some(item => !item.name || item.name.length > 100 || item.measure.length > 100)) {
+    throw new Error('Enter between 1 and 20 ingredients, one per line. Separate amounts with |.');
+  }
+  if (!id || !String(id).startsWith('personal-')) throw new Error('Invalid personal recipe identifier.');
+  const meal = { idMeal: id, strMeal: title, strArea: origin || 'My kitchen',
+    strCategory: 'My own recipe', strInstructions: instructions,
+    strMealThumb: '', strSource: '', strPersonal: true };
+  items.forEach((item, index) => {
+    meal['strIngredient' + (index + 1)] = item.name;
+    meal['strMeasure' + (index + 1)] = item.measure;
+  });
+  return meal;
 }
