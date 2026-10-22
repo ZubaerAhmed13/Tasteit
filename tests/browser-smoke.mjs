@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -62,6 +62,11 @@ try {
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   assert.equal(await page.locator('.ingredient-list li').count(),2);
+  await page.locator('#base-servings-input').fill('2');
+  await page.locator('#original-servings-form button[type=submit]').click();
+  await page.getByRole('button',{name:'Increase servings'}).click();
+  assert.equal(await page.locator('[data-target-servings]').innerText(),'3');
+  assert.ok((await page.locator('.ingredient-list').innerText()).includes('1.5 cup'),'rice should scale from one cup for 2 to 1.5 cups for 3');
   assert.equal(await page.getByRole('link',{name:'Watch source video'}).count(),1,'source video links are visible when provided');
   await page.locator('[data-action="cook-done"]').click();
   await page.locator('#cooking-rating').selectOption('5');
@@ -82,6 +87,7 @@ try {
   await page.locator('[data-action="new-recipe"]').click();
   await page.locator('#personal-title').fill('My family curry');
   await page.locator('#personal-origin').fill('Bangladeshi');
+  await page.locator('#personal-base-servings').fill('2');
   await page.locator('#personal-ingredients').fill('Rice | 1 cup\nOnion | 1');
   await page.locator('#personal-instructions').fill('Rinse the rice.\nCook with onions.');
   await page.locator('#personal-recipe-form button[type=submit]').click();
@@ -96,6 +102,7 @@ try {
   await custom.locator('.recipe-title').click();
   await page.locator('[data-action="edit-recipe"]').click();
   assert.equal(await page.locator('#personal-title').inputValue(),'My family curry');
+  assert.equal(await page.locator('#personal-base-servings').inputValue(),'2');
   await page.locator('#personal-title').fill('My favourite family curry');
   await page.locator('#personal-recipe-form button[type=submit]').click();
   await page.getByRole('button',{name:'My favourite family curry'}).first().waitFor();
@@ -140,6 +147,10 @@ try {
   await page.locator('.site-nav [data-nav="plan"]').click();
   const selects=page.locator('[data-plan-day]');
   await selects.first().selectOption({label:'My favourite family curry'});
+  await page.locator('[data-plan-servings]').first().fill('4');
+  await page.locator('[data-plan-servings]').first().dispatchEvent('change');
+  assert.equal(await page.locator('[data-plan-servings]').first().inputValue(),'4');
+  assert.ok((await page.locator('aside.panel').innerText()).includes('2 pcs needed'),'onion amount must scale from 1 to 2 pieces');
   assert.ok((await page.locator('aside.panel').innerText()).includes('Onion'),'expired onion must be shopped');
   assert.ok(!(await page.locator('aside.panel .shopping-name').allTextContents()).includes('Rice'),'rice available');
   assert.equal((await page.locator('aside.panel .shopping-name').allTextContents()).length,1);
@@ -154,6 +165,7 @@ try {
   assert.equal(backup.format,'tasteit-backup');
   assert.equal(backup.data.pantry.length,3);
   assert.equal(Object.keys(backup.data.saved).length,2);
+  assert.equal(Object.values(backup.data.planServings)[0],4,'portion preference is backed up');
   assert.ok(Object.values(backup.data.saved).some(x => x.meal.strMeal === 'My favourite family curry' && x.tags.includes('Weeknight')), 'JSON backups retain user labels');
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -170,6 +182,7 @@ try {
   assert.equal(journalEntry.cookedCount,1);
   assert.equal(journalEntry.cookingHistory[0].rating,5);
   assert.equal(journalEntry.cookingHistory[0].note,'Lovely with extra herbs.');
+  assert.equal((await page.evaluate(() => Object.values(JSON.parse(localStorage.getItem('tasteit.local.v1')).planServings)))[0],4,'plan servings restored');
 
   await page.setViewportSize({width:375,height:812});
   await page.locator('.site-nav [data-nav="discover"]').click();
