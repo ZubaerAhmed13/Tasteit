@@ -17,7 +17,8 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 - [x] Export local data to JSON and restore from a backup
 - [x] Navigate on a 375px mobile viewport with no horizontal overflow
 - [x] Dialog Escape handling and restored focus after collection changes
-- [x] Dynamic cuisine list and initial recipe diversity via API fixtures
+- [x] Dynamic cuisine and category lists, provider-category browsing and initial recipe diversity via API fixtures
+- [x] Bulk pantry paste/preview/confirm, duplicate protection, ambiguous quantity rejection, invalid-date checks and stale-preview invalidation
 - [x] Test conservative ingredient regional names without conflating allergen- or product-specific variants
 
 ## Human / real-device gates not yet verified
@@ -31,7 +32,7 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 
 ## Honest constraints
 
-* TheMealDB is not a complete collection of every cuisine. The provider's strArea value is a classification, not guaranteed proof of traditional origin.
+* TheMealDB is not a complete collection of every cuisine. Its cuisine and category fields are not guarantees of authentic regional origin, vegetarian certification or allergen safety. Source photographs/videos are linked and credited when supplied.
 * Community photos are provided by TheMealDB and must not be passed off as Tasteit originals. See https://www.themealdb.com/terms_of_use.php ; check third-party permissions before public distribution.
 * Tag labels and cuisine text are user/source labels, **not** validated dietary or allergy certifications. Ingredient discovery starts with name presence. The separate measurement engine estimates shortfalls only for confidently parsed, compatible units; ambiguous and mixed units are flagged for review rather than guessed. These estimates are **not** food-safety, allergy, substitution or adequate-portion clearance.
 * Personal recipes, pantry items, saved collections and plans are stored in browser localStorage. JSON backups are local, unencrypted files; safeguard them accordingly.
@@ -42,6 +43,6 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 
 1. Manual live-browser review and defect remediation.
 2. More personal search, editable cooking notes, optional dietary preference warnings (never allergy guarantees) and photo uploads with clear rights.
-3. More reliable ingredient names and shopping conversion rules, including pantry lots.
+3. Better quantity controls (including multiple separately dated pantry lots), quicker food capture, and regional recipe source verification.
 4. Multi-source discovery with regional provenance and authorised photos.
 5. Optional authenticated sync after local flows are trustworthy.
