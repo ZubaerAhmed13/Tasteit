@@ -1,4 +1,4 @@
-import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates } from './model.js';
+import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal } from './model.js';
 import { featured, searchMeals, cuisineMeals, mealDetails, pantryCandidates } from './api.js';
 
 const appRoot = document.getElementById('app');
@@ -18,6 +18,8 @@ let libraryTab = 'all';
 let selectedMeal = null;
 let stepIndex = -1;
 let editingId = null;
+let showRecipeForm = false;
+let editingRecipeId = null;
 let requestNumber = 0;
 let controller = null;
 let toastTimer = null;
@@ -86,7 +88,7 @@ async function discover(mode = 'featured', value = '') {
     if (mode === 'search') meals = await searchMeals(value, controller.signal);
     else if (mode === 'area') meals = await cuisineMeals(value, controller.signal);
     else if (mode === 'pantry') {
-      meals = await pantryCandidates(store.pantry, controller.signal);
+      meals = await pantryCandidates(store.pantry.filter(usablePantryItem), controller.signal);
       meals.sort((a, b) => analyseMeal(b, store.pantry).percent - analyseMeal(a, store.pantry).percent);
     } else meals = await featured(controller.signal);
     if (thisRequest !== requestNumber) return;
@@ -111,12 +113,13 @@ function card(meal) {
   const region = meal.strArea || 'World kitchen';
   const category = meal.strCategory || 'Recipe';
   const isSaved = Boolean(entry.wanted);
+  const isPersonal = Boolean(meal.strPersonal);
   return '<article class="recipe-card">' +
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
     photo(meal) + (analysis ? '<span class="mini-pill">' + analysis.percent + '% ingredients matched*</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(category) + '</span></div>' +
-    '<div class="card-bottom"><span class="source-line">PHOTO · THEMEALDB</span>' +
+    '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div></article>';
 }
 function cards(meals) {
@@ -154,15 +157,36 @@ function discoverPage() {
     currentResults + '</section>';
 }
 
+function personalRecipeForm() {
+  if (!showRecipeForm) return '';
+  const meal = editingRecipeId ? store.saved[editingRecipeId]?.meal : null;
+  const ingredientRows = meal ? ingredientsOf(meal).map(x => x.name + (x.measure ? ' | ' + x.measure : '')).join('\n') : '';
+  return '<section class="panel" style="margin-bottom:24px" aria-label="Personal recipe editor">' +
+    '<div class="section-head"><div><h3>' + (meal ? 'Edit your recipe' : 'Add your own recipe') + '</h3><p>Preserve your everyday dishes and the way you actually cook them.</p></div>' +
+    '<button type="button" class="btn ghost small" data-action="cancel-recipe">Close ×</button></div>' +
+    '<form id="personal-recipe-form" class="personal-recipe-form">' +
+    '<div class="field"><label for="personal-title">Recipe name *</label><input id="personal-title" name="title" required maxlength="120" placeholder="e.g. Mum’s chicken curry" value="' + escapeHtml(meal?.strMeal || '') + '"></div>' +
+    '<div class="field"><label for="personal-origin">Cuisine or region</label><input id="personal-origin" name="origin" maxlength="80" placeholder="e.g. Bangladeshi" value="' + escapeHtml(meal?.strArea || '') + '"></div>' +
+    '<div class="field wide"><label for="personal-ingredients">Ingredients * (one per line, optional amount after |)</label>' +
+    '<textarea name="ingredients" id="personal-ingredients" required rows="7" placeholder="Rice | 2 cups&#10;Chicken | 500 g&#10;Onion | 2">' + escapeHtml(ingredientRows) + '</textarea></div>' +
+    '<div class="field wide"><label for="personal-instructions">Cooking instructions *</label><textarea name="instructions" id="personal-instructions" required rows="7" maxlength="15000" placeholder="Describe the cooking steps in your own words...">' + escapeHtml(meal?.strInstructions || '') + '</textarea></div>' +
+    '<div class="field wide"><p class="panel-note">Your own recipes stay in this browser for now. Personal photo storage will come later; third-party photographs are not copied without permission.</p></div>' +
+    '<div class="field wide"><button class="btn" type="submit">' + (meal ? 'Save recipe changes' : '+ Add to my usual dishes') + '</button></div></form></section>';
+}
 function libraryPage() {
   const all = Object.values(store.saved).filter(flags);
   const list = all.filter(x => libraryTab === 'all' || (libraryTab === 'wanted' && x.wanted) ||
     (libraryTab === 'usual' && x.usual) || (libraryTab === 'favourite' && x.favourite) || (libraryTab === 'cooked' && x.cookedCount > 0));
   const choices = [{key:'all',name:'All recipes'},{key:'wanted',name:'Want to try'},{key:'usual',name:'My usual dishes'},{key:'favourite',name:'Favourites'},{key:'cooked',name:'Cooked before'}];
   return '<div class="page-top"><div class="eyebrow">CURATED BY YOU</div><h1>My personal <em>cookbook.</em></h1><p class="lead">Recipes you want to try, make all the time or never want to forget — all in one place.</p></div>' +
+    '<div class="section-head"><div><h3>Your collection</h3><p>' + all.length + ' saved or cooked dishes</p></div><button class="btn" type="button" data-action="new-recipe">+ Add my recipe</button></div>' +
+    personalRecipeForm() +
     '<div class="tabs" aria-label="Recipe collections">' + choices.map(x => '<button type="button" class="chip' + (libraryTab === x.key ? ' selected' : '') + '" data-action="collection" data-value="' + x.key + '" aria-pressed="' + (libraryTab === x.key) + '">' + x.name + '</button>').join('') + '</div>' +
-    (list.length ? cards(list.map(x => x.meal).filter(Boolean)) : empty('📖', 'Your collection is waiting', all.length ? 'Nothing in this collection yet. Open a saved recipe to organise it.' : 'Discover a recipe and tap Want to try to start building your own cookbook.', '<button class="btn" type="button" data-nav="discover">Explore recipes ↗</button>')) +
-    '<p class="panel-note" style="margin-top:22px">Saved recipes and your kitchen list currently live only in this browser. Clearing browser data may erase them.</p>';
+    (list.length ? cards(list.map(x => x.meal).filter(Boolean)) : empty('📖', 'Your collection is waiting', all.length ? 'Nothing in this collection yet. Open a saved recipe to organise it.' : 'Discover a recipe or add your own everyday meal to start building your personal cookbook.', '<button class="btn" type="button" data-nav="discover">Explore recipes ↗</button>')) +
+    '<section class="panel" style="margin-top:28px"><div class="section-head"><div><h3>Your data, your choice</h3><p>Keep a backup of your recipes, pantry and meal plans.</p></div></div>' +
+    '<div class="dialog-actions"><button type="button" class="btn secondary small" data-action="export-data">↓ Export backup</button>' +
+    '<label class="btn secondary small" for="backup-file">↑ Import backup</label><input type="file" id="backup-file" accept=".json,application/json" class="visually-hidden"></div>' +
+    '<p class="panel-note" style="margin-top:13px">Backups include your personal recipes and kitchen inventory. Keep them private. Import replaces everything currently saved in this browser; nothing is uploaded to a server.</p></section>';
 }
 
 function expiryText(value) {
