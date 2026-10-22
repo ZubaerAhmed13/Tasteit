@@ -34,7 +34,7 @@ export function filterCookbook(saved, { collection = 'all', tag = '', query = ''
   const tagNeedle = normaliseTag(tag).toLocaleLowerCase();
   const entries = Object.values(saved).filter(entry => {
     if (!entry?.meal || typeof entry.meal.strMeal !== 'string') return false;
-    if (!entry.wanted && !entry.usual && !entry.favourite && !(entry.cookedCount > 0) && !tagsOf(entry).length) return false;
+    if (!entry.wanted && !entry.usual && !entry.favourite && !(entry.cookedCount > 0) && !tagsOf(entry).length && !entry.baseServings) return false;
     if (collection === 'wanted' && !entry.wanted) return false;
     if (collection === 'usual' && !entry.usual) return false;
     if (collection === 'favourite' && !entry.favourite) return false;
