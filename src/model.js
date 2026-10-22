@@ -1,12 +1,14 @@
+import { evaluateQuantity } from './quantities.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
   return { pantry: [], saved: {}, plan: {} };
 }
 
-export function loadStore(storage = globalThis.localStorage) {
+export function loadStore(storage) {
   try {
-    const parsed = JSON.parse(storage?.getItem(STORAGE_KEY) || 'null');
+    const target = storage === undefined ? globalThis.localStorage : storage;
+    const parsed = JSON.parse(target?.getItem(STORAGE_KEY) || 'null');
     if (!parsed || typeof parsed !== 'object') return emptyStore();
     return {
       pantry: Array.isArray(parsed.pantry) ? parsed.pantry.filter(x => x && typeof x.name === 'string') : [],
@@ -18,9 +20,11 @@ export function loadStore(storage = globalThis.localStorage) {
   }
 }
 
-export function persistStore(store, storage = globalThis.localStorage) {
+export function persistStore(store, storage) {
   try {
-    storage?.setItem(STORAGE_KEY, JSON.stringify(store));
+    const target = storage === undefined ? globalThis.localStorage : storage;
+    if (!target || typeof target.setItem !== 'function') return false;
+    target.setItem(STORAGE_KEY, JSON.stringify(store));
     return true;
   } catch {
     return false;
@@ -67,34 +71,51 @@ export function usablePantryItem(item, today = new Date()) {
 }
 
 export function analyseMeal(meal, pantry) {
-  const available = new Set(pantry.filter(i => usablePantryItem(i)).map(i => normalizeIngredient(i.name)).filter(Boolean));
+  const lots = pantry.filter(usablePantryItem);
+  const available = new Set(lots.map(i => normalizeIngredient(i.name)).filter(Boolean));
   const ingredients = ingredientsOf(meal);
   const have = ingredients.filter(i => available.has(normalizeIngredient(i.name)));
   const missing = ingredients.filter(i => !available.has(normalizeIngredient(i.name)));
+  const availability = ingredients.map(ingredient => {
+    const name = normalizeIngredient(ingredient.name);
+    const matches = lots.filter(item => normalizeIngredient(item.name) === name);
+    return { ...ingredient, ...evaluateQuantity([ingredient.measure], matches) };
+  });
   return {
-    have, missing, total: ingredients.length,
+    have, missing, availability, total: ingredients.length,
     percent: ingredients.length ? Math.round(100 * have.length / ingredients.length) : 0,
-    // Presence-only matching. Amounts, expiry and interchangeability are not verified.
-    isPresenceMatch: ingredients.length > 0 && missing.length === 0
+    isPresenceMatch: ingredients.length > 0 && missing.length === 0,
+    // Every ingredient has a measurable, matching available amount.
+    isQuantityConfirmed: ingredients.length > 0 && availability.every(x => x.status === 'enough')
   };
 }
 
 export function shoppingList(plan, saved, pantry) {
-  const available = new Set(pantry.filter(i => usablePantryItem(i)).map(i => normalizeIngredient(i.name)));
-  const shopping = new Map();
-  for (const [day, mealId] of Object.entries(plan)) {
+  // Each planned day counts. This deliberately does not mutate stock when a meal is planned.
+  const usable = pantry.filter(usablePantryItem);
+  const grouped = new Map();
+  for (const mealId of Object.values(plan)) {
     const meal = saved[mealId]?.meal;
     if (!meal) continue;
     for (const ingredient of ingredientsOf(meal)) {
       const key = normalizeIngredient(ingredient.name);
-      if (!key || available.has(key)) continue;
-      if (!shopping.has(key)) shopping.set(key, { name: ingredient.name, meals: [], measures: [] });
-      const entry = shopping.get(key);
+      if (!key) continue;
+      if (!grouped.has(key)) grouped.set(key, {
+        name: ingredient.name, meals: [], measures: [], requirements: []
+      });
+      const entry = grouped.get(key);
       if (!entry.meals.includes(meal.strMeal)) entry.meals.push(meal.strMeal);
       if (ingredient.measure) entry.measures.push(ingredient.measure);
+      entry.requirements.push(ingredient.measure);
     }
   }
-  return [...shopping.values()].sort((a,b) => a.name.localeCompare(b.name));
+  return [...grouped.entries()].flatMap(([key, entry]) => {
+    const lots = usable.filter(item => normalizeIngredient(item.name) === key);
+    const verdict = evaluateQuantity(entry.requirements, lots);
+    if (verdict.status === 'enough') return [];
+    const { requirements, ...details } = entry;
+    return [{ ...details, ...verdict }];
+  }).sort((a,b) => a.name.localeCompare(b.name));
 }
 
 export function nextSevenDates(from = new Date()) {
