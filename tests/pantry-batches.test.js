@@ -36,5 +36,5 @@ test('use-soon priorities favour available soon-dated stock',()=>{
   assert.deepEqual(recipeUseSoon({strMeal:'Chicken',strIngredient1:'Chicken',strMeasure1:'1'},pantry,now),[]);
   const ranked=rankByKitchen([dish,second],pantry,now);
   assert.equal(ranked.length,2);
-  assert.equal(ranked[0].idMeal,'rice'); // measured sufficient stock gets priority.
+  assert.equal(ranked[0].idMeal,'onion'); // the nearer date ranks higher when stock is otherwise sufficient.
 });
