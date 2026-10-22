@@ -191,6 +191,7 @@ function personalRecipeForm() {
     '<form id="personal-recipe-form" class="personal-recipe-form">' +
     '<div class="field"><label for="personal-title">Recipe name *</label><input id="personal-title" name="title" required maxlength="120" placeholder="e.g. Mum’s chicken curry" value="' + escapeHtml(meal?.strMeal || '') + '"></div>' +
     '<div class="field"><label for="personal-origin">Cuisine or region</label><input id="personal-origin" name="origin" maxlength="80" placeholder="e.g. Bangladeshi" value="' + escapeHtml(meal?.strArea || '') + '"></div>' +
+    '<div class="field"><label for="personal-base-servings">Original servings (optional)</label><input id="personal-base-servings" name="baseServings" type="number" min="1" max="24" step="1" placeholder="Unknown" value="' + escapeHtml(validServings(store.saved[editingRecipeId]?.baseServings) || '') + '"></div>' +
     '<div class="field wide"><label for="personal-ingredients">Ingredients * (one per line, optional amount after |)</label>' +
     '<textarea name="ingredients" id="personal-ingredients" required rows="7" placeholder="Rice | 2 cups&#10;Chicken | 500 g&#10;Onion | 2">' + escapeHtml(ingredientRows) + '</textarea></div>' +
     '<div class="field wide"><label for="personal-instructions">Cooking instructions *</label><textarea name="instructions" id="personal-instructions" required rows="7" maxlength="15000" placeholder="Describe the cooking steps in your own words...">' + escapeHtml(meal?.strInstructions || '') + '</textarea></div>' +
@@ -558,6 +559,14 @@ document.addEventListener('click', async event => {
   if (action === 'step-back') { stepIndex = Math.max(0,stepIndex - 1); renderDialog(); return; }
   if (action === 'step-next') { stepIndex = Math.min(instructions(selectedMeal).length - 1,stepIndex + 1); renderDialog(); return; }
   if (action === 'exit-cooking') { stepIndex = -1; renderDialog(); return; }
+  if (action === 'servings-minus' || action === 'servings-plus') {
+    if (!selectedMeal) return;
+    const original = validServings(savedEntry(selectedMeal.idMeal).baseServings);
+    if (!original) return;
+    const current = validServings(detailTargetServings) || original;
+    detailTargetServings = Math.max(1,Math.min(24,current + (action === 'servings-plus' ? 1 : -1)));
+    renderDialog(); return;
+  }
   if (action === 'copy-shopping') {
     const dates = nextSevenDates().map(x => x.key);
     const week = Object.fromEntries(dates.map(day => [day,store.plan[day]]).filter(([,v]) => v));
@@ -578,6 +587,32 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if (event.target.id === 'original-servings-form') {
+    event.preventDefault();
+    if (!selectedMeal) return;
+    const id=selectedMeal.idMeal;
+    const input=new FormData(event.target).get('baseServings');
+    try {
+      const previous={...savedEntry(id),meal:selectedMeal};
+      const nextEntry=setRecipeServings(previous,input);
+      const nextSaved={...store.saved};
+      const scheduled=Object.values(store.plan).includes(id);
+      if (flags(nextEntry) || scheduled) nextSaved[id]=nextEntry;
+      else delete nextSaved[id];
+      const nextTargets={...store.planServings};
+      for(const [day,plannedId] of Object.entries(store.plan)) {
+        if(plannedId===id) delete nextTargets[day]; // Old target may be inappropriate for a new reference.
+      }
+      if(!persistStore({...store,saved:nextSaved,planServings:nextTargets})) {
+        notice('Could not save this reference in your browser.'); return;
+      }
+      store.saved=nextSaved;
+      store.planServings=nextTargets;
+      detailTargetServings=validServings(nextEntry.baseServings);
+      render(); notice(detailTargetServings ? 'Original serving count saved.' : 'Serving reference cleared.');
+    } catch(error) { notice(error.message || 'Invalid serving count.'); }
+    return;
+  }
   if (event.target.id === 'cookbook-search-form') {
     event.preventDefault();
     librarySearch = String(new FormData(event.target).get('query') || '').trim();
@@ -625,9 +660,17 @@ document.addEventListener('submit', event => {
     try {
       const meal = createPersonalMeal(data,id);
       const previous = store.saved[id] || { wanted:false, usual:true, favourite:false, cookedCount:0 };
-      store.saved[id] = { ...previous, meal, usual:true };
+      const updated=setRecipeServings({...previous,meal,usual:true},data.baseServings);
+      const nextSaved={...store.saved,[id]:updated};
+      const targets={...store.planServings};
+      for(const [day,plannedId] of Object.entries(store.plan)) if(plannedId===id) delete targets[day];
+      if(!persistStore({...store,saved:nextSaved,planServings:targets})) {
+        notice('Unable to save the recipe in this browser.'); return;
+      }
+      store.saved=nextSaved;
+      store.planServings=targets;
       showRecipeForm = false; editingRecipeId = null; libraryTab = 'all';
-      const stored = save(); render(); if (stored) notice('Your personal recipe has been saved.');
+      render(); notice('Your personal recipe has been saved.');
     } catch (error) { notice(error.message); }
     return;
   }
