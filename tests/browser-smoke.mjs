@@ -175,12 +175,12 @@ try {
   await page.locator('#bulk-input').fill('Rice | 9 kg\nCarrots | 2 pcs | Fridge\nCumin | 50 g | Pantry');
   await page.locator('#bulk-pantry-form button[type=submit]').click();
   assert.equal(await page.locator('.bulk-items li').count(),2);
+  assert.ok((await page.locator('.bulk-preview').innerText()).includes('Rice'),'existing rice is flagged as a duplicate');
   await page.locator('#bulk-input').fill('Carrots | 2 pcs | Fridge\nCumin | 50 g | Pantry');
   assert.equal(await page.locator('[data-action="bulk-confirm"]').count(),0,'editing invalidates old preview');
   await page.locator('#bulk-pantry-form button[type=submit]').click();
   assert.equal(await page.locator('.bulk-items li').count(),2);
 
-  assert.ok((await page.locator('.bulk-preview').innerText()).includes('Rice'),'existing rice is flagged as a duplicate');
   await page.locator('[data-action="bulk-confirm"]').click();
   assert.equal(await page.locator('.inventory-row').count(),4);
   const inventoryAfterBulk = await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).pantry);
