@@ -5,7 +5,7 @@ import { analyseMeal, shoppingList, usablePantryItem, createPersonalMeal, export
 const fixture = {
   strMeal: 'Vegetable rice',
   strIngredient1: 'Potatoes', strMeasure1: '2',
-  strIngredient2: 'Rice', strMeasure2: '1 cup'
+  strIngredient2: 'Rice', strMeasure2: '100 g'
 };
 
 test('expired ingredients do not count as present', () => {
