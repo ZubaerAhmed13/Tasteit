@@ -226,15 +226,11 @@ function libraryPage() {
 
 function expiryText(value) {
   if (!value) return '';
-  const end = new Date(value + 'T00:00:00');
-  if (Number.isNaN(end.getTime())) return '';
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const days = Math.round((end - today) / 86400000);
-  if (days < 0) return '<span class="expiry-expired">Expired ' + Math.abs(days) + 'd ago</span>';
-  if (days === 0) return '<span class="expiry-warning">Expires today</span>';
-  if (days <= 3) return '<span class="expiry-warning">Expires in ' + days + 'd</span>';
-  return 'Expires ' + escapeHtml(value);
+  const info = dateStatus(value);
+  if (info.kind === 'past') return '<span class="expiry-expired">Past recorded date · ' + Math.abs(info.days) + 'd</span>';
+  if (info.kind === 'soon') return '<span class="expiry-warning">' + escapeHtml(info.label) + '</span>';
+  if (info.kind === 'invalid') return '<span class="expiry-warning">Check recorded date</span>';
+  return 'Best before ' + escapeHtml(value);
 }
 function pantryPage() {
   const edit = store.pantry.find(x => x.id === editingId);
@@ -267,7 +263,7 @@ function pantryPage() {
     '<div class="field"><label for="ingredient-expiry">Best before (optional)</label><input id="ingredient-expiry" name="expiry" type="date" value="' + escapeHtml(edit?.expiry || '') + '"></div>' +
     '<div class="field buttons"><button class="btn" type="submit">' + (edit ? 'Save changes' : newBatchName ? '+ Save separate batch' : '+ Add ingredient') + '</button>' + (edit || newBatchName ? '<button type="button" class="btn secondary" data-action="cancel-edit">Cancel</button>' : '') + '</div></form>';
   const inventory = rows.length ? '<div class="inventory-list">' + rows.map(x => {
-    const meta = [x.quantity ? x.quantity + ' ' + (x.unit || '') : 'Amount not set', x.location || 'Pantry'].join(' · ');
+    const meta = [x.quantity !== '' && x.quantity != null ? x.quantity + ' ' + (x.unit || '') : 'Amount not set', x.location || 'Pantry'].join(' · ');
     return '<div class="inventory-row"><div><div class="inventory-name">' + escapeHtml(x.name) + '</div><div class="inventory-meta">' + escapeHtml(meta) + (x.expiry ? ' · ' + expiryText(x.expiry) : '') + '</div></div>' +
       '<div class="row-actions"><button class="icon-button" type="button" data-action="add-batch" data-id="' + escapeHtml(x.id) + '" aria-label="Add another batch of ' + escapeHtml(x.name) + '">＋</button><button class="icon-button" type="button" data-action="edit-pantry" data-id="' + escapeHtml(x.id) + '" aria-label="Edit ' + escapeHtml(x.name) + '">✎</button>' +
       '<button class="icon-button" type="button" data-action="remove-pantry" data-id="' + escapeHtml(x.id) + '" aria-label="Remove ' + escapeHtml(x.name) + '">×</button></div></div>';
@@ -277,7 +273,7 @@ function pantryPage() {
   return '<div class="page-top"><div class="eyebrow">KNOW WHAT YOU HAVE</div><h1>Your kitchen, <em>organised.</em></h1><p class="lead">Keep a simple inventory and find recipes that match what is already at home.</p></div>' +
     '<div class="page-grid"><div><div class="panel"><div class="section-head"><h3>' + (edit ? 'Edit an ingredient' : 'Add to your kitchen') + '</h3><button type="button" class="btn secondary small" data-action="bulk-open">+ Add many at once</button></div>' + form + '</div>' + bulkUi +
     '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' recorded batches</p></div></div>' + inventory + '</section></div>' +
-    '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">expired or expiring within 3 days</span></div>' +
+    '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">past or within 3 days of their recorded date</span></div>' +
     '<button type="button" class="btn" data-action="suggest" style="width:100%;margin:14px 0">✦ Find recipes with my food</button>' +
     '<p class="panel-note">Keep purchases with different dates as separate batches using ＋. Names are matched first; amounts are added only when compatible. Recorded best-before dates are not proof that food is safe or unsafe.</p></div>' + dueSoon + '</aside></div>';
 }
