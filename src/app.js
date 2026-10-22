@@ -2,6 +2,7 @@ import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMea
 import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
+import { validServings, scaledIngredients, plannedIngredients, setRecipeServings, resolvePlanServings } from './servings.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -29,6 +30,7 @@ let librarySort = 'name';
 let selectedMeal = null;
 let stepIndex = -1;
 let showCookingLog = false;
+let detailTargetServings = null;
 let editingId = null;
 let newBatchName = null;
 let showRecipeForm = false;
@@ -67,7 +69,7 @@ function savedEntry(id) {
   return store.saved[id] || { meal: findMeal(id), wanted: false, usual: false, favourite: false, cookedCount: 0 };
 }
 function flags(entry) {
-  return Boolean(entry && (entry.wanted || entry.usual || entry.favourite || entry.cookedCount > 0 || tagsOf(entry).length));
+  return Boolean(entry && (entry.wanted || entry.usual || entry.favourite || entry.cookedCount > 0 || tagsOf(entry).length || validServings(entry.baseServings)));
 }
 function updateNav() {
   document.querySelectorAll('[data-nav]').forEach(button => {
@@ -319,6 +321,12 @@ function renderDialog() {
   const ingredientItems = ingredientsOf(meal);
   const score = analyseMeal(meal, store.pantry);
   const parts = instructions(meal);
+  const originalServings = validServings(savedEntry(meal.idMeal).baseServings);
+  const targetServings = originalServings ? (validServings(detailTargetServings) || originalServings) : null;
+  const prepared = scaledIngredients(meal,originalServings,targetServings);
+  const scaledMeal = {...meal};
+  prepared.forEach((item,i) => { scaledMeal['strMeasure' + (i+1)] = item.machineMeasure; });
+  const measuredScore = analyseMeal(scaledMeal,store.pantry);
   let contents;
   if (showCookingLog) {
     contents = '<div class="dialog-content"><div class="eyebrow">YOUR COOKING JOURNAL</div><h3>How did it turn out?</h3>' +
@@ -339,12 +347,24 @@ function renderDialog() {
       (stepIndex < total - 1 ? '<button type="button" class="btn" data-action="step-next">Next step →</button>' : '<button type="button" class="btn" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">Finish cooking ✓</button>') +
       '<button type="button" class="btn ghost" data-action="exit-cooking">View full recipe</button></div></div>';
   } else {
-    const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + score.availability.map(x => {
+    const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + measuredScore.availability.map((x,i) => {
       const enough = x.status === 'enough';
       const marker = enough ? '✓ ' : x.status === 'review' ? '? ' : '○ ';
-      const amount = x.measure ? x.measure + ' · ' : '';
+      const item = prepared[i];
+      const amount = item.value ? item.value + (item.status === 'review' ? ' · review scaling' : '') + ' · ' : '';
       return '<li class="' + (enough ? '' : 'missing') + '"><span>' + marker + escapeHtml(x.name) + '</span><span>' + escapeHtml(amount + x.label) + '</span></li>';
-    }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p>';
+    }).join('') + '</ul>' : '<p class="panel-note">Ingredient details unavailable for this recipe.</p';
+    const servingControls = '<section class="serving-panel" aria-label="Serving size"><div class="tag-heading"><strong>Serving size</strong>' +
+      '<span class="panel-note">The original serving count must be confirmed by you.</span></div>' +
+      '<form id="original-servings-form" class="serving-original-form"><label for="base-servings-input">Original recipe serves</label>' +
+      '<input id="base-servings-input" name="baseServings" type="number" min="1" max="24" step="1" placeholder="Unknown" value="' + escapeHtml(originalServings || '') + '">' +
+      '<button class="btn secondary small" type="submit">Save reference</button></form>' +
+      (originalServings ? '<div class="serving-adjust"><span>Cook for</span>' +
+        '<button class="btn secondary small" type="button" data-action="servings-minus"' + (targetServings <= 1 ? ' disabled' : '') + ' aria-label="Reduce servings">−</button>' +
+        '<strong data-target-servings>' + targetServings + '</strong>' +
+        '<button class="btn secondary small" type="button" data-action="servings-plus"' + (targetServings >= 24 ? ' disabled' : '') + ' aria-label="Increase servings">＋</button></div>' :
+        '<p class="panel-note">Until the original count is confirmed, amounts remain exactly as written.</p>') +
+      '<p class="panel-note">Only clear ingredient measurements can be scaled; seasoning, fractional whole items and instructions still need manual judgement. No ingredient changes are applied to your pantry.</p></section>';
     const recipeTags = tagsOf(savedEntry(meal.idMeal));
     const tagEditor = '<section class="recipe-tags" aria-label="My recipe labels"><div class="tag-heading"><strong>My labels</strong>' +
       '<span class="panel-note">Organise this recipe your way</span></div>' +
@@ -364,7 +384,7 @@ function renderDialog() {
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
-      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? score.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (score.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
+      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       (parts.length ? '<button type="button" class="btn" data-action="start-cooking" style="margin-top:20px">Start guided cooking →</button>' : '') +
       '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
@@ -392,6 +412,7 @@ function closeDialog() {
   selectedMeal = null;
   stepIndex = -1;
   showCookingLog = false;
+  detailTargetServings = null;
   overlayRoot.innerHTML = '';
   document.body.style.overflow = '';
   if (dialogReturnFocus?.isConnected) dialogReturnFocus.focus();
@@ -407,6 +428,7 @@ async function openMeal(id) {
     if (store.saved[id]) { store.saved[id].meal = selectedMeal; save(); }
     stepIndex = -1;
     showCookingLog = false;
+    detailTargetServings = validServings(store.saved[id]?.baseServings);
     renderDialog();
     overlayRoot.querySelector('.dialog-close')?.focus();
   } catch {
