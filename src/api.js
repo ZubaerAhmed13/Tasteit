@@ -39,6 +39,14 @@ export async function availableAreas(signal) {
     .map(x => String(x.strArea || '').trim()).filter(Boolean);
   return [...new Set(areas)].sort((a,b) => a.localeCompare(b));
 }
+export async function availableCategories(signal) {
+  const categories = asMeals(await request('list.php', { c: 'list' }, signal))
+    .map(x => String(x.strCategory || '').trim()).filter(Boolean);
+  return [...new Set(categories)].sort((a,b) => a.localeCompare(b));
+}
+export async function categoryMeals(category, signal) {
+  return asMeals(await request('filter.php', { c: category }, signal)).slice(0, 30);
+}
 export async function searchMeals(query, signal) {
   return asMeals(await request('search.php', { s: query }, signal));
 }
