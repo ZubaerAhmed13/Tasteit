@@ -19,7 +19,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -50,7 +50,7 @@ try {
   }));
 
   await page.goto(url);
-  await page.locator('.recipe-card').first().waitFor({timeout:12000});
+  await page.locator('.recipe-card').first().waitFor({timeout:12000}).catch(async error => { throw new Error(error.message + '\nBrowser errors: ' + JSON.stringify(errors) + '\nPage snapshot: ' + (await page.locator('#app').innerText()).slice(0,900)); });
   assert.equal(await page.locator('.recipe-card').count(),1,'live discovery card from fixture');
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
