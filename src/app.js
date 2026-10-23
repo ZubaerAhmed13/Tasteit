@@ -5,6 +5,7 @@ import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pan
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
 import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, filterKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
 import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer } from './cooking.js';
+import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -365,14 +366,40 @@ function planPage() {
   }).join('');
   const week = Object.fromEntries(dates.map(x => [x.key, store.plan[x.key]]).filter(([,id]) => id));
   const shopping = shoppingList(week, store.saved, store.pantry, store.planServings);
-  const list = shopping.length ? shopping.map(x => '<div class="shopping-row"><div><div class="shopping-name">' + escapeHtml(x.name) + '</div><div class="shopping-meta">For ' + escapeHtml(x.meals.join(', ')) + '</div></div><span class="shopping-amount">' + escapeHtml(x.label) + '</span></div>').join('') :
-    '<p class="panel-note">Choose recipes for the week. Missing, insufficient and uncertain quantities will show up here.</p>';
+  const checklist = shoppingChecklist(shopping,store.shoppingExtras,store.shoppingChecked);
+  const shoppingRow = row => {
+    const item = row.item;
+    const title = escapeHtml(item.name);
+    const meta = row.manual ? 'Your own item · not automatically added to the kitchen' :
+      'For ' + escapeHtml(item.meals.join(', '));
+    const identity = row.manual ? 'data-shopping-extra="' + escapeHtml(row.key) + '"' :
+      'data-shopping-recipe="' + escapeHtml(row.key) + '"';
+    return '<div class="shopping-row shopping-check-row' + (row.checked ? ' shopping-checked' : '') +
+      '"><label class="shopping-row-label"><input type="checkbox" ' + identity +
+      (row.checked ? ' checked' : '') + ' aria-label="Mark ' + title +
+      (row.checked ? ' not purchased' : ' purchased') + '"><span class="shopping-item-text"><strong class="shopping-name">' +
+      title + '</strong><span class="shopping-meta">' + meta + '</span></span></label>' +
+      (row.manual
+        ? '<button type="button" class="icon-button" data-action="shopping-remove-extra" data-id="' +
+          escapeHtml(row.key) + '" aria-label="Remove ' + title + ' from personal shopping list">×</button>'
+        : '<span class="shopping-amount">' + escapeHtml(item.label) + '</span>') + '</div>';
+  };
+  const currentRows = checklist.toBuy.length ? checklist.toBuy.map(shoppingRow).join('') :
+    '<p class="panel-note shopping-empty">Nothing left to pick up. Add a personal item below or choose meals for the week.</p>';
+  const completedRows = checklist.completed.length ? '<details class="completed-shopping"><summary>' +
+    checklist.completed.length + ' picked up · tap to review</summary>' +
+    checklist.completed.map(shoppingRow).join('') + '</details>' : '';
   return '<div class="page-top"><div class="eyebrow">PLAN AHEAD, WORRY LESS</div><h1>What’s cooking <em>this week?</em></h1><p class="lead">Choose from recipes you have saved and see which ingredients you still need to buy.</p></div>' +
     (!saved.length ? '<div class="note" style="margin-bottom:23px">First save some recipes in My recipes. They will appear as options in your meal plan.</div>' : '') +
     '<div class="page-grid"><section class="panel"><h3>Next seven days</h3><div class="list-sections">' + rows + '</div></section>' +
-    '<aside class="panel"><div class="section-head"><div><h3>Shopping list</h3><p>Items to buy or check</p></div></div><div>' + list + '</div>' +
-    (shopping.length ? '<button class="btn secondary" type="button" data-action="copy-shopping" style="width:100%;margin:18px 0">Copy shopping list ↗</button>' : '') +
-    '<p class="panel-note">Where units are compatible, amounts are added across planned days and compared with stock. Check unclear measurements and substitutions manually.</p></aside></div>';
+    '<aside class="panel"><div class="section-head"><div><h3>Shopping checklist</h3><p role="status">' +
+    checklist.completedCount + ' of ' + checklist.total + ' picked up</p></div></div>' +
+    '<div class="shopping-checklist">' + currentRows + completedRows + '</div>' +
+    '<form id="shopping-extra-form" class="shopping-add-form"><label for="shopping-extra-input">Add another item</label>' +
+    '<div class="shopping-add-inline"><input id="shopping-extra-input" type="text" name="item" maxlength="100" placeholder="e.g. Dish soap, bananas…" required>' +
+    '<button type="submit" class="btn secondary small">+ Add</button></div></form>' +
+    (checklist.toBuy.length ? '<button class="btn secondary" type="button" data-action="copy-shopping" style="width:100%;margin:18px 0">Copy remaining items ↗</button>' : '') +
+    '<p class="panel-note">Ticking an item only tracks your shopping progress. It does not automatically add it to your pantry. Your selections stay in this browser and are included in JSON backups. If a recipe or its required quantity changes, an earlier checkmark is no longer treated as current.</p></aside></div>';
 }
 
 function render() {
@@ -750,10 +777,16 @@ document.addEventListener('click', async event => {
     detailTargetServings = Math.max(1,Math.min(24,current + (action === 'servings-plus' ? 1 : -1)));
     renderDialog(); return;
   }
+  if (action === 'shopping-remove-extra') {
+    const next=removeShoppingExtra(store.shoppingExtras,id);
+    if (!persistStore({...store,shoppingExtras:next})) { notice('Unable to save this shopping change.'); return; }
+    store.shoppingExtras=next; render(); notice('Personal item removed.'); return;
+  }
   if (action === 'copy-shopping') {
     const dates = nextSevenDates().map(x => x.key);
     const week = Object.fromEntries(dates.map(day => [day,store.plan[day]]).filter(([,v]) => v));
-    const text = shoppingList(week,store.saved,store.pantry,store.planServings).map(x => '☐ ' + x.name + ' — ' + x.label).join('\n');
+    const list = shoppingList(week,store.saved,store.pantry,store.planServings);
+    const text = shoppingPlainText(shoppingChecklist(list,store.shoppingExtras,store.shoppingChecked));
     try { await navigator.clipboard.writeText(text); notice('Shopping list copied.'); }
     catch { notice('Clipboard is unavailable. Select and copy the shopping list manually.'); }
   }
@@ -770,6 +803,20 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if (event.target.id === 'shopping-extra-form') {
+    event.preventDefault();
+    const name=String(new FormData(event.target).get('item')||'');
+    try {
+      const id='manual-' + (globalThis.crypto?.randomUUID?.() || Date.now() + '-' + String(Math.random()).slice(2));
+      const extras=addShoppingExtra(store.shoppingExtras,name,id);
+      if (!persistStore({...store,shoppingExtras:extras})) {
+        notice('Could not save your shopping item. Nothing was added.'); return;
+      }
+      store.shoppingExtras=extras; render(); notice('Personal shopping item added.');
+      document.getElementById('shopping-extra-input')?.focus();
+    } catch(error) { notice(error.message || 'Could not add shopping item.'); }
+    return;
+  }
   if (event.target.id === 'original-servings-form') {
     event.preventDefault();
     if (!selectedMeal) return;
@@ -892,6 +939,25 @@ document.addEventListener('submit', event => {
 });
 
 document.addEventListener('change', async event => {
+  const manual = event.target.closest('[data-shopping-extra]');
+  if (manual) {
+    const key=manual.dataset.shoppingExtra;
+    if(!store.shoppingExtras.some(x=>x.id===key)) return;
+    const updated=toggleShoppingExtra(store.shoppingExtras,key);
+    if(!persistStore({...store,shoppingExtras:updated})) { notice('Could not save shopping progress.'); render(); return; }
+    store.shoppingExtras=updated; render(); return;
+  }
+  const planned = event.target.closest('[data-shopping-recipe]');
+  if (planned) {
+    const days=nextSevenDates().map(x=>x.key);
+    const week=Object.fromEntries(days.map(day=>[day,store.plan[day]]).filter(([,v])=>v));
+    const ingredient=shoppingList(week,store.saved,store.pantry,store.planServings)
+      .find(item=>shoppingKey(item)===planned.dataset.shoppingRecipe);
+    if(!ingredient) { render(); return; }
+    const checked=toggleRecipeChecked(store.shoppingChecked,ingredient);
+    if(!persistStore({...store,shoppingChecked:checked})) { notice('Could not save shopping progress.'); render(); return; }
+    store.shoppingChecked=checked; render(); return;
+  }
   if (event.target.matches('[data-library-sort]')) {
     librarySort = event.target.value;
     render();
@@ -912,6 +978,8 @@ document.addEventListener('change', async event => {
       store.plan = restored.plan;
       store.planServings = restored.planServings || {};
       store.cookingSessions = restored.cookingSessions || {};
+      store.shoppingChecked = restored.shoppingChecked || {};
+      store.shoppingExtras = restored.shoppingExtras || [];
       showRecipeForm = false; editingRecipeId = null;
       render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
@@ -987,6 +1055,8 @@ window.addEventListener('storage', event => {
   store.plan = fresh.plan;
   store.planServings = fresh.planServings;
   store.cookingSessions = fresh.cookingSessions;
+  store.shoppingChecked = fresh.shoppingChecked;
+  store.shoppingExtras = fresh.shoppingExtras;
   render();
 });
 
