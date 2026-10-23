@@ -397,3 +397,15 @@ h3 { font-size: 24px }
 .world-research-pages {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 18px}
 .world-research-pages span {font-size:12px;font-weight:750;color:var(--forest);font-variant-numeric:tabular-nums}
 @media(max-width:480px) {.world-research-pages .btn {flex:1}}
+
+.world-review-filters {display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;margin-top:14px}
+.world-review-filters label {font-size:12px;color:var(--forest);font-weight:750}
+.world-review-filters input,.world-review-filters select,.world-review-editor select,.world-review-editor textarea,.world-review-editor input {width:100%;background:#fff;color:var(--ink);border:1px solid #dce4dc;border-radius:10px;min-height:42px;padding:9px}
+.world-review-editor {display:grid;gap:10px;border:1px solid #d5e6d6;background:#f7faf6;border-radius:16px;margin:19px 0;padding:19px}
+.world-review-editor h3 {font-size:23px}
+.world-review-editor label {font-size:12px;color:var(--forest);font-weight:750}
+.world-review-editor textarea {min-height:110px;resize:vertical}
+.world-research-summary {font-size:12px;color:var(--forest);font-weight:700;background:#f0f5ed;border-radius:10px;padding:11px;margin:14px 0}
+.world-research-list .research-status {font-weight:750;color:#325c42}
+.world-research-list button {align-self:start;margin-top:5px}
+@media(max-width:580px){.world-review-filters{grid-template-columns:1fr}.world-review-editor{padding:13px}.world-review-editor .world-actions .btn{flex:1}}
