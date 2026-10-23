@@ -357,3 +357,30 @@ h3 { font-size: 24px }
   .shopping-check-row .shopping-amount {margin-left:32px;max-width:calc(100% - 32px)}
   .shopping-add-inline .btn {flex:0 0 auto}
 }
+
+/* Worldwide country-by-category collection: evidence-first, no fictitious top picks */
+.world-panel {margin:20px 0}
+.world-filters {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:16px 0}
+.world-filters .field {min-width:0}
+.world-filters label {display:block;font-size:12px;font-weight:750;color:var(--forest);margin-bottom:8px}
+.world-filters select {width:100%;min-width:0;min-height:44px;border:1px solid #dbe4d9;border-radius:10px;background:#fff;color:var(--ink);padding:10px}
+.world-actions {display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0}
+.world-progress {padding:15px;background:#f5f8f0;border:1px solid #e2e9de;border-radius:12px;margin:10px 0}
+.world-progress p {font-size:12px;color:var(--muted);margin-top:9px}
+.world-progress .progress-bar {height:8px}
+.world-stats {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0 28px}
+.world-stats div {border:1px solid var(--line);padding:13px 12px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:5px}
+.world-stats strong {font-family:Georgia,serif;font-size:30px;font-variant-numeric:tabular-nums;color:var(--forest)}
+.world-stats span {font-size:11px;color:var(--muted);line-height:1.4}
+.world-result-head {display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:27px 0 20px}
+.world-result-head h2 {margin:8px 0}
+.world-result-head p {font-size:13px;line-height:1.6;color:var(--muted);max-width:70ch}
+.world-count {font-size:33px;font-weight:800;color:var(--forest);font-variant-numeric:tabular-nums;white-space:nowrap}
+.world-count span {font-size:15px;color:var(--muted)}
+.world-empty {border:1px dashed #cddccc;border-radius:16px;padding:28px;background:#f7f9f4;margin-bottom:20px}
+.world-empty p {font-size:14px;color:var(--muted);line-height:1.55;max-width:68ch;margin-top:9px}
+.world-warning {background:#fff2eb;color:#8d4336;border:1px solid #f0d7cb;padding:13px 16px;border-radius:12px;font-size:13px;margin:16px 0}
+@media(max-width:760px){.site-nav{grid-template-columns:repeat(5,1fr)}.nav-button{font-size:10px;padding:13px 1px}
+.world-filters {grid-template-columns:1fr}.world-stats {grid-template-columns:repeat(2,minmax(0,1fr))}
+.world-actions .btn {flex:1}}
+@media(max-width:390px){.world-stats strong{font-size:24px}}
