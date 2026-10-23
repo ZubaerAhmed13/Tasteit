@@ -11,6 +11,7 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [x] Browse, search, open recipe, check ingredients and guided instructions
 - [x] Build world country/category directory, source scan, deduplication, a 30-candidate target and visible shortfall, without inventing reviews or rehosting recipe text
 - [x] Produce country/category coverage snapshots with source IDs and titles, and export CSV gaps in GitHub Actions (feature branch only)
+- [x] Gather and preserve 3,799 source-linked Wikibooks research titles, searchable in Tasteit but not classified into countries, courses or top-ranked dishes without editorial evidence
 - [x] Save recipes, create and edit a personal family recipe, refresh and verify persistence
 - [x] Record a cooking experience with optional rating and notes, then verify its backup restoration
 - [x] Add recipe labels, search and filter private collections, and verify label preservation in JSON backup
@@ -41,6 +42,7 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - 334 country/category combinations nonempty out of 2,730 possible
 - **0** country/category combinations reached 30 provider recipes
 - **0** recipes independently certified or ranked as among the best
+- 3,799 additional Wikibooks page titles and attributed links collected separately; country/category assignments remain unknown
 - The complete index and gap report are research inputs, not ready-to-publish editorial rankings.
 - Additional verified sources, cultural research and per-image permission checks are substantial open tasks.
 
