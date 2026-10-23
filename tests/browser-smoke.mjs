@@ -67,8 +67,12 @@ try {
   await page.locator('[data-action="area"][data-area="All"]').click();
   await page.locator('.recipe-card').first().waitFor();
 
+  await page.locator('.recipe-card img[data-recipe-photo]').first().evaluate(image => image.dispatchEvent(new Event('error')));
+  assert.equal(await page.locator('.recipe-card .image-unavailable').count(),1,'failed recipe images have a truthful placeholder');
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
+  await page.locator('[role="dialog"] img[data-recipe-photo]').evaluate(image => image.dispatchEvent(new Event('error')));
+  assert.equal(await page.locator('[role="dialog"] .dialog-photo-unavailable').count(),1,'recipe details remain usable if the source photo fails');
   assert.equal(await page.locator('.ingredient-list li').count(),2);
   await page.locator('#base-servings-input').fill('2');
   await page.locator('#original-servings-form button[type=submit]').click();
