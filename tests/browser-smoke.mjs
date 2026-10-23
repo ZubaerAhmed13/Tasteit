@@ -122,6 +122,7 @@ try {
   await page.locator('#world-category').selectOption('Vegetarian');
   await page.locator('[data-action="world-research-load"]').click();
   await page.getByRole('heading',{name:'More recipe sources to research'}).waitFor();
+  await page.locator('.world-research-list li').first().waitFor({timeout:12000});
   assert.equal(await page.locator('.world-research-list li').count(),2);
   await page.locator('#world-research-query').fill('biryani');
   await page.locator('#world-research-form button[type=submit]').click();
