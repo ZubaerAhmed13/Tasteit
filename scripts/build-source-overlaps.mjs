@@ -1,5 +1,6 @@
 // Produce a link-only human review queue for possible source overlaps.
 // This process NEVER removes or approves recipe records.
+// The output is an independent, repeatable set of review leads, not a verdict.
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {sourceOverlapReport,sourceOverlapCsv} from '../src/source-overlap.js';
 const read=async path=>JSON.parse(await readFile(path,'utf8'));
