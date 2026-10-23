@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {countryDirectory,documentedRecipeScore,catalogueFromProvider,catalogueCell,
-  exportCatalogueIndex,CATALOGUE_TARGET} from '../src/world-catalogue.js';
+  exportCatalogueIndex,hydrateCatalogueIndex,CATALOGUE_TARGET} from '../src/world-catalogue.js';
 
 const areas=[
   {strCountry:'Bangladesh',strArea:'Bangladeshi'},
@@ -57,7 +57,9 @@ test('metadata export links source IDs without copying instructions or photograp
   assert.deepEqual(report.cells[0].recipeIds,['3']);
   assert.equal(report.cells[0].missing,29);
   assert.equal(text.includes('Boil the ingredients'),false);
-  assert.equal(text.includes('/images/media/meals/photo.jpg'),false);
+  assert.equal(text.includes('/images/media/meals/photo.jpg'),true,'only remote image URL is referenced');
+  assert.equal(report.cells[0].recipes[0].photoRights,'not-independently-verified');
+  assert.equal(text.includes('data:image'),false,'binary photo payloads are never embedded');
   assert.ok(documentedRecipeScore(recipe(5))>documentedRecipeScore({idMeal:'5',strMeal:'Sparse'}));
 });
 
@@ -66,4 +68,25 @@ test('source data with missing country labels is held back, not invented',()=>{
   assert.equal(source.stats.unclassified,1);
   assert.equal(source.stats.totalFound,0);
   assert.throws(()=>catalogueFromProvider([],areas,categories,0),/Invalid catalogue target/);
+});
+
+
+test('loads a sourced metadata snapshot without claiming editorial verification',()=>{
+  const world=catalogueFromProvider([recipe(531),recipe(532,'Italian','Breakfast')],areas,categories);
+  const snapshot={
+    ...exportCatalogueIndex(world),
+    countries:countryDirectory(areas),
+    categories,scanComplete:true,failedInitials:[]
+  };
+  const hydrated=hydrateCatalogueIndex(snapshot);
+  assert.equal(hydrated.countries.length,4);
+  assert.equal(catalogueCell(hydrated,'Bangladesh','Dessert').count,1);
+  assert.equal(catalogueCell(hydrated,'Italy','Breakfast').count,1);
+  assert.equal(catalogueCell(hydrated,'Italy','Seafood').count,0);
+  const dish=hydrated.meals.find(x=>x.idMeal==='531');
+  assert.equal(dish.strMeal,'Sourced recipe 531');
+  assert.equal(dish.strInstructions,undefined,'full text is fetched later from provider');
+  assert.equal(dish.strMealThumb,'https://www.themealdb.com/images/media/meals/photo.jpg');
+  assert.equal(catalogueCell(hydrated,'Bangladesh','Dessert').recipes[0].editorialStatus,'not-reviewed');
+  assert.throws(()=>hydrateCatalogueIndex({countries:'unsupported'}),/Unsupported catalogue snapshot/);
 });
