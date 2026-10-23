@@ -43,6 +43,8 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - **0** country/category combinations reached 30 provider recipes
 - **0** recipes independently certified or ranked as among the best
 - 3,799 additional Wikibooks page titles and attributed links collected separately; country/category assignments remain unknown
+- 3,799 source-page category label records collected from Wikimedia with zero failed batches, displayed as hints only; not counted in reviewed recipe totals
+- [x] Paginated Wikibooks source-link search and optional original category hints, keeping country/course certification unverified
 - The complete index and gap report are research inputs, not ready-to-publish editorial rankings.
 - Additional verified sources, cultural research and per-image permission checks are substantial open tasks.
 
