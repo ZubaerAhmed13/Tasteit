@@ -67,6 +67,17 @@ try {
           photoUrl:meal.strMealThumb,documentationScore:85,reviewStatus:'not-reviewed'}]}]
     })
   }));
+  await page.route('**/data/wikibooks-research-queue.json', route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({version:1,recipes:[
+      {id:'wikibooks:1',title:'Chicken Biryani',
+       url:'https://en.wikibooks.org/wiki/Cookbook:Chicken_Biryani',
+       country:null,course:null,status:'needs-editorial-origin-and-course-review'},
+      {id:'wikibooks:2',title:'Apple Pie',
+       url:'https://en.wikibooks.org/wiki/Cookbook:Apple_Pie',
+       country:null,course:null,status:'needs-editorial-origin-and-course-review'}
+    ]})
+  }));
   await page.route('**/images/media/meals/**', route => route.fulfill({
     status:200,contentType:'image/svg+xml',
     body:'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140"><rect width="200" height="140" fill="#dde7cf"/></svg>'
@@ -109,6 +120,14 @@ try {
   await page.locator('#world-category').selectOption('Dessert');
   await page.getByRole('heading',{name:'No sourced recipes in this combination'}).waitFor();
   await page.locator('#world-category').selectOption('Vegetarian');
+  await page.locator('[data-action="world-research-load"]').click();
+  await page.getByRole('heading',{name:'More recipe sources to research'}).waitFor();
+  assert.equal(await page.locator('.world-research-list li').count(),2);
+  await page.locator('#world-research-query').fill('biryani');
+  await page.locator('#world-research-form button[type=submit]').click();
+  assert.equal(await page.locator('.world-research-list li').count(),1);
+  assert.ok((await page.locator('.world-research-list a').innerText()).includes('Chicken Biryani'));
+  assert.ok((await page.locator('.world-research').innerText()).includes('Country and course assignments require human verification'));
   const coverageDownload=page.waitForEvent('download');
   await page.locator('[data-action="world-export"]').click();
   const report=JSON.parse(await readFile(await (await coverageDownload).path(),'utf8'));
