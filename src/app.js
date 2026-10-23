@@ -910,9 +910,37 @@ document.addEventListener('click', async event => {
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
   if (action === 'world-research-load') { worldResearchPage=0; await loadWorldResearch(); return; }
+  if (action === 'world-research-review') {
+    const source=worldResearchEntries.find(x=>x.id===id);
+    if(!source)return;
+    worldResearchReviewId=source.id;render();
+    document.getElementById('world-review-form')?.scrollIntoView({block:'nearest'});
+    document.getElementById('review-country')?.focus();return;
+  }
+  if (action === 'world-review-close') {
+    worldResearchReviewId='';render();return;
+  }
+  if (action === 'world-review-delete') {
+    if (!store.editorialReviews?.[id])return;
+    const reviews=savedEditorialReview(store.editorialReviews,id,null);
+    if (!persistStore({...store,editorialReviews:reviews})) {
+      notice('Could not save the research deletion.');return;
+    }
+    store.editorialReviews=reviews;
+    worldResearchReviewId='';render();notice('Research notes discarded.');return;
+  }
+  if (action === 'world-review-export') {
+    const csv=exportEditorialReviewCsv(store.editorialReviews,worldResearchEntries);
+    const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+    const link=document.createElement('a');link.href=url;
+    link.download='tasteit-private-recipe-research.csv';
+    document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);return;
+  }
   if (action === 'world-research-prev' || action === 'world-research-next') {
     const q=worldResearchQuery.toLocaleLowerCase();
-    const count=worldResearchEntries.filter(x=>!q || x.title.toLocaleLowerCase().includes(q)).length;
+    const count=researchLeadResults(worldResearchEntries,q,worldResearchEvidence,
+      {tag:worldResearchTag,status:worldResearchStatus,reviews:store.editorialReviews}).length;
     const last=Math.max(0,Math.ceil(count/24)-1);
     worldResearchPage=Math.max(0,Math.min(last,worldResearchPage+(action==='world-research-next'?1:-1)));
     render();return;
@@ -1109,9 +1137,30 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if(event.target.id==='world-review-form'){
+    event.preventDefault();
+    const selected=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
+    if(!selected) return;
+    const fields=Object.fromEntries(new FormData(event.target));
+    try{
+      const review=editorialReview(fields,{id:selected.id,
+        countries:countryDirectory(worldAreas).map(x=>x.country),
+        categories:worldCategories});
+      const updates=savedEditorialReview(store.editorialReviews,selected.id,review);
+      if(!persistStore({...store,editorialReviews:updates})){
+        notice('Could not save research notes in this browser.');return;
+      }
+      store.editorialReviews=updates;render();notice('Private research notes saved. Recipe is not publicly approved.');
+    }catch(error){notice(error.message||'Invalid research record.');}
+    return;
+  }
   if(event.target.id==='world-research-form'){
     event.preventDefault();
-    worldResearchQuery=String(new FormData(event.target).get('query')||'').trim().slice(0,100);
+    const fields=new FormData(event.target);
+    worldResearchQuery=String(fields.get('query')||'').trim().slice(0,100);
+    worldResearchTag=String(fields.get('tag')||'').trim().slice(0,100);
+    worldResearchStatus=String(fields.get('status')||'all');
+    if(!['all','unreviewed','researching','needs-evidence','shortlisted','rejected'].includes(worldResearchStatus))worldResearchStatus='all';
     worldResearchPage=0;
     render();document.getElementById('world-research-query')?.focus();return;
   }
@@ -1301,6 +1350,7 @@ document.addEventListener('change', async event => {
       store.cookingSessions = restored.cookingSessions || {};
       store.shoppingChecked = restored.shoppingChecked || {};
       store.shoppingExtras = restored.shoppingExtras || [];
+      store.editorialReviews = restored.editorialReviews || {};
       showRecipeForm = false; editingRecipeId = null;
       render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
@@ -1378,6 +1428,7 @@ window.addEventListener('storage', event => {
   store.cookingSessions = fresh.cookingSessions;
   store.shoppingChecked = fresh.shoppingChecked;
   store.shoppingExtras = fresh.shoppingExtras;
+  store.editorialReviews = fresh.editorialReviews;
   render();
 });
 
