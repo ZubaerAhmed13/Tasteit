@@ -3,6 +3,7 @@ import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantry
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
+import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -25,6 +26,9 @@ let bulkDraft = '';
 let bulkPreview = null;
 let searchTerm = '';
 let discoveryMode = 'featured';
+let kitchenSelection = [];
+let kitchenDirty = false;
+let kitchenShowAll = false;
 let libraryTab = 'all';
 let libraryTag = '';
 let librarySearch = '';
@@ -111,11 +115,17 @@ async function discover(mode = 'featured', value = '') {
     else if (mode === 'category') meals = await categoryMeals(value, controller.signal);
     else if (mode === 'letter') meals = await letterMeals(value, controller.signal);
     else if (mode === 'pantry') {
-      meals = await pantryCandidates(store.pantry.filter(item => usablePantryItem(item)), controller.signal);
-      meals = rankByKitchen(meals, store.pantry);
+      // Query only the user-chosen ingredient names, not arbitrary first entries.
+      kitchenSelection = reconcileKitchenSelection(store.pantry,kitchenSelection);
+      if (!kitchenSelection.length) kitchenSelection = initialKitchenSelection(store.pantry);
+      const picked = searchPantryRows(store.pantry,kitchenSelection);
+      const local = localKitchenRecipes(store.saved,store.pantry);
+      const remote = await pantryCandidates(picked, controller.signal);
+      meals = rankByKitchen(combineKitchenRecipes(remote,local),store.pantry);
     } else meals = await featured(controller.signal);
     if (thisRequest !== requestNumber) return;
     activeMeals = meals;
+    if (mode === 'pantry') kitchenDirty = false;
   } catch (error) {
     if (thisRequest !== requestNumber || error?.name === 'AbortError') return;
     activeMeals = [];
@@ -129,7 +139,7 @@ function photo(meal) {
   const url = externalUrl(meal?.strMealThumb, true);
   return url ? '<img data-recipe-photo src="' + url + '" alt="' + escapeHtml(meal.strMeal) + '" loading="lazy" referrerpolicy="no-referrer">' : '<div class="card-picture-fallback" aria-hidden="true">🍲</div>';
 }
-function card(meal) {
+function card(meal, kitchenExplanation = false) {
   const id = escapeHtml(meal.idMeal);
   const entry = savedEntry(meal.idMeal);
   const analysis = ingredientsOf(meal).length && store.pantry.length ? analyseMeal(meal, store.pantry) : null;
@@ -138,16 +148,22 @@ function card(meal) {
   const category = meal.strCategory || 'Recipe';
   const isSaved = Boolean(entry.wanted);
   const isPersonal = Boolean(meal.strPersonal);
+  const kitchenInfo = kitchenExplanation ? kitchenMatchDetails(meal,store.pantry) : null;
+  const reason = kitchenInfo ? '<div class="kitchen-match-reason"><strong>' + escapeHtml(kitchenInfo.explanation) + '</strong>' +
+    (kitchenInfo.missing.length ? '<span>Missing: ' + escapeHtml(kitchenInfo.missing.slice(0,3).join(', ')) +
+      (kitchenInfo.missing.length > 3 ? ' +' + (kitchenInfo.missing.length-3) + ' more' : '') + '</span>' :
+      kitchenInfo.needReview.length ? '<span>Check amounts: ' + escapeHtml(kitchenInfo.needReview.slice(0,2).join(', ')) + '</span>' :
+      '<span>Check amounts, freshness and dietary suitability before cooking.</span>') + '</div>' : '';
   return '<article class="recipe-card">' +
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(category) + '</span></div>' +
-    '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
+    reason + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div></article>';
 }
-function cards(meals) {
-  return '<div class="recipe-grid">' + meals.map(card).join('') + '</div>';
+function cards(meals, kitchenExplanation = false) {
+  return '<div class="recipe-grid">' + meals.map(meal => card(meal,kitchenExplanation)).join('') + '</div>';
 }
 function empty(icon, title, message, action = '') {
   return '<div class="empty"><div class="empty-icon" aria-hidden="true">' + icon + '</div><h3>' + escapeHtml(title) +
@@ -169,7 +185,7 @@ function discoverPage() {
   const courseChips = categories.map(c => '<button type="button" class="chip' + (category === c && discoveryMode === 'category' ? ' selected' : '') + '" data-action="course" data-course="' + escapeHtml(c) + '" aria-pressed="' + (category === c && discoveryMode === 'category') + '">' + escapeHtml(c) + '</button>').join('');
   const letterChips = alphabet.map(l => '<button type="button" class="chip' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter' ? ' selected' : '') + '" data-action="letter" data-letter="' + l + '" aria-pressed="' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter') + '">' + l + '</button>').join('');
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
-    activeMeals.length ? cards(activeMeals) : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>');
+    activeMeals.length ? cards(activeMeals, discoveryMode === 'pantry') : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>');
   return '<section class="hero"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
     '<p class="lead">Discover food from different cultures, collect your favourite meals, and find inspiration in the ingredients you already own.</p>' +
     '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" placeholder="Search biryani, pasta, curry..." value="' + escapeHtml(searchTerm) + '" required><button class="btn" type="submit">Find recipes ↗</button></form>' +
