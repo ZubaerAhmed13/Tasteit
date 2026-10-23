@@ -49,6 +49,11 @@ let worldIndex = null;
 let worldPartial = [];
 let worldMeals = [];
 let worldScannedAt = '';
+let worldResearchOpen=false;
+let worldResearchLoading=false;
+let worldResearchEntries=[];
+let worldResearchQuery='';
+let worldResearchError='';
 
 let libraryTab = 'all';
 let libraryTag = '';
@@ -154,6 +159,24 @@ async function loadWorldOptions() {
       worldCategory=worldCategories.includes('Dessert')?'Dessert':worldCategories[0]||'';
   }catch(error){worldOptionsError=error.message||'Country directory could not load.';}
   finally{worldLoadingOptions=false;if(view==='world')render();}
+}
+async function loadWorldResearch() {
+  if(worldResearchLoading)return;
+  worldResearchOpen=true;worldResearchLoading=true;worldResearchError='';
+  if(view==='world')render();
+  try{
+    const res=await fetch('./data/wikibooks-research-queue.json');
+    if(!res.ok)throw new Error('Research list unavailable.');
+    const data=await res.json();
+    if(!Array.isArray(data.recipes)||data.recipes.length>6000)
+      throw new Error('Unexpected source data.');
+    worldResearchEntries=data.recipes.filter(item=>{
+      if(typeof item?.title!=='string'||item.title.length>180)return false;
+      try{const u=new URL(item.url);return u.protocol==='https:'&&u.hostname==='en.wikibooks.org';}
+      catch{return false;}
+    });
+  }catch(error){worldResearchError=error.message||'Could not read the research queue.';}
+  finally{worldResearchLoading=false;if(view==='world')render();}
 }
 async function collectWorldRecipes() {
   if(worldScanning || !worldAreas.length || !worldCategories.length) return;
@@ -543,6 +566,30 @@ function worldPage() {
     '<p class="world-warning" role="status">Incomplete provider scan: requests for '+
     escapeHtml(worldPartial.join(', ').toUpperCase())+
     ' failed. Counts may be lower than the provider’s actual catalogue.</p>' : '';
+  const sourceQuery=worldResearchQuery.trim().toLocaleLowerCase();
+  const matchedResearch=worldResearchEntries.filter(item=>
+    !sourceQuery || item.title.toLocaleLowerCase().includes(sourceQuery));
+  const researchList=worldResearchOpen ? '<section class="panel world-research" aria-label="Wikibooks source research"><div class="section-head"><div>'+
+    '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as a country's best recipes.</p></div></div>'+
+    (worldResearchLoading?'<p class="panel-note" role="status">Loading source links…</p>':'')+
+    (worldResearchError?'<p role="alert" class="world-warning">'+escapeHtml(worldResearchError)+
+      ' <button class="btn secondary small" type="button" data-action="world-research-load">Retry</button></p>':'')+
+    (!worldResearchLoading&&!worldResearchError?'<form id="world-research-form" role="search" class="world-research-form">'+
+      '<label for="world-research-query">Search these recipe titles</label><div class="shopping-add-inline">'+
+      '<input id="world-research-query" name="query" maxlength="100" value="'+escapeHtml(worldResearchQuery)+
+      '" placeholder="Try biryani, stew, cake…">'+
+      '<button class="btn secondary small" type="submit">Search</button></div></form>'+
+      '<p class="panel-note" role="status">'+matchedResearch.length+' linked source records'+
+      (sourceQuery?' match your search':'')+'. Showing the first '+Math.min(24,matchedResearch.length)+
+      '. Country and course assignments require human verification.</p>'+
+      '<ul class="world-research-list">'+matchedResearch.slice(0,24).map(x=>
+        '<li><a href="'+externalUrl(x.url)+'" target="_blank" rel="noopener noreferrer">'+
+        escapeHtml(x.title)+' ↗</a><span>Wikibooks · course/origin unreviewed</span></li>').join('')+'</ul>'+
+      '<p class="panel-note">Wikibooks text is subject to CC BY-SA attribution and terms. Images have separate licences. No source photos or recipe instructions are copied into Tasteit.</p>':'')+
+      '</section>' :
+    '<section class="panel world-research"><div class="section-head"><div><h3>Explore additional recipe leads</h3>'+
+    '<p>Thousands of linked Wikibooks Cookbook titles await origin, category and rights review. They are not counted toward the 30 target.</p></div></div>'+
+    '<button type="button" class="btn secondary" data-action="world-research-load">Explore Wikibooks research leads ↗</button></section>';
   const recipes=cell?.recipes?.length ? cards(cell.recipes.map(x=>x.meal)) :
     assessed ? '<div class="world-empty"><h3>No sourced recipes in this combination</h3>'+
       '<p>We have not verified a recipe in this country and category from the current source scan. This is a coverage gap, not proof that no local recipes exist.</p></div>' :
@@ -562,7 +609,8 @@ function worldPage() {
     (assessed?'<p class="panel-note">Provider records found: '+worldIndex.stats.scanned+
     '. Unclassified: '+worldIndex.stats.unclassified+
     ' · Ambiguous regional labels held back: '+worldIndex.stats.ambiguous+
-    '. Empty combinations and unavailable source content require further research and rights review.</p>':'');
+    '. Empty combinations and unavailable source content require further research and rights review.</p>':'')+
+    researchList;
 }
 
 function render() {
@@ -778,6 +826,7 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
+  if (action === 'world-research-load') { await loadWorldResearch(); return; }
   if (action === 'world-scan') { await collectWorldRecipes(); return; }
   if (action === 'world-cancel') { worldScanController?.abort(); return; }
   if (action === 'world-export') { downloadWorldIndex(); return; }
@@ -970,6 +1019,11 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if(event.target.id==='world-research-form'){
+    event.preventDefault();
+    worldResearchQuery=String(new FormData(event.target).get('query')||'').trim().slice(0,100);
+    render();document.getElementById('world-research-query')?.focus();return;
+  }
   if (event.target.id === 'shopping-extra-form') {
     event.preventDefault();
     const name=String(new FormData(event.target).get('item')||'');
