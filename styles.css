@@ -393,3 +393,7 @@ h3 { font-size: 24px }
 .world-research-list a {color:var(--forest);font-weight:750;font-size:13px;overflow-wrap:anywhere;text-decoration:underline;text-underline-offset:3px}
 .world-research-list span {color:var(--muted);font-size:11px}
 @media(max-width:580px){.world-research-list{grid-template-columns:1fr}}
+
+.world-research-pages {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 18px}
+.world-research-pages span {font-size:12px;font-weight:750;color:var(--forest);font-variant-numeric:tabular-nums}
+@media(max-width:480px) {.world-research-pages .btn {flex:1}}
