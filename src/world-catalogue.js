@@ -109,7 +109,15 @@ export function exportCatalogueIndex(catalogue,{source='TheMealDB V1',scannedAt=
     cells:[...catalogue.cells.values()].flatMap(per=>[...per.values()]
       .filter(cell=>cell.available>0).map(cell=>({
         country:cell.country,category:cell.category,available:cell.available,
-        count:cell.count,missing:cell.missing,recipeIds:cell.recipes.map(x=>x.id)
+        count:cell.count,missing:cell.missing,recipeIds:cell.recipes.map(x=>x.id),
+        recipes:cell.recipes.map(x=>({
+          id:x.id,name:String(x.meal.strMeal||'').slice(0,180),
+          documentationScore:x.documentationScore,
+          reviewStatus:x.editorialStatus,
+          providerArea:x.providerArea,
+          // The source is a live reference, not a copied publisher recipe.
+          detailEndpoint:'https://www.themealdb.com/api/json/v1/1/lookup.php?i='+encodeURIComponent(x.id)
+        }))
       })))
   };
 }
