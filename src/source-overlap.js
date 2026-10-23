@@ -11,11 +11,13 @@ export function recipeNameKey(name) {
 }
 export function recipeTitleIndex(catalogue) {
   const exact=new Map(),reordered=new Map(),seen=new Set();
-  const cells=Array.isArray(catalogue?.cells)?catalogue.cells:[];
+  const cells=Array.isArray(catalogue?.cells)?catalogue.cells:
+    catalogue?.cells instanceof Map
+      ? [...catalogue.cells.values()].flatMap(group=>[...group.values()]) : [];
   for(const cell of cells) {
     for(const item of Array.isArray(cell?.recipes)?cell.recipes:[]) {
       const id=String(item?.id||'');
-      const name=String(item?.name||'').trim();
+      const name=String(item?.name||item?.meal?.strMeal||'').trim();
       const country=String(cell.country||''),category=String(cell.category||'');
       const key=recipeNameKey(name);
       if(!/^\d{1,20}$/.test(id)||!key||seen.has(id))continue;
