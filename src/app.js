@@ -127,7 +127,7 @@ async function discover(mode = 'featured', value = '') {
 
 function photo(meal) {
   const url = externalUrl(meal?.strMealThumb, true);
-  return url ? '<img src="' + url + '" alt="' + escapeHtml(meal.strMeal) + '" loading="lazy" referrerpolicy="no-referrer">' : '<div class="card-picture-fallback" aria-hidden="true">🍲</div>';
+  return url ? '<img data-recipe-photo src="' + url + '" alt="' + escapeHtml(meal.strMeal) + '" loading="lazy" referrerpolicy="no-referrer">' : '<div class="card-picture-fallback" aria-hidden="true">🍲</div>';
 }
 function card(meal) {
   const id = escapeHtml(meal.idMeal);
@@ -419,7 +419,7 @@ function renderDialog() {
   const videoLink = video && !meal.strPersonal ? '<a href="' + video + '" target="_blank" rel="noopener noreferrer" class="btn secondary small">Watch source video ↗</a>' : '';
   overlayRoot.innerHTML = '<div class="overlay" data-action="overlay" role="presentation"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">' +
     '<button class="dialog-close" data-action="close" type="button" aria-label="Close recipe">×</button>' +
-    '<div class="dialog-hero">' + (externalUrl(meal.strMealThumb,true) ? '<img class="dialog-photo" src="' + externalUrl(meal.strMealThumb,true) + '" alt="' + escapeHtml(meal.strMeal) + '">' : '<div class="hero-placeholder">🍲</div>') +
+    '<div class="dialog-hero">' + (externalUrl(meal.strMealThumb,true) ? '<img data-recipe-photo class="dialog-photo" src="' + externalUrl(meal.strMealThumb,true) + '" alt="' + escapeHtml(meal.strMeal) + '">' : '<div class="hero-placeholder">🍲</div>') +
     '<div class="dialog-intro"><div class="eyebrow">' + escapeHtml(meal.strArea || 'World cuisine') + ' · ' + escapeHtml(meal.strCategory || 'Home cooking') + '</div><h2 id="dialog-title">' + escapeHtml(meal.strMeal) + '</h2>' +
     '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink + videoLink +
     (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
@@ -775,6 +775,20 @@ document.addEventListener('change', async event => {
   store.plan = nextPlan; store.planServings = nextServings;
   render(); notice('Meal plan updated.');
 });
+
+// Keep the original photograph when available, but never replace a failed
+// third-party image with an unrelated stock picture or invented meal photo.
+document.addEventListener('error', event => {
+  const node = event.target;
+  if (!(node instanceof HTMLImageElement) || !node.matches('[data-recipe-photo]')) return;
+  const placeholder = document.createElement('div');
+  placeholder.className = node.classList.contains('dialog-photo')
+    ? 'image-unavailable dialog-photo-unavailable' : 'card-picture-fallback image-unavailable';
+  placeholder.setAttribute('role','img');
+  placeholder.setAttribute('aria-label','Photograph unavailable for ' + (node.alt || 'this recipe'));
+  placeholder.textContent = '🍲';
+  node.replaceWith(placeholder);
+}, true);
 
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && selectedMeal) { closeDialog(); return; }
