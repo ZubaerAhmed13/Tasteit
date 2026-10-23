@@ -15,6 +15,7 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [x] Offer source-tag searches, private evidence-backed shortlist notes, explicit country/category research assignments, exportable CSV and backup restore; never promote these to verified best-30 without independent editorial review
 - [x] Capture separate text and photo reuse evidence in research notes with strict HTTPS, file/creator/licence/attribution checks, legacy backup support and CSV export; do not auto-approve reuse or rehost media
 - [x] Inspect Wikibooks file titles and selected Commons file metadata only on user request; preserve editor inputs, escape third-party metadata and never download images or equate machine tags to legal clearance
+- [x] Compare source recipe titles conservatively across TheMealDB and Wikibooks; flag 38 possible overlaps in source-linked review cards and export a reproducible CSV without merging culturally distinct dishes
 - [x] Prioritise Wikibooks research by exact original source-category tags for the selected country and course, exclude ambiguous shared demonyms, test adversarial tags and keep suggested-source counts separate from verified dishes
 - [x] Produce an offline, reproducible 2,730-row country/category research-gap audit and show unverified source-tag leads for the selected pair without modifying its actual sourced-recipe count
 - [x] Save recipes, create and edit a personal family recipe, refresh and verify persistence
