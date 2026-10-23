@@ -34,6 +34,8 @@ A documentation score of 100 means an API entry is comparatively complete, **not
 
 A link-only Wikimedia Cookbook collector retrieved **3,799 recipe pages** from the Wikibooks Category:Recipes index on 23 October 2026. This is a research queue, not a finished country/category index. No recipe text or images were copied. Each Wikibooks link must be checked for origin, category, text attribution and image reuse before it can be promoted to an approved worldwide recipe.
 
+A private, manual research panel stores investigation status, proposed country/course classification, supporting external HTTPS evidence and written notes in browser storage. Shortlisting requires all fields and at least 20 characters of notes; it is still **not** editorial approval and has no effect on ranked or verified recipe counts. Local notes are included in the Tasteit JSON backup and can be exported as CSV. No user research is pushed to GitHub automatically.
+
 Queue: data/wikibooks-research-queue.json. Original article category labels for 3,799 pages were collected on 23 October 2026 in 127 Wikimedia API batches with zero failed requests; saved to data/wikibooks-category-evidence.json. The app exposes an opt-in, paginated searchable link list and source-category hints. Entries have country=null and course=null until editorially verified. No label is automatically treated as origin proof. The 30-per-country/category totals remain based on source-classified TheMealDB candidates only.
 
 ## Additional sources to research
