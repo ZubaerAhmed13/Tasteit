@@ -198,6 +198,7 @@ function personalRecipeForm() {
     '<form id="personal-recipe-form" class="personal-recipe-form">' +
     '<div class="field"><label for="personal-title">Recipe name *</label><input id="personal-title" name="title" required maxlength="120" placeholder="e.g. Mum’s chicken curry" value="' + escapeHtml(meal?.strMeal || '') + '"></div>' +
     '<div class="field"><label for="personal-origin">Cuisine or region</label><input id="personal-origin" name="origin" maxlength="80" placeholder="e.g. Bangladeshi" value="' + escapeHtml(meal?.strArea || '') + '"></div>' +
+    '<div class="field wide"><label for="personal-source">Original publisher link (optional)</label><input id="personal-source" name="source" type="url" maxlength="500" placeholder="https://example.com/original-recipe" value="' + escapeHtml(meal?.strSource || '') + '"><p class="panel-note">Save a source or inspiration link. Write your cooking steps in your own words; third-party photographs will not be copied.</p></div>' +
     '<div class="field"><label for="personal-base-servings">Original servings (optional)</label><input id="personal-base-servings" name="baseServings" type="number" min="1" max="24" step="1" placeholder="Unknown" value="' + escapeHtml(validServings(store.saved[editingRecipeId]?.baseServings) || '') + '"></div>' +
     '<div class="field wide"><label for="personal-ingredients">Ingredients * (one per line, optional amount after |)</label>' +
     '<textarea name="ingredients" id="personal-ingredients" required rows="7" placeholder="Rice | 2 cups&#10;Chicken | 500 g&#10;Onion | 2">' + escapeHtml(ingredientRows) + '</textarea></div>' +
@@ -422,7 +423,7 @@ function renderDialog() {
     '<div class="dialog-intro"><div class="eyebrow">' + escapeHtml(meal.strArea || 'World cuisine') + ' · ' + escapeHtml(meal.strCategory || 'Home cooking') + '</div><h2 id="dialog-title">' + escapeHtml(meal.strMeal) + '</h2>' +
     '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink + videoLink +
     (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
-    '</div><p class="panel-note">' + (meal.strPersonal ? 'Personal recipe written by you.' : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
+    '</div><p class="panel-note">' + (meal.strPersonal ? (externalUrl(meal.strSource) ? 'Your personal adaptation · Original publisher linked. No third-party photo copied.' : 'Personal recipe written by you.') : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
   if (focusedAction) {
     const nextFocus = [...overlayRoot.querySelectorAll('[data-action]')].find(node =>
