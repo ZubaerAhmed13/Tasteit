@@ -180,7 +180,9 @@ async function loadWorldResearch() {
 }
 async function collectWorldRecipes() {
   if(worldScanning || !worldAreas.length || !worldCategories.length) return;
-  worldScanning=true;worldIndex=null;worldScan=null;worldMeals=[];worldPartial=[];
+  // Keep the last successful sourced index visible if the user cancels or
+  // the provider has an outage during a refresh.
+  worldScanning=true;worldOptionsError='';
   worldScanProgress={completed:0,total:26,recipes:0,failed:0};
   worldScanController=new AbortController();
   render();
@@ -189,6 +191,12 @@ async function collectWorldRecipes() {
       signal:worldScanController.signal,
       onProgress:progress=>{worldScanProgress=progress;if(view==='world')render();}
     });
+    if (!report.meals.length) throw new Error('No source recipes were returned.');
+    if (report.failedLetters.length && worldIndex) {
+      worldPartial=report.failedLetters;
+      worldOptionsError='Some source initials could not load. Showing the previous catalogue instead.';
+      return;
+    }
     worldPartial=report.failedLetters;
     worldScan=report;
     worldMeals=report.meals;
@@ -196,7 +204,7 @@ async function collectWorldRecipes() {
     worldScannedAt=new Date().toISOString();
   } catch(error) {
     if(error?.name!=='AbortError') {
-      worldOptionsError='Could not scan the provider catalogue. Please retry.';
+      worldOptionsError='Could not refresh the provider catalogue. Previous sourced results have been retained.';
     }
   } finally {
     worldScanning=false;worldScanController=null;
