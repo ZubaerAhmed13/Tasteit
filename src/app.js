@@ -52,6 +52,7 @@ let worldScannedAt = '';
 let worldResearchOpen=false;
 let worldResearchLoading=false;
 let worldResearchEntries=[];
+let worldResearchEvidence=new Map();
 let worldResearchQuery='';
 let worldResearchError='';
 let worldResearchPage=0;
@@ -176,6 +177,20 @@ async function loadWorldResearch() {
       try{const u=new URL(item.url);return u.protocol==='https:'&&u.hostname==='en.wikibooks.org';}
       catch{return false;}
     });
+    // Research-only hints from Wikibooks' own page-category membership.
+    // Missing evidence never prevents browsing its source link.
+    try{
+      const response=await fetch('./data/wikibooks-category-evidence.json');
+      if(response.ok){
+        const evidence=await response.json();
+        if(Array.isArray(evidence.recipes)&&evidence.recipes.length<=6000){
+          worldResearchEvidence=new Map(evidence.recipes.filter(x=>
+            Number.isSafeInteger(x.sourcePageId) && Array.isArray(x.categoryLabels))
+            .map(x=>[x.sourcePageId,x.categoryLabels.filter(t=>
+              typeof t==='string'&&t.length<=200).slice(0,20)]));
+        }
+      }
+    }catch{ /* Source-category labels are optional research hints. */ }
   }catch(error){worldResearchError=error.message||'Could not read the research queue.';}
   finally{worldResearchLoading=false;if(view==='world')render();}
 }
@@ -595,7 +610,11 @@ function worldPage() {
       '. Country and course assignments require human verification.</p>'+
       '<ul class="world-research-list">'+matchedResearch.slice(researchPage*24,(researchPage+1)*24).map(x=>
         '<li><a href="'+externalUrl(x.url)+'" target="_blank" rel="noopener noreferrer">'+
-        escapeHtml(x.title)+' ↗</a><span>Wikibooks · course/origin unreviewed</span></li>').join('')+'</ul>'+
+        escapeHtml(x.title)+' ↗</a><span>Wikibooks · course/origin unreviewed</span>'+
+        (worldResearchEvidence.has(x.sourcePageId)&&worldResearchEvidence.get(x.sourcePageId).length ?
+          '<span class="research-tags">Source tags (unverified): '+
+          escapeHtml(worldResearchEvidence.get(x.sourcePageId).slice(0,3).join(' · '))+'</span>' : '')+
+        '</li>').join('')+'</ul>'+
       '<div class="world-research-pages"><button type="button" class="btn secondary small" data-action="world-research-prev"'+(researchPage===0?' disabled':'')+'>← Previous</button><span>Page '+(researchPage+1)+' / '+researchPages+'</span><button type="button" class="btn secondary small" data-action="world-research-next"'+(researchPage>=researchPages-1?' disabled':'')+'>Next →</button></div>'+ '<p class="panel-note">Wikibooks text is subject to CC BY-SA attribution and terms. Images have separate licences. No source photos or recipe instructions are copied into Tasteit.</p>':'')+
       '</section>' :
     '<section class="panel world-research"><div class="section-head"><div><h3>Explore additional recipe leads</h3>'+
