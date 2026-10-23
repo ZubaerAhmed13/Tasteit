@@ -283,3 +283,7 @@ h3 { font-size: 24px }
 .plan-serving-unset { display:flex; align-items:center; flex-wrap:wrap; gap:8px }
 .plan-serving-unset .panel-note { margin:0 }
 @media (max-width:440px) {.serving-original-form {align-items:flex-start}.serving-original-form label {flex-basis:100%}.day-row {padding:12px}.serving-panel {padding:13px}}
+
+.image-unavailable { width:100%; min-height:100%; display:grid; place-items:center; font-size:40px; background:#e6e8df; color:#6d887c }
+.dialog-photo-unavailable { min-height:310px; height:100%; font-size:70px }
+@media (max-width:760px) { .dialog-photo-unavailable { min-height:230px; max-height:250px } }
