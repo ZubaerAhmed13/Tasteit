@@ -156,6 +156,8 @@ async function collectWorldRecipes() {
 function downloadWorldIndex(){
   if(!worldIndex)return;
   const meta=exportCatalogueIndex(worldIndex);
+  meta.failedInitials=[...worldPartial];
+  meta.scanComplete=worldScan?.completed===worldScan?.total && !worldPartial.length;
   const blob=new Blob([JSON.stringify(meta,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -747,6 +749,10 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
+  if (action === 'world-scan') { await collectWorldRecipes(); return; }
+  if (action === 'world-cancel') { worldScanController?.abort(); return; }
+  if (action === 'world-export') { downloadWorldIndex(); return; }
+  if (action === 'world-retry-options') { await loadWorldOptions(); return; }
   if (action === 'open') { await openMeal(id); return; }
   if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action); return; }
   if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
@@ -1071,6 +1077,15 @@ document.addEventListener('submit', event => {
 });
 
 document.addEventListener('change', async event => {
+  if(event.target.matches('[data-world-country]')){
+    const selected=event.target.value;
+    if(countryDirectory(worldAreas).some(x=>x.country===selected)){worldCountry=selected;render();}
+    return;
+  }
+  if(event.target.matches('[data-world-category]')){
+    if(worldCategories.includes(event.target.value)){worldCategory=event.target.value;render();}
+    return;
+  }
   const manual = event.target.closest('[data-shopping-extra]');
   if (manual) {
     const key=manual.dataset.shoppingExtra;
