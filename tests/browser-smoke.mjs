@@ -119,6 +119,10 @@ try {
       '\nBrowser errors: '+JSON.stringify(errors));
   });
   await page.locator('#world-country option').first().waitFor({state:'attached'});
+  assert.equal(await page.locator('#world-country').inputValue(),'India',
+    'cached catalogues initialise the country before the optional live source refresh');
+  assert.equal(await page.locator('#world-category').inputValue(),'Dessert',
+    'cached catalogues initialise the category before the optional live source refresh');
   await page.locator('#world-country').selectOption('India');
   await page.locator('#world-category').selectOption('Vegetarian');
   await page.getByRole('heading',{name:'India · Vegetarian'}).waitFor({timeout:15000}).catch(async error=>{
