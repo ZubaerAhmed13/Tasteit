@@ -1,16 +1,16 @@
 const BASE = 'https://www.themealdb.com/api/json/v1/1/';
 const cache = new Map();
 
-async function request(endpoint, params = {}, signal) {
+async function request(endpoint, params = {}, signal, shouldCache = true) {
   const url = new URL(endpoint, BASE);
   for (const [key, value] of Object.entries(params)) url.searchParams.set(key, String(value));
   const key = url.toString();
-  if (cache.has(key)) return cache.get(key);
+  if (shouldCache && cache.has(key)) return cache.get(key);
   const response = await fetch(url, { signal });
   if (!response.ok) throw new Error('Recipe service returned HTTP ' + response.status);
   const json = await response.json();
   if (!json || typeof json !== 'object') throw new Error('Invalid recipe service response');
-  cache.set(key, json);
+  if (shouldCache) cache.set(key, json);
   return json;
 }
 const asMeals = data => Array.isArray(data?.meals) ? data.meals : [];
@@ -71,4 +71,15 @@ export async function pantryCandidates(ingredients, signal) {
   if (!shortlisted.length) return [];
   const detailed = await Promise.allSettled(shortlisted.map(meal => mealDetails(meal.idMeal, signal)));
   return detailed.filter(x => x.status === 'fulfilled').map(x => x.value);
+}
+export async function letterMeals(letter, signal) {
+  if (!/^[a-z]$/i.test(String(letter || ''))) throw new Error('Choose a letter from A to Z.');
+  return asMeals(await request('search.php', { f: String(letter).toLowerCase() }, signal));
+}
+
+export async function randomMeal(signal) {
+  // A random endpoint must never be reused from the ordinary request cache.
+  const meals = asMeals(await request('random.php', {}, signal, false));
+  if (!meals.length) throw new Error('No surprise recipe was returned.');
+  return meals[0];
 }
