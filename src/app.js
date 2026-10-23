@@ -561,6 +561,7 @@ function planPage() {
 function worldPage() {
   const countries=countryDirectory(worldAreas);
   const cell=worldIndex ? catalogueCell(worldIndex,worldCountry,worldCategory) : null;
+  const pairResearch=researchReviewSummary(store.editorialReviews,worldCountry,worldCategory);
   const number=cell?.count ?? 0;
   const assessed=Boolean(worldIndex);
   const incomplete=worldPartial.length>0;
@@ -607,7 +608,6 @@ function worldPage() {
   const researchPages=Math.max(1,Math.ceil(matchedResearch.length/24));
   const researchPage=Math.max(0,Math.min(worldResearchPage,researchPages-1));
   const reviewedStats=researchReviewSummary(store.editorialReviews);
-  const pairResearch=researchReviewSummary(store.editorialReviews,worldCountry,worldCategory);
   const editSource=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
   const selectedResearch=editSource&&(store.editorialReviews?.[editSource.id]||{});
   const reviewEditor=editSource ?
