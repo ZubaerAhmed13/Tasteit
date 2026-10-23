@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -102,6 +102,24 @@ try {
       {sourcePageId:102,categoryLabels:['West Indian dishes','Dessert recipes']}
     ]})
   }));
+  await page.route('**/w/api.php**', route => {
+    const uri=new URL(route.request().url());
+    const wikibooks=uri.hostname==='en.wikibooks.org';
+    const body=wikibooks
+      ? {query:{pages:[{pageid:101,images:[
+          {title:'File:Test food.jpg'},{title:'File:Preparation.svg'}
+        ]}]}}
+      : {query:{pages:[{title:'File:Test food.jpg',imageinfo:[{
+          extmetadata:{
+            Artist:{value:'Test food photographer'},
+            Credit:{value:'Wikimedia contributor archive'},
+            LicenseShortName:{value:'CC BY-SA 4.0'},
+            LicenseUrl:{value:'https://creativecommons.org/licenses/by-sa/4.0/'},
+            AttributionRequired:{value:'true'}
+          }
+        }]}]}};
+    return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(body)});
+  });
   await page.route('**/images/media/meals/**', route => route.fulfill({
     status:200,contentType:'image/svg+xml',
     body:'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140"><rect width="200" height="140" fill="#dde7cf"/></svg>'
@@ -190,6 +208,14 @@ try {
   await page.locator('#world-research-form button[type=submit]').click();
   assert.ok((await page.locator('.world-research').innerText()).includes('Country and course assignments require human verification'));
   await page.locator('[data-action="world-research-review"]').first().click();
+  await page.locator('[data-action="world-media-inspect"]').click();
+  await page.locator('[data-action="world-media-file"]').first().waitFor();
+  assert.equal(await page.locator('.source-media-list button').count(),2,'source image filenames are found on demand');
+  await page.locator('[data-action="world-media-file"][data-title="File:Test food.jpg"]').click();
+  await page.getByText('Test food photographer').waitFor();
+  assert.ok((await page.locator('.source-media-details').innerText()).includes('CC BY-SA 4.0'));
+  assert.ok((await page.locator('.source-media-panel').innerText()).includes('Reuse remains unapproved.'));
+  assert.equal(await page.locator('#review-country').count(),1,'checking source photos must not close the research editor');
   await page.locator('#review-country').selectOption('India');
   await page.locator('#review-category').selectOption('Vegetarian');
   await page.locator('#review-status').selectOption('shortlisted');
