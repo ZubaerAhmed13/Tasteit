@@ -13,6 +13,7 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [x] Produce country/category coverage snapshots with source IDs and titles, and export CSV gaps in GitHub Actions (feature branch only)
 - [x] Gather and preserve 3,799 source-linked Wikibooks research titles, searchable in Tasteit but not classified into countries, courses or top-ranked dishes without editorial evidence
 - [x] Offer source-tag searches, private evidence-backed shortlist notes, explicit country/category research assignments, exportable CSV and backup restore; never promote these to verified best-30 without independent editorial review
+- [x] Prioritise Wikibooks research by exact original source-category tags for the selected country and course, exclude ambiguous shared demonyms, test adversarial tags and keep suggested-source counts separate from verified dishes
 - [x] Save recipes, create and edit a personal family recipe, refresh and verify persistence
 - [x] Record a cooking experience with optional rating and notes, then verify its backup restoration
 - [x] Add recipe labels, search and filter private collections, and verify label preservation in JSON backup
