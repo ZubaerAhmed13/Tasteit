@@ -184,6 +184,24 @@ function discoverPage() {
     '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured'))) + '">' + escapeHtml(c) + '</button>').join('');
   const courseChips = categories.map(c => '<button type="button" class="chip' + (category === c && discoveryMode === 'category' ? ' selected' : '') + '" data-action="course" data-course="' + escapeHtml(c) + '" aria-pressed="' + (category === c && discoveryMode === 'category') + '">' + escapeHtml(c) + '</button>').join('');
   const letterChips = alphabet.map(l => '<button type="button" class="chip' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter' ? ' selected' : '') + '" data-action="letter" data-letter="' + l + '" aria-pressed="' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter') + '">' + l + '</button>').join('');
+  const kitchenChoices = discoveryMode === 'pantry' ? kitchenIngredientChoices(store.pantry) : [];
+  const choicesShown = kitchenShowAll ? kitchenChoices : kitchenChoices.slice(0,24);
+  const kitchenPicker = discoveryMode === 'pantry' ? '<section class="kitchen-selector" aria-label="Choose ingredients for recipe discovery">' +
+    '<div class="kitchen-selector-head"><div><h3>Choose ingredients to search</h3>' +
+    '<p>Search using up to ' + MAX_KITCHEN_SEARCH + ' ingredients. Other pantry items still count when we compare recipes.</p></div>' +
+    '<button class="btn secondary small" type="button" data-action="kitchen-reset">Use suggested selection ↺</button></div>' +
+    '<div class="kitchen-ingredient-list" role="group" aria-label="Ingredients selected for search">' +
+    choicesShown.map(choice => '<button type="button" class="chip' + (kitchenSelection.includes(choice.key) ? ' selected' : '') +
+      '" data-action="kitchen-ingredient" data-key="' + escapeHtml(choice.key) +
+      '" aria-pressed="' + kitchenSelection.includes(choice.key) + '">' +
+      escapeHtml(choice.name) + (choice.batches > 1 ? ' (' + choice.batches + ' batches)' : '') + '</button>').join('') + '</div>' +
+    (kitchenChoices.length > 24 ? '<button class="btn ghost small" type="button" data-action="kitchen-more">' +
+      (kitchenShowAll ? 'Show fewer ingredients' : 'Show all ' + kitchenChoices.length + ' ingredients') + '</button>' : '') +
+    '<div class="kitchen-selector-footer"><span role="status">' + kitchenSelection.length + ' of ' + MAX_KITCHEN_SEARCH + ' selected' +
+    (kitchenDirty ? ' · Update suggestions to apply the changes' : '') + '</span>' +
+    '<button type="button" class="btn small" data-action="kitchen-update"' +
+      (!kitchenSelection.length || loading ? ' disabled' : '') + '>Update recipe ideas →</button></div>' +
+    '<p class="panel-note">Recipes come from TheMealDB or your saved cookbook. This is a shortlist, not an exhaustive search. Ingredient names and available amounts may require checking.</p></section>' : '';
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
     activeMeals.length ? cards(activeMeals, discoveryMode === 'pantry') : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>');
   return '<section class="hero"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
@@ -200,7 +218,7 @@ function discoverPage() {
     '<div class="browse-filters"><div class="filter-heading">Browse by cuisine <span>Provider region labels</span></div><div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' +
     '<div class="filter-heading">Browse by meal type <span>Provider categories, not verified diet or allergy information</span></div><div class="chips" aria-label="Browse recipes by meal category">' + courseChips + '</div>' +
     '<div class="filter-heading">Explore A–Z <span>All available recipes starting with a letter</span></div><div class="chips" aria-label="Browse recipes alphabetically">' + letterChips + '</div>' +
-    '<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me with a recipe</button></div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
+    '<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me with a recipe</button></div>' + kitchenPicker + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
     currentResults + '</section>';
 }
 
@@ -527,6 +545,31 @@ document.addEventListener('click', async event => {
   }
   if (action === 'suggest') {
     if (!store.pantry.some(i => usablePantryItem(i))) { changeView('pantry'); notice('Add an available, unexpired ingredient to your kitchen first.'); return; }
+    kitchenSelection = reconcileKitchenSelection(store.pantry,kitchenSelection);
+    if (!kitchenSelection.length) kitchenSelection = initialKitchenSelection(store.pantry);
+    kitchenDirty = false;
+    await discover('pantry'); return;
+  }
+  if (action === 'kitchen-ingredient') {
+    if (discoveryMode !== 'pantry') return;
+    const key = button.dataset.key;
+    if (!kitchenIngredientChoices(store.pantry).some(row=>row.key===key)) return;
+    if (kitchenSelection.includes(key)) {
+      if (kitchenSelection.length === 1) { notice('Keep at least one ingredient selected.'); return; }
+      kitchenSelection = kitchenSelection.filter(x=>x!==key);
+    } else {
+      if (kitchenSelection.length >= MAX_KITCHEN_SEARCH) { notice('Choose up to four ingredients. Unselect one first.'); return; }
+      kitchenSelection = [...kitchenSelection,key];
+    }
+    kitchenDirty = true; render(); return;
+  }
+  if (action === 'kitchen-more') { kitchenShowAll = !kitchenShowAll; render(); return; }
+  if (action === 'kitchen-reset') {
+    kitchenSelection = initialKitchenSelection(store.pantry); kitchenDirty = true;
+    render(); return;
+  }
+  if (action === 'kitchen-update') {
+    if (discoveryMode !== 'pantry' || !kitchenSelection.length) return;
     await discover('pantry'); return;
   }
   if (action === 'retry') { await discover(discoveryMode, discoveryMode === 'search' ? searchTerm : discoveryMode === 'area' ? area : discoveryMode === 'category' ? category : browseLetter); return; }
