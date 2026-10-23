@@ -157,6 +157,15 @@ try {
     JSON.parse(localStorage.getItem('tasteit.local.v1')).editorialReviews['wikibooks:1']);
   assert.equal(savedResearch.country,'India');
   assert.equal(savedResearch.status,'shortlisted');
+  await page.locator('#world-research-query').fill('');
+  await page.locator('#world-research-tag').fill('South Asian');
+  await page.locator('#world-research-status').selectOption('shortlisted');
+  await page.locator('#world-research-form button[type=submit]').click();
+  assert.equal(await page.locator('.world-research-list li').count(),1,'source tag and private review filter intersect');
+  assert.ok((await page.locator('.world-research-list').innerText()).includes('Chicken Biryani'));
+  await page.locator('#world-research-tag').fill('');
+  await page.locator('#world-research-status').selectOption('all');
+  await page.locator('#world-research-form button[type=submit]').click();
   const reviewExport=page.waitForEvent('download');
   await page.locator('[data-action="world-review-export"]').click();
   const csv=await readFile(await (await reviewExport).path(),'utf8');
@@ -320,6 +329,7 @@ try {
   assert.equal(backup.data.pantry.length,3);
   assert.equal(Object.keys(backup.data.saved).length,2);
   assert.equal(backup.data.shoppingExtras[0].name,'Dish soap');
+  assert.equal(backup.data.editorialReviews['wikibooks:1'].status,'shortlisted','private research included in backup');
   assert.equal(Object.keys(backup.data.shoppingChecked).length,1);
   assert.ok(Object.values(backup.data.saved).some(x=>x.meal.strSource === 'https://example.com/traditional-family-curry' && !x.meal.strMealThumb),'publisher link is saved without a copied image');
   assert.equal(Object.values(backup.data.planServings)[0],4,'portion preference is backed up');
@@ -335,6 +345,7 @@ try {
   });
   await page.locator('.recipe-card').first().waitFor({timeout:7000});
   assert.equal(await page.locator('.recipe-card').count(),2,'backup restore repopulates library');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).editorialReviews['wikibooks:1'].country),'India','research note restored');
   await page.locator('.site-nav [data-nav="plan"]').click();
   assert.equal(await page.locator('[data-shopping-extra]').count(),1,'personal shopping item restored');
   assert.equal(await page.locator('[data-shopping-recipe]').first().isChecked(),true,'recipe shopping checkmark restored');
