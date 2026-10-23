@@ -48,14 +48,17 @@ try {
   assert.equal(await page.locator('[name=pick-0]').isChecked(),true);
   await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
   await page.locator('[data-shopping-extra=manual-rice]').uncheck();
-  await page.getByRole('checkbox',{name:'Mark Onions purchased'}).check();
+  // Checking moves the row and changes its accessible name during the click.
+  await page.getByRole('checkbox',{name:'Mark Onions purchased'}).click();
+  assert.equal((await read()).shoppingExtras.find(row=>row.name==='Onions').checked,true);
   await page.locator('[data-action=shopping-receive]').click();
   assert.ok((await page.locator('.purchase-row legend').innerText()).includes('Onions'));
   assert.equal(await page.locator('[name=pick-0]').isChecked(),false);
   assert.equal(await page.locator('#purchase-amount-0').inputValue(),'');
   await page.locator('[data-action=shopping-receive-cancel]').click();
   await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
-  await page.getByRole('checkbox',{name:'Mark Onions not purchased'}).uncheck();
+  await page.getByRole('checkbox',{name:'Mark Onions not purchased'}).click();
+  assert.equal((await read()).shoppingExtras.find(row=>row.name==='Onions').checked,false);
   await page.locator('[data-shopping-extra=manual-rice]').check();
   await page.locator('[data-action=shopping-receive]').click();
   await page.locator('[name=pick-0]').check();
@@ -116,7 +119,8 @@ try {
   await page.getByRole('button',{name:'Remove Rice from personal shopping list',exact:true}).click();
   await page.locator('#shopping-extra-input').fill('Rice');
   await page.locator('#shopping-extra-form button').click();
-  await page.getByRole('checkbox',{name:'Mark Rice purchased',exact:true}).check();
+  await page.getByRole('checkbox',{name:'Mark Rice purchased',exact:true}).click();
+  assert.equal((await read()).shoppingExtras.find(row=>row.name==='Rice').checked,true);
   await page.locator('[data-action=shopping-receive]').click();
   await page.locator('[name=pick-0]').check();
   await page.locator('#purchase-amount-0').fill('2');
