@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { featured, availableAreas, availableCategories, pantryCandidates, searchMeals, cuisineMeals, categoryMeals } from '../src/api.js';
+import { featured, availableAreas, availableCategories, pantryCandidates, searchMeals, cuisineMeals, categoryMeals, letterMeals, randomMeal } from '../src/api.js';
 
 test('recipe API combines diverse initial results, dedupes, lists cuisines and resolves ingredient candidates', async () => {
   const originalFetch = globalThis.fetch;
@@ -25,6 +25,8 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
         meals = u.searchParams.has('i')
           ? [{idMeal:'1',strMeal:'Ingredient dish'},{idMeal:'1',strMeal:'Ingredient dish'}]
           : [{idMeal:'2',strMeal:'Area dish'}];
+      } else if (endpoint === 'random.php') {
+        meals = [{idMeal:'random-'+requests.length,strMeal:'Surprise dish'}];
       } else if (endpoint === 'lookup.php') {
         meals = [{idMeal:'1',strMeal:'Ingredient dish',strIngredient1:'Rice',strMeasure1:'1 cup'}];
       } else {
@@ -41,6 +43,13 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
     assert.equal((await categoryMeals('Seafood'))[0].strMeal,'Area dish');
     assert.equal((await searchMeals('rice'))[0].strMeal,'Rice');
     assert.equal((await cuisineMeals('Italian'))[0].strMeal,'Area dish');
+    assert.equal((await letterMeals('Z'))[0].strMeal,'Meal z');
+    assert.ok(requests.some(x=>x.includes('search.php?f=z')));
+    await assert.rejects(letterMeals('too long'),/Choose a letter/);
+    const firstRandom=await randomMeal();
+    const secondRandom=await randomMeal();
+    assert.notEqual(firstRandom.idMeal,secondRandom.idMeal,'surprise should refetch rather than cache random output');
+    assert.equal(requests.filter(x=>x.endsWith('random.php')).length,2);
     const results = await pantryCandidates([{name:'Rice'},{name:'Onion'}]);
     assert.equal(results.length,1);
     assert.equal(results[0].strIngredient1,'Rice');
