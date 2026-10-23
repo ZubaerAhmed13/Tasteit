@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { featured, availableAreas, availableCategories, pantryCandidates, searchMeals, cuisineMeals, categoryMeals, letterMeals, randomMeal } from '../src/api.js';
+import { featured, availableAreas, availableAreaRecords, availableCategories, scanWorldRecipes, pantryCandidates, searchMeals, cuisineMeals, categoryMeals, letterMeals, randomMeal } from '../src/api.js';
 
 test('recipe API combines diverse initial results, dedupes, lists cuisines and resolves ingredient candidates', async () => {
   const originalFetch = globalThis.fetch;
@@ -14,7 +14,7 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
       if (endpoint === 'list.php') {
         meals = u.searchParams.has('c')
           ? [{strCategory:'Seafood'}, {strCategory:'Dessert'}, {strCategory:'Seafood'}]
-          : [{strArea:'Italian'}, {strArea:'Bangladeshi'}, {strArea:'Italian'}, {strArea:''}];
+          : [{strArea:'Italian',strCountry:'Italy'}, {strArea:'Bangladeshi',strCountry:'Bangladesh'}, {strArea:'Italian',strCountry:'Italy'}, {strArea:''}];
       } else if (endpoint === 'search.php') {
         const f = u.searchParams.get('f');
         meals = f ? [
@@ -39,6 +39,7 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
     assert.equal(new Set(set.map(m=>m.idMeal)).size,set.length);
     assert.equal(requests.filter(x=>x.includes('search.php?f=')).length,4);
     assert.deepEqual(await availableAreas(),['Bangladeshi','Italian']);
+    assert.equal((await availableAreaRecords())[0].strCountry,'Italy');
     assert.deepEqual(await availableCategories(),['Dessert','Seafood']);
     assert.equal((await categoryMeals('Seafood'))[0].strMeal,'Area dish');
     assert.equal((await searchMeals('rice'))[0].strMeal,'Rice');
@@ -56,4 +57,30 @@ test('recipe API combines diverse initial results, dedupes, lists cuisines and r
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+
+test('world scan limits concurrency and reports failed provider letters rather than claiming complete coverage',async()=>{
+  const starts=[];
+  let running=0,peak=0;
+  const progress=[];
+  const source=async letter=>{
+    running++;peak=Math.max(peak,running);
+    starts.push(letter);
+    await new Promise(resolve=>setTimeout(resolve,1));
+    running--;
+    if(letter==='b')throw new Error('Provider down for letter b');
+    return [{idMeal:letter,strMeal:'Meal '+letter}];
+  };
+  const report=await scanWorldRecipes({
+    getLetter:source,letters:['a','b','c','d','e'],concurrency:2,
+    onProgress:x=>progress.push(x)
+  });
+  assert.equal(peak<=2,true);
+  assert.deepEqual(report.failedLetters,['b']);
+  assert.equal(report.completed,5);
+  assert.equal(report.meals.length,4);
+  assert.equal(progress.length,5);
+  assert.equal(progress.at(-1).failed,1);
+  await assert.rejects(scanWorldRecipes({letters:['?'],getLetter:source}),/Invalid scan letters/);
 });
