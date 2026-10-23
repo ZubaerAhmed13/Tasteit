@@ -73,7 +73,7 @@ try {
       {id:'wikibooks:1',title:'Chicken Biryani',sourcePageId:101,
        url:'https://en.wikibooks.org/wiki/Cookbook:Chicken_Biryani',
        country:null,course:null,status:'needs-editorial-origin-and-course-review'},
-      {id:'wikibooks:2',title:'Apple Pie',
+      {id:'wikibooks:2',title:'Apple Pie',sourcePageId:102,
        url:'https://en.wikibooks.org/wiki/Cookbook:Apple_Pie',
        country:null,course:null,status:'needs-editorial-origin-and-course-review'},
       ...Array.from({length:26},(_,i)=>({
@@ -86,7 +86,8 @@ try {
   await page.route('**/data/wikibooks-category-evidence.json', route=>route.fulfill({
     status:200,contentType:'application/json',
     body:JSON.stringify({version:1,records:1,recipes:[
-      {sourcePageId:101,categoryLabels:['Rice dishes','South Asian recipes']}
+      {sourcePageId:101,categoryLabels:['Rice dishes','South Asian recipes','Indian recipes','Vegetarian dishes']},
+      {sourcePageId:102,categoryLabels:['West Indian dishes','Dessert recipes']}
     ]})
   }));
   await page.route('**/images/media/meals/**', route => route.fulfill({
@@ -156,6 +157,18 @@ try {
   assert.equal(await page.locator('.world-research-list li').count(),1);
   assert.ok((await page.locator('.world-research-list a').innerText()).includes('Chicken Biryani'));
   assert.ok((await page.locator('.world-research').innerText()).includes('Source tags (unverified): Rice dishes'));
+  await page.locator('#world-research-query').fill('');
+  await page.locator('#world-research-tag').fill('');
+  await page.locator('#world-research-focus').selectOption('country-category');
+  await page.locator('#world-research-form button[type=submit]').click();
+  assert.equal(await page.locator('.world-research-list li').count(),1,
+    'country/course source-tag hints select only the matching research lead');
+  assert.ok((await page.locator('.world-research-list').innerText()).includes('Country tag clue: Indian recipes'));
+  assert.ok((await page.locator('.world-priority-summary').innerText()).includes('not verified'));
+  assert.ok((await page.locator('.world-research').innerText()).includes('do not increase the 30-recipe target count'));
+  await page.locator('#world-research-focus').selectOption('all');
+  await page.locator('#world-research-query').fill('biryani');
+  await page.locator('#world-research-form button[type=submit]').click();
   assert.ok((await page.locator('.world-research').innerText()).includes('Country and course assignments require human verification'));
   await page.locator('[data-action="world-research-review"]').first().click();
   await page.locator('#review-country').selectOption('India');
