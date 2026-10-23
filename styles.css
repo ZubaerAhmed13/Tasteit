@@ -409,3 +409,11 @@ h3 { font-size: 24px }
 .world-research-list .research-status {font-weight:750;color:#325c42}
 .world-research-list button {align-self:start;margin-top:5px}
 @media(max-width:580px){.world-review-filters{grid-template-columns:1fr}.world-review-editor{padding:13px}.world-review-editor .world-actions .btn{flex:1}}
+
+/* Source-tag research clues: deliberately visually separate from verified dishes */
+.world-priority-summary {margin:11px 0 15px;background:#f3f7f3;padding:10px 12px;border-radius:10px}
+.world-research-list .country-hint {border-left:3px solid #a6bca5;padding-left:8px}
+.world-review-filters {grid-template-columns:repeat(3,minmax(0,1fr));align-items:end}
+.world-review-filters label {align-self:end;line-height:1.35}
+@media(max-width:760px){.world-review-filters{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.world-review-filters{grid-template-columns:1fr}}
