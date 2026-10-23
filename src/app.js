@@ -1,5 +1,5 @@
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
-import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories } from './api.js';
+import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories, letterMeals, randomMeal } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
@@ -18,6 +18,8 @@ let loading = true;
 let problem = '';
 let area = 'All';
 let category = 'All';
+let browseLetter = '';
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 let bulkOpen = false;
 let bulkDraft = '';
 let bulkPreview = null;
@@ -99,6 +101,7 @@ async function discover(mode = 'featured', value = '') {
   searchTerm = mode === 'search' ? value : '';
   area = mode === 'area' ? value : 'All';
   category = mode === 'category' ? value : 'All';
+  browseLetter = mode === 'letter' ? value : '';
   updateNav();
   render();
   try {
@@ -106,6 +109,7 @@ async function discover(mode = 'featured', value = '') {
     if (mode === 'search') meals = await searchMeals(value, controller.signal);
     else if (mode === 'area') meals = await cuisineMeals(value, controller.signal);
     else if (mode === 'category') meals = await categoryMeals(value, controller.signal);
+    else if (mode === 'letter') meals = await letterMeals(value, controller.signal);
     else if (mode === 'pantry') {
       meals = await pantryCandidates(store.pantry.filter(item => usablePantryItem(item)), controller.signal);
       meals = rankByKitchen(meals, store.pantry);
@@ -156,13 +160,14 @@ function loadingBox() {
 function discoverPage() {
   const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb, true));
   const heroPhoto = spotlight ? photo(spotlight) : '<div class="hero-placeholder" aria-hidden="true">🍝</div>';
-  const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'category' ? category + ' recipes' : discoveryMode === 'search' ? 'Search results' : 'Discover something delicious';
+  const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'category' ? category + ' recipes' : discoveryMode === 'search' ? 'Search results' : discoveryMode === 'letter' ? 'Recipes beginning with ' + browseLetter.toUpperCase() : 'Discover something delicious';
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
   const nextToTry = rankByKitchen(Object.values(store.saved).filter(entry => entry.wanted && entry.meal).map(entry => entry.meal),store.pantry).slice(0,4);
   const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured')) ? ' selected' : '') +
     '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured'))) + '">' + escapeHtml(c) + '</button>').join('');
   const courseChips = categories.map(c => '<button type="button" class="chip' + (category === c && discoveryMode === 'category' ? ' selected' : '') + '" data-action="course" data-course="' + escapeHtml(c) + '" aria-pressed="' + (category === c && discoveryMode === 'category') + '">' + escapeHtml(c) + '</button>').join('');
+  const letterChips = alphabet.map(l => '<button type="button" class="chip' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter' ? ' selected' : '') + '" data-action="letter" data-letter="' + l + '" aria-pressed="' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter') + '">' + l + '</button>').join('');
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
     activeMeals.length ? cards(activeMeals) : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>');
   return '<section class="hero"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
@@ -177,7 +182,9 @@ function discoverPage() {
     '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
     '<div class="browse-filters"><div class="filter-heading">Browse by cuisine <span>Provider region labels</span></div><div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' +
-    '<div class="filter-heading">Browse by meal type <span>Provider categories, not verified diet or allergy information</span></div><div class="chips" aria-label="Browse recipes by meal category">' + courseChips + '</div></div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
+    '<div class="filter-heading">Browse by meal type <span>Provider categories, not verified diet or allergy information</span></div><div class="chips" aria-label="Browse recipes by meal category">' + courseChips + '</div>' +
+    '<div class="filter-heading">Explore A–Z <span>All available recipes starting with a letter</span></div><div class="chips" aria-label="Browse recipes alphabetically">' + letterChips + '</div>' +
+    '<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me with a recipe</button></div>' + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
     currentResults + '</section>';
 }
 
@@ -485,11 +492,27 @@ document.addEventListener('click', async event => {
   if (action === 'area') { await discover(button.dataset.area === 'All' ? 'featured' : 'area',button.dataset.area); return; }
   if (action === 'course') { await discover(button.dataset.course === 'All' ? 'featured' : 'category',button.dataset.course); return; }
   if (action === 'featured') { await discover(); return; }
+  if (action === 'letter') { await discover('letter',button.dataset.letter); return; }
+  if (action === 'surprise') {
+    button.disabled = true;
+    try {
+      const meal = await randomMeal();
+      dialogReturnFocus = button;
+      selectedMeal = meal;
+      stepIndex = -1;
+      showCookingLog = false;
+      detailTargetServings = validServings(store.saved[meal.idMeal]?.baseServings);
+      renderDialog();
+      overlayRoot.querySelector('.dialog-close')?.focus();
+    } catch { notice('Could not load a surprise recipe. Try again.'); }
+    finally { if (button.isConnected) button.disabled = false; }
+    return;
+  }
   if (action === 'suggest') {
     if (!store.pantry.some(i => usablePantryItem(i))) { changeView('pantry'); notice('Add an available, unexpired ingredient to your kitchen first.'); return; }
     await discover('pantry'); return;
   }
-  if (action === 'retry') { await discover(discoveryMode, discoveryMode === 'search' ? searchTerm : area); return; }
+  if (action === 'retry') { await discover(discoveryMode, discoveryMode === 'search' ? searchTerm : discoveryMode === 'area' ? area : discoveryMode === 'category' ? category : browseLetter); return; }
   if (action === 'collection') { libraryTab = button.dataset.value; render(); return; }
   if (action === 'tag-filter') { libraryTag = button.dataset.tag || ''; render(); return; }
   if (action === 'clear-library-filters') { libraryTag = ''; librarySearch = ''; libraryTab = 'all'; librarySort = 'name'; render(); return; }
