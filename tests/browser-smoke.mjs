@@ -154,7 +154,7 @@ try {
   await page.locator('#world-review-form button[type=submit]').click();
   await page.getByText('shortlisted (NOT approved): 1').waitFor();
   const savedResearch=await page.evaluate(() =>
-    JSON.parse(localStorage.getItem('tasteit.local.v1')).editorialReviews['wikibooks:101']);
+    JSON.parse(localStorage.getItem('tasteit.local.v1')).editorialReviews['wikibooks:1']);
   assert.equal(savedResearch.country,'India');
   assert.equal(savedResearch.status,'shortlisted');
   const reviewExport=page.waitForEvent('download');
