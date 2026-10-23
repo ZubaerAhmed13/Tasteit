@@ -71,8 +71,10 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
   leftovers and cooking progress; repeat submissions do not apply twice
 - [x] Version-1 backups round-trip optional purchase fingerprints and leftovers;
   older backups remain supported and malformed new records are rejected
-- [ ] Browser matrix: reviewed purchases, atomic cooking/stock/leftovers, reload
-  and 375px controls (covered by `tests/kitchen-browser.mjs`; verify latest CI)
+- [x] Browser matrix: reviewed purchases, atomic cooking/stock/leftovers, reload
+  and 375px controls, including draft ownership and manual package deductions
+  (`tests/kitchen-browser.mjs`; Chromium, Firefox and WebKit passed in
+  [CI run 40038698323](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40038698323))
 - [ ] Real Android/iOS quantity entry, keyboard and leftover controls
 
 ## Collection audit — 23 October 2026

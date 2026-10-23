@@ -26,10 +26,10 @@ tests/api-reliability.test.js, tests/app-state.test.js.
 **Interfaces:** commitStorePatch(store, patch, persist?) returns boolean;
 pantryCandidateReport(ingredients, signal) and discoverMeals(filters, signal)
 return {meals, partial}; existing API wrappers remain compatible.
-- [ ] Write and run failing regressions for storage failure, empty/all-failed/partial
+- [x] Write and run failing regressions for storage failure, empty/all-failed/partial
   requests, cancellation and combined source-ID filtering.
-- [ ] Implement bounded requests and transactional recipe flags/labels/cache updates.
-- [ ] Run npm run verify; commit the independently testable reliability changes.
+- [x] Implement bounded requests and transactional recipe flags/labels/cache updates.
+- [x] Run npm run verify; commit the independently testable reliability changes.
 
 ## Task 2: Compact filters and browser navigation
 **Files:** src/navigation.js, src/app.js, styles.css, tests/navigation.test.js,
@@ -37,15 +37,26 @@ tests/browser-smoke.mjs, package.json.
 **Interfaces:** readRoute(url), routeUrl(route, base), normaliseFilters(input),
 filterSummary(filters); route contains view, query, area, category, letter,
 kitchen and recipe. Task 1's API accepts the same discovery fields.
-- [ ] Write/run failing route and UI regressions for composed filters, reload,
+- [x] Write/run failing route and UI regressions for composed filters, reload,
   Back/Forward, direct recipes, stale requests and narrow mobile layouts.
-- [ ] Replace filter rails with a compact form; preserve current-filter recovery.
-- [ ] Integrate URL state and cancellable recipe opening without changing data IDs.
-- [ ] Run Node and browser acceptance; update README and acceptance notes; commit.
+- [x] Replace filter rails with a compact form; preserve current-filter recovery.
+- [x] Integrate URL state and cancellable recipe opening without changing data IDs.
+- [x] Run Node and browser acceptance; update README and acceptance notes; commit.
 
 ## Task 3: Review and draft PR verification
 **Files:** directly affected fixes and docs only.
-- [ ] Run the full Node suite and browser matrix when available.
-- [ ] Request one independent review of this stage's diff; fix material findings
+- [x] Run the full Node suite and browser matrix when available.
+- [x] Request one independent review of this stage's diff; fix material findings
   with regressions and rerun affected checks.
-- [ ] Push to the existing branch, verify GitHub CI, and report remaining limits.
+- [x] Push to the existing branch, verify GitHub CI, and report remaining limits.
+
+## Completed verification
+
+The existing persist-before-assignment pattern was kept at each event owner; no
+new store-action abstraction was needed. Independent review found no remaining
+material issues after draft preservation and deterministic date fixes.
+
+All 115 Node tests and Chromium, Firefox and WebKit acceptance passed on
+`c8966d71fe51067fbeee2c54a20952fc8f7b09ce` in
+[CI run 40038698323](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40038698323).
+Physical-device and live-service release checks remain open.
