@@ -47,7 +47,8 @@ try {
   assert.equal(await page.locator('#purchase-amount-0').inputValue(),'1','incidental renders preserve the same receipt draft');
   assert.equal(await page.locator('[name=pick-0]').isChecked(),true);
   await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
-  await page.locator('[data-shopping-extra=manual-rice]').uncheck();
+  await page.locator('[data-shopping-extra=manual-rice]').click();
+  assert.equal((await read()).shoppingExtras.find(row=>row.id==='manual-rice').checked,false);
   // Checking moves the row and changes its accessible name during the click.
   await page.getByRole('checkbox',{name:'Mark Onions purchased'}).click();
   assert.equal((await read()).shoppingExtras.find(row=>row.name==='Onions').checked,true);
@@ -59,7 +60,8 @@ try {
   await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
   await page.getByRole('checkbox',{name:'Mark Onions not purchased'}).click();
   assert.equal((await read()).shoppingExtras.find(row=>row.name==='Onions').checked,false);
-  await page.locator('[data-shopping-extra=manual-rice]').check();
+  await page.locator('[data-shopping-extra=manual-rice]').click();
+  assert.equal((await read()).shoppingExtras.find(row=>row.id==='manual-rice').checked,true);
   await page.locator('[data-action=shopping-receive]').click();
   await page.locator('[name=pick-0]').check();
   await page.locator('#purchase-amount-0').fill('1');
