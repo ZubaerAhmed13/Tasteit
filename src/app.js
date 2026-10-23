@@ -710,9 +710,37 @@ document.addEventListener('click', async event => {
     store.pantry = next; if (editingId === id) editingId = null; newBatchName = null;
     render(); notice('Ingredient batch removed.'); return;
   }
-  if (action === 'start-cooking') { stepIndex = 0; renderDialog(); overlayRoot.querySelector('.dialog-close')?.focus(); return; }
-  if (action === 'step-back') { stepIndex = Math.max(0,stepIndex - 1); renderDialog(); return; }
-  if (action === 'step-next') { stepIndex = Math.min(instructions(selectedMeal).length - 1,stepIndex + 1); renderDialog(); return; }
+  if (action === 'start-cooking' || action === 'restart-cooking') {
+    if (!selectedMeal || !instructions(selectedMeal).length) return;
+    const next = action === 'restart-cooking' ? safeCookingSession(null,instructions(selectedMeal).length) : currentCookingSession();
+    if (!updateCookingSession(next)) return;
+    stepIndex = next.step; timerCompletionNotified = null;
+    renderDialog(); overlayRoot.querySelector('.cook-step')?.focus(); return;
+  }
+  if (action === 'step-back' || action === 'step-next') {
+    if (!selectedMeal || stepIndex < 0) return;
+    const next = moveCookingStep(currentCookingSession(),stepIndex+(action==='step-next'?1:-1),instructions(selectedMeal).length);
+    if (!updateCookingSession(next)) return;
+    stepIndex=next.step; renderDialog();
+    overlayRoot.querySelector('.cook-step')?.focus(); return;
+  }
+  if (['timer-preset','timer-set','timer-start','timer-pause','timer-reset'].includes(action)) {
+    if (!selectedMeal || stepIndex < 0) return;
+    const total=instructions(selectedMeal).length;
+    try {
+      const current=currentCookingSession();
+      const next=action==='timer-preset' ? setCookingTimer(current,button.dataset.minutes,total) :
+        action==='timer-set' ? setCookingTimer(current,overlayRoot.querySelector('#cook-minutes')?.value,total) :
+        action==='timer-start' ? startCookingTimer(current,total) :
+        action==='timer-pause' ? pauseCookingTimer(current,total) :
+        resetCookingTimer(current,total);
+      if (!updateCookingSession(next)) return;
+      timerCompletionNotified=null; renderDialog();
+      const key=action==='timer-set' ? 'timer-set' : action;
+      overlayRoot.querySelector('[data-action="'+key+'"]')?.focus();
+    } catch(error) { notice(error.message || 'Unable to set cooking timer.'); }
+    return;
+  }
   if (action === 'exit-cooking') { stepIndex = -1; renderDialog(); return; }
   if (action === 'servings-minus' || action === 'servings-plus') {
     if (!selectedMeal) return;
@@ -801,10 +829,16 @@ document.addEventListener('submit', event => {
     const input = Object.fromEntries(new FormData(event.target).entries());
     try {
       const current = { ...savedEntry(id), meal:selectedMeal };
-      store.saved[id] = recordCooking(current, input);
-      showCookingLog = false; stepIndex = -1;
-      const stored = save(); render();
-      if (stored) notice('Added to your cooking journal.');
+      const nextSaved = {...store.saved,[id]:recordCooking(current,input)};
+      const nextSessions = {...store.cookingSessions};
+      delete nextSessions[id];
+      if (!persistStore({...store,saved:nextSaved,cookingSessions:nextSessions})) {
+        notice('Unable to save cooking experience. Your in-progress steps are unchanged.'); return;
+      }
+      store.saved=nextSaved;
+      store.cookingSessions=nextSessions;
+      showCookingLog=false; stepIndex=-1;
+      render(); notice('Added to your cooking journal.');
     } catch (error) { notice(error.message || 'Could not save cooking notes.'); }
     return;
   }
@@ -877,6 +911,7 @@ document.addEventListener('change', async event => {
       store.saved = restored.saved;
       store.plan = restored.plan;
       store.planServings = restored.planServings || {};
+      store.cookingSessions = restored.cookingSessions || {};
       showRecipeForm = false; editingRecipeId = null;
       render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
@@ -925,6 +960,14 @@ document.addEventListener('error', event => {
 
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && selectedMeal) { closeDialog(); return; }
+  if (selectedMeal && stepIndex >= 0 && ['ArrowLeft','ArrowRight'].includes(event.key) &&
+      !event.altKey && !event.ctrlKey && !event.metaKey &&
+      !event.target.closest('input,textarea,select,[contenteditable="true"]')) {
+    event.preventDefault();
+    const next = moveCookingStep(currentCookingSession(),stepIndex+(event.key==='ArrowRight'?1:-1),instructions(selectedMeal).length);
+    if (!updateCookingSession(next)) return;
+    stepIndex=next.step; renderDialog(); overlayRoot.querySelector('.cook-step')?.focus(); return;
+  }
   if (event.key !== 'Tab' || !selectedMeal) return;
   const elements = [...overlayRoot.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled)')].filter(x => x.getClientRects().length > 0);
   if (!elements.length) return;
@@ -943,6 +986,7 @@ window.addEventListener('storage', event => {
   store.saved = fresh.saved;
   store.plan = fresh.plan;
   store.planServings = fresh.planServings;
+  store.cookingSessions = fresh.cookingSessions;
   render();
 });
 
