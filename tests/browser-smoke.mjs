@@ -113,10 +113,18 @@ try {
 
   // The world catalogue never fabricates 30 entries; it counts actual source IDs.
   await page.locator('.site-nav [data-nav="world"]').click();
+  await page.locator('.world-stats').waitFor({timeout:14000}).catch(async error=>{
+    throw new Error('World source snapshot did not load: '+error.message+
+      '\nUI snapshot: '+(await page.locator('#app').innerText()).slice(0,1500)+
+      '\nBrowser errors: '+JSON.stringify(errors));
+  });
   await page.locator('#world-country option').first().waitFor({state:'attached'});
   await page.locator('#world-country').selectOption('India');
   await page.locator('#world-category').selectOption('Vegetarian');
-  await page.getByRole('heading',{name:'India · Vegetarian'}).waitFor();
+  await page.getByRole('heading',{name:'India · Vegetarian'}).waitFor({timeout:15000}).catch(async error=>{
+    throw new Error('World filters did not reflect the chosen country and category: '+error.message+
+      '\nUI snapshot: '+(await page.locator('#app').innerText()).slice(0,1500));
+  });
   assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'),
     'snapshot exposes sourced candidates before an expensive new scan');
   await page.locator('.world-result-head + .recipe-grid .recipe-photo').first().click();
