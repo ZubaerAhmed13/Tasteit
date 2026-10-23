@@ -36,6 +36,9 @@ A link-only Wikimedia Cookbook collector retrieved **3,799 recipe pages** from t
 
 ## Separate text and photograph reuse research
 
+The reviewer may request **on-demand** source file titles from Wikibooks (`prop=images`, limited to 12 per page) and inspect one candidate file's metadata from Wikimedia Commons (`prop=imageinfo` with selected metadata fields). It shows source file-page links and untrusted author/licence strings as escaped text, **not** rendered HTML; there is no photo download, automatic licence approval or automatic form prefill. Wikimedia's own metadata guide warns that machine metadata can be incomplete, so manual file-page and licence checks remain mandatory.
+
+
 Wikibooks' [official copyright policy](https://en.wikibooks.org/wiki/Wikibooks:Copyrights) explains contributor text rights and attribution/share-alike requirements. The [MediaWiki Imageinfo API](https://www.mediawiki.org/wiki/API:Imageinfo) exposes file-level properties; [Wikimedia Commons metadata guidance](https://commons.wikimedia.org/wiki/Commons:Machine-readable_data) makes clear that copyright data can be incomplete or free text. **Never assume the same licence covers a recipe's words and photograph.**
 
 Each Tasteit review may record **text handling** (link-only, or proposed text reuse requiring a licence evidence URL and attribution wording) and **photo handling** (none, original link only, or proposed photo reuse requiring original file-description URL, specific photo licence URL, creator, and attribution). These are evidence capture fields. No option grants permission, changes recipe rankings, or publishes/rehosts third-party text/images. Independent licence verification, attribution obligations, modification/share-alike conditions and appropriate platform review remain separate release gates.
