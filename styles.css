@@ -448,3 +448,12 @@ h3 { font-size: 24px }
 .source-media-details p {font-size:12px;line-height:1.6;overflow-wrap:anywhere;padding:2px 0}
 .source-media-details a {color:var(--forest);text-decoration:underline;text-underline-offset:3px}
 @media(max-width:540px){.source-media-panel{padding:12px}.source-media-list{flex-direction:column}.source-media-panel .btn{width:100%}}
+
+/* Possible cross-provider overlaps are only research leads, never confirmed duplicates. */
+.source-overlap-panel {border:1px solid #dfd6b7;background:#faf8f0;border-radius:13px;padding:16px;margin:13px 0;max-width:100%;overflow-wrap:anywhere}
+.source-overlap-panel h4 {font-size:16px;color:var(--forest);margin:0 0 8px}
+.source-overlap-panel ul {padding:0;margin:10px 0;list-style:none;display:grid;gap:9px}
+.source-overlap-panel li {background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px;display:flex;flex-direction:column;gap:5px}
+.source-overlap-panel li a {font-size:13px;font-weight:700;color:var(--forest);text-decoration:underline}
+.source-overlap-panel li span {color:var(--muted);font-size:11px}
+.source-overlap-clear {background:#f4f7f1;border-radius:9px;padding:10px 12px;margin:12px 0}
