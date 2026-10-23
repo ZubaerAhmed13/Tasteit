@@ -37,6 +37,8 @@ The queue is in data/wikibooks-research-queue.json; it is *not* counted in the 7
 
 **Research-gap audit:** Tasteit now generates `data/world-research-gaps.csv` and `data/world-research-gaps.json` for every country × course combination, distinguishing existing source records from country-and-course *tag matches* in the Wikibooks research queue. From the collected data, **116 combinations** have joint tag clues; **none** of these clues is an independently verified national recipe. Choose a country/category in World recipes to see the corresponding clue count and open that evidence-only review queue.
 
+**Optional source-photo inspection:** When investigating a Wikibooks recipe, select **Inspect linked source media** to retrieve a small set of original file names, then inspect a particular file's reported Commons creator, licence and attribution information. It does not load or copy the photo itself, or infer permission to publish. If metadata cannot be retrieved, Tasteit directs the researcher back to the original file-description page.
+
 **New rights-evidence review:** Within a Wikibooks research record, expand **Text and photograph rights** to record whether the plan is link-only or a proposed reuse. Proposed text reuse requires a licence/terms URL and attribution wording. Proposed photo reuse requires the original file-description link, specific licence URL, creator and attribution. These are **research notes**, not a permission grant, and Tasteit does not rehost copied source text or photo files. The evidence is kept locally, included in JSON backup and exported in the research CSV.
 
 For authenticity, image rights, source research, regional variants and future source adapters, see [our editorial curation policy](docs/CURATION.md).
