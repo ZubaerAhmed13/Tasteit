@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -43,7 +43,11 @@ try {
   await page.route('**/api/json/v1/1/**', async route => {
     const u = new URL(route.request().url());
     const endpoint = u.pathname.split('/').pop();
-    const body = endpoint === 'lookup.php' ? {meals:[meal]} :
+    const body = endpoint === 'list.php' && u.searchParams.has('a')
+      ? {meals:[{strArea:'Indian',strCountry:'India'},{strArea:'Italian',strCountry:'Italy'}]} :
+      endpoint === 'list.php' && u.searchParams.has('c')
+      ? {meals:[{strCategory:'Vegetarian'},{strCategory:'Dessert'}]} :
+      endpoint === 'lookup.php' ? {meals:[meal]} :
       endpoint === 'filter.php' ? {meals:[{ idMeal:meal.idMeal, strMeal:meal.strMeal, strMealThumb:meal.strMealThumb }]} :
       {meals:[meal]};
     await route.fulfill({status:200,headers,body:JSON.stringify(body)});
@@ -68,6 +72,29 @@ try {
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   await page.keyboard.press('Escape');
   await page.locator('[data-action="area"][data-area="All"]').click();
+  await page.locator('.recipe-card').first().waitFor();
+
+  // The world catalogue never fabricates 30 entries; it counts actual source IDs.
+  await page.locator('.site-nav [data-nav="world"]').click();
+  await page.locator('#world-country option').first().waitFor();
+  await page.locator('#world-country').selectOption('India');
+  await page.locator('#world-category').selectOption('Vegetarian');
+  await page.locator('[data-action="world-scan"]').click();
+  await page.getByRole('heading',{name:'India · Vegetarian'}).waitFor({timeout:20000});
+  assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'));
+  assert.equal(await page.locator('.world-result-head').count(),1);
+  assert.equal(await page.locator('.world-stats strong').first().innerText(),'2');
+  assert.equal(await page.locator('.world-result-head + .recipe-grid .recipe-card').count(),1,'only sourced candidates');
+  await page.locator('#world-category').selectOption('Dessert');
+  await page.getByRole('heading',{name:'No sourced recipes in this combination'}).waitFor();
+  await page.locator('#world-category').selectOption('Vegetarian');
+  const coverageDownload=page.waitForEvent('download');
+  await page.locator('[data-action="world-export"]').click();
+  const report=JSON.parse(await readFile(await (await coverageDownload).path(),'utf8'));
+  assert.equal(report.scanComplete,true);
+  assert.equal(report.cells.find(x=>x.country==='India'&&x.category==='Vegetarian').count,1);
+  assert.equal(report.cells.find(x=>x.country==='India'&&x.category==='Vegetarian').recipeIds[0],'1');
+  await page.locator('.site-nav [data-nav="discover"]').click();
   await page.locator('.recipe-card').first().waitFor();
 
   await page.locator('.recipe-card img[data-recipe-photo]').first().evaluate(image => image.dispatchEvent(new Event('error')));
