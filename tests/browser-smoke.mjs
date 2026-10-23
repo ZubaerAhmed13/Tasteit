@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -145,6 +145,23 @@ try {
   assert.ok((await page.locator('.world-research-list a').innerText()).includes('Chicken Biryani'));
   assert.ok((await page.locator('.world-research').innerText()).includes('Source tags (unverified): Rice dishes'));
   assert.ok((await page.locator('.world-research').innerText()).includes('Country and course assignments require human verification'));
+  await page.locator('[data-action="world-research-review"]').first().click();
+  await page.locator('#review-country').selectOption('India');
+  await page.locator('#review-category').selectOption('Vegetarian');
+  await page.locator('#review-status').selectOption('shortlisted');
+  await page.locator('#review-evidence').fill('https://example.org/culinary-origin');
+  await page.locator('#review-notes').fill('The recipe appears in multiple regional cuisines; requires further checking.');
+  await page.locator('#world-review-form button[type=submit]').click();
+  await page.getByText('shortlisted (NOT approved): 1').waitFor();
+  const savedResearch=await page.evaluate(() =>
+    JSON.parse(localStorage.getItem('tasteit.local.v1')).editorialReviews['wikibooks:101']);
+  assert.equal(savedResearch.country,'India');
+  assert.equal(savedResearch.status,'shortlisted');
+  const reviewExport=page.waitForEvent('download');
+  await page.locator('[data-action="world-review-export"]').click();
+  const csv=await readFile(await (await reviewExport).path(),'utf8');
+  assert.ok(csv.includes('NOT APPROVED'));
+  assert.ok(csv.includes('https://example.org/culinary-origin'));
   const coverageDownload=page.waitForEvent('download');
   await page.locator('[data-action="world-export"]').click();
   const report=JSON.parse(await readFile(await (await coverageDownload).path(),'utf8'));
