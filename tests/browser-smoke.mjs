@@ -246,7 +246,7 @@ try {
   assert.equal(await page.locator('.kitchen-ingredient-list [aria-pressed="true"]').count(),3);
   await page.locator('[data-action="kitchen-readiness"][data-readiness="names"]').click();
   await page.getByRole('heading',{name:'Nothing meets that match filter'}).waitFor();
-  await page.locator('[data-action="kitchen-readiness"][data-readiness="all"]').click();
+  await page.getByRole('button',{name:'All ideas',exact:true}).click();
   await page.locator('.kitchen-match-reason').first().waitFor();
   const small = await page.evaluate(() => ({inner:innerWidth,scroll:document.documentElement.scrollWidth}));
   assert.ok(small.scroll<=small.inner+2,'kitchen search must remain usable on mobile');
