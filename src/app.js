@@ -8,6 +8,7 @@ import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCooki
 import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
 import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, hydrateCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
 import { editorialReview, savedEditorialReview, researchReviewSummary, researchLeadResults, exportEditorialReviewCsv } from './editorial.js';
+import { emptyRightsReview, rightsReviewChecklist } from './rights-review.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
@@ -651,6 +652,8 @@ function worldPage() {
   const reviewedStats=researchReviewSummary(store.editorialReviews);
   const editSource=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
   const selectedResearch=editSource&&(store.editorialReviews?.[editSource.id]||{});
+  const selectedRights=selectedResearch?.rights||emptyRightsReview();
+  const rightsState=rightsReviewChecklist(selectedResearch?.rights);
   const reviewEditor=editSource ?
     '<form id="world-review-form" class="world-review-editor" aria-label="Research record for '+escapeHtml(editSource.title)+'">'+
     '<div class="section-head"><div><h3>Research: '+escapeHtml(editSource.title)+'</h3>'+
@@ -674,6 +677,34 @@ function worldPage() {
     '<textarea id="review-notes" name="notes" maxlength="1000" rows="4" placeholder="Origin evidence, shared cuisine variants, licences still to check">'+
     escapeHtml(selectedResearch.notes||'')+'</textarea>'+
     '<p class="panel-note">A shortlist requires a country, category, independent HTTPS link and at least 20 characters of notes. It is NOT a verified “best 30” recipe and does not change public country totals.</p>'+
+    '<details class="rights-editor"><summary>Text and photograph rights · optional evidence</summary>'+
+    '<p class="panel-note">Recording a licence or attribution is not legal clearance. No copied photos or recipe instructions are published from this form.</p>'+
+    '<label for="review-text-plan">Recipe text handling</label>'+
+    '<select id="review-text-plan" name="textPlan">'+
+    [['link-only','Link to original only (default)'],['reuse-needs-review','Propose text reuse — pending permission review']].map(([value,label])=>
+      '<option value="'+value+'"'+(selectedRights.textPlan===value?' selected':'')+'>'+label+'</option>').join('')+
+    '</select>'+
+    '<label for="review-text-license">Recipe text licence or permission evidence (HTTPS)</label>'+
+    '<input id="review-text-license" name="textLicenseUrl" type="url" maxlength="500" value="'+escapeHtml(selectedRights.textLicenseUrl)+'" placeholder="https://...">'+
+    '<label for="review-text-attribution">Recipe-text creator / attribution wording</label>'+
+    '<input id="review-text-attribution" name="textAttribution" maxlength="300" value="'+escapeHtml(selectedRights.textAttribution)+'" placeholder="Original contributor(s), source, licence">'+
+    '<label for="review-photo-plan">Photograph handling</label>'+
+    '<select id="review-photo-plan" name="photoPlan">'+
+    [['no-photo','No photo planned (default)'],['external-link-only','Reference original photo only'],['reuse-needs-review','Propose photo reuse — pending permission review']].map(([value,label])=>
+      '<option value="'+value+'"'+(selectedRights.photoPlan===value?' selected':'')+'>'+label+'</option>').join('')+
+    '</select>'+
+    '<label for="review-photo-source">Original photo or Commons file-description page (HTTPS)</label>'+
+    '<input id="review-photo-source" name="photoSourceUrl" type="url" maxlength="500" value="'+escapeHtml(selectedRights.photoSourceUrl)+'" placeholder="https://commons.wikimedia.org/wiki/File:...">'+
+    '<label for="review-photo-license">Specific photo licence evidence (HTTPS)</label>'+
+    '<input id="review-photo-license" name="photoLicenseUrl" type="url" maxlength="500" value="'+escapeHtml(selectedRights.photoLicenseUrl)+'" placeholder="https://creativecommons.org/licenses/...">'+
+    '<label for="review-photo-creator">Photo creator</label>'+
+    '<input id="review-photo-creator" name="photoCreator" maxlength="160" value="'+escapeHtml(selectedRights.photoCreator)+'" placeholder="Creator as credited on file page">'+
+    '<label for="review-photo-attribution">Required photo attribution</label>'+
+    '<input id="review-photo-attribution" name="photoAttribution" maxlength="300" value="'+escapeHtml(selectedRights.photoAttribution)+'" placeholder="Creator · source · licence · changes">'+
+    '<label for="review-rights-notes">Rights investigation notes</label>'+
+    '<textarea id="review-rights-notes" name="reviewNotes" maxlength="750" rows="3" placeholder="Source and photo rights still to be checked">'+escapeHtml(selectedRights.reviewNotes)+'</textarea>'+
+    '<p class="panel-note">Rights status: '+escapeHtml(rightsState.textEvidence)+'; '+escapeHtml(rightsState.photoEvidence)+'. <strong>Not approved for publication.</strong></p>'+
+    '</details>'+
     '<div class="world-actions"><button type="submit" class="btn">Save research notes</button>'+
     (store.editorialReviews?.[editSource.id] ?
       '<button type="button" class="btn secondary" data-action="world-review-delete" data-id="'+escapeHtml(editSource.id)+'">Discard notes</button>' : '')+
