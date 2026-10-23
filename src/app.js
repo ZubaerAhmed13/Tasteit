@@ -578,7 +578,7 @@ function worldPage() {
   const matchedResearch=worldResearchEntries.filter(item=>
     !sourceQuery || item.title.toLocaleLowerCase().includes(sourceQuery));
   const researchList=worldResearchOpen ? '<section class="panel world-research" aria-label="Wikibooks source research"><div class="section-head"><div>'+
-    '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as a country's best recipes.</p></div></div>'+
+    '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as any country’s best recipes.</p></div></div>'+
     (worldResearchLoading?'<p class="panel-note" role="status">Loading source links…</p>':'')+
     (worldResearchError?'<p role="alert" class="world-warning">'+escapeHtml(worldResearchError)+
       ' <button class="btn secondary small" type="button" data-action="world-research-load">Retry</button></p>':'')+
