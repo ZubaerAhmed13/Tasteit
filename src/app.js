@@ -7,6 +7,7 @@ import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSele
 import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer } from './cooking.js';
 import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
 import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, hydrateCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
+import { editorialReview, savedEditorialReview, researchReviewSummary, researchLeadResults, exportEditorialReviewCsv } from './editorial.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -56,6 +57,9 @@ let worldResearchEvidence=new Map();
 let worldResearchQuery='';
 let worldResearchError='';
 let worldResearchPage=0;
+let worldResearchTag='';
+let worldResearchStatus='all';
+let worldResearchReviewId='';
 
 let libraryTab = 'all';
 let libraryTag = '';
