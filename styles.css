@@ -311,3 +311,23 @@ h3 { font-size: 24px }
 .kitchen-readiness .chip {flex-shrink:0;white-space:normal}
 .kitchen-readiness p {flex-basis:100%;margin:2px 0 0}
 @media(max-width:540px) { .kitchen-readiness {gap:7px}.kitchen-readiness .chip {max-width:100%;text-align:left} }
+
+/* Guided cooking: legible from a kitchen counter, even on a small phone. */
+.cooking-mode .cook-step {font-size:clamp(19px,2.5vw,26px);line-height:1.55;max-width:65ch;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:12px}
+.cooking-mode .cook-step:focus-visible {outline:3px solid #9bbdb1;outline-offset:6px}
+.cook-heading {display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cook-heading span {font-size:12px;color:var(--muted)}
+.cooking-timer {background:#f6f8f3;border:1px solid #e2e9df;border-radius:16px;padding:19px;margin:22px 0}
+.cooking-timer-header {display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.cooking-timer-header strong {font-size:16px;color:var(--forest)}
+.cooking-timer-header p {font-size:12px;color:var(--muted);margin-top:5px}
+.cooking-timer .clock {font-variant-numeric:tabular-nums;font-size:clamp(27px,4vw,41px);font-weight:800;letter-spacing:.03em;color:var(--forest)}
+.timer-presets,.timer-controls {display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:13px 0}
+.timer-controls label {font-size:12px;font-weight:700}
+.timer-controls input {width:80px;min-height:41px;padding:8px;background:white;color:var(--ink);border:1px solid #dce4dc;border-radius:9px}
+.cooking-timer .panel-note {margin-top:7px}
+@media (max-width:540px) {
+  .cooking-mode .dialog-actions .btn {min-height:43px;flex:1}
+  .cooking-timer {padding:14px}
+  .timer-controls button {flex:1}
+}
