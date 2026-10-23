@@ -75,7 +75,12 @@ try {
        country:null,course:null,status:'needs-editorial-origin-and-course-review'},
       {id:'wikibooks:2',title:'Apple Pie',
        url:'https://en.wikibooks.org/wiki/Cookbook:Apple_Pie',
-       country:null,course:null,status:'needs-editorial-origin-and-course-review'}
+       country:null,course:null,status:'needs-editorial-origin-and-course-review'},
+      ...Array.from({length:26},(_,i)=>({
+        id:'wikibooks:test-'+i,title:'Fixture research item '+i,
+        url:'https://en.wikibooks.org/wiki/Cookbook:Fixture_'+i,
+        country:null,course:null,status:'needs-editorial-origin-and-course-review'
+      }))
     ]})
   }));
   await page.route('**/images/media/meals/**', route => route.fulfill({
@@ -123,7 +128,11 @@ try {
   await page.locator('[data-action="world-research-load"]').click();
   await page.getByRole('heading',{name:'More recipe sources to research'}).waitFor();
   await page.locator('.world-research-list li').first().waitFor({timeout:12000});
-  assert.equal(await page.locator('.world-research-list li').count(),2);
+  assert.equal(await page.locator('.world-research-list li').count(),24);
+  await page.locator('[data-action="world-research-next"]').click();
+  assert.equal(await page.locator('.world-research-list li').count(),4);
+  await page.locator('[data-action="world-research-prev"]').click();
+  assert.equal(await page.locator('.world-research-list li').count(),24);
   await page.locator('#world-research-query').fill('biryani');
   await page.locator('#world-research-form button[type=submit]').click();
   assert.equal(await page.locator('.world-research-list li').count(),1);
