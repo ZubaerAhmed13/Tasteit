@@ -1,10 +1,11 @@
 import { evaluateQuantity } from './quantities.js';
 import { plannedIngredients, validServings } from './servings.js';
 import { validCookingSessions } from './cooking.js';
+import { validShoppingState } from './shopping.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
-  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {} };
+  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {}, shoppingChecked: {}, shoppingExtras: [] };
 }
 
 export function loadStore(storage) {
@@ -17,7 +18,9 @@ export function loadStore(storage) {
       saved: parsed.saved && typeof parsed.saved === 'object' && !Array.isArray(parsed.saved) ? parsed.saved : {},
       plan: parsed.plan && typeof parsed.plan === 'object' && !Array.isArray(parsed.plan) ? parsed.plan : {},
       planServings: parsed.planServings && typeof parsed.planServings === 'object' && !Array.isArray(parsed.planServings) ? parsed.planServings : {},
-      cookingSessions: validCookingSessions(parsed.cookingSessions) && parsed.cookingSessions ? parsed.cookingSessions : {}
+      cookingSessions: validCookingSessions(parsed.cookingSessions) && parsed.cookingSessions ? parsed.cookingSessions : {},
+      shoppingChecked: validShoppingState(parsed.shoppingChecked,undefined) && parsed.shoppingChecked ? parsed.shoppingChecked : {},
+      shoppingExtras: validShoppingState(undefined,parsed.shoppingExtras) && parsed.shoppingExtras ? parsed.shoppingExtras : []
     };
   } catch {
     return emptyStore();
@@ -160,7 +163,9 @@ export function exportBackup(store, now = new Date()) {
     format: 'tasteit-backup', version: 1, exportedAt: now.toISOString(),
     data: { pantry: store.pantry, saved: store.saved, plan: store.plan,
       ...(store.planServings === undefined ? {} : { planServings:store.planServings }),
-      ...(store.cookingSessions === undefined ? {} : { cookingSessions:store.cookingSessions }) }
+      ...(store.cookingSessions === undefined ? {} : { cookingSessions:store.cookingSessions }),
+      ...(store.shoppingChecked === undefined ? {} : { shoppingChecked:store.shoppingChecked }),
+      ...(store.shoppingExtras === undefined ? {} : { shoppingExtras:store.shoppingExtras }) }
   }, null, 2);
 }
 
@@ -171,7 +176,7 @@ export function parseBackup(text) {
   if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
     throw new Error('This is not a supported Tasteit backup.');
   }
-  const { pantry, saved, plan, planServings, cookingSessions } = backup.data;
+  const { pantry, saved, plan, planServings, cookingSessions, shoppingChecked, shoppingExtras } = backup.data;
   if (!Array.isArray(pantry) || !saved || typeof saved !== 'object' || Array.isArray(saved) || !plan || typeof plan !== 'object' || Array.isArray(plan)) {
     throw new Error('The backup is missing its recipe, pantry or plan records.');
   }
@@ -179,6 +184,7 @@ export function parseBackup(text) {
     throw new Error('Backup contains too many items.');
   }
   if (!validCookingSessions(cookingSessions)) throw new Error('The backup contains invalid cooking sessions.');
+  if (!validShoppingState(shoppingChecked,shoppingExtras)) throw new Error('The backup contains invalid shopping checklist records.');
   if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && validServings(n) === n))) {
     throw new Error('The backup contains invalid meal serving counts.');
   }
@@ -189,7 +195,9 @@ export function parseBackup(text) {
     throw new Error('The backup contains invalid records.');
   }
   return { pantry, saved, plan, ...(planServings === undefined ? {} : { planServings }),
-    ...(cookingSessions === undefined ? {} : { cookingSessions }) };
+    ...(cookingSessions === undefined ? {} : { cookingSessions }),
+    ...(shoppingChecked === undefined ? {} : { shoppingChecked }),
+    ...(shoppingExtras === undefined ? {} : { shoppingExtras }) };
 }
 
 export function createPersonalMeal(input, id) {
