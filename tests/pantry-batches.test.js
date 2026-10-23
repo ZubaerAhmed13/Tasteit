@@ -27,14 +27,15 @@ test('separate purchases retain expiry and stock amounts',()=>{
   assert.equal(near[1].dateInfo.days,3);
   // The model aggregates both unexpired rice quantities for one recipe.
   // The expired rice must not be counted.
-  assert.equal(analyseMeal(dish,pantry).isQuantityConfirmed,true);
-  assert.equal(shoppingList({'2026-10-22':'1'},{'1':{meal:dish}},pantry).length,0);
+  assert.equal(analyseMeal(dish,pantry,now).isQuantityConfirmed,true);
+  assert.equal(shoppingList({'2026-10-22':'1'},{'1':{meal:dish}},pantry,{},now).length,0);
 });
 test('use-soon priorities favour available soon-dated stock',()=>{
   assert.deepEqual(recipeUseSoon(second,pantry,now),['Onions']);
   assert.deepEqual(recipeUseSoon(dish,pantry,now),['Rice']);
   assert.deepEqual(recipeUseSoon({strMeal:'Chicken',strIngredient1:'Chicken',strMeasure1:'1'},pantry,now),[]);
   const ranked=rankByKitchen([dish,second],pantry,now);
+  assert.equal(analyseMeal(second,pantry,now).isQuantityConfirmed,true,'the supplied reference date controls stock eligibility');
   assert.equal(ranked.length,2);
   assert.equal(ranked[0].idMeal,'onion'); // the nearer date ranks higher when stock is otherwise sufficient.
 });

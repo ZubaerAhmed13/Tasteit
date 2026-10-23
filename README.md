@@ -15,6 +15,20 @@ python3 -m http.server 4173
 
 Modern browsers require serving the JavaScript modules over HTTP; opening index.html using file:// may not work.
 
+Discovery now has a compact filter form: type a cuisine name from the suggestions,
+choose a meal type and optionally an initial, then apply. These combine with the
+recipe-name search instead of replacing one another. Current filters can be removed
+individually or cleared together. Filtered results use a shorter header on phones.
+Browser Back/Forward and refresh retain the view and discovery filters; provider
+recipes have direct links and a **Copy recipe link** action. Personal recipe links
+work only where that recipe has been saved or restored; links do not upload data.
+
+Recipe saves and label edits now persist before changing the cookbook on screen.
+Removing a collection flag or label keeps recipes needed by existing meal plans.
+External recipe requests have a 12-second deadline per request, and pantry discovery
+distinguishes no matches from unavailable or partially responding sources. Matching
+saved recipes remain available when the external ingredient search fails.
+
 No npm install is needed. Node 20+ runs automated tests:
 
 ~~~bash
@@ -22,6 +36,11 @@ npm run verify
 ~~~
 
 GitHub Actions runs **Playwright browser acceptance in Chromium, Firefox and WebKit** (using fixture-backed API responses). These tests cover discovery, personal recipes, guided cooking, separate dated stock batches, serving-size meal planning, **a checkable shopping list**, backup restoration and narrow mobile layout. Browser fixtures test UI reliability, not live API uptime or image licensing.
+
+The additional `tests/discovery-browser.mjs` scenarios use the complete collected
+country directory and cover combined filters, reload/history, direct recipe links,
+blocked storage, delayed recipe responses, offline local suggestions and readable
+375px filters/navigation. Both browser scripts run in every CI browser job.
 
 ## Worldwide recipe collection — sourced, not invented
 

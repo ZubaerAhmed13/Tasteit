@@ -99,8 +99,8 @@ export function usablePantryItem(item, today = new Date()) {
   return true;
 }
 
-export function analyseMeal(meal, pantry) {
-  const lots = pantry.filter(item => usablePantryItem(item));
+export function analyseMeal(meal, pantry, now = new Date()) {
+  const lots = pantry.filter(item => usablePantryItem(item,now));
   const available = new Set(lots.map(i => normalizeIngredient(i.name)).filter(Boolean));
   const ingredients = ingredientsOf(meal);
   const have = ingredients.filter(i => available.has(normalizeIngredient(i.name)));
@@ -119,9 +119,9 @@ export function analyseMeal(meal, pantry) {
   };
 }
 
-export function shoppingList(plan, saved, pantry, planServings = {}) {
+export function shoppingList(plan, saved, pantry, planServings = {}, now = new Date()) {
   // Each planned day counts. This deliberately does not mutate stock when a meal is planned.
-  const usable = pantry.filter(item => usablePantryItem(item));
+  const usable = pantry.filter(item => usablePantryItem(item,now));
   const grouped = new Map();
   for (const [day, mealId] of Object.entries(plan)) {
     const recipe = saved[mealId];

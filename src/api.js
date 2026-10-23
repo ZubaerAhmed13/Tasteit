@@ -1,27 +1,51 @@
 const BASE = 'https://www.themealdb.com/api/json/v1/1/';
 const cache = new Map();
+const REQUEST_TIMEOUT_MS = 12_000;
 
-async function request(endpoint, params = {}, signal, shouldCache = true) {
+function checkCancelled(signal) {
+  if (signal?.aborted) throw new DOMException('Request cancelled', 'AbortError');
+}
+async function request(endpoint, params = {}, signal, shouldCache = true, {timeoutMs=REQUEST_TIMEOUT_MS} = {}) {
+  checkCancelled(signal);
   const url = new URL(endpoint, BASE);
   for (const [key, value] of Object.entries(params)) url.searchParams.set(key, String(value));
   const key = url.toString();
   if (shouldCache && cache.has(key)) return cache.get(key);
-  const response = await fetch(url, { signal });
-  if (!response.ok) throw new Error('Recipe service returned HTTP ' + response.status);
-  const json = await response.json();
-  if (!json || typeof json !== 'object') throw new Error('Invalid recipe service response');
-  if (shouldCache) cache.set(key, json);
-  return json;
+  const controller = new AbortController();
+  const cancel = () => controller.abort(new DOMException('Request cancelled', 'AbortError'));
+  signal?.addEventListener('abort', cancel, {once:true});
+  let timer;
+  try {
+    const deadline = new Promise((_resolve,reject) => {
+      controller.signal.addEventListener('abort', () => reject(controller.signal.reason), {once:true});
+      timer = setTimeout(() => controller.abort(new Error('Recipe service timed out. Please try again.')),
+        Math.max(1,Number(timeoutMs) || REQUEST_TIMEOUT_MS));
+    });
+    const work = (async () => {
+      const response = await fetch(url, {signal:controller.signal});
+      if (!response.ok) throw new Error('Recipe service returned HTTP ' + response.status);
+      const json = await response.json();
+      if (!json || typeof json !== 'object' || !('meals' in json) ||
+          (json.meals !== null && !Array.isArray(json.meals))) throw new Error('Invalid recipe service response');
+      return json;
+    })();
+    const json = await Promise.race([work,deadline]);
+    checkCancelled(signal);
+    if (shouldCache) cache.set(key,json);
+    return json;
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener('abort',cancel);
+  }
 }
 const asMeals = data => Array.isArray(data?.meals) ? data.meals : [];
 
-export async function featured(signal) {
-  // Browse several starting letters, rather than presenting only 'B' dishes as a global catalogue.
+async function featuredReport(signal, options) {
   const letters = ['a', 'b', 'c', 'm', 'p', 's'];
   const offset = Math.floor(Date.now() / 86_400_000) % letters.length;
   const selection = [0, 2, 4, 5].map(step => letters[(offset + step) % letters.length]);
-  const results = await Promise.allSettled(selection.map(f => request('search.php', { f }, signal)));
-  if (signal?.aborted) throw new DOMException('Request aborted', 'AbortError');
+  const results = await Promise.allSettled(selection.map(f => request('search.php', { f }, signal,true,options)));
+  checkCancelled(signal);
   const successful = results.filter(x => x.status === 'fulfilled');
   if (!successful.length) throw new Error('Recipe service unavailable');
   const groups = successful.map(x => asMeals(x.value).slice(0, 7));
@@ -32,23 +56,21 @@ export async function featured(signal) {
       if (meal?.idMeal) unique.set(meal.idMeal, meal);
     }
   }
-  return [...unique.values()].slice(0, 24);
+  return {meals:[...unique.values()].slice(0,24),partial:successful.length < results.length};
 }
+export async function featured(signal) { return (await featuredReport(signal)).meals; }
 export async function availableAreaRecords(signal) {
   const records=asMeals(await request('list.php',{a:'list'},signal));
-  return records
-    .filter(x=>typeof x.strArea==='string' && x.strArea.trim())
+  return records.filter(x=>typeof x.strArea==='string' && x.strArea.trim())
     .map(x=>({strArea:x.strArea.trim(),strCountry:typeof x.strCountry==='string'?x.strCountry.trim():''}));
 }
 export async function availableAreas(signal) {
-  const areas = asMeals(await request('list.php', { a: 'list' }, signal))
-    .map(x => String(x.strArea || '').trim()).filter(Boolean);
-  return [...new Set(areas)].sort((a,b) => a.localeCompare(b));
+  return [...new Set((await availableAreaRecords(signal)).map(x=>x.strArea))].sort((a,b)=>a.localeCompare(b));
 }
 export async function availableCategories(signal) {
-  const categories = asMeals(await request('list.php', { c: 'list' }, signal))
-    .map(x => String(x.strCategory || '').trim()).filter(Boolean);
-  return [...new Set(categories)].sort((a,b) => a.localeCompare(b));
+  const values=asMeals(await request('list.php',{c:'list'},signal))
+    .map(x=>String(x.strCategory||'').trim()).filter(Boolean);
+  return [...new Set(values)].sort((a,b)=>a.localeCompare(b));
 }
 export async function categoryMeals(category, signal) {
   return asMeals(await request('filter.php', { c: category }, signal)).slice(0, 30);
@@ -64,32 +86,63 @@ export async function mealDetails(id, signal) {
   if (!meals.length) throw new Error('This recipe is no longer available.');
   return meals[0];
 }
-export async function pantryCandidates(ingredients, signal) {
-  const names = [...new Set(ingredients.map(x => x.name.trim()).filter(Boolean))].slice(0, 4);
-  if (!names.length) return [];
-  const filtered = await Promise.allSettled(names.map(name => request('filter.php', { i: name.replaceAll(' ', '_') }, signal)));
-  const unique = new Map();
-  for (const result of filtered) {
-    if (result.status !== 'fulfilled') continue;
-    for (const meal of asMeals(result.value).slice(0, 10)) unique.set(meal.idMeal, meal);
+
+// Mandatory filters use full source ID sets, including summary-only records.
+// Do not intersect already truncated lists or infer missing cuisine/category fields.
+export async function discoverMeals({query='',area='',category='',letter=''} = {}, signal, options) {
+  checkCancelled(signal);
+  const jobs = {};
+  if (area && area !== 'All') jobs.area = request('filter.php',{a:area},signal,true,options);
+  if (category && category !== 'All') jobs.category = request('filter.php',{c:category},signal,true,options);
+  if (query) jobs.base = request('search.php',{s:query},signal,true,options);
+  else if (letter) jobs.base = request('search.php',{f:letter.toLowerCase()},signal,true,options);
+  const entries = Object.entries(jobs);
+  const values = await Promise.all(entries.map(async ([key,value])=>[key,asMeals(await value)]));
+  checkCancelled(signal);
+  const lists = Object.fromEntries(values);
+  const report = lists.base || lists.area || lists.category;
+  if (!report) return featuredReport(signal,options);
+  let meals = report;
+  for (const key of ['area','category']) {
+    if (!lists[key]) continue;
+    const ids = new Set(lists[key].map(x=>String(x.idMeal)));
+    meals = meals.filter(x=>ids.has(String(x.idMeal)));
   }
-  const shortlisted = [...unique.values()].slice(0, 16);
-  if (!shortlisted.length) return [];
-  const detailed = await Promise.allSettled(shortlisted.map(meal => mealDetails(meal.idMeal, signal)));
-  return detailed.filter(x => x.status === 'fulfilled').map(x => x.value);
+  if (letter) meals = meals.filter(x=>String(x.strMeal||'').toLocaleLowerCase().startsWith(letter.toLowerCase()));
+  return {meals,partial:false};
+}
+export async function pantryCandidateReport(ingredients, signal) {
+  checkCancelled(signal);
+  const names = [...new Set(ingredients.map(x=>x.name.trim()).filter(Boolean))].slice(0,4);
+  if (!names.length) return {meals:[],partial:false};
+  const filtered = await Promise.allSettled(names.map(name=>request('filter.php',{i:name.replaceAll(' ','_')},signal)));
+  checkCancelled(signal);
+  const successful = filtered.filter(x=>x.status==='fulfilled');
+  if (!successful.length) throw new Error('Recipe service unavailable');
+  const unique = new Map();
+  for (const result of successful) {
+    for (const meal of asMeals(result.value).slice(0,10)) unique.set(meal.idMeal,meal);
+  }
+  const shortlist = [...unique.values()].slice(0,16);
+  if (!shortlist.length) return {meals:[],partial:successful.length<filtered.length};
+  const detailed = await Promise.allSettled(shortlist.map(meal=>mealDetails(meal.idMeal,signal)));
+  checkCancelled(signal);
+  const meals = detailed.filter(x=>x.status==='fulfilled').map(x=>x.value);
+  if (!meals.length) throw new Error('Recipe service unavailable');
+  return {meals,partial:successful.length<filtered.length || meals.length<shortlist.length};
+}
+export async function pantryCandidates(ingredients,signal) {
+  return (await pantryCandidateReport(ingredients,signal)).meals;
 }
 export async function letterMeals(letter, signal) {
   if (!/^[a-z]$/i.test(String(letter || ''))) throw new Error('Choose a letter from A to Z.');
   return asMeals(await request('search.php', { f: String(letter).toLowerCase() }, signal));
 }
-
 export async function randomMeal(signal) {
-  // A random endpoint must never be reused from the ordinary request cache.
   const meals = asMeals(await request('random.php', {}, signal, false));
   if (!meals.length) throw new Error('No surprise recipe was returned.');
   return meals[0];
 }
-
 
 // Provider V1 offers a recipe-by-initial endpoint. Scan it cautiously when
 // the user explicitly requests a worldwide index; never start 26 requests

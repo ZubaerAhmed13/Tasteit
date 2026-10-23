@@ -1,5 +1,6 @@
+import { readRoute, routeUrl, normaliseFilters, filterSummary } from './navigation.js';
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
-import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableAreaRecords, availableCategories, letterMeals, randomMeal, scanWorldRecipes } from './api.js';
+import { discoverMeals, mealDetails, pantryCandidateReport, availableAreas, availableAreaRecords, availableCategories, randomMeal, scanWorldRecipes } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
@@ -25,6 +26,7 @@ let view = 'discover';
 let activeMeals = [];
 let loading = true;
 let problem = '';
+let serviceWarning = '';
 let area = 'All';
 let category = 'All';
 let browseLetter = '';
@@ -34,6 +36,8 @@ let bulkDraft = '';
 let bulkPreview = null;
 let searchTerm = '';
 let discoveryMode = 'featured';
+let filterDraft = null;
+let queryDraft = null;
 let kitchenSelection = [];
 let kitchenDirty = false;
 let kitchenShowAll = false;
@@ -75,6 +79,10 @@ let libraryTag = '';
 let librarySearch = '';
 let librarySort = 'name';
 let selectedMeal = null;
+let openingMealId = '';
+let detailRequestNumber = 0;
+let detailController = null;
+const recipeMutations = new Set();
 let stepIndex = -1;
 let showCookingLog = false;
 let detailTargetServings = null;
@@ -106,11 +114,6 @@ function notice(message) {
   toastRoot.hidden = false;
   toastTimer = setTimeout(() => { toastRoot.hidden = true; }, 3600);
 }
-function save() {
-  const saved = persistStore(store);
-  if (!saved) notice('Could not save changes to this browser. Check privacy or storage settings.');
-  return saved;
-}
 function findMeal(id) {
   return activeMeals.find(x => x.idMeal === id) || worldMeals.find(x=>x.idMeal===id) || store.saved[id]?.meal || (selectedMeal?.idMeal === id ? selectedMeal : null);
 }
@@ -128,13 +131,47 @@ function updateNav() {
     else button.removeAttribute('aria-current');
   });
 }
+function currentRoute() {
+  return {view,query:searchTerm,area:area==='All'?'':area,
+    category:category==='All'?'':category,letter:browseLetter,
+    kitchen:discoveryMode==='pantry',recipe:selectedMeal?.idMeal || openingMealId};
+}
+function writeRoute({replace=false,recipeOverlay=false}={}) {
+  const url=routeUrl(currentRoute(),window.location.href);
+  if(!replace && url.href===window.location.href)return;
+  if(!replace)window.history.replaceState({...window.history.state,scrollY:window.scrollY},'',window.location.href);
+  window.history[replace?'replaceState':'pushState']({tasteit:true,recipeOverlay,scrollY:window.scrollY},'',url.href);
+}
+function stopDiscovery() {
+  requestNumber++; controller?.abort(); loading=false;
+}
 function changeView(next) {
-  view = next;
-  updateNav();
-  closeDialog();
-  render();
+  stopDiscovery();
+  closeDialog({history:false});
+  filterDraft=null;queryDraft=null;
+  view=next;
+  writeRoute();
+  if(next==='discover')void discover('restore','',{history:false});
+  else render();
   window.scrollTo({top:0,behavior:'instant'});
-  if (next==='world' && !worldAreas.length && !worldLoadingOptions) void loadWorldOptions();
+  appRoot.focus({preventScroll:true});
+  if(next==='world' && !worldAreas.length && !worldLoadingOptions)void loadWorldOptions();
+}
+async function restoreRoute(route) {
+  stopDiscovery();
+  closeDialog({history:false});
+  filterDraft=null;queryDraft=null;
+  view=route.view;
+  const filters=normaliseFilters(route);
+  searchTerm=filters.query;area=filters.area||'All';category=filters.category||'All';browseLetter=filters.letter;
+  discoveryMode=route.kitchen?'pantry':'browse';
+  if(view==='discover')void discover('restore','',{history:false});
+  else {
+    render();
+    if(view==='world' && !worldAreas.length && !worldLoadingOptions)void loadWorldOptions();
+  }
+  if(route.recipe)void openMeal(route.recipe,{history:false});
+  else window.scrollTo({top:window.history.state?.scrollY||0,behavior:'instant'});
 }
 async function loadWorldGapAudit() {
   if(worldResearchGapAttempted)return;
@@ -323,45 +360,58 @@ function downloadWorldIndex(){
 }
 
 
-async function discover(mode = 'featured', value = '') {
-  requestNumber += 1;
-  const thisRequest = requestNumber;
+async function discover(mode='featured', value='', {history=true}={}) {
+  const thisRequest=++requestNumber;
   controller?.abort();
-  controller = new AbortController();
-  view = 'discover';
-  discoveryMode = mode;
-  loading = true;
-  problem = '';
-  searchTerm = mode === 'search' ? value : '';
-  area = mode === 'area' ? value : 'All';
-  category = mode === 'category' ? value : 'All';
-  browseLetter = mode === 'letter' ? value : '';
-  updateNav();
+  const currentController=new AbortController();
+  controller=currentController;
+  const signal=currentController.signal;
+  closeDialog({history:false});
+  view='discover';
+  if(mode==='featured' || mode==='pantry') {
+    searchTerm='';area='All';category='All';browseLetter='';
+  } else if(mode==='search')searchTerm=String(value).trim().slice(0,100);
+  else if(mode==='filters') {
+    const next=normaliseFilters({...currentRoute(),...value});
+    searchTerm=next.query;area=next.area||'All';category=next.category||'All';browseLetter=next.letter;
+  }
+  if(mode!=='restore')discoveryMode=mode==='pantry'?'pantry':'browse';
+  if(mode!=='restore') {filterDraft=null;queryDraft=null;}
+  loading=true;problem='';serviceWarning='';
+  if(history)writeRoute();
   render();
   try {
-    let meals;
-    if (mode === 'search') meals = await searchMeals(value, controller.signal);
-    else if (mode === 'area') meals = await cuisineMeals(value, controller.signal);
-    else if (mode === 'category') meals = await categoryMeals(value, controller.signal);
-    else if (mode === 'letter') meals = await letterMeals(value, controller.signal);
-    else if (mode === 'pantry') {
-      // Query only the user-chosen ingredient names, not arbitrary first entries.
-      kitchenSelection = reconcileKitchenSelection(store.pantry,kitchenSelection);
-      if (!kitchenSelection.length) kitchenSelection = initialKitchenSelection(store.pantry);
-      const picked = searchPantryRows(store.pantry,kitchenSelection);
-      const local = localKitchenRecipes(store.saved,store.pantry);
-      const remote = await pantryCandidates(picked, controller.signal);
-      meals = rankByKitchen(combineKitchenRecipes(remote,local),store.pantry);
-    } else meals = await featured(controller.signal);
-    if (thisRequest !== requestNumber) return;
-    activeMeals = meals;
-    if (mode === 'pantry') kitchenDirty = false;
-  } catch (error) {
-    if (thisRequest !== requestNumber || error?.name === 'AbortError') return;
-    activeMeals = [];
-    problem = 'Recipes could not load. Check your internet connection and try again.';
+    let meals,warning='';
+    if(discoveryMode==='pantry') {
+      kitchenSelection=reconcileKitchenSelection(store.pantry,kitchenSelection);
+      if(!kitchenSelection.length)kitchenSelection=initialKitchenSelection(store.pantry);
+      const picked=searchPantryRows(store.pantry,kitchenSelection);
+      const local=localKitchenRecipes(store.saved,store.pantry);
+      let remote=[];
+      try {
+        const report=await pantryCandidateReport(picked,signal);
+        remote=report.meals;
+        if(report.partial)warning='Some recipe searches could not finish. These suggestions may be incomplete.';
+      } catch(error) {
+        if(signal.aborted || error?.name==='AbortError')throw error;
+        if(!local.length)throw error;
+        warning='The recipe service is unavailable. Showing matching recipes saved on this device.';
+      }
+      meals=rankByKitchen(combineKitchenRecipes(remote,local),store.pantry);
+    } else {
+      const report=await discoverMeals(normaliseFilters(currentRoute()),signal);
+      meals=report.meals;
+      if(report.partial)warning='Some recipe searches could not finish. These results may be incomplete.';
+    }
+    if(thisRequest!==requestNumber || signal.aborted)return;
+    activeMeals=meals;serviceWarning=warning;
+    if(discoveryMode==='pantry')kitchenDirty=false;
+  } catch(error) {
+    if(thisRequest!==requestNumber || signal.aborted || error?.name==='AbortError')return;
+    activeMeals=[];
+    problem='The recipe service could not be reached. Check your connection and try again. Your saved recipes are still in My recipes.';
   } finally {
-    if (thisRequest === requestNumber) { loading = false; render(); }
+    if(thisRequest===requestNumber) {loading=false;render();}
   }
 }
 
@@ -374,8 +424,10 @@ function card(meal, kitchenExplanation = false) {
   const entry = savedEntry(meal.idMeal);
   const analysis = ingredientsOf(meal).length && store.pantry.length ? analyseMeal(meal, store.pantry) : null;
   const useSoon = analysis && recipeUseSoon(meal,store.pantry);
-  const region = meal.strArea || 'World kitchen';
-  const category = meal.strCategory || 'Recipe';
+  // Summary endpoints omit labels; an explicit source filter still supplies context.
+  const browsing=view==='discover' && discoveryMode!=='pantry';
+  const region = meal.strArea || (browsing && area!=='All'?area:'World kitchen');
+  const mealCategory = meal.strCategory || (browsing && category!=='All'?category:'Recipe');
   const isSaved = Boolean(entry.wanted);
   const isPersonal = Boolean(meal.strPersonal);
   const kitchenInfo = kitchenExplanation ? kitchenMatchDetails(meal,store.pantry) : null;
@@ -388,7 +440,7 @@ function card(meal, kitchenExplanation = false) {
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
-    '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(category) + '</span></div>' +
+    '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(mealCategory) + '</span></div>' +
     reason + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div></article>';
 }
@@ -406,14 +458,23 @@ function loadingBox() {
 function discoverPage() {
   const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb, true));
   const heroPhoto = spotlight ? photo(spotlight) : '<div class="hero-placeholder" aria-hidden="true">🍝</div>';
-  const label = discoveryMode === 'pantry' ? 'Ideas from your kitchen' : discoveryMode === 'area' ? area + ' recipes' : discoveryMode === 'category' ? category + ' recipes' : discoveryMode === 'search' ? 'Search results' : discoveryMode === 'letter' ? 'Recipes beginning with ' + browseLetter.toUpperCase() : 'Discover something delicious';
+  const label = discoveryMode==='pantry'?'Ideas from your kitchen':category!=='All'?category+' recipes':area!=='All'?area+' recipes':searchTerm?'Search results':browseLetter?'Recipes beginning with '+browseLetter:'Discover something delicious';
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
   const nextToTry = rankByKitchen(Object.values(store.saved).filter(entry => entry.wanted && entry.meal).map(entry => entry.meal),store.pantry).slice(0,4);
-  const chips = cuisines.map(c => '<button type="button" class="chip' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured')) ? ' selected' : '') +
-    '" data-action="area" data-area="' + escapeHtml(c) + '" aria-pressed="' + (area === c && (discoveryMode === 'area' || (c === 'All' && discoveryMode === 'featured'))) + '">' + escapeHtml(c) + '</button>').join('');
-  const courseChips = categories.map(c => '<button type="button" class="chip' + (category === c && discoveryMode === 'category' ? ' selected' : '') + '" data-action="course" data-course="' + escapeHtml(c) + '" aria-pressed="' + (category === c && discoveryMode === 'category') + '">' + escapeHtml(c) + '</button>').join('');
-  const letterChips = alphabet.map(l => '<button type="button" class="chip' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter' ? ' selected' : '') + '" data-action="letter" data-letter="' + l + '" aria-pressed="' + (browseLetter.toUpperCase() === l && discoveryMode === 'letter') + '">' + l + '</button>').join('');
+  const filters=normaliseFilters(currentRoute());
+  const draft=filterDraft || filters;
+  const applied=filterSummary(filters);
+  const option=(value,label,selected)=>'<option value="'+escapeHtml(value)+'"'+(selected?' selected':'')+'>'+escapeHtml(label)+'</option>';
+  const categoryOptions=[...new Set([...categories.filter(c=>c!=='All'),...(draft.category?[draft.category]:[])])];
+  const filterControls=discoveryMode==='pantry'?'':'<form id="discovery-filters" class="discovery-filters" aria-label="Filter recipes">'+
+    '<div class="field"><label for="discover-cuisine">Cuisine</label><input id="discover-cuisine" name="area" type="search" autocomplete="off" list="cuisine-options" maxlength="80" placeholder="All cuisines · type to find" value="'+escapeHtml(draft.area)+'">'+
+    '<datalist id="cuisine-options">'+cuisines.filter(c=>c!=='All').map(c=>option(c,c,false)).join('')+'</datalist></div>'+
+    '<div class="field"><label for="discover-category">Meal type</label><select id="discover-category" name="category">'+option('','All types',!draft.category)+categoryOptions.map(c=>option(c,c,c===draft.category)).join('')+'</select></div>'+
+    '<div class="field"><label for="discover-letter">Starts with <span class="optional-label">optional</span></label><select id="discover-letter" name="letter">'+option('','Any letter',!draft.letter)+alphabet.map(l=>option(l,l,l===draft.letter)).join('')+'</select></div>'+
+    '<button type="submit" class="btn">Apply filters</button></form>'+
+    '<div class="discovery-filter-footer"><div class="active-filters" aria-label="Current filters">'+(applied.length?applied.map(f=>'<button class="chip" type="button" data-action="remove-filter" data-filter="'+f.key+'" aria-label="Remove '+escapeHtml(f.label)+'">'+escapeHtml(f.label)+' <span aria-hidden="true">×</span></button>').join(''):'<span class="panel-note">Explore a cuisine or combine filters to narrow your search.</span>')+'</div>'+
+    (applied.length?'<button type="button" class="btn ghost small" data-action="featured">Clear filters</button>':'')+'<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me</button></div>';
   const kitchenChoices = discoveryMode === 'pantry' ? kitchenIngredientChoices(store.pantry) : [];
   const choicesShown = kitchenShowAll ? kitchenChoices : kitchenChoices.slice(0,24);
   const kitchenPicker = discoveryMode === 'pantry' ? '<section class="kitchen-selector" aria-label="Choose ingredients for recipe discovery">' +
@@ -444,23 +505,20 @@ function discoverPage() {
       ' suggestions. These are inventory estimates, not confirmation of food safety or allergy suitability.</p></div>' : '';
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
     visibleMeals.length ? cards(visibleMeals, discoveryMode === 'pantry') :
-    (discoveryMode === 'pantry' && activeMeals.length ? empty('🥕', 'Nothing meets that match filter', 'Try All ideas, or add the missing ingredients to your kitchen.', '<button class="btn" type="button" data-action="kitchen-readiness" data-readiness="all">Show all ideas</button>') : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>'));
-  return '<section class="hero"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
+    (discoveryMode === 'pantry' && activeMeals.length ? empty('🥕', 'Nothing meets that match filter', 'Try All ideas, or add the missing ingredients to your kitchen.', '<button class="btn" type="button" data-action="kitchen-readiness" data-readiness="all">Show all ideas</button>') : empty('🔎', serviceWarning ? 'No recipes returned by available sources' : 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>'));
+  return '<section class="hero'+(applied.length || discoveryMode==='pantry'?' browsing':'')+'"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
     '<p class="lead">Discover food from different cultures, collect your favourite meals, and find inspiration in the ingredients you already own.</p>' +
-    '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" placeholder="Search biryani, pasta, curry..." value="' + escapeHtml(searchTerm) + '" required><button class="btn" type="submit">Find recipes ↗</button></form>' +
+    '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" maxlength="100" placeholder="Search biryani, pasta, curry..." value="' + escapeHtml(queryDraft ?? searchTerm) + '"><button class="btn" type="submit">Find recipes ↗</button></form>' +
     '</div><div class="hero-visual">' + heroPhoto + (spotlight ? '<div class="photo-tag"><span class="spark">✳ ON THE MENU</span><b>' + escapeHtml(spotlight.strMeal) + '</b><span>Photograph: TheMealDB contributors</span></div>' : '') + '</div></section>' +
     '<div class="feature-strip">' +
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
     '<button type="button" class="feature-card" data-nav="library"><span class="feature-icon" aria-hidden="true">♡</span><div><b>My cookbook</b><span>' + countSaved + ' saved or cooked recipes</span></div></button>' +
     '<button type="button" class="feature-card" data-action="suggest"><span class="feature-icon" aria-hidden="true">✦</span><div><b>What can I make?</b><span>Find recipes using my ingredients</span></div></button></div>' +
-    (nextToTry.length ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Saved dishes to try, prioritising confirmed available amounts, then ingredient overlap.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
+    (nextToTry.length && !applied.length && discoveryMode!=='pantry' ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Saved dishes to try, prioritising confirmed available amounts, then ingredient overlap.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
     '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
-    '<div class="browse-filters"><div class="filter-heading">Browse by cuisine <span>Provider region labels</span></div><div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' +
-    '<div class="filter-heading">Browse by meal type <span>Provider categories, not verified diet or allergy information</span></div><div class="chips" aria-label="Browse recipes by meal category">' + courseChips + '</div>' +
-    '<div class="filter-heading">Explore A–Z <span>All available recipes starting with a letter</span></div><div class="chips" aria-label="Browse recipes alphabetically">' + letterChips + '</div>' +
-    '<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me with a recipe</button></div>' + kitchenPicker + kitchenReadinessChips + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
-    currentResults + '</section>';
+    filterControls + kitchenPicker + kitchenReadinessChips + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
+    (serviceWarning ? '<div class="note service-warning" role="status">' + escapeHtml(serviceWarning) + '<button class="btn secondary small" type="button" data-action="retry">Try again</button></div>' : '') + currentResults + '</section>';
 }
 
 function personalRecipeForm() {
@@ -850,8 +908,16 @@ function worldPage() {
 }
 
 function render() {
+  const active=document.activeElement;
+  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter'].includes(active?.id)
+    ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
+  if(restoreInput) {
+    const input=document.getElementById(restoreInput.id);
+    input?.focus({preventScroll:true});
+    if(typeof restoreInput.start==='number')input?.setSelectionRange(restoreInput.start,restoreInput.end);
+  }
   if (selectedMeal) renderDialog();
 }
 
@@ -996,7 +1062,7 @@ function renderDialog() {
     '<div class="dialog-hero">' + (externalUrl(meal.strMealThumb,true) ? '<img data-recipe-photo class="dialog-photo" src="' + externalUrl(meal.strMealThumb,true) + '" alt="' + escapeHtml(meal.strMeal) + '">' : '<div class="hero-placeholder">🍲</div>') +
     '<div class="dialog-intro"><div class="eyebrow">' + escapeHtml(meal.strArea || 'World cuisine') + ' · ' + escapeHtml(meal.strCategory || 'Home cooking') + '</div><h2 id="dialog-title">' + escapeHtml(meal.strMeal) + '</h2>' +
     '<p class="lead">Cook it your way. Save it, plan it, or work through the steps one at a time.</p><div class="dialog-actions">' + sourceLink + videoLink +
-    (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
+    (meal.strPersonal ? '' : '<button class="btn secondary small" type="button" data-action="copy-recipe-link">Copy recipe link ↗</button><a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
     '</div><p class="panel-note">' + (meal.strPersonal ? (externalUrl(meal.strSource) ? 'Your personal adaptation · Original publisher linked. No third-party photo copied.' : 'Personal recipe written by you.') : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
   syncCookingTimer();
@@ -1006,51 +1072,81 @@ function renderDialog() {
     nextFocus?.focus();
   }
 }
-function closeDialog() {
-  if (!selectedMeal) return;
-  clearInterval(cookingTimerTicker); cookingTimerTicker = null;
-  selectedMeal = null;
-  stepIndex = -1;
-  showCookingLog = false;
-  detailTargetServings = null;
-  overlayRoot.innerHTML = '';
-  document.body.style.overflow = '';
-  if (dialogReturnFocus?.isConnected) dialogReturnFocus.focus();
-  else document.querySelector('.site-nav .active')?.focus();
-  dialogReturnFocus = null;
+function closeDialog({history=true}={}) {
+  const wasOpen=Boolean(selectedMeal || openingMealId);
+  detailRequestNumber++;
+  detailController?.abort();detailController=null;
+  clearInterval(cookingTimerTicker);cookingTimerTicker=null;
+  selectedMeal=null;openingMealId='';stepIndex=-1;showCookingLog=false;detailTargetServings=null;
+  overlayRoot.innerHTML='';document.body.style.overflow='';
+  if(wasOpen) {
+    if(dialogReturnFocus?.isConnected)dialogReturnFocus.focus({preventScroll:true});
+    else document.querySelector('.site-nav .active')?.focus({preventScroll:true});
+  }
+  dialogReturnFocus=null;
+  if(history && wasOpen) {
+    if(window.history.state?.recipeOverlay)window.history.back();
+    else writeRoute({replace:true});
+  }
 }
-async function openMeal(id) {
-  const possible = findMeal(id);
-  if (!possible) { notice('Recipe not found.'); return; }
-  dialogReturnFocus = document.activeElement;
+function recipeStatus(message,failed=false) {
+  overlayRoot.innerHTML='<div class="overlay" data-action="overlay" role="presentation"><section class="dialog recipe-status" role="dialog" aria-modal="true" aria-labelledby="recipe-status-title">'+
+    '<button class="dialog-close" data-action="close" type="button" aria-label="Close recipe">×</button><div class="dialog-content">'+
+    '<h2 id="recipe-status-title">'+(failed?'Recipe unavailable':'Opening your recipe…')+'</h2><p role="status">'+escapeHtml(message)+'</p>'+
+    (failed?'<button type="button" class="btn" data-action="retry-recipe" data-id="'+escapeHtml(openingMealId)+'">Try again</button>':'<div class="spinner" aria-hidden="true"></div>')+'</div></section></div>';
+  document.body.style.overflow='hidden';
+  overlayRoot.querySelector('.dialog-close')?.focus();
+}
+async function openMeal(id,{history=true,meal:provided}={}) {
+  const possible=provided || findMeal(id);
+  const request=++detailRequestNumber;
+  detailController?.abort();
+  const currentController=new AbortController();detailController=currentController;
+  if(!dialogReturnFocus)dialogReturnFocus=document.activeElement;
+  openingMealId=id;selectedMeal=null;
+  if(history)writeRoute({recipeOverlay:true});
+  recipeStatus('Loading ingredients and instructions.');
   try {
-    selectedMeal = ingredientsOf(possible).length && possible.strInstructions ? possible : await mealDetails(id);
-    if (store.saved[id]) { store.saved[id].meal = selectedMeal; save(); }
-    stepIndex = -1;
-    showCookingLog = false;
-    detailTargetServings = validServings(store.saved[id]?.baseServings);
-    renderDialog();
-    overlayRoot.querySelector('.dialog-close')?.focus();
-  } catch {
-    notice('Could not open this recipe. Please try again.');
+    if(id.startsWith('personal-') && !possible)throw new Error('This personal recipe is available only on the device where you saved or restored it.');
+    const meal=ingredientsOf(possible).length && possible.strInstructions?possible:await mealDetails(id,currentController.signal);
+    if(request!==detailRequestNumber || currentController.signal.aborted)return;
+    openingMealId='';selectedMeal=meal;
+    if(store.saved[id]) {
+      const saved={...store.saved,[id]:{...store.saved[id],meal}};
+      if(persistStore({...store,saved}))store.saved=saved;
+      else notice('Could not save updated recipe details. Your saved recipe is unchanged.');
+    }
+    stepIndex=-1;showCookingLog=false;
+    detailTargetServings=validServings(store.saved[id]?.baseServings);
+    renderDialog();overlayRoot.querySelector('.dialog-close')?.focus();
+  } catch(error) {
+    if(request!==detailRequestNumber || currentController.signal.aborted)return;
+    recipeStatus(id.startsWith('personal-')?error.message:'Could not load this recipe. Check your connection and try again.',true);
   }
 }
 async function markRecipe(id, field) {
+  if(recipeMutations.has(id))return;
+  recipeMutations.add(id);
+  try {
   let meal = findMeal(id);
   if (!meal) return;
   if (!ingredientsOf(meal).length || !meal.strInstructions) {
     try { meal = await mealDetails(id); } catch { notice('Recipe details could not load. Try again.'); return; }
   }
-  const entry = savedEntry(id);
-  entry.meal = meal;
+  const entry = {...savedEntry(id),meal};
   if (field === 'cookedCount') entry.cookedCount = (Number(entry.cookedCount) || 0) + 1;
   else entry[field] = !entry[field];
-  if (flags(entry)) store.saved[id] = entry;
-  else { delete store.saved[id]; for (const day of Object.keys(store.plan)) if (store.plan[day] === id) delete store.plan[day]; }
+  const saved = {...store.saved};
+  if (flags(entry) || Object.values(store.plan).includes(id)) saved[id] = entry;
+  else delete saved[id];
+  if (!persistStore({...store,saved})) {
+    notice('Could not save changes to this browser. Your cookbook is unchanged.'); return;
+  }
+  store.saved=saved;
   if (selectedMeal?.idMeal === id) selectedMeal = meal;
-  const stored = save();
   render();
-  if (stored) notice(field === 'cookedCount' ? 'Added to your cooking history!' : 'Your cookbook is updated.');
+  notice(field === 'cookedCount' ? 'Added to your cooking history!' : 'Your cookbook is updated.');
+  } finally { recipeMutations.delete(id); }
 }
 
 document.addEventListener('click', async event => {
@@ -1152,26 +1248,28 @@ document.addEventListener('click', async event => {
   if (action === 'world-export') { downloadWorldIndex(); return; }
   if (action === 'world-retry-options') { await loadWorldOptions(); return; }
   if (action === 'open') { await openMeal(id); return; }
+  if (action === 'retry-recipe') { await openMeal(id,{history:false}); return; }
+  if (action === 'copy-recipe-link') {
+    try { await navigator.clipboard.writeText(routeUrl(currentRoute(),window.location.href).href);notice('Recipe link copied.'); }
+    catch { notice('Could not copy the link. You can copy it from your browser address bar.'); }
+    return;
+  }
   if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action); return; }
   if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
   if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
-  if (action === 'area') { await discover(button.dataset.area === 'All' ? 'featured' : 'area',button.dataset.area); return; }
-  if (action === 'course') { await discover(button.dataset.course === 'All' ? 'featured' : 'category',button.dataset.course); return; }
   if (action === 'featured') { await discover(); return; }
-  if (action === 'letter') { await discover('letter',button.dataset.letter); return; }
   if (action === 'surprise') {
-    button.disabled = true;
+    const intent=++detailRequestNumber;
+    detailController?.abort();
+    const pending=new AbortController();detailController=pending;
+    const original=button.textContent;
+    button.disabled=true;button.textContent='Finding a recipe…';
     try {
-      const meal = await randomMeal();
-      dialogReturnFocus = button;
-      selectedMeal = meal;
-      stepIndex = -1;
-      showCookingLog = false;
-      detailTargetServings = validServings(store.saved[meal.idMeal]?.baseServings);
-      renderDialog();
-      overlayRoot.querySelector('.dialog-close')?.focus();
-    } catch { notice('Could not load a surprise recipe. Try again.'); }
-    finally { if (button.isConnected) button.disabled = false; }
+      const meal=await randomMeal(pending.signal);
+      if(intent!==detailRequestNumber || pending.signal.aborted)return;
+      await openMeal(meal.idMeal,{meal});
+    } catch(error) { if(!pending.signal.aborted)notice('Could not load a surprise recipe. Try again.'); }
+    finally {if(button.isConnected){button.disabled=false;button.textContent=original;}}
     return;
   }
   if (action === 'suggest') {
@@ -1209,7 +1307,12 @@ document.addEventListener('click', async event => {
     if (discoveryMode !== 'pantry' || !kitchenSelection.length) return;
     await discover('pantry'); return;
   }
-  if (action === 'retry') { await discover(discoveryMode, discoveryMode === 'search' ? searchTerm : discoveryMode === 'area' ? area : discoveryMode === 'category' ? category : browseLetter); return; }
+  if (action === 'retry') { await discover('restore','',{history:false}); return; }
+  if (action === 'remove-filter') {
+    const key=button.dataset.filter;
+    if(['query','area','category','letter'].includes(key))await discover('filters',{[key]:''});
+    return;
+  }
   if (action === 'collection') { libraryTab = button.dataset.value; render(); return; }
   if (action === 'tag-filter') { libraryTag = button.dataset.tag || ''; render(); return; }
   if (action === 'clear-library-filters') { libraryTag = ''; librarySearch = ''; libraryTab = 'all'; librarySort = 'name'; render(); return; }
@@ -1217,18 +1320,17 @@ document.addEventListener('click', async event => {
     const meal = store.saved[id]?.meal;
     if (!meal) return;
     const next = removeTag(store.saved[id], button.dataset.tag);
-    if (flags(next)) store.saved[id] = next;
-    else {
-      delete store.saved[id];
-      for (const day of Object.keys(store.plan)) if (store.plan[day] === id) delete store.plan[day];
-    }
-    const stored = save(); render(); if (stored) notice('Label removed.'); return;
+    const saved={...store.saved};
+    if (flags(next) || Object.values(store.plan).includes(id)) saved[id]=next;
+    else delete saved[id];
+    if(!persistStore({...store,saved})) { notice('Could not save this label removal. Your cookbook is unchanged.'); return; }
+    store.saved=saved; render(); notice('Label removed.'); return;
   }
   if (action === 'new-recipe') { showRecipeForm = true; editingRecipeId = null; libraryTab = 'all'; render(); document.getElementById('personal-title')?.focus(); return; }
   if (action === 'cancel-recipe') { showRecipeForm = false; editingRecipeId = null; render(); return; }
   if (action === 'edit-recipe') {
     if (!store.saved[id]?.meal?.strPersonal) return;
-    closeDialog(); view = 'library'; libraryTab = 'all'; showRecipeForm = true; editingRecipeId = id;
+    closeDialog({history:false}); view = 'library'; writeRoute(); libraryTab = 'all'; showRecipeForm = true; editingRecipeId = id;
     render(); document.getElementById('personal-title')?.focus(); return;
   }
   if (action === 'export-data') {
@@ -1329,6 +1431,11 @@ document.addEventListener('click', async event => {
 });
 
 document.addEventListener('input', event => {
+  if(event.target.id==='recipe-search')queryDraft=event.target.value;
+  if(['discover-cuisine','discover-category','discover-letter'].includes(event.target.id)) {
+    filterDraft={...(filterDraft || normaliseFilters(currentRoute())),[event.target.name]:event.target.value};
+  }
+  if(event.target.id==='discover-cuisine')event.target.setCustomValidity('');
   if (event.target.id !== 'bulk-input') return;
   bulkDraft = event.target.value;
   if (bulkPreview) {
@@ -1339,6 +1446,19 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if(event.target.id==='discovery-filters') {
+    event.preventDefault();
+    const fields=Object.fromEntries(new FormData(event.target));
+    const input=document.getElementById('discover-cuisine');
+    const typed=String(fields.area||'').trim();
+    const cuisine=cuisines.find(c=>c.toLowerCase()===typed.toLowerCase());
+    if(typed && !cuisine && typed!==area) {
+      input.setCustomValidity('Choose a cuisine from the suggestions, or leave it empty.');
+      input.reportValidity();return;
+    }
+    void discover('filters',{...fields,area:cuisine==='All'?'':cuisine||typed});
+    return;
+  }
   if(event.target.id==='world-review-form'){
     event.preventDefault();
     const selected=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
@@ -1421,18 +1541,18 @@ document.addEventListener('submit', event => {
     const raw = new FormData(event.target).get('tag');
     try {
       const id = selectedMeal.idMeal;
-      store.saved[id] = addTag({ ...savedEntry(id), meal:selectedMeal },raw);
-      const stored = save(); render();
+      const saved={...store.saved,[id]:addTag({ ...savedEntry(id), meal:selectedMeal },raw)};
+      if(!persistStore({...store,saved})) { notice('Could not save this label. Your cookbook is unchanged.'); return; }
+      store.saved=saved; render();
       overlayRoot.querySelector('#recipe-tag-input')?.focus();
-      if (stored) notice('Label saved on this recipe.');
+      notice('Label saved on this recipe.');
     } catch (error) { notice(error.message || 'Could not save label.'); }
     return;
   }
   if (event.target.id === 'search-form') {
     event.preventDefault();
     const value = String(new FormData(event.target).get('query') || '').trim();
-    if (value) discover('search',value);
-    else discover();
+    void discover('search',value);
   }
   if (event.target.id === 'cooking-log-form') {
     event.preventDefault();
@@ -1602,7 +1722,7 @@ document.addEventListener('error', event => {
 }, true);
 
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && selectedMeal) { closeDialog(); return; }
+  if (event.key === 'Escape' && (selectedMeal || openingMealId)) { closeDialog(); return; }
   if (selectedMeal && stepIndex >= 0 && ['ArrowLeft','ArrowRight'].includes(event.key) &&
       !event.altKey && !event.ctrlKey && !event.metaKey &&
       !event.target.closest('input,textarea,select,[contenteditable="true"]')) {
@@ -1611,8 +1731,8 @@ document.addEventListener('keydown', event => {
     if (!updateCookingSession(next)) return;
     stepIndex=next.step; renderDialog(); overlayRoot.querySelector('.cook-step')?.focus(); return;
   }
-  if (event.key !== 'Tab' || !selectedMeal) return;
-  const elements = [...overlayRoot.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled)')].filter(x => x.getClientRects().length > 0);
+  if (event.key !== 'Tab' || (!selectedMeal && !openingMealId)) return;
+  const elements = [...overlayRoot.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled)')].filter(x => x.getClientRects().length > 0);
   if (!elements.length) return;
   const first = elements[0], last = elements[elements.length - 1];
   if (!overlayRoot.contains(document.activeElement)) {
@@ -1636,8 +1756,11 @@ window.addEventListener('storage', event => {
   render();
 });
 
-render();
-discover();
+// Start application.
+window.addEventListener('popstate',()=>void restoreRoute(readRoute(window.location.href)));
+window.history.replaceState({tasteit:true,recipeOverlay:false,scrollY:0},'',window.location.href);
+void restoreRoute(readRoute(window.location.href));
+
 availableAreas().then(areas => {
   if (!areas.length) return;
   cuisines = ['All', ...areas];

@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js','src/source-overlap.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/navigation.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js','src/source-overlap.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -131,18 +131,21 @@ try {
   await page.goto(url);
   await page.locator('.recipe-card').first().waitFor({timeout:12000}).catch(async error => { throw new Error(error.message + '\nBrowser errors: ' + JSON.stringify(errors) + '\nPage snapshot: ' + (await page.locator('#app').innerText()).slice(0,900)); });
   assert.equal(await page.locator('.recipe-card').count(),1,'live discovery card from fixture');
-  await page.locator('[data-action="course"][data-course="Vegetarian"]').click();
+  await page.locator('#discover-category').selectOption('Vegetarian');
+  await page.locator('#discovery-filters button[type=submit]').click();
   await page.locator('.recipe-card').first().waitFor();
   assert.ok((await page.locator('h2').allTextContents()).some(x=>x.includes('Vegetarian')),'provider category filter opens');
-  await page.locator('[data-action="course"][data-course="All"]').click();
+  await page.locator('#discover-category').selectOption('');
+  await page.locator('#discovery-filters button[type=submit]').click();
   await page.locator('.recipe-card').first().waitFor();
-  await page.locator('[data-action="letter"][data-letter="A"]').click();
+  await page.locator('#discover-letter').selectOption('T');
+  await page.locator('#discovery-filters button[type=submit]').click();
   await page.locator('.recipe-card').first().waitFor();
-  assert.ok((await page.locator('h2').allTextContents()).some(x=>x.includes('Recipes beginning with A')),'alphabetical discovery opens');
+  assert.ok((await page.locator('h2').allTextContents()).some(x=>x.includes('Recipes beginning with T')),'alphabetical discovery opens');
   await page.locator('[data-action="surprise"]').click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   await page.keyboard.press('Escape');
-  await page.locator('[data-action="area"][data-area="All"]').click();
+  await page.locator('[data-action="featured"]').first().click();
   await page.locator('.recipe-card').first().waitFor();
 
   // The world catalogue never fabricates 30 entries; it counts actual source IDs.

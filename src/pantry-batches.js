@@ -30,7 +30,7 @@ export function expiringBatches(pantry, now = new Date(), horizonDays = 3) {
 export function recipeUseSoon(meal, pantry, now = new Date()) {
   const soon = new Set(expiringBatches(pantry, now).map(x=>normalizeIngredient(x.name)));
   const found = new Map();
-  const analysis = analyseMeal(meal,pantry);
+  const analysis = analyseMeal(meal,pantry,now);
   for (const ingredient of analysis.availability) {
     const key = normalizeIngredient(ingredient.name);
     if (soon.has(key) && !found.has(key)) found.set(key,ingredient.name);
@@ -40,7 +40,7 @@ export function recipeUseSoon(meal, pantry, now = new Date()) {
 export function rankByKitchen(meals,pantry,now=new Date()) {
   return [...meals].sort((a,b)=>{
     const score=meal=>{
-      const analysis=analyseMeal(meal,pantry);
+      const analysis=analyseMeal(meal,pantry,now);
       const used = new Set(recipeUseSoon(meal,pantry,now).map(normalizeIngredient));
       const urgency = expiringBatches(pantry,now)
         .filter(item=>used.has(normalizeIngredient(item.name)))

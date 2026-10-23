@@ -248,6 +248,40 @@ h3 { font-size: 24px }
 .filter-heading {font-size:13px;font-weight:800; color:var(--forest);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .filter-heading span {color:var(--muted);font-size:11px;font-weight:450}
 .browse-filters .chips {margin:8px 0 12px}
+.discovery-filters {display:grid;grid-template-columns:minmax(180px,1.4fr) minmax(140px,1fr) minmax(120px,.8fr) auto;gap:14px;align-items:end;padding:18px;background:var(--white);border:1px solid var(--line);border-radius:18px}
+.discovery-filters .field {min-width:0}
+.discovery-filters input,.discovery-filters select {width:100%;min-height:46px}
+.discovery-filters .btn {min-height:46px}
+.optional-label {font-size:11px;font-weight:400;color:var(--muted)}
+.discovery-filter-footer {display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 24px}
+.active-filters {display:flex;align-items:center;gap:7px;flex-wrap:wrap;flex:1;min-width:0}
+.active-filters .chip {text-align:left;overflow-wrap:anywhere}
+.hero.browsing {display:block;margin-bottom:24px}
+.hero.browsing .hero-copy {min-height:0;background:transparent;padding:8px 0;gap:15px}
+.hero.browsing .hero-copy:after,.hero.browsing .hero-visual,.hero.browsing .lead,.hero.browsing .eyebrow {display:none}
+.hero.browsing h1 {font-size:36px}
+.hero.browsing .search-bar {width:100%;max-width:760px}
+.hero.browsing + .feature-strip {display:none}
+.service-warning {display:flex;align-items:center;justify-content:space-between;gap:15px;margin:16px 0;flex-wrap:wrap}
+.recipe-status {max-width:650px;min-height:240px}
+.recipe-status .dialog-content {display:grid;gap:20px;padding-top:60px}
+@media(max-width:760px) {
+  /* A filtered ancestor otherwise contains the fixed bottom navigation. */
+  .site-header {backdrop-filter:none;background:var(--paper)}
+  .discovery-filters {grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:14px}
+  .discovery-filters .field:first-child {grid-column:1/-1}
+  .discovery-filters>.btn {grid-column:1/-1}
+  .discovery-filter-footer>.btn {min-height:42px}
+  .active-filters {flex-basis:100%}
+  .hero:not(.browsing) .hero-visual {display:none}
+  .hero:not(.browsing) .hero-copy {min-height:0}
+  .feature-strip {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .feature-card {flex-direction:column;align-items:flex-start;padding:12px 9px}
+  .feature-card b {font-size:12px}
+  .feature-card div>span {display:none!important}
+  .feature-icon {height:32px;width:32px;font-size:18px}
+  .hero.browsing h1 {font-size:30px}
+}
 .bulk-panel {margin-top:16px}
 .bulk-panel .field {gap:10px}
 .bulk-panel .field textarea {min-height:170px}

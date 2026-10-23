@@ -41,6 +41,26 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [x] Select/reconcile up to four usable pantry names, explain matching/missing amounts, include saved-recipe suggestions, and filter by name presence or comparable quantity sufficiency
 - [x] Verify mobile ingredient selector, explicit refresh, filter-empty-state recovery and no fabricated cookability status
 
+## First audit stage — reliable saves and simpler discovery
+
+- [x] Persist recipe flag and label edits before modifying memory; a failed write
+  keeps the old state, and removing the final flag keeps scheduled meals/portions
+- [x] Distinguish empty, failed and partially failed source searches; retain matching
+  local recipes during remote ingredient-search failure and offer explicit retry
+- [x] Bound each recipe-service request to 12 seconds, including response parsing;
+  cancel outdated discovery/details requests and reject stale completions
+- [x] Intersect complete source ID lists for combined cuisine/category filters;
+  combine recipe-name and initial filters without guessing missing summary fields
+- [x] Replace the three browse rails with a compact form and individually removable
+  current filters; test a real-size 195-place directory, not only two cuisines
+- [x] Restore view/filters across refresh and Back/Forward, support direct recipe
+  links, and prevent a closed/delayed recipe request from reopening the dialog
+- [x] Verify 375px filter-label width, horizontal layout and bottom navigation
+- [ ] Confirm native cuisine suggestions and screen-reader announcements on real
+  Android/iOS devices; headless engines do not establish physical-device usability
+- [ ] Verify actual provider requests, photographs and production source terms
+  before approving any public release (existing release hold remains in force)
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed
