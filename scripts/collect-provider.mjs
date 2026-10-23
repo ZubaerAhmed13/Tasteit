@@ -57,3 +57,6 @@ try{
 }finally{
   clearTimeout(timeoutId);
 }
+
+// The runner writes only candidate metadata and coverage to the open feature
+// branch; a human must review cultural authenticity and photo reuse rights.
