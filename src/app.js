@@ -8,6 +8,7 @@ import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCooki
 import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
 import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, hydrateCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
 import { editorialReview, savedEditorialReview, researchReviewSummary, researchLeadResults, exportEditorialReviewCsv } from './editorial.js';
+import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -59,6 +60,7 @@ let worldResearchError='';
 let worldResearchPage=0;
 let worldResearchTag='';
 let worldResearchStatus='all';
+let worldResearchFocus='all';
 let worldResearchReviewId='';
 
 let libraryTab = 'all';
@@ -603,8 +605,14 @@ function worldPage() {
     escapeHtml(worldPartial.join(', ').toUpperCase())+
     ' failed. Counts may be lower than the provider’s actual catalogue.</p>' : '';
   const sourceQuery=worldResearchQuery.trim().toLocaleLowerCase();
-  const matchedResearch=researchLeadResults(worldResearchEntries,sourceQuery,worldResearchEvidence,
+  const searchedResearch=researchLeadResults(worldResearchEntries,sourceQuery,worldResearchEvidence,
     {tag:worldResearchTag,status:worldResearchStatus,reviews:store.editorialReviews});
+  const priorityOptions={country:worldCountry,category:worldCategory,
+    areas:worldAreas,reviews:store.editorialReviews,mode:worldResearchFocus};
+  const priorityResearch=buildResearchPriority(searchedResearch,worldResearchEvidence,priorityOptions);
+  const matchedResearch=priorityResearch.map(x=>x.entry);
+  const priorityById=new Map(priorityResearch.map(x=>[x.entry.id,x]));
+  const queueSummary=researchQueueCounts(worldResearchEntries,worldResearchEvidence,priorityOptions);
   const researchPages=Math.max(1,Math.ceil(matchedResearch.length/24));
   const researchPage=Math.max(0,Math.min(worldResearchPage,researchPages-1));
   const reviewedStats=researchReviewSummary(store.editorialReviews);
@@ -655,13 +663,28 @@ function worldPage() {
       [['all','All research leads'],['unreviewed','Not yet reviewed'],['researching','Researching'],
       ['needs-evidence','Needs stronger evidence'],['shortlisted','Shortlisted (not approved)'],['rejected','Excluded']].map(([key,label])=>
         '<option value="'+key+'"'+(worldResearchStatus===key?' selected':'')+'>'+label+'</option>').join('')+
+      '</select><label for="world-research-focus">Research leads to prioritise</label>'+
+      '<select id="world-research-focus" name="priority">'+
+      [['all','All linked leads'],['country','Source tags mention this country'],
+        ['country-category','Source tags mention country and category']].map(([key,label])=>
+        '<option value="'+key+'"'+(worldResearchFocus===key?' selected':'')+'>'+label+'</option>').join('')+
       '</select></div></form>'+
+      '<p class="panel-note world-priority-summary" role="status">Source-tag hints (not verified): '+
+        queueSummary.countryHints+' mention '+escapeHtml(worldCountry)+'; '+
+        queueSummary.jointHints+' also mention '+escapeHtml(worldCategory)+
+        '. These do not increase the 30-recipe target count.</p>'+
       '<p class="panel-note" role="status">'+matchedResearch.length+' linked source records'+
       (sourceQuery?' match your search':'')+'. Page '+(researchPage+1)+' of '+researchPages+' · up to 24 per page'+
       '. Country and course assignments require human verification.</p>'+
       '<ul class="world-research-list">'+matchedResearch.slice(researchPage*24,(researchPage+1)*24).map(x=>
         '<li><a href="'+externalUrl(x.url)+'" target="_blank" rel="noopener noreferrer">'+
         escapeHtml(x.title)+' ↗</a><span>Wikibooks · course/origin unreviewed</span>'+
+        (priorityById.get(x.id)?.countryTags.length ?
+          '<span class="research-tags country-hint">Country tag clue: '+
+          escapeHtml(priorityById.get(x.id).countryTags.slice(0,2).join(' · '))+'</span>' : '')+
+        (priorityById.get(x.id)?.categoryTags.length ?
+          '<span class="research-tags">Category tag clue: '+
+          escapeHtml(priorityById.get(x.id).categoryTags.slice(0,2).join(' · '))+'</span>' : '')+
         (store.editorialReviews?.[x.id] ? '<span class="research-status">Your research: '+
           escapeHtml(store.editorialReviews[x.id].status.replaceAll('-',' '))+
           (store.editorialReviews[x.id].country ? ' · '+escapeHtml(store.editorialReviews[x.id].country) : '')+
@@ -947,8 +970,12 @@ document.addEventListener('click', async event => {
   }
   if (action === 'world-research-prev' || action === 'world-research-next') {
     const q=worldResearchQuery.toLocaleLowerCase();
-    const count=researchLeadResults(worldResearchEntries,q,worldResearchEvidence,
-      {tag:worldResearchTag,status:worldResearchStatus,reviews:store.editorialReviews}).length;
+    const searched=researchLeadResults(worldResearchEntries,q,worldResearchEvidence,
+      {tag:worldResearchTag,status:worldResearchStatus,reviews:store.editorialReviews});
+    const count=buildResearchPriority(searched,worldResearchEvidence,{
+      country:worldCountry,category:worldCategory,areas:worldAreas,
+      reviews:store.editorialReviews,mode:worldResearchFocus
+    }).length;
     const last=Math.max(0,Math.ceil(count/24)-1);
     worldResearchPage=Math.max(0,Math.min(last,worldResearchPage+(action==='world-research-next'?1:-1)));
     render();return;
@@ -1168,6 +1195,8 @@ document.addEventListener('submit', event => {
     worldResearchQuery=String(fields.get('query')||'').trim().slice(0,100);
     worldResearchTag=String(fields.get('tag')||'').trim().slice(0,100);
     worldResearchStatus=String(fields.get('status')||'all');
+    const focus=String(fields.get('priority')||'all');
+    worldResearchFocus=TRIAGE_MODES.includes(focus)?focus:'all';
     if(!['all','unreviewed','researching','needs-evidence','shortlisted','rejected'].includes(worldResearchStatus))worldResearchStatus='all';
     worldResearchPage=0;
     render();document.getElementById('world-research-query')?.focus();return;
