@@ -3,7 +3,7 @@
 // Actions artifact for human research. Does not claim popularity or authenticity.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { availableAreaRecords, availableCategories, scanWorldRecipes } from '../src/api.js';
-import { catalogueFromProvider, exportCatalogueIndex } from '../src/world-catalogue.js';
+import { countryDirectory, catalogueFromProvider, exportCatalogueIndex } from '../src/world-catalogue.js';
 
 const timeout=new AbortController();
 const timeoutId=setTimeout(()=>timeout.abort(),240_000);
@@ -21,6 +21,8 @@ try{
   const catalogue=catalogueFromProvider(scanned.meals,areas,categories);
   const output=exportCatalogueIndex(catalogue);
   output.scanComplete=scanned.completed===scanned.total && scanned.failedLetters.length===0;
+  output.countries=countryDirectory(areas);
+  output.categories=categories;
   output.failedInitials=scanned.failedLetters;
   output.sourceTerms='https://www.themealdb.com/terms_of_use.php';
   output.notes=[
