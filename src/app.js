@@ -602,6 +602,33 @@ function worldPage() {
   const reviewedStats=researchReviewSummary(store.editorialReviews);
   const editSource=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
   const selectedResearch=editSource&&(store.editorialReviews?.[editSource.id]||{});
+  const reviewEditor=editSource ?
+    '<form id="world-review-form" class="world-review-editor" aria-label="Research record for '+escapeHtml(editSource.title)+'">'+
+    '<div class="section-head"><div><h3>Research: '+escapeHtml(editSource.title)+'</h3>'+
+    '<p>Private research notes. This is not a public editorial approval.</p></div>'+
+    '<button type="button" class="btn ghost small" data-action="world-review-close">Close</button></div>'+
+    '<label for="review-country">Country or region to investigate</label>'+
+    '<select id="review-country" name="country"><option value="">Not assigned</option>'+
+    countries.map(x=>selectedOption(x.country,selectedResearch.country)).join('')+'</select>'+
+    '<label for="review-category">Course or category to investigate</label>'+
+    '<select id="review-category" name="category"><option value="">Not assigned</option>'+
+    worldCategories.map(x=>selectedOption(x,selectedResearch.category)).join('')+'</select>'+
+    '<label for="review-status">Research status</label>'+
+    '<select id="review-status" name="status">'+
+    [['researching','Researching'],['needs-evidence','Needs more evidence'],
+      ['shortlisted','Shortlisted — NOT approved'],['rejected','Exclude from this research']].map(([key,label])=>
+      '<option value="'+key+'"'+((selectedResearch.status||'researching')===key?' selected':'')+'>'+label+'</option>').join('')+
+    '</select>'+
+    '<label for="review-evidence">Independent supporting HTTPS link</label>'+
+    '<input id="review-evidence" name="evidenceUrl" type="url" maxlength="500" placeholder="https://..." value="'+escapeHtml(selectedResearch.evidenceUrl||'')+'">'+
+    '<label for="review-notes">Evidence notes and cultural context</label>'+
+    '<textarea id="review-notes" name="notes" maxlength="1000" rows="4" placeholder="Origin evidence, shared cuisine variants, licences still to check">'+
+    escapeHtml(selectedResearch.notes||'')+'</textarea>'+
+    '<p class="panel-note">A shortlist requires a country, category, independent HTTPS link and at least 20 characters of notes. It is NOT a verified “best 30” recipe and does not change public country totals.</p>'+
+    '<div class="world-actions"><button type="submit" class="btn">Save research notes</button>'+
+    (store.editorialReviews?.[editSource.id] ?
+      '<button type="button" class="btn secondary" data-action="world-review-delete" data-id="'+escapeHtml(editSource.id)+'">Discard notes</button>' : '')+
+    '</div></form>' : '';
   const researchList=worldResearchOpen ? '<section class="panel world-research" aria-label="Wikibooks source research"><div class="section-head"><div>'+
     '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as any country’s best recipes.</p></div></div>'+
     (worldResearchLoading?'<p class="panel-note" role="status">Loading source links…</p>':'')+
@@ -635,7 +662,12 @@ function worldPage() {
           '<span class="research-tags">Source tags (unverified): '+
           escapeHtml(worldResearchEvidence.get(x.sourcePageId).slice(0,3).join(' · '))+'</span>' : '')+
         '<button type="button" class="btn secondary small" data-action="world-research-review" data-id="'+
-        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+
+        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+reviewEditor+
+      '<div class="world-research-summary" role="status">Your reviewed leads: '+reviewedStats.reviewed+
+      ' · shortlisted (NOT approved): '+reviewedStats.shortlisted+
+      ' · verified “best 30” recommendations: 0</div>'+
+      '<button type="button" class="btn secondary small" data-action="world-review-export"'+
+        (!reviewedStats.reviewed?' disabled':'')+'>Export your research CSV ↓</button>'+
       '<div class="world-research-pages"><button type="button" class="btn secondary small" data-action="world-research-prev"'+(researchPage===0?' disabled':'')+'>← Previous</button><span>Page '+(researchPage+1)+' / '+researchPages+'</span><button type="button" class="btn secondary small" data-action="world-research-next"'+(researchPage>=researchPages-1?' disabled':'')+'>Next →</button></div>'+ '<p class="panel-note">Wikibooks text is subject to CC BY-SA attribution and terms. Images have separate licences. No source photos or recipe instructions are copied into Tasteit.</p>':'')+
       '</section>' :
     '<section class="panel world-research"><div class="section-head"><div><h3>Explore additional recipe leads</h3>'+
