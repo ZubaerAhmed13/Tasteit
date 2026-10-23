@@ -56,6 +56,12 @@ Queue: data/wikibooks-research-queue.json. Original article category labels for 
 | [Wikimedia Commons](https://commons.wikimedia.org/) | Potentially reusable food photography | Check author and each individual media licence, preserve credits |
 | Unverified scraped datasets | May claim large scale | **Do not import** if copyright, provenance, or country inference is unclear |
 
+## Cross-source duplicate research
+
+Compare source recipe titles conservatively: first normalise Unicode, case and punctuation; optionally match the same three or more words in different order. Keep significant food words such as `chicken`, `vegetable` and `lamb` to avoid equating different dishes. A name match is only a **possible overlap**; the reviewer must compare original recipes, techniques, country attribution and significant variants before deduplicating any records. The source inventory stays intact while unverified.
+
+The saved [CSV](../data/source-overlap-review.csv) and [JSON](../data/source-overlap-review.json) are linked-source research artifacts with 38 potential leads as of the 23 October 2026 scan. They do not copy recipe instructions or images and cannot establish copyright permissions or recipe authenticity.
+
 ## Publication gates
 
 Need independent live-source and link verification, rights-checked photographs, representative country coverage, physical mobile/browser accessibility, source licensing and production API arrangements. The metadata collectors never approve recipes or deploy the application.
