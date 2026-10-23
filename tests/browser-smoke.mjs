@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -191,6 +191,19 @@ try {
   assert.ok((await page.locator('aside.panel').innerText()).includes('Onion'),'expired onion must be shopped');
   assert.ok(!(await page.locator('aside.panel .shopping-name').allTextContents()).includes('Rice'),'rice available');
   assert.equal((await page.locator('aside.panel .shopping-name').allTextContents()).length,1);
+  // Actual shopping progress must survive refresh without silently editing stock.
+  await page.locator('[data-shopping-recipe]').first().check();
+  await page.getByText('1 of 1 picked up').waitFor();
+  await page.locator('#shopping-extra-input').fill('Dish soap');
+  await page.locator('#shopping-extra-form button[type=submit]').click();
+  assert.equal(await page.locator('[data-shopping-extra]').count(),1);
+  assert.equal(await page.locator('[data-shopping-extra]').first().isChecked(),false);
+  await page.reload();
+  await page.locator('.site-nav [data-nav="plan"]').click();
+  assert.equal(await page.locator('[data-shopping-extra]').count(),1,'personal item survives reload');
+  assert.equal(await page.locator('[data-shopping-recipe]').first().isChecked(),true,'checked recipe item survives reload');
+  assert.equal((await page.locator('.shopping-name').allTextContents()).includes('Dish soap'),true);
+  assert.equal((await page.locator('.inventory-row').count()),0,'shopping actions must not turn into kitchen inventory edits');
 
   // Backup includes user edits; it can be restored after browser storage is cleared.
   await page.locator('.site-nav [data-nav="library"]').click();
@@ -202,6 +215,8 @@ try {
   assert.equal(backup.format,'tasteit-backup');
   assert.equal(backup.data.pantry.length,3);
   assert.equal(Object.keys(backup.data.saved).length,2);
+  assert.equal(backup.data.shoppingExtras[0].name,'Dish soap');
+  assert.equal(Object.keys(backup.data.shoppingChecked).length,1);
   assert.ok(Object.values(backup.data.saved).some(x=>x.meal.strSource === 'https://example.com/traditional-family-curry' && !x.meal.strMealThumb),'publisher link is saved without a copied image');
   assert.equal(Object.values(backup.data.planServings)[0],4,'portion preference is backed up');
   assert.ok(Object.values(backup.data.saved).some(x => x.meal.strMeal === 'My favourite family curry' && x.tags.includes('Weeknight')), 'JSON backups retain user labels');
@@ -216,6 +231,10 @@ try {
   });
   await page.locator('.recipe-card').first().waitFor({timeout:7000});
   assert.equal(await page.locator('.recipe-card').count(),2,'backup restore repopulates library');
+  await page.locator('.site-nav [data-nav="plan"]').click();
+  assert.equal(await page.locator('[data-shopping-extra]').count(),1,'personal shopping item restored');
+  assert.equal(await page.locator('[data-shopping-recipe]').first().isChecked(),true,'recipe shopping checkmark restored');
+  await page.locator('.site-nav [data-nav="library"]').click();
   const journalEntry = await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).saved['1']);
   assert.equal(journalEntry.cookedCount,1);
   assert.equal(journalEntry.cookingHistory[0].rating,5);
