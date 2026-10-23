@@ -1057,12 +1057,49 @@ document.addEventListener('click', async event => {
   if (action === 'world-research-review') {
     const source=worldResearchEntries.find(x=>x.id===id);
     if(!source)return;
+    if(worldMedia.sourceId!==source.id)worldMedia={sourceId:source.id,titles:[],selected:null,loading:false,error:''};
     worldResearchReviewId=source.id;render();
     document.getElementById('world-review-form')?.scrollIntoView({block:'nearest'});
     document.getElementById('review-country')?.focus();return;
   }
   if (action === 'world-review-close') {
-    worldResearchReviewId='';render();return;
+    worldResearchReviewId='';worldMedia={sourceId:'',titles:[],selected:null,loading:false,error:''};
+    render();return;
+  }
+  if (action === 'world-media-inspect') {
+    const source=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
+    if(!source || worldMedia.loading)return;
+    const id=source.id;
+    worldMedia={sourceId:id,titles:[],selected:null,loading:true,error:''};
+    redrawSourceMediaPanel();
+    try{
+      const titles=await sourceImageTitles(source.sourcePageId);
+      if(worldResearchReviewId!==id || worldMedia.sourceId!==id)return;
+      worldMedia={sourceId:id,titles,selected:null,loading:false,error:''};
+    }catch(error){
+      if(worldResearchReviewId!==id)return;
+      worldMedia={sourceId:id,titles:[],selected:null,loading:false,
+        error:'Could not inspect the Wikimedia source. Open its page manually or try again.'};
+    }
+    redrawSourceMediaPanel();return;
+  }
+  if (action === 'world-media-file') {
+    const source=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
+    const title=button.dataset.title;
+    if(!source || !worldMedia.titles.includes(title) || worldMedia.loading)return;
+    const id=source.id;
+    worldMedia={...worldMedia,loading:true,error:''};
+    redrawSourceMediaPanel();
+    try{
+      const selected=await commonsFileMetadata(title);
+      if(worldResearchReviewId!==id || worldMedia.sourceId!==id)return;
+      worldMedia={...worldMedia,selected,loading:false,error:''};
+    }catch{
+      if(worldResearchReviewId!==id)return;
+      worldMedia={...worldMedia,selected:null,loading:false,
+        error:'Commons file metadata could not be retrieved. Verify the original file page manually.'};
+    }
+    redrawSourceMediaPanel();return;
   }
   if (action === 'world-review-delete') {
     if (!store.editorialReviews?.[id])return;
