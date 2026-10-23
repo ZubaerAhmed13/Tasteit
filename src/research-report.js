@@ -1,7 +1,7 @@
 // Audit-ready research leads beside the *separate* sourced-recipe shortfall.
 // The counts below are source-tag hints only, never independently verified
 // country origins, rankings, or permission to reuse photography/text.
-import { sourceTagCountryHints, sourceTagCategoryHints } from './research-priority.js';
+import { countryAliases, sourceTagCountryHintsForAliases, sourceTagCategoryHints } from './research-priority.js';
 const indexKey=(country,category)=>JSON.stringify([country,category]);
 export function worldResearchGapReport(snapshot,links,evidence) {
   if(!snapshot || !Array.isArray(snapshot.countries) ||
@@ -14,8 +14,9 @@ export function worldResearchGapReport(snapshot,links,evidence) {
     [indexKey(cell.country,cell.category),Math.max(0,Number(cell.count)||0)]));
   const rows=[];
   for(const {country} of snapshot.countries){
+    const aliases=countryAliases(country,areas);
     const countryLeads=links.filter(link=>
-      sourceTagCountryHints(evidence.get(link.sourcePageId)||[],country,areas).length>0);
+      sourceTagCountryHintsForAliases(evidence.get(link.sourcePageId)||[],aliases).length>0);
     for(const category of snapshot.categories){
       const documented=sourced.get(indexKey(country,category))||0;
       const taggedBoth=countryLeads.filter(link=>
