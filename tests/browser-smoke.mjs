@@ -71,6 +71,14 @@ try {
           photoUrl:meal.strMealThumb,documentationScore:85,reviewStatus:'not-reviewed'}]}]
     })
   }));
+  await page.route('**/data/world-research-gaps.json', route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({
+      version:1,status:'unreviewed-research-leads-not-verified-best-recipes',
+      rows:[{country:'India',category:'Vegetarian',
+        wikibooksJointTagLeads:1,wikibooksCountryTagLeads:2}]
+    })
+  }));
   await page.route('**/data/wikibooks-research-queue.json', route=>route.fulfill({
     status:200,contentType:'application/json',
     body:JSON.stringify({version:1,recipes:[
@@ -136,6 +144,9 @@ try {
   });
   assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'),
     'snapshot exposes sourced candidates before an expensive new scan');
+  await page.locator('.world-review-audit').waitFor();
+  assert.ok((await page.locator('.world-review-audit').innerText()).includes('1 Wikibooks page(s)'));
+  assert.ok((await page.locator('.world-review-audit').innerText()).includes('unverified source clues'));
   await page.locator('.world-result-head + .recipe-grid .recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   await page.keyboard.press('Escape');
@@ -148,9 +159,13 @@ try {
   await page.locator('#world-category').selectOption('Dessert');
   await page.getByRole('heading',{name:'No sourced recipes in this combination'}).waitFor();
   await page.locator('#world-category').selectOption('Vegetarian');
-  await page.locator('[data-action="world-research-load"]').click();
+  await page.locator('[data-action="world-review-focus"]').click();
   await page.getByRole('heading',{name:'More recipe sources to research'}).waitFor();
   await page.locator('.world-research-list li').first().waitFor({timeout:12000});
+  assert.equal(await page.locator('#world-research-focus').inputValue(),'country-category');
+  assert.equal(await page.locator('.world-research-list li').count(),1,'audit opens country/course evidence queue');
+  await page.locator('#world-research-focus').selectOption('all');
+  await page.locator('#world-research-form button[type=submit]').click();
   assert.equal(await page.locator('.world-research-list li').count(),24);
   await page.locator('[data-action="world-research-next"]').click();
   assert.equal(await page.locator('.world-research-list li').count(),4);
