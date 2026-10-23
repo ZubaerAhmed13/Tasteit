@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { chromium } from 'playwright';
+import { chromium, firefox, webkit } from 'playwright';
 
 const meal = {
   idMeal: '1', strMeal: 'Tomato Rice', strArea: 'Indian',
@@ -32,7 +32,10 @@ await new Promise(resolve => server.listen(0,'127.0.0.1',resolve));
 const url = 'http://127.0.0.1:' + server.address().port;
 let browser;
 try {
-  browser = await chromium.launch({headless:true});
+  const choice=process.env.TASTEIT_BROWSER || 'chromium';
+  const driver={chromium,firefox,webkit}[choice];
+  if(!driver) throw new Error('Unsupported browser: '+choice);
+  browser = await driver.launch({headless:true});
   const context = await browser.newContext({viewport:{width:1300,height:900},acceptDownloads:true});
   const page = await context.newPage();
   const errors = [];
@@ -295,7 +298,7 @@ try {
   assert.ok(small.scroll<=small.inner+2,'kitchen search must remain usable on mobile');
 
   assert.deepEqual(errors,[],'uncaught browser errors');
-  console.log('PASS browser smoke: discovery, recipe dialog, saves, personal recipes, edit, expiry, meal plan, backup, mobile viewport');
+  console.log('PASS '+(process.env.TASTEIT_BROWSER || 'chromium')+' browser smoke: discovery, recipe dialog, saves, personal recipes, edit, expiry, meal plan, backup, mobile viewport');
   await context.close();
 } finally {
   await browser?.close();
