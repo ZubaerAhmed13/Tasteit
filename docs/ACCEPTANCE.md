@@ -19,7 +19,9 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 - [x] Export local data to JSON and restore from a backup
 - [x] Navigate on a 375px mobile viewport with no horizontal overflow
 - [x] Dialog Escape handling and restored focus after collection changes
-- [x] Dynamic cuisine and category lists, provider-category browsing and initial recipe diversity via API fixtures
+- [x] Dynamic cuisine and category lists, provider-category browsing, full provider A–Z browsing and random discovery with no cached surprise results
+- [x] Manual recipe publisher URL validation, preserved original link in backups and no automatic copying of third-party photographs
+- [x] Graceful photo-unavailable fallback on cards and recipe details rather than unrelated stock photos
 - [x] Bulk pantry paste/preview/confirm, duplicate protection, ambiguous quantity rejection, invalid-date checks and stale-preview invalidation
 - [x] Preserve separate ingredient quantities/dates through JSON backup; show due-soon batches and test recommendation ordering
 - [x] Test conservative ingredient regional names without conflating allergen- or product-specific variants
@@ -36,7 +38,7 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 ## Honest constraints
 
 * TheMealDB is not a complete collection of every cuisine. Its cuisine and category fields are not guarantees of authentic regional origin, vegetarian certification or allergen safety. Source photographs/videos are linked and credited when supplied.
-* Community photos are provided by TheMealDB and must not be passed off as Tasteit originals. See https://www.themealdb.com/terms_of_use.php ; check third-party permissions before public distribution.
+* A–Z browsing is limited to TheMealDB's available catalogue; manually linked external sources are not automatically parsed or rehosted. Community photos are provided by TheMealDB and must not be passed off as Tasteit originals. See https://www.themealdb.com/terms_of_use.php ; check third-party permissions before public distribution.
 * Recipe serving counts are user-confirmed, not inferred from the provider. Supported measurements can be scaled for each planned day; instructions, seasonings, unknown measures, density conversions and fractional whole-item decisions still require manual judgement. Stock availability is checked against currently recorded stock, not projected stock on the future cooking day. Past best-before dates are excluded from matching conservatively, but neither past dates nor future dates prove whether food is safe. Users must check storage and freshness. Tag labels and cuisine text are user/source labels, **not** validated dietary or allergy certifications. Ingredient discovery starts with name presence. The separate measurement engine estimates shortfalls only for confidently parsed, compatible units; ambiguous and mixed units are flagged for review rather than guessed. These estimates are **not** food-safety, allergy, substitution or adequate-portion clearance.
 * Personal recipes, pantry items, saved collections and plans are stored in browser localStorage. JSON backups are local, unencrypted files; safeguard them accordingly.
 * Developer API key 1 is for testing and personal development. Arrange appropriate service terms/key before public release. Never commit private API keys to client-side JavaScript.
