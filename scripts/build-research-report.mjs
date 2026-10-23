@@ -1,5 +1,6 @@
 // Offline, reproducible research gap report from previously collected source metadata.
 // No web scraping, country inference, generated recipes or copyrighted photo bytes.
+// Precompiled country aliases are reused for all 3,799 research leads per country.
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {worldResearchGapReport,worldResearchGapCsv} from '../src/research-report.js';
 
