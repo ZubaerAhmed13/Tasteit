@@ -70,7 +70,7 @@ try {
   await page.route('**/data/wikibooks-research-queue.json', route=>route.fulfill({
     status:200,contentType:'application/json',
     body:JSON.stringify({version:1,recipes:[
-      {id:'wikibooks:1',title:'Chicken Biryani',
+      {id:'wikibooks:1',title:'Chicken Biryani',sourcePageId:101,
        url:'https://en.wikibooks.org/wiki/Cookbook:Chicken_Biryani',
        country:null,course:null,status:'needs-editorial-origin-and-course-review'},
       {id:'wikibooks:2',title:'Apple Pie',
@@ -81,6 +81,12 @@ try {
         url:'https://en.wikibooks.org/wiki/Cookbook:Fixture_'+i,
         country:null,course:null,status:'needs-editorial-origin-and-course-review'
       }))
+    ]})
+  }));
+  await page.route('**/data/wikibooks-category-evidence.json', route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({version:1,records:1,recipes:[
+      {sourcePageId:101,categoryLabels:['Rice dishes','South Asian recipes']}
     ]})
   }));
   await page.route('**/images/media/meals/**', route => route.fulfill({
@@ -137,6 +143,7 @@ try {
   await page.locator('#world-research-form button[type=submit]').click();
   assert.equal(await page.locator('.world-research-list li').count(),1);
   assert.ok((await page.locator('.world-research-list a').innerText()).includes('Chicken Biryani'));
+  assert.ok((await page.locator('.world-research').innerText()).includes('Source tags (unverified): Rice dishes'));
   assert.ok((await page.locator('.world-research').innerText()).includes('Country and course assignments require human verification'));
   const coverageDownload=page.waitForEvent('download');
   await page.locator('[data-action="world-export"]').click();
