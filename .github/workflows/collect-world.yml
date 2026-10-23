@@ -1,0 +1,31 @@
+name: Collect Tasteit source catalogue
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/recipe-kitchen-foundation
+    paths:
+      - scripts/collect-provider.mjs
+
+permissions:
+  contents: read
+
+jobs:
+  catalogue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Collect source-linked worldwide candidate index
+        run: node scripts/collect-provider.mjs
+      - name: Upload reviewable metadata and coverage gaps
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tasteit-country-category-coverage
+          path: artifacts/world-catalogue-*.*
+          retention-days: 30
+          if-no-files-found: warn
