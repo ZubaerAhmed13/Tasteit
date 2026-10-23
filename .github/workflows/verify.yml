@@ -43,4 +43,4 @@ jobs:
       - name: Run headless browser acceptance
         env:
           TASTEIT_BROWSER: ${{ matrix.browser }}
-        run: node tests/browser-smoke.mjs && node tests/discovery-browser.mjs
+        run: node tests/browser-smoke.mjs && node tests/discovery-browser.mjs && node tests/kitchen-browser.mjs

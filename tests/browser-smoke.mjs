@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/navigation.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js','src/source-overlap.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/navigation.js','src/kitchen-flow.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js','src/source-overlap.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -306,6 +306,7 @@ try {
   assert.match(initialTimer,/^0[01]:\d\d$/,'clock displays an active minute timer');
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('[role="dialog"]').count(),0);
+  await page.waitForFunction(()=>!new URL(location.href).searchParams.has('recipe'));
   await page.reload();
   await page.locator('.recipe-photo').first().click();
   await page.locator('[data-action="start-cooking"]').click();

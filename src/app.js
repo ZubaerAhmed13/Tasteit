@@ -1,3 +1,4 @@
+import { purchaseReview, purchaseFingerprint, receivePurchases, consumptionReview, applyConsumption, addLeftover, validKitchenState, STOCK_UNITS, STOCK_LOCATIONS } from './kitchen-flow.js';
 import { readRoute, routeUrl, normaliseFilters, filterSummary } from './navigation.js';
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
 import { discoverMeals, mealDetails, pantryCandidateReport, availableAreas, availableAreaRecords, availableCategories, randomMeal, scanWorldRecipes } from './api.js';
@@ -85,6 +86,8 @@ let detailController = null;
 const recipeMutations = new Set();
 let stepIndex = -1;
 let showCookingLog = false;
+let cookingStockSnapshot = [];
+let purchaseDraft = null;
 let detailTargetServings = null;
 let editingId = null;
 let newBatchName = null;
@@ -148,7 +151,7 @@ function stopDiscovery() {
 function changeView(next) {
   stopDiscovery();
   closeDialog({history:false});
-  filterDraft=null;queryDraft=null;
+  filterDraft=null;queryDraft=null;purchaseDraft=null;
   view=next;
   writeRoute();
   if(next==='discover')void discover('restore','',{history:false});
@@ -160,7 +163,7 @@ function changeView(next) {
 async function restoreRoute(route) {
   stopDiscovery();
   closeDialog({history:false});
-  filterDraft=null;queryDraft=null;
+  filterDraft=null;queryDraft=null;purchaseDraft=null;
   view=route.view;
   const filters=normaliseFilters(route);
   searchTerm=filters.query;area=filters.area||'All';category=filters.category||'All';browseLetter=filters.letter;
@@ -616,12 +619,63 @@ function pantryPage() {
   const dueSoon = soon.length ? '<section class="panel due-soon" aria-label="Ingredients dated soon"><div class="section-head"><div><h3>Use these soon</h3><p>Recorded dates within three days, starting today</p></div><button type="button" class="btn secondary small" data-action="suggest">Find recipes ↗</button></div><div class="due-list">' + soon.map(item => '<div class="due-item"><strong>' + escapeHtml(item.name) + '</strong><span>' + escapeHtml(item.dateInfo.label) + '</span></div>').join('') + '</div><p class="panel-note">These are your recorded dates, not a food-safety decision. Always check storage and freshness.</p></section>' : '';
   return '<div class="page-top"><div class="eyebrow">KNOW WHAT YOU HAVE</div><h1>Your kitchen, <em>organised.</em></h1><p class="lead">Keep a simple inventory and find recipes that match what is already at home.</p></div>' +
     '<div class="page-grid"><div><div class="panel"><div class="section-head"><h3>' + (edit ? 'Edit an ingredient' : 'Add to your kitchen') + '</h3><button type="button" class="btn secondary small" data-action="bulk-open">+ Add many at once</button></div>' + form + '</div>' + bulkUi +
-    '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' recorded batches</p></div></div>' + inventory + '</section></div>' +
+    '<section class="section"><div class="section-head"><div><h3>On your shelves</h3><p>' + rows.length + ' recorded batches</p></div></div>' + inventory + '</section>' + leftoversPanel() + '</div>' +
     '<aside><div class="panel"><h3>Kitchen at a glance</h3><div class="stat-block"><span class="stat-number">' + rows.length + '</span><span class="stat-label">ingredients recorded</span></div><div class="stat-block"><span class="stat-number">' + expiring + '</span><span class="stat-label">past or within 3 days of their recorded date</span></div>' +
     '<button type="button" class="btn" data-action="suggest" style="width:100%;margin:14px 0">✦ Find recipes with my food</button>' +
     '<p class="panel-note">Keep purchases with different dates as separate batches using ＋. Names are matched first; amounts are added only when compatible. Recorded best-before dates are not proof that food is safe or unsafe.</p></div>' + dueSoon + '</aside></div>';
 }
 
+function captureFields(form) {
+  return form ? [...form.elements].filter(x=>x.name).map(x=>({name:x.name,value:x.value,checked:x.checked,type:x.type})) : [];
+}
+function restoreFields(form,fields) {
+  if(!form)return;
+  for(const field of fields) {
+    const input=form.elements.namedItem(field.name);
+    if(!input)continue;
+    if(field.type==='checkbox')input.checked=field.checked;
+    else input.value=field.value;
+  }
+}
+function currentShoppingChecklist() {
+  const dates=nextSevenDates().map(x=>x.key);
+  const week=Object.fromEntries(dates.map(day=>[day,store.plan[day]]).filter(([,id])=>id));
+  return shoppingChecklist(shoppingList(week,store.saved,store.pantry,store.planServings),store.shoppingExtras,store.shoppingChecked);
+}
+function choiceOptions(values,selected) {
+  return values.map(value=>'<option'+(value===selected?' selected':'')+'>'+escapeHtml(value)+'</option>').join('');
+}
+function purchasePanel() {
+  if(!purchaseDraft)return '';
+  return '<section class="panel kitchen-review" aria-labelledby="purchase-review-title"><h3 id="purchase-review-title" tabindex="-1">Review food purchases</h3>'+
+    '<p class="panel-note">Select only food you want to track. Enter the actual amount you bought, not just the recipe shortfall. Each selected purchase becomes a separate batch.</p>'+
+    '<form id="purchase-review-form">'+purchaseDraft.rows.map((row,i)=>'<fieldset class="purchase-row"><legend><label><input type="checkbox" name="pick-'+i+'"> '+escapeHtml(row.item.name)+'</label></legend>'+
+      '<div class="purchase-fields"><div class="field"><label for="purchase-amount-'+i+'">Actual amount</label><input id="purchase-amount-'+i+'" name="amount-'+i+'" type="number" min="0" step="any" placeholder="Enter amount"></div>'+
+      '<div class="field"><label for="purchase-unit-'+i+'">Unit</label><select id="purchase-unit-'+i+'" name="unit-'+i+'">'+choiceOptions(STOCK_UNITS,'pcs')+'</select></div>'+
+      '<div class="field"><label for="purchase-location-'+i+'">Stored in</label><select id="purchase-location-'+i+'" name="location-'+i+'">'+choiceOptions(STOCK_LOCATIONS,'Pantry')+'</select></div>'+
+      '<div class="field"><label for="purchase-expiry-'+i+'">Recorded date · optional</label><input id="purchase-expiry-'+i+'" name="expiry-'+i+'" type="date"></div></div></fieldset>').join('')+
+    '<div class="dialog-actions"><button class="btn" type="submit">Confirm and add to kitchen</button><button class="btn secondary" type="button" data-action="shopping-receive-cancel">Cancel</button></div></form></section>';
+}
+function cookingStockPanel() {
+  const rows=cookingStockSnapshot.map((row,i)=>'<div class="usage-row"><label class="usage-select"><input type="checkbox" name="use-'+i+'"> '+escapeHtml(row.name)+
+    '<span class="panel-note">'+escapeHtml(row.quantity+' '+row.unit+' · '+row.location+(row.expiry?' · dated '+row.expiry:''))+'</span></label>'+
+    '<div class="field"><label for="used-'+i+'">Actually used ('+escapeHtml(row.unit)+')</label><input id="used-'+i+'" name="used-'+i+'" type="number" min="0" max="'+escapeHtml(row.quantity)+'" step="any" value="'+escapeHtml(row.suggested)+'" placeholder="Enter amount"></div></div>').join('');
+  return '<details class="field wide kitchen-review-details"><summary>Review ingredients used · optional</summary><p class="panel-note">Select the batches you used and confirm actual amounts. Suggestions are editable. Unselected batches stay unchanged; unknown amounts are never guessed.</p>'+
+    (rows || '<p class="panel-note">No compatible measured stock to review. You can update amounts in My kitchen.</p>')+'</details>'+
+    '<details class="field wide kitchen-review-details"><summary>Save leftovers · optional</summary><div class="purchase-fields">'+
+    '<div class="field"><label for="leftover-portions">Portions left</label><input id="leftover-portions" name="leftoverPortions" type="number" min="0" max="100" step="1" placeholder="None"></div>'+
+    '<div class="field"><label for="leftover-location">Stored in</label><select id="leftover-location" name="leftoverLocation">'+choiceOptions(['Fridge','Freezer'],'Fridge')+'</select></div>'+
+    '<div class="field"><label for="leftover-prepared">Prepared on</label><input id="leftover-prepared" name="leftoverPrepared" type="date" value="'+nextSevenDates()[0].key+'"></div>'+
+    '<div class="field"><label for="leftover-reminder">Reminder date · optional</label><input id="leftover-reminder" name="leftoverReminder" type="date"></div></div><p class="panel-note">Dates are your reminders, not food-safety advice. No notification is scheduled.</p></details>';
+}
+function leftoversPanel() {
+  if(!store.leftovers?.length)return '';
+  return '<section class="panel leftovers-panel" aria-label="Cooked meals and leftovers"><h3>Cooked meals &amp; leftovers</h3><p class="panel-note">Keep portions separate from raw ingredients. Check storage and freshness yourself.</p>'+
+    store.leftovers.map(row=>'<div class="leftover-row"><div><strong>'+escapeHtml(row.name)+'</strong><p class="panel-note">'+row.portions+' portion'+(row.portions===1?'':'s')+' · '+escapeHtml(row.location)+' · prepared '+escapeHtml(row.preparedAt)+(row.reminderDate?' · reminder '+escapeHtml(row.reminderDate):'')+'</p></div>'+
+    '<div class="dialog-actions"><button class="btn secondary small" type="button" data-action="leftover-use" data-id="'+escapeHtml(row.id)+'"'+(!row.portions?' disabled':'')+'>Use one portion</button>'+
+    '<button class="icon-button" type="button" data-action="leftover-more" data-id="'+escapeHtml(row.id)+'" aria-label="Restore one portion of '+escapeHtml(row.name)+'"'+(row.portions>=100?' disabled':'')+'>＋</button>'+
+    '<button class="icon-button" type="button" data-action="leftover-remove" data-id="'+escapeHtml(row.id)+'" aria-label="Remove leftover '+escapeHtml(row.name)+'">×</button></div></div>').join('')+'</section>';
+}
 function planPage() {
   const dates = nextSevenDates();
   const plannedIds = new Set(Object.values(store.plan));
@@ -653,7 +707,8 @@ function planPage() {
   const shoppingRow = row => {
     const item = row.item;
     const title = escapeHtml(item.name);
-    const meta = row.manual ? 'Your own item · not automatically added to the kitchen' :
+    const stocked=store.shoppingStocked?.[row.key]===purchaseFingerprint(row);
+    const meta = stocked?'Already added to your kitchen':row.manual ? 'Your own item · not automatically added to the kitchen' :
       'For ' + escapeHtml(item.meals.join(', '));
     const identity = row.manual ? 'data-shopping-extra="' + escapeHtml(row.key) + '"' :
       'data-shopping-recipe="' + escapeHtml(row.key) + '"';
@@ -678,11 +733,12 @@ function planPage() {
     '<aside class="panel"><div class="section-head"><div><h3>Shopping checklist</h3><p role="status">' +
     checklist.completedCount + ' of ' + checklist.total + ' picked up</p></div></div>' +
     '<div class="shopping-checklist">' + currentRows + completedRows + '</div>' +
+    '<button class="btn secondary" type="button" data-action="shopping-receive"'+(!purchaseReview(checklist,store.shoppingStocked).length?' disabled':'')+'>Review purchases for kitchen ('+purchaseReview(checklist,store.shoppingStocked).length+')</button>' +
     '<form id="shopping-extra-form" class="shopping-add-form"><label for="shopping-extra-input">Add another item</label>' +
     '<div class="shopping-add-inline"><input id="shopping-extra-input" type="text" name="item" maxlength="100" placeholder="e.g. Dish soap, bananas…" required>' +
     '<button type="submit" class="btn secondary small">+ Add</button></div></form>' +
     (checklist.toBuy.length ? '<button class="btn secondary" type="button" data-action="copy-shopping" style="width:100%;margin:18px 0">Copy remaining items ↗</button>' : '') +
-    '<p class="panel-note">Ticking an item only tracks your shopping progress. It does not automatically add it to your pantry. Your selections stay in this browser and are included in JSON backups. If a recipe or its required quantity changes, an earlier checkmark is no longer treated as current.</p></aside></div>';
+    '<p class="panel-note">Ticking an item only tracks shopping progress. Review actual food purchases before adding them to your kitchen. If recipe requirements change, earlier checkmarks need checking again.</p></aside></div>' + purchasePanel();
 }
 
 
@@ -908,11 +964,13 @@ function worldPage() {
 }
 
 function render() {
+  const purchaseFields=captureFields(document.getElementById('purchase-review-form'));
   const active=document.activeElement;
   const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter'].includes(active?.id)
     ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
+  if(purchaseDraft)restoreFields(document.getElementById('purchase-review-form'),purchaseFields);
   if(restoreInput) {
     const input=document.getElementById(restoreInput.id);
     input?.focus({preventScroll:true});
@@ -964,6 +1022,7 @@ function actionButton(type, meal, icon, label) {
 }
 function renderDialog() {
   if (!selectedMeal) { overlayRoot.innerHTML = ''; return; }
+  const journalFields=captureFields(overlayRoot.querySelector('#cooking-log-form'));
   const focusedControl = overlayRoot.contains(document.activeElement) ? document.activeElement.closest('[data-action]') : null;
   const focusedAction = focusedControl?.dataset.action;
   const focusedId = focusedControl?.dataset.id;
@@ -985,7 +1044,7 @@ function renderDialog() {
       '<option value="0">Not rated</option>' + [1,2,3,4,5].map(n => '<option value="' + n + '">' + n + ' / 5</option>').join('') + '</select></div>' +
       '<div class="field wide"><label for="cooking-note">What would you change or remember next time?</label>' +
       '<textarea id="cooking-note" name="note" rows="5" maxlength="1000" placeholder="More chilli next time, cook 3 minutes less, use fresh coriander..."></textarea></div>' +
-      '<div class="field wide dialog-actions"><button type="submit" class="btn">Save cooking experience ✓</button>' +
+      cookingStockPanel() + '<div class="field wide dialog-actions"><button type="submit" class="btn">Save cooking experience ✓</button>' +
       '<button type="button" class="btn secondary" data-action="cancel-cook-log">Back to recipe</button></div></form></div>';
   } else if (stepIndex >= 0) {
     const total = parts.length;
@@ -1066,6 +1125,7 @@ function renderDialog() {
     '</div><p class="panel-note">' + (meal.strPersonal ? (externalUrl(meal.strSource) ? 'Your personal adaptation · Original publisher linked. No third-party photo copied.' : 'Personal recipe written by you.') : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
   syncCookingTimer();
+  if(showCookingLog)restoreFields(overlayRoot.querySelector('#cooking-log-form'),journalFields);
   if (focusedAction) {
     const nextFocus = [...overlayRoot.querySelectorAll('[data-action]')].find(node =>
       node.dataset.action === focusedAction && node.dataset.id === focusedId);
@@ -1077,7 +1137,7 @@ function closeDialog({history=true}={}) {
   detailRequestNumber++;
   detailController?.abort();detailController=null;
   clearInterval(cookingTimerTicker);cookingTimerTicker=null;
-  selectedMeal=null;openingMealId='';stepIndex=-1;showCookingLog=false;detailTargetServings=null;
+  selectedMeal=null;openingMealId='';stepIndex=-1;showCookingLog=false;detailTargetServings=null;cookingStockSnapshot=[];
   overlayRoot.innerHTML='';document.body.style.overflow='';
   if(wasOpen) {
     if(dialogReturnFocus?.isConnected)dialogReturnFocus.focus({preventScroll:true});
@@ -1255,7 +1315,7 @@ document.addEventListener('click', async event => {
     return;
   }
   if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action); return; }
-  if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
+  if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; cookingStockSnapshot=consumptionReview(selectedMeal,store.pantry,savedEntry(id).baseServings,detailTargetServings); showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
   if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
   if (action === 'featured') { await discover(); return; }
   if (action === 'surprise') {
@@ -1415,6 +1475,20 @@ document.addEventListener('click', async event => {
     detailTargetServings = Math.max(1,Math.min(24,current + (action === 'servings-plus' ? 1 : -1)));
     renderDialog(); return;
   }
+  if(action==='shopping-receive') {
+    const rows=purchaseReview(currentShoppingChecklist(),store.shoppingStocked);
+    if(!rows.length){notice('Tick off food purchases first, then review them here.');return;}
+    purchaseDraft={rows,id:globalThis.crypto?.randomUUID?.() || Date.now()+'-'+String(Math.random()).slice(2)};
+    render();document.getElementById('purchase-review-title')?.scrollIntoView({block:'start'});document.getElementById('purchase-review-title')?.focus();return;
+  }
+  if(action==='shopping-receive-cancel') {purchaseDraft=null;render();return;}
+  if(['leftover-use','leftover-more','leftover-remove'].includes(action)) {
+    const row=store.leftovers.find(x=>x.id===id);if(!row)return;
+    if(action==='leftover-remove' && !window.confirm('Remove this leftover record?'))return;
+    const leftovers=action==='leftover-remove'?store.leftovers.filter(x=>x.id!==id):store.leftovers.map(x=>x.id===id?{...x,portions:Math.max(0,Math.min(100,x.portions+(action==='leftover-use'?-1:1)))}:x);
+    if(!validKitchenState(undefined,leftovers) || !persistStore({...store,leftovers})) {notice('Could not save the leftover update. Nothing changed.');return;}
+    store.leftovers=leftovers;render();notice('Leftover portions updated.');return;
+  }
   if (action === 'shopping-remove-extra') {
     const next=removeShoppingExtra(store.shoppingExtras,id);
     if (!persistStore({...store,shoppingExtras:next})) { notice('Unable to save this shopping change.'); return; }
@@ -1446,6 +1520,18 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if(event.target.id==='purchase-review-form') {
+    event.preventDefault();if(!purchaseDraft)return;
+    const input=Object.fromEntries(new FormData(event.target));
+    const selections=purchaseDraft.rows.flatMap((row,i)=>input['pick-'+i]?[{key:row.key,quantity:input['amount-'+i],unit:input['unit-'+i],location:input['location-'+i],expiry:input['expiry-'+i]}]:[]);
+    try {
+      const next=receivePurchases(store,purchaseDraft.rows,selections,purchaseDraft.id);
+      if(!persistStore(next)){notice('Could not save purchases. Your kitchen is unchanged.');return;}
+      store.pantry=next.pantry;store.shoppingStocked=next.shoppingStocked;purchaseDraft=null;
+      render();notice('Reviewed purchases added as separate kitchen batches.');
+    } catch(error) {notice(error.message || 'Could not add these purchases.');}
+    return;
+  }
   if(event.target.id==='discovery-filters') {
     event.preventDefault();
     const fields=Object.fromEntries(new FormData(event.target));
@@ -1556,22 +1642,25 @@ document.addEventListener('submit', event => {
   }
   if (event.target.id === 'cooking-log-form') {
     event.preventDefault();
-    if (!selectedMeal) return;
-    const id = selectedMeal.idMeal;
-    const input = Object.fromEntries(new FormData(event.target).entries());
+    if (!selectedMeal || !showCookingLog) return;
+    const id=selectedMeal.idMeal,input=Object.fromEntries(new FormData(event.target));
     try {
-      const current = { ...savedEntry(id), meal:selectedMeal };
-      const nextSaved = {...store.saved,[id]:recordCooking(current,input)};
-      const nextSessions = {...store.cookingSessions};
-      delete nextSessions[id];
-      if (!persistStore({...store,saved:nextSaved,cookingSessions:nextSessions})) {
-        notice('Unable to save cooking experience. Your in-progress steps are unchanged.'); return;
+      const deductions=cookingStockSnapshot.flatMap((row,i)=>input['use-'+i]?[{...row,used:input['used-'+i]}]:[]);
+      const pantry=applyConsumption(store.pantry,deductions);
+      const current={...savedEntry(id),meal:selectedMeal};
+      const saved={...store.saved,[id]:recordCooking(current,input)};
+      const sessions={...store.cookingSessions};delete sessions[id];
+      let leftovers=store.leftovers;
+      if(String(input.leftoverPortions||'').trim() && Number(input.leftoverPortions)!==0)leftovers=addLeftover(leftovers,{
+        id:'leftover-'+(globalThis.crypto?.randomUUID?.() || Date.now()+'-'+String(Math.random()).slice(2)),mealId:id,name:selectedMeal.strMeal,
+        portions:input.leftoverPortions,preparedAt:input.leftoverPrepared||nextSevenDates()[0].key,reminderDate:input.leftoverReminder||'',location:input.leftoverLocation||'Fridge'});
+      if(!persistStore({...store,saved,cookingSessions:sessions,pantry,leftovers})) {
+        notice('Unable to save cooking experience. Your kitchen, leftovers and in-progress steps are unchanged.');return;
       }
-      store.saved=nextSaved;
-      store.cookingSessions=nextSessions;
-      showCookingLog=false; stepIndex=-1;
-      render(); notice('Added to your cooking journal.');
-    } catch (error) { notice(error.message || 'Could not save cooking notes.'); }
+      store.saved=saved;store.cookingSessions=sessions;store.pantry=pantry;store.leftovers=leftovers;
+      showCookingLog=false;stepIndex=-1;cookingStockSnapshot=[];
+      render();notice('Cooking journal and confirmed kitchen updates saved.');
+    } catch(error) {notice(error.message || 'Could not save cooking notes.');}
     return;
   }
   if (event.target.id === 'personal-recipe-form') {
@@ -1675,6 +1764,8 @@ document.addEventListener('change', async event => {
       store.shoppingChecked = restored.shoppingChecked || {};
       store.shoppingExtras = restored.shoppingExtras || [];
       store.editorialReviews = restored.editorialReviews || {};
+      store.shoppingStocked = restored.shoppingStocked || {};
+      store.leftovers = restored.leftovers || [];
       showRecipeForm = false; editingRecipeId = null;
       render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
@@ -1753,6 +1844,8 @@ window.addEventListener('storage', event => {
   store.shoppingChecked = fresh.shoppingChecked;
   store.shoppingExtras = fresh.shoppingExtras;
   store.editorialReviews = fresh.editorialReviews;
+  store.shoppingStocked = fresh.shoppingStocked;
+  store.leftovers = fresh.leftovers;
   render();
 });
 

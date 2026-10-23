@@ -63,6 +63,22 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 
 ## Collection audit — 23 October 2026
 
+## Second audit stage — connected kitchen
+
+- [x] Pure tests for reviewed purchase batches, duplicate/stale shopping rows,
+  negative/unknown purchase amounts and invalid units/dates
+- [x] Pure tests for serving-aware compatible usage suggestions, unknown measures,
+  per-batch deductions, overdraw and stale quantity/date rejection
+- [x] Event-owner tests confirm failed storage preserves inventory, journal,
+  leftovers and cooking progress; repeat submissions do not apply twice
+- [x] Version-1 backups round-trip optional purchase fingerprints and leftovers;
+  older backups remain supported and malformed new records are rejected
+- [ ] Browser matrix: reviewed purchases, atomic cooking/stock/leftovers, reload
+  and 375px controls (covered by `tests/kitchen-browser.mjs`; verify latest CI)
+- [ ] Real Android/iOS quantity entry, keyboard and leftover controls
+
+## Collection audit — 23 October 2026
+
 - 195 countries and 14 provider categories listed
 - 790 recipe candidates obtained via the 26 first-letter API queries
 - 334 country/category combinations nonempty out of 2,730 possible

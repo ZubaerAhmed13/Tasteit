@@ -491,3 +491,24 @@ h3 { font-size: 24px }
 .source-overlap-panel li a {font-size:13px;font-weight:700;color:var(--forest);text-decoration:underline}
 .source-overlap-panel li span {color:var(--muted);font-size:11px}
 .source-overlap-clear {background:#f4f7f1;border-radius:9px;padding:10px 12px;margin:12px 0}
+.kitchen-review,.leftovers-panel {margin-top:24px}
+.kitchen-review form {margin-top:18px}
+.purchase-row {min-width:0;border:1px solid var(--line);border-radius:14px;padding:15px;margin:0 0 16px}
+.purchase-row legend {max-width:100%;font-weight:750;padding:0 7px;overflow-wrap:anywhere}
+.purchase-fields {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:12px 0}
+.purchase-fields .field {min-width:0}
+.kitchen-review-details {border:1px solid var(--line);padding:15px;border-radius:14px}
+.kitchen-review-details summary {cursor:pointer;font-weight:750;padding:3px 0}
+.kitchen-review-details>p {margin:12px 0}
+.usage-row {display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.7fr);gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.usage-select {overflow-wrap:anywhere}
+.usage-select .panel-note {display:block;margin:6px 0 0 24px}
+.leftover-row {display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.leftover-row strong {overflow-wrap:anywhere}
+.purchase-row input[type=checkbox],.usage-row input[type=checkbox] {width:20px;height:20px;vertical-align:middle;accent-color:var(--forest)}
+@media(max-width:540px) {
+  .usage-row {grid-template-columns:1fr;gap:9px}
+  .purchase-row {padding:12px}
+  .kitchen-review>.dialog-actions .btn,.leftover-row .btn {min-height:44px}
+  .kitchen-review-details {padding:12px}
+}

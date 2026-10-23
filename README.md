@@ -29,6 +29,20 @@ External recipe requests have a 12-second deadline per request, and pantry disco
 distinguishes no matches from unavailable or partially responding sources. Matching
 saved recipes remain available when the external ingredient search fails.
 
+**Connected kitchen:** tick off shopping purchases, then choose **Review purchases
+for kitchen**. Select actual food purchases and enter their real amounts, units,
+storage and dates before confirming separate pantry batches. Already transferred
+items cannot be transferred again for the same shopping requirement.
+
+When saving a cooking experience, optionally expand **Review ingredients used**.
+Select the batches actually used and confirm editable amounts; incompatible or
+unknown measurements are never guessed. You can also record leftover portions,
+preparation date, fridge/freezer location and an optional reminder date. My kitchen
+shows the leftovers with controls to use or restore a portion. These dates do not
+schedule notifications or certify food safety. The journal, stock deductions,
+leftovers and cooking-session completion save together, or none of them change.
+Backups include these optional records and older version-1 backups remain supported.
+
 No npm install is needed. Node 20+ runs automated tests:
 
 ~~~bash
@@ -82,7 +96,7 @@ For authenticity, image rights, source research, regional variants and future so
 - The developer key \`1\` is for testing/education/personal projects. **Before any public launch** secure a production arrangement with TheMealDB and review its image/content terms. Never claim user-submitted source photography as original Tasteit work.
 - A source's recipe with a high documentation score is **not** automatically a top-rated or authentic national dish. The goal of 30 per pair requires other properly licensed and human-verified sources. A blank cell means *not yet sourced*, not that a cuisine has no such food.
 - TheMealDB is not every recipe in the world; A–Z browsing covers only the provider's catalogue. User-linked outside publishers are references, not additional fetched recipe content. Failed remote food images get a neutral placeholder rather than a fabricated replacement. The provider's cuisine/category tags, photographs and instructions are community-provided and are **not independently verified as authentic, vegetarian, allergen-free or safe**. The recipe detail panel explains provenance and links to the original source/video when available.
-- Your shopping checklist is a **purchase-progress tool**, not an inventory-update mechanism. Completed items are still available for review, and changed amounts are deliberately unchecked until reviewed again.
+- Checking shopping items tracks purchase progress. Inventory changes only after a separate review of actual purchases. Completed items remain reviewable, transferred items are marked, and changed recipe requirements need checking again.
 - Browser-local storage is device-specific and can be cleared. There is **no account, cloud sync, automatic backup, or offline recipe guarantee** yet. Manual JSON backups are available under My recipes.
 - **The manual cooking timer is not a reliable background alarm.** Its remaining time is calculated from wall-clock timestamps even after browser sleep or refresh, but alerts are only visible while Tasteit is open. No push notifications, lock-screen alarm, sound guarantee or background service is provided. Do not use it as a food-safety or medical timer.
 - TheMealDB v1 allows filtering by only one ingredient per request. Tasteit unions suggestions from the four **user-selected** ingredient searches and a subset of saved recipes, then checks candidate ingredients against the complete recorded pantry. It is a capped discovery sample and **not** an exhaustive multi-ingredient catalogue search. Pantry entries dated in the past or with zero quantity are excluded from automatic matching as a cautious default, not as a determination that food has spoiled. The quantity engine compares only unambiguous amounts (including g/kg and ml/l), never guesses densities or converts cups to grams, and flags uncertain measurements. Changing serving sizes requires a user-confirmed original count because the recipe provider does not supply a dependable baseline. Spice amounts, fractional whole items and cooking instructions are not automatically adjusted; displayed scaled amounts may be rounded. Substitutions, dietary/allergen safety and actual food freshness are **not** verified.
