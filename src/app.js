@@ -469,6 +469,71 @@ function planPage() {
     '<p class="panel-note">Ticking an item only tracks your shopping progress. It does not automatically add it to your pantry. Your selections stay in this browser and are included in JSON backups. If a recipe or its required quantity changes, an earlier checkmark is no longer treated as current.</p></aside></div>';
 }
 
+
+function worldPage() {
+  const countries=countryDirectory(worldAreas);
+  const cell=worldIndex ? catalogueCell(worldIndex,worldCountry,worldCategory) : null;
+  const number=cell?.count ?? 0;
+  const assessed=Boolean(worldIndex);
+  const incomplete=worldPartial.length>0;
+  const selectedOption=(name,selected)=>
+    '<option value="'+escapeHtml(name)+'"'+(name===selected?' selected':'')+'>'+escapeHtml(name)+'</option>';
+  const controls='<div class="world-filters"><div class="field"><label for="world-country">Country or territory</label>' +
+    '<select id="world-country" data-world-country '+(!countries.length?'disabled':'')+'>'+
+    countries.map(x=>selectedOption(x.country,worldCountry)).join('')+'</select></div>' +
+    '<div class="field"><label for="world-category">Recipe category</label>' +
+    '<select id="world-category" data-world-category '+(!worldCategories.length?'disabled':'')+'>'+
+    worldCategories.map(x=>selectedOption(x,worldCategory)).join('')+'</select></div></div>';
+  const startButton='<div class="world-actions"><button type="button" class="btn" data-action="world-scan" '+
+    (worldScanning || !countries.length?'disabled':'')+'>'+
+    (worldScanning?'Collecting recipes…':assessed?'Rescan source catalogue':'Collect available recipes')+'</button>'+
+    (worldScanning?'<button type="button" class="btn secondary" data-action="world-cancel">Stop scan</button>':'')+
+    (assessed?'<button type="button" class="btn secondary" data-action="world-export">Export coverage report ↓</button>':'')+'</div>';
+  const progress=worldScanning ?
+    '<div class="world-progress" role="status"><div class="progress-bar"><span style="width:'+
+    Math.round(100*worldScanProgress.completed/Math.max(1,worldScanProgress.total))+'%"></span></div>'+
+    '<p>Checked '+worldScanProgress.completed+' of '+worldScanProgress.total+
+    ' recipe initials · '+worldScanProgress.recipes+' source entries read · '+
+    worldScanProgress.failed+' failed requests</p></div>' : '';
+  const scannedStats=assessed ?
+    '<div class="world-stats" aria-label="Catalogue source coverage"><div><strong>'+
+    worldIndex.stats.countries+'</strong><span>Provider-listed places</span></div><div><strong>'+
+    worldIndex.stats.categories+'</strong><span>Categories</span></div><div><strong>'+
+    worldIndex.stats.nonempty+'</strong><span>Country-category pairs with recipes</span></div><div><strong>'+
+    worldIndex.stats.full+'</strong><span>Pairs reaching '+CATALOGUE_TARGET+'</span></div></div>' : '';
+  const summary=assessed && cell ?
+    '<section class="world-result-head" aria-live="polite"><div><div class="eyebrow">SOURCED CANDIDATES</div>'+
+    '<h2>'+escapeHtml(worldCountry)+' · '+escapeHtml(worldCategory)+'</h2>'+
+    '<p>'+number+' / '+CATALOGUE_TARGET+' source recipes found for this combination. '+
+    (cell.missing?'Still '+cell.missing+' short of the collection target.':'Collection target reached.')+
+    ' None have been independently selected as “best” or authenticated as traditional dishes.</p></div>'+
+    '<div class="world-count">'+number+' <span>/ '+CATALOGUE_TARGET+'</span></div></section>' : '';
+  const caution=assessed && incomplete ?
+    '<p class="world-warning" role="status">Incomplete provider scan: requests for '+
+    escapeHtml(worldPartial.join(', ').toUpperCase())+
+    ' failed. Counts may be lower than the provider’s actual catalogue.</p>' : '';
+  const recipes=cell?.recipes?.length ? cards(cell.recipes.map(x=>x.meal)) :
+    assessed ? '<div class="world-empty"><h3>No sourced recipes in this combination</h3>'+
+      '<p>We have not verified a recipe in this country and category from the current source scan. This is a coverage gap, not proof that no local recipes exist.</p></div>' :
+      '<div class="world-empty"><h3>Ready to start the collection</h3>'+
+      '<p>Choose a country and category, then scan the provider’s recipe index. The first scan makes 26 initial-letter requests; it is started only when you choose to collect.</p></div>';
+  return '<div class="page-top"><div class="eyebrow">COOK ACROSS BORDERS</div>'+
+    '<h1>The world on <em>your plate.</em></h1>'+
+    '<p class="lead">Our collection goal: up to 30 well-documented recipes per relevant country and category. Discover what the provider actually has, with gaps shown clearly.</p></div>'+
+    '<section class="panel world-panel"><div class="section-head"><div><h3>Choose a cuisine and category</h3>'+
+    '<p>TheMealDB source classifications — they are not independent cultural or dietary certification.</p></div></div>'+
+    (worldLoadingOptions?'<p class="panel-note">Loading the country and category directory…</p>':'')+
+    (worldOptionsError?'<p role="alert" class="world-warning">'+escapeHtml(worldOptionsError)+
+    ' <button class="btn secondary small" data-action="world-retry-options">Try again</button></p>':'')+
+    controls+startButton+progress+
+    '<p class="panel-note">TheMealDB data and photo source: <a href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">TheMealDB</a>. Photos are not ours; public reuse requires rights checks. A data-completeness score chooses candidates, not quality ratings. No invented recipes.</p>'+
+    '</section>'+caution+scannedStats+summary+recipes+
+    (assessed?'<p class="panel-note">Provider records found: '+worldIndex.stats.scanned+
+    '. Unclassified: '+worldIndex.stats.unclassified+
+    ' · Ambiguous regional labels held back: '+worldIndex.stats.ambiguous+
+    '. Empty combinations and unavailable source content require further research and rights review.</p>':'');
+}
+
 function render() {
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
