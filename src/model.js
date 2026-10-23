@@ -2,10 +2,11 @@ import { evaluateQuantity } from './quantities.js';
 import { plannedIngredients, validServings } from './servings.js';
 import { validCookingSessions } from './cooking.js';
 import { validShoppingState } from './shopping.js';
+import { validEditorialReviews } from './editorial.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
-  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {}, shoppingChecked: {}, shoppingExtras: [] };
+  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {}, shoppingChecked: {}, shoppingExtras: [], editorialReviews: {} };
 }
 
 export function loadStore(storage) {
@@ -20,7 +21,8 @@ export function loadStore(storage) {
       planServings: parsed.planServings && typeof parsed.planServings === 'object' && !Array.isArray(parsed.planServings) ? parsed.planServings : {},
       cookingSessions: validCookingSessions(parsed.cookingSessions) && parsed.cookingSessions ? parsed.cookingSessions : {},
       shoppingChecked: validShoppingState(parsed.shoppingChecked,undefined) && parsed.shoppingChecked ? parsed.shoppingChecked : {},
-      shoppingExtras: validShoppingState(undefined,parsed.shoppingExtras) && parsed.shoppingExtras ? parsed.shoppingExtras : []
+      shoppingExtras: validShoppingState(undefined,parsed.shoppingExtras) && parsed.shoppingExtras ? parsed.shoppingExtras : [],
+      editorialReviews: validEditorialReviews(parsed.editorialReviews) && parsed.editorialReviews ? parsed.editorialReviews : {}
     };
   } catch {
     return emptyStore();
@@ -165,7 +167,8 @@ export function exportBackup(store, now = new Date()) {
       ...(store.planServings === undefined ? {} : { planServings:store.planServings }),
       ...(store.cookingSessions === undefined ? {} : { cookingSessions:store.cookingSessions }),
       ...(store.shoppingChecked === undefined ? {} : { shoppingChecked:store.shoppingChecked }),
-      ...(store.shoppingExtras === undefined ? {} : { shoppingExtras:store.shoppingExtras }) }
+      ...(store.shoppingExtras === undefined ? {} : { shoppingExtras:store.shoppingExtras }),
+      ...(store.editorialReviews === undefined ? {} : { editorialReviews:store.editorialReviews }) }
   }, null, 2);
 }
 
@@ -176,7 +179,7 @@ export function parseBackup(text) {
   if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
     throw new Error('This is not a supported Tasteit backup.');
   }
-  const { pantry, saved, plan, planServings, cookingSessions, shoppingChecked, shoppingExtras } = backup.data;
+  const { pantry, saved, plan, planServings, cookingSessions, shoppingChecked, shoppingExtras, editorialReviews } = backup.data;
   if (!Array.isArray(pantry) || !saved || typeof saved !== 'object' || Array.isArray(saved) || !plan || typeof plan !== 'object' || Array.isArray(plan)) {
     throw new Error('The backup is missing its recipe, pantry or plan records.');
   }
@@ -185,6 +188,7 @@ export function parseBackup(text) {
   }
   if (!validCookingSessions(cookingSessions)) throw new Error('The backup contains invalid cooking sessions.');
   if (!validShoppingState(shoppingChecked,shoppingExtras)) throw new Error('The backup contains invalid shopping checklist records.');
+  if (!validEditorialReviews(editorialReviews)) throw new Error('The backup contains invalid editorial research notes.');
   if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && validServings(n) === n))) {
     throw new Error('The backup contains invalid meal serving counts.');
   }
@@ -197,7 +201,8 @@ export function parseBackup(text) {
   return { pantry, saved, plan, ...(planServings === undefined ? {} : { planServings }),
     ...(cookingSessions === undefined ? {} : { cookingSessions }),
     ...(shoppingChecked === undefined ? {} : { shoppingChecked }),
-    ...(shoppingExtras === undefined ? {} : { shoppingExtras }) };
+    ...(shoppingExtras === undefined ? {} : { shoppingExtras }),
+    ...(editorialReviews === undefined ? {} : { editorialReviews }) };
 }
 
 export function createPersonalMeal(input, id) {
