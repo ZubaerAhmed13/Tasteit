@@ -1,9 +1,10 @@
 import { evaluateQuantity } from './quantities.js';
 import { plannedIngredients, validServings } from './servings.js';
+import { validCookingSessions } from './cooking.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
-  return { pantry: [], saved: {}, plan: {}, planServings: {} };
+  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {} };
 }
 
 export function loadStore(storage) {
@@ -15,7 +16,8 @@ export function loadStore(storage) {
       pantry: Array.isArray(parsed.pantry) ? parsed.pantry.filter(x => x && typeof x.name === 'string') : [],
       saved: parsed.saved && typeof parsed.saved === 'object' && !Array.isArray(parsed.saved) ? parsed.saved : {},
       plan: parsed.plan && typeof parsed.plan === 'object' && !Array.isArray(parsed.plan) ? parsed.plan : {},
-      planServings: parsed.planServings && typeof parsed.planServings === 'object' && !Array.isArray(parsed.planServings) ? parsed.planServings : {}
+      planServings: parsed.planServings && typeof parsed.planServings === 'object' && !Array.isArray(parsed.planServings) ? parsed.planServings : {},
+      cookingSessions: validCookingSessions(parsed.cookingSessions) && parsed.cookingSessions ? parsed.cookingSessions : {}
     };
   } catch {
     return emptyStore();
@@ -157,7 +159,8 @@ export function exportBackup(store, now = new Date()) {
   return JSON.stringify({
     format: 'tasteit-backup', version: 1, exportedAt: now.toISOString(),
     data: { pantry: store.pantry, saved: store.saved, plan: store.plan,
-      ...(store.planServings === undefined ? {} : { planServings:store.planServings }) }
+      ...(store.planServings === undefined ? {} : { planServings:store.planServings }),
+      ...(store.cookingSessions === undefined ? {} : { cookingSessions:store.cookingSessions }) }
   }, null, 2);
 }
 
@@ -168,13 +171,14 @@ export function parseBackup(text) {
   if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
     throw new Error('This is not a supported Tasteit backup.');
   }
-  const { pantry, saved, plan, planServings } = backup.data;
+  const { pantry, saved, plan, planServings, cookingSessions } = backup.data;
   if (!Array.isArray(pantry) || !saved || typeof saved !== 'object' || Array.isArray(saved) || !plan || typeof plan !== 'object' || Array.isArray(plan)) {
     throw new Error('The backup is missing its recipe, pantry or plan records.');
   }
   if (pantry.length > 3000 || Object.keys(saved).length > 3000 || Object.keys(plan).length > 1000 || (planServings && Object.keys(planServings).length > 1000)) {
     throw new Error('Backup contains too many items.');
   }
+  if (!validCookingSessions(cookingSessions)) throw new Error('The backup contains invalid cooking sessions.');
   if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && validServings(n) === n))) {
     throw new Error('The backup contains invalid meal serving counts.');
   }
@@ -184,7 +188,8 @@ export function parseBackup(text) {
       !Object.entries(plan).every(([key, id]) => /^\d{4}-\d{2}-\d{2}$/.test(key) && typeof id === 'string')) {
     throw new Error('The backup contains invalid records.');
   }
-  return { pantry, saved, plan, ...(planServings === undefined ? {} : { planServings }) };
+  return { pantry, saved, plan, ...(planServings === undefined ? {} : { planServings }),
+    ...(cookingSessions === undefined ? {} : { cookingSessions }) };
 }
 
 export function createPersonalMeal(input, id) {
