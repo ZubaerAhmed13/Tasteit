@@ -30,6 +30,12 @@ The official TheMealDB V1 first-letter scan returned **790 unique sourced recipe
 
 A documentation score of 100 means an API entry is comparatively complete, **not** a best-in-country rating. Candidate review status remains **not reviewed** until the human checks above are recorded.
 
+## Second-source discovery results
+
+A link-only Wikimedia Cookbook collector retrieved **3,799 recipe pages** from the Wikibooks Category:Recipes index on 23 October 2026. This is a research queue, not a finished country/category index. No recipe text or images were copied. Each Wikibooks link must be checked for origin, category, text attribution and image reuse before it can be promoted to an approved worldwide recipe.
+
+Queue: data/wikibooks-research-queue.json. The app exposes an opt-in searchable link list. Entries have country=null and course=null until verified. The 30-per-country/category totals remain based on source-classified TheMealDB candidates only.
+
 ## Additional sources to research
 
 | Source | Why useful | Gate |
