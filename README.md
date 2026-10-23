@@ -35,6 +35,8 @@ In a second, separate research collection, the Wikibooks Cookbook API returned *
 
 The queue is in data/wikibooks-research-queue.json; it is *not* counted in the 790 classified provider records or the 30-per-cell progress. A second read of Wikimedia's own page metadata retrieved category labels for **all 3,799 pages**, saved as data/wikibooks-category-evidence.json (0 failed batches). The research interface shows those as **unverified source tags**, never automatic country, diet or category certification.
 
+**Research-gap audit:** Tasteit now generates `data/world-research-gaps.csv` and `data/world-research-gaps.json` for every country × course combination, distinguishing existing source records from country-and-course *tag matches* in the Wikibooks research queue. From the collected data, **116 combinations** have joint tag clues; **none** of these clues is an independently verified national recipe. Choose a country/category in World recipes to see the corresponding clue count and open that evidence-only review queue.
+
 For authenticity, image rights, source research, regional variants and future source adapters, see [our editorial curation policy](docs/CURATION.md).
 
 ## First-release capabilities
