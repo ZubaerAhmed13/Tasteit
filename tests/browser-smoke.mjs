@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -227,6 +227,25 @@ try {
   const inventoryAfterBulk = await page.evaluate(() => JSON.parse(localStorage.getItem('tasteit.local.v1')).pantry);
   assert.deepEqual(inventoryAfterBulk.filter(x=>x.name==='Rice').map(x=>x.quantity).sort(),['1','2'],'bulk flow must not overwrite existing batches');
   assert.equal(inventoryAfterBulk.find(x=>x.name==='Carrots').location,'Fridge');
+
+  // Ingredient-first search must allow explicit selection without inventing cookability.
+  await page.locator('[data-action="suggest"]').first().click();
+  await page.getByRole('heading',{name:'Choose ingredients to search'}).waitFor();
+  assert.equal(await page.locator('.kitchen-ingredient-list [aria-pressed="true"]').count(),3);
+  await page.locator('.kitchen-match-reason').first().waitFor();
+  const reasons = await page.locator('.kitchen-match-reason').allTextContents();
+  assert.ok(reasons.some(t=>t.includes('ingredient names on hand')), 'explain why a recipe matches');
+  const cumin = page.locator('[data-action="kitchen-ingredient"][data-key="cumin"]');
+  await cumin.click();
+  assert.equal(await page.locator('.kitchen-ingredient-list [aria-pressed="true"]').count(),2);
+  assert.ok((await page.locator('.kitchen-selector-footer').innerText()).includes('Update suggestions'), 'clearly show pending changes');
+  await page.locator('[data-action="kitchen-update"]').click();
+  await page.locator('.kitchen-match-reason').first().waitFor();
+  assert.ok(!(await page.locator('.kitchen-selector-footer').innerText()).includes('Update suggestions'), 'search reflects new selection');
+  await page.locator('[data-action="kitchen-reset"]').click();
+  assert.equal(await page.locator('.kitchen-ingredient-list [aria-pressed="true"]').count(),3);
+  const small = await page.evaluate(() => ({inner:innerWidth,scroll:document.documentElement.scrollWidth}));
+  assert.ok(small.scroll<=small.inner+2,'kitchen search must remain usable on mobile');
 
   assert.deepEqual(errors,[],'uncaught browser errors');
   console.log('PASS browser smoke: discovery, recipe dialog, saves, personal recipes, edit, expiry, meal plan, backup, mobile viewport');
