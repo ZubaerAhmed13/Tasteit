@@ -54,6 +54,7 @@ let worldResearchLoading=false;
 let worldResearchEntries=[];
 let worldResearchQuery='';
 let worldResearchError='';
+let worldResearchPage=0;
 
 let libraryTab = 'all';
 let libraryTag = '';
@@ -577,6 +578,8 @@ function worldPage() {
   const sourceQuery=worldResearchQuery.trim().toLocaleLowerCase();
   const matchedResearch=worldResearchEntries.filter(item=>
     !sourceQuery || item.title.toLocaleLowerCase().includes(sourceQuery));
+  const researchPages=Math.max(1,Math.ceil(matchedResearch.length/24));
+  const researchPage=Math.max(0,Math.min(worldResearchPage,researchPages-1));
   const researchList=worldResearchOpen ? '<section class="panel world-research" aria-label="Wikibooks source research"><div class="section-head"><div>'+
     '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as any country’s best recipes.</p></div></div>'+
     (worldResearchLoading?'<p class="panel-note" role="status">Loading source links…</p>':'')+
@@ -588,12 +591,12 @@ function worldPage() {
       '" placeholder="Try biryani, stew, cake…">'+
       '<button class="btn secondary small" type="submit">Search</button></div></form>'+
       '<p class="panel-note" role="status">'+matchedResearch.length+' linked source records'+
-      (sourceQuery?' match your search':'')+'. Showing the first '+Math.min(24,matchedResearch.length)+
+      (sourceQuery?' match your search':'')+'. Page '+(researchPage+1)+' of '+researchPages+' · up to 24 per page'+
       '. Country and course assignments require human verification.</p>'+
-      '<ul class="world-research-list">'+matchedResearch.slice(0,24).map(x=>
+      '<ul class="world-research-list">'+matchedResearch.slice(researchPage*24,(researchPage+1)*24).map(x=>
         '<li><a href="'+externalUrl(x.url)+'" target="_blank" rel="noopener noreferrer">'+
         escapeHtml(x.title)+' ↗</a><span>Wikibooks · course/origin unreviewed</span></li>').join('')+'</ul>'+
-      '<p class="panel-note">Wikibooks text is subject to CC BY-SA attribution and terms. Images have separate licences. No source photos or recipe instructions are copied into Tasteit.</p>':'')+
+      '<div class="world-research-pages"><button type="button" class="btn secondary small" data-action="world-research-prev"'+(researchPage===0?' disabled':'')+'>← Previous</button><span>Page '+(researchPage+1)+' / '+researchPages+'</span><button type="button" class="btn secondary small" data-action="world-research-next"'+(researchPage>=researchPages-1?' disabled':'')+'>Next →</button></div>'+ '<p class="panel-note">Wikibooks text is subject to CC BY-SA attribution and terms. Images have separate licences. No source photos or recipe instructions are copied into Tasteit.</p>':'')+
       '</section>' :
     '<section class="panel world-research"><div class="section-head"><div><h3>Explore additional recipe leads</h3>'+
     '<p>Thousands of linked Wikibooks Cookbook titles await origin, category and rights review. They are not counted toward the 30 target.</p></div></div>'+
@@ -834,7 +837,14 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
-  if (action === 'world-research-load') { await loadWorldResearch(); return; }
+  if (action === 'world-research-load') { worldResearchPage=0; await loadWorldResearch(); return; }
+  if (action === 'world-research-prev' || action === 'world-research-next') {
+    const q=worldResearchQuery.toLocaleLowerCase();
+    const count=worldResearchEntries.filter(x=>!q || x.title.toLocaleLowerCase().includes(q)).length;
+    const last=Math.max(0,Math.ceil(count/24)-1);
+    worldResearchPage=Math.max(0,Math.min(last,worldResearchPage+(action==='world-research-next'?1:-1)));
+    render();return;
+  }
   if (action === 'world-scan') { await collectWorldRecipes(); return; }
   if (action === 'world-cancel') { worldScanController?.abort(); return; }
   if (action === 'world-export') { downloadWorldIndex(); return; }
@@ -1030,6 +1040,7 @@ document.addEventListener('submit', event => {
   if(event.target.id==='world-research-form'){
     event.preventDefault();
     worldResearchQuery=String(new FormData(event.target).get('query')||'').trim().slice(0,100);
+    worldResearchPage=0;
     render();document.getElementById('world-research-query')?.focus();return;
   }
   if (event.target.id === 'shopping-extra-form') {
