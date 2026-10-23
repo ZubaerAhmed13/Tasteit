@@ -61,6 +61,8 @@ let worldResearchPage=0;
 let worldResearchTag='';
 let worldResearchStatus='all';
 let worldResearchFocus='all';
+let worldResearchGapMap=null;
+let worldResearchGapAttempted=false;
 let worldResearchReviewId='';
 
 let libraryTab = 'all';
@@ -129,8 +131,29 @@ function changeView(next) {
   window.scrollTo({top:0,behavior:'instant'});
   if (next==='world' && !worldAreas.length && !worldLoadingOptions) void loadWorldOptions();
 }
+async function loadWorldGapAudit() {
+  if(worldResearchGapAttempted)return;
+  worldResearchGapAttempted=true;
+  try{
+    const response=await fetch('./data/world-research-gaps.json');
+    if(!response.ok)return;
+    const report=await response.json();
+    if(report?.version!==1 || !Array.isArray(report.rows) ||
+      report.rows.length>5000 ||
+      report.status!=='unreviewed-research-leads-not-verified-best-recipes')return;
+    worldResearchGapMap=new Map(report.rows.filter(row=>
+      typeof row.country==='string' && typeof row.category==='string' &&
+      Number.isInteger(row.wikibooksJointTagLeads) &&
+      row.wikibooksJointTagLeads>=0 &&
+      Number.isInteger(row.wikibooksCountryTagLeads) &&
+      row.wikibooksCountryTagLeads>=0
+    ).map(row=>[JSON.stringify([row.country,row.category]),row]));
+  }catch{ /* Optional research audit can be absent or offline. */ }
+  finally{if(view==='world')render();}
+}
 async function loadWorldOptions() {
   worldLoadingOptions=true;worldOptionsError='';
+  void loadWorldGapAudit();
   if(view==='world')render();
   try{
     // Checked-in source metadata has names, provider IDs and remote photo
@@ -564,6 +587,7 @@ function worldPage() {
   const countries=countryDirectory(worldAreas);
   const cell=worldIndex ? catalogueCell(worldIndex,worldCountry,worldCategory) : null;
   const pairResearch=researchReviewSummary(store.editorialReviews,worldCountry,worldCategory);
+  const auditedHints=worldResearchGapMap?.get(JSON.stringify([worldCountry,worldCategory]));
   const number=cell?.count ?? 0;
   const assessed=Boolean(worldIndex);
   const incomplete=worldPartial.length>0;
@@ -600,6 +624,15 @@ function worldPage() {
     ' None have been independently selected as “best” or authenticated as traditional dishes. '+pairResearch.shortlisted+
     ' additional Wikibooks lead(s) shortlisted by you for this pair (separate research; NOT part of the '+number+' source records).</p></div>'+
     '<div class="world-count">'+number+' <span>/ '+CATALOGUE_TARGET+'</span></div></section>' : '';
+  const gapClues=assessed && auditedHints ?
+    '<section class="world-review-audit" aria-label="Unverified research leads">'+
+    '<div><h3>Sources still worth investigating</h3><p>'+
+    auditedHints.wikibooksJointTagLeads+
+    ' Wikibooks page(s) have category tags mentioning both '+escapeHtml(worldCountry)+
+    ' and '+escapeHtml(worldCategory)+'. '+auditedHints.wikibooksCountryTagLeads+
+    ' mention the country. These are <strong>unverified source clues</strong>, not additional authenticated dishes or approved photographs.</p></div>'+
+    '<button class="btn secondary small" type="button" data-action="world-review-focus">Explore research clues →</button>'+
+    '</section>' : '';
   const caution=assessed && incomplete ?
     '<p class="world-warning" role="status">Incomplete provider scan: requests for '+
     escapeHtml(worldPartial.join(', ').toUpperCase())+
@@ -719,7 +752,7 @@ function worldPage() {
     ' <button class="btn secondary small" data-action="world-retry-options">Try again</button></p>':'')+
     controls+startButton+progress+
     '<p class="panel-note">TheMealDB data and photo source: <a href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">TheMealDB</a>. Photos are not ours; public reuse requires rights checks. A data-completeness score chooses candidates, not quality ratings. No invented recipes.</p>'+
-    '</section>'+caution+scannedStats+summary+recipes+
+    '</section>'+caution+scannedStats+summary+gapClues+recipes+
     (assessed?'<p class="panel-note">Provider records found: '+worldIndex.stats.scanned+
     '. Unclassified: '+worldIndex.stats.unclassified+
     ' · Ambiguous regional labels held back: '+worldIndex.stats.ambiguous+
@@ -940,6 +973,14 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
+  if (action === 'world-review-focus') {
+    worldResearchFocus='country-category';
+    worldResearchQuery='';worldResearchTag='';worldResearchStatus='all';worldResearchPage=0;
+    if(!worldResearchEntries.length || !worldResearchOpen)await loadWorldResearch();
+    else render();
+    document.querySelector('.world-research')?.scrollIntoView({block:'start'});
+    return;
+  }
   if (action === 'world-research-load') { worldResearchPage=0; await loadWorldResearch(); return; }
   if (action === 'world-research-review') {
     const source=worldResearchEntries.find(x=>x.id===id);
