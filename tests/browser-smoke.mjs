@@ -189,7 +189,7 @@ try {
   await page.locator('#world-research-form button[type=submit]').click();
   assert.equal(await page.locator('.world-research-list li').count(),24);
   await page.locator('[data-action="world-research-next"]').click();
-  assert.equal(await page.locator('.world-research-list li').count(),4);
+  assert.equal(await page.locator('.world-research-list li').count(),5,'extra overlap fixture also appears on second research page');
   await page.locator('[data-action="world-research-prev"]').click();
   assert.equal(await page.locator('.world-research-list li').count(),24);
   await page.locator('#world-research-query').fill('biryani');
