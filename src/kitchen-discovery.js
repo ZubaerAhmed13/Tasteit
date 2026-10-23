@@ -73,3 +73,15 @@ export function combineKitchenRecipes(remote, local) {
   }
   return [...unique.values()];
 }
+
+
+export function filterKitchenRecipes(meals, pantry, filter = 'all') {
+  if (filter === 'all') return meals;
+  return meals.filter(meal => {
+    const info = kitchenMatchDetails(meal,pantry);
+    if (!info.total) return false;
+    if (filter === 'names') return info.missing.length === 0;
+    if (filter === 'amounts') return info.confirmed;
+    return true;
+  });
+}
