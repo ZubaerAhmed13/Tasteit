@@ -41,6 +41,8 @@ The queue is in data/wikibooks-research-queue.json; it is *not* counted in the 7
 
 **New rights-evidence review:** Within a Wikibooks research record, expand **Text and photograph rights** to record whether the plan is link-only or a proposed reuse. Proposed text reuse requires a licence/terms URL and attribution wording. Proposed photo reuse requires the original file-description link, specific licence URL, creator and attribution. These are **research notes**, not a permission grant, and Tasteit does not rehost copied source text or photo files. The evidence is kept locally, included in JSON backup and exported in the research CSV.
 
+**Potential cross-source repeats:** The reproducible [overlap audit](data/source-overlap-review.csv) has compared 790 TheMealDB titles with 3,799 Wikibooks research titles, identifying **38 possible overlaps** and **zero confirmed duplicates**. Tasteit now shows source-linked same-title or same-word-order warnings within the Wikibooks research editor. These are review clues only: different ingredients or regional methods may warrant distinct entries, and nothing is automatically removed or counted as verified.
+
 For authenticity, image rights, source research, regional variants and future source adapters, see [our editorial curation policy](docs/CURATION.md).
 
 ## First-release capabilities
