@@ -6,7 +6,7 @@ The current release is a GitHub-only development prototype. There is no public d
 
 ## Automated acceptance
 
-GitHub Actions runs unit, API and Playwright browser checks against deterministic API fixtures.
+GitHub Actions runs unit and API tests plus Playwright browser acceptance in headless Chromium, Firefox and WebKit using deterministic API fixtures. These engines are **not** a substitute for physical iOS Safari/Android device testing.
 
 - [x] Browse, search, open recipe, check ingredients and guided instructions
 - [x] Save recipes, create and edit a personal family recipe, refresh and verify persistence
@@ -14,6 +14,7 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 - [x] Add recipe labels, search and filter private collections, and verify label preservation in JSON backup
 - [x] Add pantry records, distinguish separately dated batches of the same ingredient, and exclude past-dated or zero-quantity records from automatic matches
 - [x] Build a weekly meal plan and a shopping list with conservative unit-aware shortfalls
+- [x] Tick off shopping requirements, add/remove personal shopping essentials, copy remaining items, restore progress after refresh/backup and invalidate previous checks when recipe amounts change
 - [x] Confirm a recipe's original servings, adjust target portions per recipe and per planned day, and verify scaled shopping amounts and backup migration
 - [x] Preserve sparse ingredient positions and flag unsupported measures/fractional whole items rather than silently scaling them
 - [x] Restore a cooking step after modal closing or page refresh; show a manual clock-based timer, pause/reset/presets and keyboard step navigation
@@ -35,7 +36,7 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 
 - [ ] Test live TheMealDB browsing and photographs in an ordinary browser
 - [ ] Inspect mobile portrait and landscape on physical devices
-- [ ] Test Safari and Firefox, including guided-step focus, accessible keyboard navigation, cooking-timer refresh/sleep/pause behaviour and small-screen controls
+- [ ] Test physical Safari and Firefox, including guided-step focus, accessible keyboard navigation, cooking-timer refresh/sleep/pause behaviour and small-screen controls. Automated WebKit/Firefox headless runs do not count as physical-device acceptance
 - [ ] Exercise browser storage denial, quota exhaustion and backup cancellation
 - [ ] Verify ingredient-name variants, quantities and safe food substitutions
 - [ ] Check factual recipe authenticity and photography reuse rights before public release
@@ -45,7 +46,7 @@ GitHub Actions runs unit, API and Playwright browser checks against deterministi
 * TheMealDB is not a complete collection of every cuisine. Its cuisine and category fields are not guarantees of authentic regional origin, vegetarian certification or allergen safety. Source photographs/videos are linked and credited when supplied.
 * A–Z browsing is limited to TheMealDB's available catalogue; manually linked external sources are not automatically parsed or rehosted. Community photos are provided by TheMealDB and must not be passed off as Tasteit originals. See https://www.themealdb.com/terms_of_use.php ; check third-party permissions before public distribution.
 * Pantry recipe discovery is a shortlist from separately queried single ingredients and saved dishes, **not** a complete search of every possible compatible recipe. Selected search names are different from full-stock matching; no nutrition, allergy or cooking-safety certification is inferred. Recipe serving counts are user-confirmed, not inferred from the provider. Supported measurements can be scaled for each planned day; instructions, seasonings, unknown measures, density conversions and fractional whole-item decisions still require manual judgement. Stock availability is checked against currently recorded stock, not projected stock on the future cooking day. Past best-before dates are excluded from matching conservatively, but neither past dates nor future dates prove whether food is safe. Users must check storage and freshness. Tag labels and cuisine text are user/source labels, **not** validated dietary or allergy certifications. Ingredient discovery starts with name presence. The separate measurement engine estimates shortfalls only for confidently parsed, compatible units; ambiguous and mixed units are flagged for review rather than guessed. These estimates are **not** food-safety, allergy, substitution or adequate-portion clearance.
-* The cooking countdown is calculated from wall-clock time, but no background notification/alarm is guaranteed; users must not depend on it for unattended cooking or food safety. Personal recipes, pantry items, saved collections and plans are stored in browser localStorage. JSON backups are local, unencrypted files; safeguard them accordingly.
+* Checking a shopping item indicates it was picked up; the app does not silently alter pantry stock, receipt history or quantities. Completed items are reversible and original recipe requirements changing invalidate old checkmarks. The cooking countdown is calculated from wall-clock time, but no background notification/alarm is guaranteed; users must not depend on it for unattended cooking or food safety. Personal recipes, pantry items, saved collections and plans are stored in browser localStorage. JSON backups are local, unencrypted files; safeguard them accordingly.
 * Developer API key 1 is for testing and personal development. Arrange appropriate service terms/key before public release. Never commit private API keys to client-side JavaScript.
 * No hosting or deployment has been performed.
 
