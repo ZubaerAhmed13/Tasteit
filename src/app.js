@@ -10,6 +10,7 @@ import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogue
 import { editorialReview, savedEditorialReview, researchReviewSummary, researchLeadResults, exportEditorialReviewCsv } from './editorial.js';
 import { emptyRightsReview, rightsReviewChecklist } from './rights-review.js';
 import { sourceImageTitles, commonsFileMetadata } from './source-media.js';
+import { recipeTitleIndex, possibleSourceMatches } from './source-overlap.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
@@ -50,6 +51,7 @@ let worldScanProgress = {completed:0,total:26,recipes:0,failed:0};
 let worldScanning = false;
 let worldScanController = null;
 let worldIndex = null;
+let worldOverlapIndex=null;
 let worldPartial = [];
 let worldMeals = [];
 let worldScannedAt = '';
@@ -170,6 +172,7 @@ async function loadWorldOptions() {
       try{
         const restored=hydrateCatalogueIndex(snapshot);
         worldIndex=restored;worldMeals=restored.meals;
+        worldOverlapIndex=recipeTitleIndex(restored);
         worldScan={completed:26,total:26};
         worldPartial=Array.isArray(snapshot.failedInitials)?snapshot.failedInitials:[];
         worldScannedAt=String(snapshot.scannedAt||'');
@@ -293,6 +296,7 @@ async function collectWorldRecipes() {
     worldScan=report;
     worldMeals=report.meals;
     worldIndex=catalogueFromProvider(report.meals,worldAreas,worldCategories);
+    worldOverlapIndex=recipeTitleIndex(worldIndex);
     worldScannedAt=new Date().toISOString();
   } catch(error) {
     if(error?.name!=='AbortError') {
@@ -691,9 +695,22 @@ function worldPage() {
   const researchPage=Math.max(0,Math.min(worldResearchPage,researchPages-1));
   const reviewedStats=researchReviewSummary(store.editorialReviews);
   const editSource=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
+  const possibleOverlap=editSource?possibleSourceMatches(editSource.title,worldOverlapIndex):[];
   const selectedResearch=editSource&&(store.editorialReviews?.[editSource.id]||{});
   const selectedRights=selectedResearch?.rights||emptyRightsReview();
   const rightsState=rightsReviewChecklist(selectedResearch?.rights);
+  const overlapWarning=editSource && possibleOverlap.length ?
+    '<aside class="source-overlap-panel" role="note">'+
+      '<h4>Possibly already documented in TheMealDB</h4>'+
+      '<p class="panel-note">Matching recipe titles are research clues only. Recipes may differ in ingredients, preparation, or regional tradition. Check both original sources before counting distinct dishes.</p>'+
+      '<ul>'+possibleOverlap.map(record=>
+        '<li><a href="'+escapeHtml(record.detailEndpoint)+'" target="_blank" rel="noopener noreferrer">'+
+        escapeHtml(record.name)+' ↗</a><span>'+
+        escapeHtml(record.country)+' · '+escapeHtml(record.category)+' · '+
+        (record.matchType==='same-normalised-title'?'Same normalised title':'Same words in different order')+
+        '</span></li>').join('')+'</ul>'+
+      '<p class="panel-note"><strong>Not confirmed duplicates.</strong> No candidate has been removed or assigned authenticity.</p></aside>'
+    : editSource ? '<p class="panel-note source-overlap-clear">No close title match in the current TheMealDB source index. That does not prove this recipe is unique.</p>' : '';
   const reviewEditor=editSource ?
     '<form id="world-review-form" class="world-review-editor" aria-label="Research record for '+escapeHtml(editSource.title)+'">'+
     '<div class="section-head"><div><h3>Research: '+escapeHtml(editSource.title)+'</h3>'+
@@ -798,7 +815,7 @@ function worldPage() {
           '<span class="research-tags">Source tags (unverified): '+
           escapeHtml(worldResearchEvidence.get(x.sourcePageId).slice(0,3).join(' · '))+'</span>' : '')+
         '<button type="button" class="btn secondary small" data-action="world-research-review" data-id="'+
-        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+reviewEditor+originalSourceMedia+
+        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+overlapWarning+reviewEditor+originalSourceMedia+
       '<div class="world-research-summary" role="status">Your reviewed leads: '+reviewedStats.reviewed+
       ' · shortlisted (NOT approved): '+reviewedStats.shortlisted+
       ' · verified “best 30” recommendations: 0</div>'+
