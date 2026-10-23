@@ -14,6 +14,7 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [x] Gather and preserve 3,799 source-linked Wikibooks research titles, searchable in Tasteit but not classified into countries, courses or top-ranked dishes without editorial evidence
 - [x] Offer source-tag searches, private evidence-backed shortlist notes, explicit country/category research assignments, exportable CSV and backup restore; never promote these to verified best-30 without independent editorial review
 - [x] Prioritise Wikibooks research by exact original source-category tags for the selected country and course, exclude ambiguous shared demonyms, test adversarial tags and keep suggested-source counts separate from verified dishes
+- [x] Produce an offline, reproducible 2,730-row country/category research-gap audit and show unverified source-tag leads for the selected pair without modifying its actual sourced-recipe count
 - [x] Save recipes, create and edit a personal family recipe, refresh and verify persistence
 - [x] Record a cooking experience with optional rating and notes, then verify its backup restoration
 - [x] Add recipe labels, search and filter private collections, and verify label preservation in JSON backup
@@ -46,6 +47,7 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - **0** recipes independently certified or ranked as among the best
 - 3,799 additional Wikibooks page titles and attributed links collected separately; country/category assignments remain unknown
 - 3,799 source-page category label records collected from Wikimedia with zero failed batches, displayed as hints only; not counted in reviewed recipe totals
+- 116 country/category combinations have joint country-and-course source-tag clues from Wikibooks; these are **not** validated recipes and do not alter the 790 sourced-record count. Audit artifacts: `data/world-research-gaps.csv` and `.json`.
 - [x] Paginated Wikibooks source-link search and optional original category hints, keeping country/course certification unverified
 - The complete index and gap report are research inputs, not ready-to-publish editorial rankings.
 - Additional verified sources, cultural research and per-image permission checks are substantial open tasks.
