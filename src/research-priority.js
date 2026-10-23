@@ -27,8 +27,7 @@ export function countryAliases(country,areas=[]) {
   }
   return [...aliases];
 }
-export function sourceTagCountryHints(labels,country,areas=[]) {
-  const words=countryAliases(country,areas);
+export function sourceTagCountryHintsForAliases(labels,words=[]) {
   return (Array.isArray(labels)?labels:[]).filter(label=>{
     const tag=canonical(label);
     return words.some(word=>
@@ -40,6 +39,9 @@ export function sourceTagCountryHints(labels,country,areas=[]) {
       tag==='recipes from '+word ||
       tag==='cooking of '+word);
   });
+}
+export function sourceTagCountryHints(labels,country,areas=[]) {
+  return sourceTagCountryHintsForAliases(labels,countryAliases(country,areas));
 }
 export function sourceTagCategoryHints(labels,category) {
   const name=canonical(category);
@@ -58,11 +60,13 @@ export function sourceTagCategoryHints(labels,category) {
 export function buildResearchPriority(entries,evidence,options={}) {
   const {country='',category='',areas=[],mode='all',reviews={}}=options;
   if(!TRIAGE_MODES.includes(mode))throw new Error('Unsupported research priority mode.');
+  // Prepare country aliases once per queue, not thousands of times per source.
+  const aliases=countryAliases(country,areas);
   const result=[];
   for(const entry of Array.isArray(entries)?entries:[]){
     if(!entry || typeof entry.title!=='string' || typeof entry.id!=='string')continue;
     const labels=evidence?.get(entry.sourcePageId)||[];
-    const countryTags=sourceTagCountryHints(labels,country,areas);
+    const countryTags=sourceTagCountryHintsForAliases(labels,aliases);
     const categoryTags=sourceTagCategoryHints(labels,category);
     if(mode!=='all' && !countryTags.length)continue;
     if(mode==='country-category'&&!categoryTags.length)continue;
