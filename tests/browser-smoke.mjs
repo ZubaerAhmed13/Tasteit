@@ -58,6 +58,14 @@ try {
   assert.ok((await page.locator('h2').allTextContents()).some(x=>x.includes('Vegetarian')),'provider category filter opens');
   await page.locator('[data-action="course"][data-course="All"]').click();
   await page.locator('.recipe-card').first().waitFor();
+  await page.locator('[data-action="letter"][data-letter="A"]').click();
+  await page.locator('.recipe-card').first().waitFor();
+  assert.ok((await page.locator('h2').allTextContents()).some(x=>x.includes('Recipes beginning with A')),'alphabetical discovery opens');
+  await page.locator('[data-action="surprise"]').click();
+  await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
+  await page.keyboard.press('Escape');
+  await page.locator('[data-action="area"][data-area="All"]').click();
+  await page.locator('.recipe-card').first().waitFor();
 
   await page.locator('.recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
@@ -87,6 +95,7 @@ try {
   await page.locator('[data-action="new-recipe"]').click();
   await page.locator('#personal-title').fill('My family curry');
   await page.locator('#personal-origin').fill('Bangladeshi');
+  await page.locator('#personal-source').fill('https://example.com/traditional-family-curry');
   await page.locator('#personal-base-servings').fill('2');
   await page.locator('#personal-ingredients').fill('Rice | 1 cup\nOnion | 1');
   await page.locator('#personal-instructions').fill('Rinse the rice.\nCook with onions.');
@@ -102,6 +111,7 @@ try {
   await custom.locator('.recipe-title').click();
   await page.locator('[data-action="edit-recipe"]').click();
   assert.equal(await page.locator('#personal-title').inputValue(),'My family curry');
+  assert.equal(await page.locator('#personal-source').inputValue(),'https://example.com/traditional-family-curry');
   assert.equal(await page.locator('#personal-base-servings').inputValue(),'2');
   await page.locator('#personal-title').fill('My favourite family curry');
   await page.locator('#personal-recipe-form button[type=submit]').click();
@@ -165,6 +175,7 @@ try {
   assert.equal(backup.format,'tasteit-backup');
   assert.equal(backup.data.pantry.length,3);
   assert.equal(Object.keys(backup.data.saved).length,2);
+  assert.ok(Object.values(backup.data.saved).some(x=>x.meal.strSource === 'https://example.com/traditional-family-curry' && !x.meal.strMealThumb),'publisher link is saved without a copied image');
   assert.equal(Object.values(backup.data.planServings)[0],4,'portion preference is backed up');
   assert.ok(Object.values(backup.data.saved).some(x => x.meal.strMeal === 'My favourite family curry' && x.tags.includes('Weeknight')), 'JSON backups retain user labels');
   await page.evaluate(() => localStorage.clear());
