@@ -61,8 +61,6 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [ ] Verify actual provider requests, photographs and production source terms
   before approving any public release (existing release hold remains in force)
 
-## Collection audit — 23 October 2026
-
 ## Second audit stage — connected kitchen
 
 - [x] Pure tests for reviewed purchase batches, duplicate/stale shopping rows,

@@ -12,6 +12,10 @@ function validDate(value) {
     date.getMonth()+1===Number(value.slice(5,7)) && date.getDate()===Number(value.slice(8,10));
 }
 const positive=value=>String(value??'').trim()!=='' && Number.isFinite(Number(value)) && Number(value)>0 && Number(value)<=1_000_000;
+// A package count can be confirmed manually without assuming its contents.
+const stockMeasure=item=>pantryMeasure(item) || (item.unit==='packs' && positive(item.quantity)
+  ? {quantity:Number(item.quantity),unit:'packs'}:null);
+const stockUnit=unit=>unit==='packs'?{quantity:1,unit:'packs'}:parseMeasure('1 '+unit);
 export function validKitchenState(stocked,leftovers) {
   if(stocked!==undefined && (!stocked || typeof stocked!=='object' || Array.isArray(stocked) ||
     Object.keys(stocked).length>2000 || !Object.entries(stocked).every(([key,value])=>
@@ -68,11 +72,11 @@ export function consumptionReview(meal,pantry,base,target,now=new Date()) {
     if(!measure || previous?.unknown || previous && previous.unit!==measure.unit)required.set(key,{unknown:true});
     else required.set(key,{quantity:(previous?.quantity||0)+measure.quantity,unit:measure.unit});
   }
-  const lots=pantry.filter(item=>required.has(normalizeIngredient(item.name)) && usablePantryItem(item,now) && pantryMeasure(item))
+  const lots=pantry.filter(item=>required.has(normalizeIngredient(item.name)) && usablePantryItem(item,now) && stockMeasure(item))
     .sort((a,b)=>(a.expiry||'9999').localeCompare(b.expiry||'9999'));
   return lots.map(item=>{
-    const stock=pantryMeasure(item),need=required.get(normalizeIngredient(item.name));
-    const factor=parseMeasure('1 '+(item.unit||'pcs'))?.quantity;
+    const stock=stockMeasure(item),need=required.get(normalizeIngredient(item.name));
+    const factor=stockUnit(item.unit||'pcs')?.quantity;
     let suggested='';
     if(!need.unknown && need.unit===stock.unit && factor) {
       const take=Math.min(stock.quantity,need.quantity);
@@ -91,7 +95,7 @@ export function applyConsumption(pantry,deductions) {
       String(item.unit||'pcs')!==input.expectedUnit || item.name!==input.name ||
       String(item.expiry||'')!==input.expiry || (item.location||'Pantry')!==input.location)throw new Error('Kitchen stock changed. Reopen the cooking review.');
     if(!positive(input.used))throw new Error('Enter a used amount greater than zero.');
-    const stock=pantryMeasure(item),factor=parseMeasure('1 '+input.unit);
+    const stock=stockMeasure(item),factor=stockUnit(input.unit);
     if(!stock || !factor || factor.unit!==stock.unit || input.unit!==input.expectedUnit)throw new Error('Check the stock units.');
     const used=Number(input.used)*factor.quantity;
     if(used-stock.quantity>0.00000001)throw new Error('Used amount exceeds available stock.');
@@ -106,7 +110,7 @@ export function addLeftover(records,input) {
     reminderDate:String(input.reminderDate||''),location:String(input.location||'')};
   if(!Number.isInteger(row.portions) || row.portions<1 || row.portions>100)throw new Error('Enter 1–100 leftover portions.');
   if(!validDate(row.preparedAt) || row.reminderDate && (!validDate(row.reminderDate) || row.reminderDate<row.preparedAt))throw new Error('Check the leftover dates.');
-  const next=[...records.filter(x=>x.portions>0),row];
+  const next=[...records,row];
   if(!validKitchenState(undefined,next))throw new Error('Invalid leftover record, duplicate ID or storage location.');
   return next;
 }

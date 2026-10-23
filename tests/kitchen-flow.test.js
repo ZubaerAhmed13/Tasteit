@@ -62,6 +62,18 @@ test('zero stock stays recorded and unknown recipe measures are never guessed',(
   assert.equal(review.find(x=>x.id==='salt').suggested,'');
   assert.equal(flow.consumptionReview({...meal,strMeasure1:'a bowl'},pantry,2,2,now).find(x=>x.id==='old').suggested,'');
 });
+test('pack counts allow manual consumption without guessing package contents',()=>{
+  const store=flow.receivePurchases(purchaseStore(),reviewFor(purchaseStore()),[{...pick,quantity:'2',unit:'packs',expiry:''}],'pack-one',now);
+  const stock=[store.pantry[1]];
+  const review=flow.consumptionReview(meal,stock,2,2,now);
+  assert.equal(review.length,1,'a recorded package count can be reviewed manually');
+  assert.equal(review[0].suggested,'','grams are not converted to packs');
+  const next=flow.applyConsumption(stock,[{...review[0],used:'1'}]);
+  assert.equal(next[0].quantity,'1');assert.equal(next[0].unit,'packs');
+  assert.throws(()=>flow.applyConsumption(stock,[{...review[0],used:'3'}]),/available/i);
+  assert.throws(()=>flow.applyConsumption([{...stock[0],quantity:'1'}],[{...review[0],used:'1'}]),/changed/i);
+  assert.equal(parseBackup(exportBackup({...store,pantry:next})).pantry[0].quantity,'1');
+});
 test('leftovers validate portions, dates and locations without inventing a safe storage deadline',()=>{
   const input={id:'leftover-one',mealId:'rice',name:'Rice',portions:2,preparedAt:'2026-10-24',reminderDate:'',location:'Fridge'};
   const rows=flow.addLeftover([],input);
@@ -70,6 +82,8 @@ test('leftovers validate portions, dates and locations without inventing a safe 
   assert.throws(()=>flow.addLeftover([],{...input,reminderDate:'2026-02-30'}),/date/i);
   assert.throws(()=>flow.addLeftover([],{...input,reminderDate:'2026-10-23'}),/date/i);
   assert.equal(flow.validKitchenState({},rows),true);
+  const next=flow.addLeftover([{...rows[0],portions:0}],{...input,id:'leftover-two'});
+  assert.equal(next[0].portions,0,'used-up leftovers remain available for explicit restoration');
 });
 test('new kitchen records round-trip in v1 backups and older backups remain unchanged',()=>{
   const store=flow.receivePurchases(purchaseStore(),reviewFor(purchaseStore()),[pick],'backup',now);

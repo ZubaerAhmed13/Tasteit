@@ -40,6 +40,27 @@ try {
   await page.locator('[name=pick-0]').check();
   await page.locator('#purchase-amount-0').fill('1');
   await page.locator('#purchase-unit-0').selectOption('kg');
+
+  // Reopening a review must not move old index-based drafts to another product.
+  await page.locator('#shopping-extra-input').fill('Onions');
+  await page.locator('#shopping-extra-form button').click();
+  assert.equal(await page.locator('#purchase-amount-0').inputValue(),'1','incidental renders preserve the same receipt draft');
+  assert.equal(await page.locator('[name=pick-0]').isChecked(),true);
+  await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
+  await page.locator('[data-shopping-extra=manual-rice]').uncheck();
+  await page.getByRole('checkbox',{name:'Mark Onions purchased'}).check();
+  await page.locator('[data-action=shopping-receive]').click();
+  assert.ok((await page.locator('.purchase-row legend').innerText()).includes('Onions'));
+  assert.equal(await page.locator('[name=pick-0]').isChecked(),false);
+  assert.equal(await page.locator('#purchase-amount-0').inputValue(),'');
+  await page.locator('[data-action=shopping-receive-cancel]').click();
+  await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
+  await page.getByRole('checkbox',{name:'Mark Onions not purchased'}).uncheck();
+  await page.locator('[data-shopping-extra=manual-rice]').check();
+  await page.locator('[data-action=shopping-receive]').click();
+  await page.locator('[name=pick-0]').check();
+  await page.locator('#purchase-amount-0').fill('1');
+  await page.locator('#purchase-unit-0').selectOption('kg');
   await block();
   await page.locator('#purchase-review-form button[type=submit]').click();
   await page.getByRole('status').filter({hasText:'Could not save purchases'}).waitFor();
@@ -88,6 +109,35 @@ try {
   assert.equal((await read()).leftovers[0].portions,2);
   assert.equal((await read()).pantry[0].quantity,'0.5');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+
+  // Package contents stay unknown; actual package counts can still be confirmed.
+  await page.locator('.site-nav [data-nav=plan]').click();
+  await page.locator('details.completed-shopping').evaluate(node=>{node.open=true;});
+  await page.getByRole('button',{name:'Remove Rice from personal shopping list',exact:true}).click();
+  await page.locator('#shopping-extra-input').fill('Rice');
+  await page.locator('#shopping-extra-form button').click();
+  await page.getByRole('checkbox',{name:'Mark Rice purchased',exact:true}).check();
+  await page.locator('[data-action=shopping-receive]').click();
+  await page.locator('[name=pick-0]').check();
+  await page.locator('#purchase-amount-0').fill('2');
+  await page.locator('#purchase-unit-0').selectOption('packs');
+  await page.locator('#purchase-review-form button[type=submit]').click();
+  await page.locator('#purchase-review-form').waitFor({state:'hidden'});
+  await page.locator('.site-nav [data-nav=library]').click();
+  await page.locator('.recipe-photo').click();
+  await page.locator('[data-action=cook-done]').click();
+  await page.locator('#cooking-log-form summary').getByText('Review ingredients used').click();
+  const packRow=page.locator('.usage-row').filter({hasText:'2 packs'});
+  assert.equal(await packRow.locator('input[type=number]').inputValue(),'');
+  await packRow.locator('input[type=checkbox]').check();
+  await packRow.locator('input[type=number]').fill('1');
+  await page.locator('#cooking-log-form button[type=submit]').click();
+  await page.locator('#cooking-log-form').waitFor({state:'hidden'});
+  await page.reload();
+  await page.locator('[role=dialog]').waitFor();
+  store=await read();
+  assert.equal(store.pantry.find(row=>row.unit==='packs').quantity,'1');
+  assert.equal(store.pantry[0].quantity,'0.5','manual package use leaves other stock batches alone');
   assert.deepEqual(errors,[]);
   console.log('PASS connected kitchen: purchase review, atomic cooking/stock/leftovers, reload and mobile');
 } finally {await browser?.close();await new Promise(resolve=>server.close(resolve));}

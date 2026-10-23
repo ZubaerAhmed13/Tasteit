@@ -649,7 +649,7 @@ function purchasePanel() {
   if(!purchaseDraft)return '';
   return '<section class="panel kitchen-review" aria-labelledby="purchase-review-title"><h3 id="purchase-review-title" tabindex="-1">Review food purchases</h3>'+
     '<p class="panel-note">Select only food you want to track. Enter the actual amount you bought, not just the recipe shortfall. Each selected purchase becomes a separate batch.</p>'+
-    '<form id="purchase-review-form">'+purchaseDraft.rows.map((row,i)=>'<fieldset class="purchase-row"><legend><label><input type="checkbox" name="pick-'+i+'"> '+escapeHtml(row.item.name)+'</label></legend>'+
+    '<form id="purchase-review-form" data-review-id="'+escapeHtml(purchaseDraft.id)+'">'+purchaseDraft.rows.map((row,i)=>'<fieldset class="purchase-row"><legend><label><input type="checkbox" name="pick-'+i+'"> '+escapeHtml(row.item.name)+'</label></legend>'+
       '<div class="purchase-fields"><div class="field"><label for="purchase-amount-'+i+'">Actual amount</label><input id="purchase-amount-'+i+'" name="amount-'+i+'" type="number" min="0" step="any" placeholder="Enter amount"></div>'+
       '<div class="field"><label for="purchase-unit-'+i+'">Unit</label><select id="purchase-unit-'+i+'" name="unit-'+i+'">'+choiceOptions(STOCK_UNITS,'pcs')+'</select></div>'+
       '<div class="field"><label for="purchase-location-'+i+'">Stored in</label><select id="purchase-location-'+i+'" name="location-'+i+'">'+choiceOptions(STOCK_LOCATIONS,'Pantry')+'</select></div>'+
@@ -964,13 +964,15 @@ function worldPage() {
 }
 
 function render() {
-  const purchaseFields=captureFields(document.getElementById('purchase-review-form'));
+  const purchaseForm=document.getElementById('purchase-review-form');
+  const purchaseIdentity=purchaseForm?.dataset.reviewId;
+  const purchaseFields=captureFields(purchaseForm);
   const active=document.activeElement;
   const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter'].includes(active?.id)
     ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
-  if(purchaseDraft)restoreFields(document.getElementById('purchase-review-form'),purchaseFields);
+  if(purchaseDraft?.id===purchaseIdentity)restoreFields(document.getElementById('purchase-review-form'),purchaseFields);
   if(restoreInput) {
     const input=document.getElementById(restoreInput.id);
     input?.focus({preventScroll:true});

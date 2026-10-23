@@ -54,7 +54,9 @@ GitHub Actions runs **Playwright browser acceptance in Chromium, Firefox and Web
 The additional `tests/discovery-browser.mjs` scenarios use the complete collected
 country directory and cover combined filters, reload/history, direct recipe links,
 blocked storage, delayed recipe responses, offline local suggestions and readable
-375px filters/navigation. Both browser scripts run in every CI browser job.
+375px filters/navigation. `tests/kitchen-browser.mjs` covers reviewed purchase
+ownership, manual package deductions and atomic cooking saves. All three scripts
+run in every CI browser job with pinned Playwright 1.64.1.
 
 ## Worldwide recipe collection — sourced, not invented
 
