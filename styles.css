@@ -306,3 +306,8 @@ h3 { font-size: 24px }
   .kitchen-selector-footer .btn {width:100%}
   .kitchen-ingredient-list {max-height:220px}
 }
+
+.kitchen-readiness { display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;align-items:center }
+.kitchen-readiness .chip {flex-shrink:0;white-space:normal}
+.kitchen-readiness p {flex-basis:100%;margin:2px 0 0}
+@media(max-width:540px) { .kitchen-readiness {gap:7px}.kitchen-readiness .chip {max-width:100%;text-align:left} }
