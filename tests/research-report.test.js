@@ -46,5 +46,5 @@ test('CSV escapes spreadsheet formulas in third-party country labels',()=>{
   const hostile={...snapshot,countries:[{country:'=HYPERLINK("https://evil.test")',areas:['Evil']}]};
   const report=worldResearchGapReport(hostile,[],new Map());
   const csv=worldResearchGapCsv(report);
-  assert.ok(csv.includes('"\\'=HYPERLINK('));
+  assert.ok(csv.includes(String.fromCharCode(34,39) + '=HYPERLINK('));
 });
