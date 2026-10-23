@@ -331,3 +331,29 @@ h3 { font-size: 24px }
   .cooking-timer {padding:14px}
   .timer-controls button {flex:1}
 }
+
+/* A shopping checklist made to use one-handed in a supermarket aisle. */
+.shopping-checklist { display:flex;flex-direction:column;gap:7px;margin:10px 0 18px }
+.shopping-check-row { display:flex;gap:8px;align-items:center;justify-content:space-between;
+  border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff;min-width:0 }
+.shopping-check-row .shopping-row-label { display:flex;gap:10px;align-items:center;flex:1;min-width:0;cursor:pointer }
+.shopping-check-row input[type="checkbox"] {width:22px;height:22px;flex:0 0 22px;accent-color:var(--forest);cursor:pointer}
+.shopping-check-row .shopping-item-text {min-width:0;display:flex;flex-direction:column;gap:3px}
+.shopping-check-row .shopping-name {font-size:14px;overflow-wrap:anywhere}
+.shopping-check-row .shopping-meta {font-size:11px;line-height:1.45}
+.shopping-check-row .shopping-amount {flex-shrink:0;font-size:11px;max-width:135px;overflow-wrap:anywhere}
+.shopping-check-row.shopping-checked {opacity:.68;background:#f2f5f0}
+.shopping-check-row.shopping-checked .shopping-name {text-decoration:line-through}
+.completed-shopping {margin:12px 0;border-top:1px solid var(--line);padding-top:12px}
+.completed-shopping summary {cursor:pointer;font-size:13px;font-weight:750;color:var(--forest);padding:7px 2px}
+.completed-shopping .shopping-check-row {margin-top:6px}
+.shopping-add-form {display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:15px}
+.shopping-add-form label {font-size:12px;font-weight:750;color:var(--forest)}
+.shopping-add-inline {display:flex;gap:8px;align-items:stretch}
+.shopping-add-inline input {flex:1;min-width:0;border:1px solid #dce4dc;background:#fff;color:var(--ink);border-radius:9px;padding:10px;min-height:43px}
+.shopping-empty {padding:10px 0}
+@media(max-width:490px) {
+  .shopping-check-row {flex-wrap:wrap}
+  .shopping-check-row .shopping-amount {margin-left:32px;max-width:calc(100% - 32px)}
+  .shopping-add-inline .btn {flex:0 0 auto}
+}
