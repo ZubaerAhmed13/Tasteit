@@ -3,7 +3,7 @@ import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantry
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
-import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
+import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, filterKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -29,6 +29,7 @@ let discoveryMode = 'featured';
 let kitchenSelection = [];
 let kitchenDirty = false;
 let kitchenShowAll = false;
+let kitchenReadiness = 'all';
 let libraryTab = 'all';
 let libraryTag = '';
 let librarySearch = '';
@@ -202,8 +203,19 @@ function discoverPage() {
     '<button type="button" class="btn small" data-action="kitchen-update"' +
       (!kitchenSelection.length || loading ? ' disabled' : '') + '>Update recipe ideas →</button></div>' +
     '<p class="panel-note">Recipes come from TheMealDB or your saved cookbook. This is a shortlist, not an exhaustive search. Ingredient names and available amounts may require checking.</p></section>' : '';
+  const visibleMeals = discoveryMode === 'pantry'
+    ? filterKitchenRecipes(activeMeals,store.pantry,kitchenReadiness) : activeMeals;
+  const kitchenReadinessChips = discoveryMode === 'pantry'
+    ? '<div class="kitchen-readiness" role="group" aria-label="Filter recipes by kitchen ingredient availability">' +
+      [['all','All ideas'],['names','All ingredient names on hand'],['amounts','Measured amounts appear sufficient']].map(([key,label]) =>
+        '<button type="button" class="chip' + (kitchenReadiness === key ? ' selected' : '') +
+        '" data-action="kitchen-readiness" data-readiness="' + key + '" aria-pressed="' +
+        (kitchenReadiness === key) + '">' + label + '</button>').join('') +
+      '<p class="panel-note" role="status">Showing ' + visibleMeals.length + ' of ' + activeMeals.length +
+      ' suggestions. These are inventory estimates, not confirmation of food safety or allergy suitability.</p></div>' : '';
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
-    activeMeals.length ? cards(activeMeals, discoveryMode === 'pantry') : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>');
+    visibleMeals.length ? cards(visibleMeals, discoveryMode === 'pantry') :
+    (discoveryMode === 'pantry' && activeMeals.length ? empty('🥕', 'Nothing meets that match filter', 'Try All ideas, or add the missing ingredients to your kitchen.', '<button class="btn" type="button" data-action="kitchen-readiness" data-readiness="all">Show all ideas</button>') : empty('🔎', 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>'));
   return '<section class="hero"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
     '<p class="lead">Discover food from different cultures, collect your favourite meals, and find inspiration in the ingredients you already own.</p>' +
     '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" placeholder="Search biryani, pasta, curry..." value="' + escapeHtml(searchTerm) + '" required><button class="btn" type="submit">Find recipes ↗</button></form>' +
@@ -218,7 +230,7 @@ function discoverPage() {
     '<div class="browse-filters"><div class="filter-heading">Browse by cuisine <span>Provider region labels</span></div><div class="chips" aria-label="Browse recipes by cuisine">' + chips + '</div>' +
     '<div class="filter-heading">Browse by meal type <span>Provider categories, not verified diet or allergy information</span></div><div class="chips" aria-label="Browse recipes by meal category">' + courseChips + '</div>' +
     '<div class="filter-heading">Explore A–Z <span>All available recipes starting with a letter</span></div><div class="chips" aria-label="Browse recipes alphabetically">' + letterChips + '</div>' +
-    '<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me with a recipe</button></div>' + kitchenPicker + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
+    '<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me with a recipe</button></div>' + kitchenPicker + kitchenReadinessChips + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
     currentResults + '</section>';
 }
 
@@ -562,6 +574,12 @@ document.addEventListener('click', async event => {
       kitchenSelection = [...kitchenSelection,key];
     }
     kitchenDirty = true; render(); return;
+  }
+  if (action === 'kitchen-readiness') {
+    if (discoveryMode !== 'pantry') return;
+    const requested = button.dataset.readiness;
+    if (!['all','names','amounts'].includes(requested)) return;
+    kitchenReadiness = requested; render(); return;
   }
   if (action === 'kitchen-more') { kitchenShowAll = !kitchenShowAll; render(); return; }
   if (action === 'kitchen-reset') {
