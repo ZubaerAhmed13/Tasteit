@@ -588,7 +588,8 @@ function worldPage() {
     '<h2>'+escapeHtml(worldCountry)+' · '+escapeHtml(worldCategory)+'</h2>'+
     '<p>'+number+' / '+CATALOGUE_TARGET+' source recipes found for this combination. '+
     (cell.missing?'Still '+cell.missing+' short of the collection target.':'Collection target reached.')+
-    ' None have been independently selected as “best” or authenticated as traditional dishes.</p></div>'+
+    ' None have been independently selected as “best” or authenticated as traditional dishes. '+pairResearch.shortlisted+
+    ' additional Wikibooks lead(s) shortlisted by you for this pair (separate research; NOT part of the '+number+' source records).</p></div>'+
     '<div class="world-count">'+number+' <span>/ '+CATALOGUE_TARGET+'</span></div></section>' : '';
   const caution=assessed && incomplete ?
     '<p class="world-warning" role="status">Incomplete provider scan: requests for '+
@@ -600,6 +601,7 @@ function worldPage() {
   const researchPages=Math.max(1,Math.ceil(matchedResearch.length/24));
   const researchPage=Math.max(0,Math.min(worldResearchPage,researchPages-1));
   const reviewedStats=researchReviewSummary(store.editorialReviews);
+  const pairResearch=researchReviewSummary(store.editorialReviews,worldCountry,worldCategory);
   const editSource=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
   const selectedResearch=editSource&&(store.editorialReviews?.[editSource.id]||{});
   const reviewEditor=editSource ?
