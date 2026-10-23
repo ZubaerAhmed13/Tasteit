@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -40,6 +40,10 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', err => errors.push(err.message));
+  page.on('response', response => {
+    if(response.url().includes('/src/') && response.status()>=400)
+      errors.push('Source module HTTP '+response.status()+': '+response.url());
+  });
   await page.route('**/api/json/v1/1/**', async route => {
     const u = new URL(route.request().url());
     const endpoint = u.pathname.split('/').pop();
