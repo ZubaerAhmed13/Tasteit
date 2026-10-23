@@ -52,6 +52,21 @@ try {
       {meals:[meal]};
     await route.fulfill({status:200,headers,body:JSON.stringify(body)});
   });
+  // A pre-collected source-only snapshot should load immediately; full cooking
+  // directions remain fetched from the provider when a recipe is opened.
+  await page.route('**/data/world-catalogue-index.json', route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({
+      version:1,scannedAt:'2026-10-23T08:00:00Z',scanComplete:true,failedInitials:[],
+      countries:[{country:'India',areas:['Indian']},{country:'Italy',areas:['Italian']}],
+      categories:['Vegetarian','Dessert'],
+      stats:{countries:2,categories:2,combinations:4,nonempty:1,full:0,scanned:1,
+        totalFound:1,duplicates:0,unclassified:0,ambiguous:0},
+      cells:[{country:'India',category:'Vegetarian',available:1,count:1,missing:29,
+        recipes:[{id:'1',name:'Tomato Rice',providerArea:'Indian',
+          photoUrl:meal.strMealThumb,documentationScore:85,reviewStatus:'not-reviewed'}]}]
+    })
+  }));
   await page.route('**/images/media/meals/**', route => route.fulfill({
     status:200,contentType:'image/svg+xml',
     body:'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140"><rect width="200" height="140" fill="#dde7cf"/></svg>'
@@ -79,6 +94,12 @@ try {
   await page.locator('#world-country option').first().waitFor({state:'attached'});
   await page.locator('#world-country').selectOption('India');
   await page.locator('#world-category').selectOption('Vegetarian');
+  await page.getByRole('heading',{name:'India · Vegetarian'}).waitFor();
+  assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'),
+    'snapshot exposes sourced candidates before an expensive new scan');
+  await page.locator('.world-result-head + .recipe-grid .recipe-photo').first().click();
+  await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
+  await page.keyboard.press('Escape');
   await page.locator('[data-action="world-scan"]').click();
   await page.getByRole('heading',{name:'India · Vegetarian'}).waitFor({timeout:20000});
   assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'));
