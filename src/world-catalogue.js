@@ -115,9 +115,63 @@ export function exportCatalogueIndex(catalogue,{source='TheMealDB V1',scannedAt=
           documentationScore:x.documentationScore,
           reviewStatus:x.editorialStatus,
           providerArea:x.providerArea,
+          photoUrl:/^https:\/\/(www\.)?themealdb\.com\//.test(String(x.meal.strMealThumb||''))
+            ? x.meal.strMealThumb : null,
+          photoCredit:'TheMealDB community',
+          photoRights:'not-independently-verified',
           // The source is a live reference, not a copied publisher recipe.
           detailEndpoint:'https://www.themealdb.com/api/json/v1/1/lookup.php?i='+encodeURIComponent(x.id)
         }))
       })))
   };
+}
+
+
+// A checked-in index is a snapshot of sourced names/links only, never a
+// replacement for fetching the current, full recipe from the provider.
+export function hydrateCatalogueIndex(snapshot) {
+  if(!snapshot || snapshot.version!==1 || !Array.isArray(snapshot.countries) ||
+    !Array.isArray(snapshot.categories) || !Array.isArray(snapshot.cells) ||
+    snapshot.countries.length>500 || snapshot.categories.length>60 ||
+    snapshot.cells.length>10000) throw new Error('Unsupported catalogue snapshot');
+  const countries=countryDirectory(snapshot.countries.flatMap(c=>
+    (Array.isArray(c.areas)?c.areas:[]).map(area=>({strArea:area,strCountry:c.country}))));
+  const categories=snapshot.categories.filter(x=>typeof x==='string' && x.length<=80);
+  const cells=new Map(countries.map(c=>[c.country,new Map(categories.map(category=>[category,{
+    country:c.country,category,target:CATALOGUE_TARGET,count:0,available:0,
+    missing:CATALOGUE_TARGET,reviewed:0,status:'needs-sources',recipes:[]
+  }]))]));
+  const meals=new Map();
+  for(const cell of snapshot.cells){
+    if(!cells.has(cell.country) || !cells.get(cell.country).has(cell.category) ||
+       !Array.isArray(cell.recipes) || cell.recipes.length>CATALOGUE_TARGET) continue;
+    const found=[];
+    const ids=new Set();
+    for(const item of cell.recipes){
+      const id=String(item?.id||'');
+      const name=String(item?.name||'').trim();
+      if(!/^\d{1,20}$/.test(id) || !name || name.length>180 || ids.has(id))continue;
+      ids.add(id);
+      const url=String(item.photoUrl||'');
+      const meal={
+        idMeal:id,strMeal:name,strArea:item.providerArea||cell.country,
+        strCountry:cell.country,strCategory:cell.category,
+        strMealThumb:/^https:\/\/(www\.)?themealdb\.com\//.test(url)?url:''
+      };
+      const candidate={id,meal,providerArea:String(item.providerArea||''),
+        category:cell.category,country:cell.country,
+        documentationScore:Number(item.documentationScore)||0,
+        editorialStatus:'not-reviewed',
+        imageCredit:item.photoCredit||null};
+      found.push(candidate);
+      meals.set(id,meal);
+    }
+    const current=cells.get(cell.country).get(cell.category);
+    current.recipes=found;
+    current.count=found.length;
+    current.available=Math.max(found.length,Number(cell.available)||0);
+    current.missing=Math.max(0,CATALOGUE_TARGET-found.length);
+    current.status=current.count>=CATALOGUE_TARGET?'target-met':'needs-sources';
+  }
+  return {countries,categories,cells,stats:snapshot.stats,meals:[...meals.values()]};
 }
