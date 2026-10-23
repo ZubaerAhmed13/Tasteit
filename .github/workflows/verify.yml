@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
 
+# Keep just the newest PR verification when several commits arrive in a row.
+concurrency:
+  group: tasteit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   javascript:
     runs-on: ubuntu-latest
