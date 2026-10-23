@@ -25,7 +25,12 @@ jobs:
         run: npm run verify
 
   browser:
+    name: Browser acceptance (${{ matrix.browser }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,6 +39,8 @@ jobs:
       - name: Install browser test runtime
         run: |
           npm install --no-save --package-lock=false playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps ${{ matrix.browser }}
       - name: Run headless browser acceptance
+        env:
+          TASTEIT_BROWSER: ${{ matrix.browser }}
         run: node tests/browser-smoke.mjs
