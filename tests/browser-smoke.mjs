@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -195,12 +195,25 @@ try {
   await page.locator('#review-status').selectOption('shortlisted');
   await page.locator('#review-evidence').fill('https://example.org/culinary-origin');
   await page.locator('#review-notes').fill('The recipe appears in multiple regional cuisines; requires further checking.');
+  await page.locator('.rights-editor summary').click();
+  await page.locator('#review-text-plan').selectOption('reuse-needs-review');
+  await page.locator('#review-text-license').fill('https://en.wikibooks.org/wiki/Wikibooks:Copyrights');
+  await page.locator('#review-text-attribution').fill('Wikibooks contributors · original recipe · CC BY-SA');
+  await page.locator('#review-photo-plan').selectOption('reuse-needs-review');
+  await page.locator('#review-photo-source').fill('https://commons.wikimedia.org/wiki/File:Example.jpg');
+  await page.locator('#review-photo-license').fill('https://creativecommons.org/licenses/by-sa/4.0/');
+  await page.locator('#review-photo-creator').fill('Example contributor');
+  await page.locator('#review-photo-attribution').fill('Example contributor · Commons · CC BY-SA');
+  await page.locator('#review-rights-notes').fill('Exact photograph and original revision still need independent legal and attribution review.');
   await page.locator('#world-review-form button[type=submit]').click();
   await page.getByText('shortlisted (NOT approved): 1').waitFor();
   const savedResearch=await page.evaluate(() =>
     JSON.parse(localStorage.getItem('tasteit.local.v1')).editorialReviews['wikibooks:1']);
   assert.equal(savedResearch.country,'India');
   assert.equal(savedResearch.status,'shortlisted');
+  assert.equal(savedResearch.rights.photoPlan,'reuse-needs-review');
+  assert.equal(savedResearch.rights.photoCreator,'Example contributor');
+  assert.equal(savedResearch.rights.textPlan,'reuse-needs-review');
   await page.locator('#world-research-query').fill('');
   await page.locator('#world-research-tag').fill('South Asian');
   await page.locator('#world-research-status').selectOption('shortlisted');
@@ -215,6 +228,9 @@ try {
   const csv=await readFile(await (await reviewExport).path(),'utf8');
   assert.ok(csv.includes('NOT APPROVED'));
   assert.ok(csv.includes('https://example.org/culinary-origin'));
+  assert.ok(csv.includes('Example contributor'));
+  assert.ok(csv.includes('reuse-needs-review'));
+  assert.ok(csv.includes('NOT APPROVED'));
   const coverageDownload=page.waitForEvent('download');
   await page.locator('[data-action="world-export"]').click();
   const report=JSON.parse(await readFile(await (await coverageDownload).path(),'utf8'));
@@ -374,6 +390,7 @@ try {
   assert.equal(Object.keys(backup.data.saved).length,2);
   assert.equal(backup.data.shoppingExtras[0].name,'Dish soap');
   assert.equal(backup.data.editorialReviews['wikibooks:1'].status,'shortlisted','private research included in backup');
+  assert.equal(backup.data.editorialReviews['wikibooks:1'].rights.photoPlan,'reuse-needs-review','copyright research included in backup');
   assert.equal(Object.keys(backup.data.shoppingChecked).length,1);
   assert.ok(Object.values(backup.data.saved).some(x=>x.meal.strSource === 'https://example.com/traditional-family-curry' && !x.meal.strMealThumb),'publisher link is saved without a copied image');
   assert.equal(Object.values(backup.data.planServings)[0],4,'portion preference is backed up');
