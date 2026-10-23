@@ -1,3 +1,4 @@
+import { prepareRightsReview, validRightsReview, rightsReviewChecklist } from './rights-review.js';
 // Manual research notes are PRIVATE browser records until the user exports them.
 // A shortlist is never equal to a licensed, tasted or editorially approved recipe.
 export const EDITORIAL_STATUSES=Object.freeze([
@@ -21,7 +22,7 @@ function checkReviewFields(r){
     typeof r.category==='string' && r.category.length<=100 &&
     typeof r.notes==='string' && r.notes.length<=1000 &&
     typeof r.evidenceUrl==='string' && r.evidenceUrl.length<=500 &&
-    validUrl(r.evidenceUrl) &&
+    validUrl(r.evidenceUrl) && validRightsReview(r.rights) &&
     typeof r.reviewedAt==='string' && /^\d{4}-\d{2}-\d{2}T/.test(r.reviewedAt) &&
     (r.status!=='shortlisted'||(
       r.country && r.category && r.notes.trim().length>=20 && r.evidenceUrl
@@ -51,7 +52,8 @@ export function editorialReview(input,{id,countries,categories,now=new Date()}){
     throw new Error('Shortlisting requires country, category, an HTTPS evidence link and at least 20 characters of research notes.');
   if(status==='shortlisted' && new URL(evidenceUrl).hostname==='en.wikibooks.org')
     throw new Error('A shortlist needs a supporting source beyond the original Wikibooks page.');
-  const review={country,category,status,evidenceUrl,notes,reviewedAt:now.toISOString()};
+  const rights=prepareRightsReview(input);
+  const review={country,category,status,evidenceUrl,notes,reviewedAt:now.toISOString(),rights};
   if(!checkReviewFields(review))throw new Error('Review contains invalid information.');
   return review;
 }
@@ -72,6 +74,8 @@ export function researchReviewSummary(reviews,country='',category=''){
     needsEvidence:rows.filter(x=>x.status==='needs-evidence').length,
     shortlisted:rows.filter(x=>x.status==='shortlisted').length,
     rejected:rows.filter(x=>x.status==='rejected').length,
+    proposedTextReuses:rows.filter(x=>rightsReviewChecklist(x.rights).textReuseProposed).length,
+    proposedPhotoReuses:rows.filter(x=>rightsReviewChecklist(x.rights).photoReuseProposed).length,
     verifiedBest:0 // This workflow NEVER grants "best" or image/text licences.
   };
 }
@@ -99,9 +103,14 @@ export function exportEditorialReviewCsv(reviews,entries=[]){
   };
   return [
     ['Source ID','Recipe','Country (research)','Category (research)','Research status',
-      'Evidence link','Notes','Reviewed at','Source URL','Top-30 approval'],
+      'Evidence link','Notes','Reviewed at','Source URL','Text reuse plan','Text licence reference','Text attribution',
+      'Photo reuse plan','Photo file source','Photo licence reference','Photo creator','Photo attribution','Rights review notes','Top-30 approval'],
     ...Object.entries(reviews||{}).sort(([a],[b])=>a.localeCompare(b))
       .map(([id,r])=>[id,pages.get(id)?.title||'',r.country,r.category,r.status,
-        r.evidenceUrl,r.notes,r.reviewedAt,pages.get(id)?.url||'','NOT APPROVED'])
+        r.evidenceUrl,r.notes,r.reviewedAt,pages.get(id)?.url||'',
+        r.rights?.textPlan||'link-only',r.rights?.textLicenseUrl||'',r.rights?.textAttribution||'',
+        r.rights?.photoPlan||'no-photo',r.rights?.photoSourceUrl||'',r.rights?.photoLicenseUrl||'',
+        r.rights?.photoCreator||'',r.rights?.photoAttribution||'',r.rights?.reviewNotes||'',
+        'NOT APPROVED'])
   ].map(row=>row.map(safe).join(',')).join('\n')+'\n';
 }
