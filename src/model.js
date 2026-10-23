@@ -191,6 +191,16 @@ export function createPersonalMeal(input, id) {
   const title = String(input.title || '').trim();
   const origin = String(input.origin || '').trim();
   const instructions = String(input.instructions || '').trim();
+  const source = String(input.source || '').trim();
+  if (source) {
+    if (source.length > 500) throw new Error('Source link must be 500 characters or fewer.');
+    try {
+      const url = new URL(source);
+      if (url.protocol !== 'https:' || url.username || url.password || !url.hostname.includes('.')) {
+        throw new Error('Invalid source');
+      }
+    } catch { throw new Error('Enter a valid https:// source link, or leave it empty.'); }
+  }
   const items = String(input.ingredients || '').split(/\r?\n/).map(row => row.trim()).filter(Boolean).map(row => {
     const split = row.indexOf('|');
     return split === -1 ? { name: row, measure: '' } : {
@@ -206,7 +216,7 @@ export function createPersonalMeal(input, id) {
   if (!id || !String(id).startsWith('personal-')) throw new Error('Invalid personal recipe identifier.');
   const meal = { idMeal: id, strMeal: title, strArea: origin || 'My kitchen',
     strCategory: 'My own recipe', strInstructions: instructions,
-    strMealThumb: '', strSource: '', strPersonal: true };
+    strMealThumb: '', strSource: source, strPersonal: true };
   items.forEach((item, index) => {
     meal['strIngredient' + (index + 1)] = item.name;
     meal['strMeasure' + (index + 1)] = item.measure;
