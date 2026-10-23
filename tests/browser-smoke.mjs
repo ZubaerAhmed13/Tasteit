@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -80,6 +80,29 @@ try {
   assert.equal(await page.locator('[data-target-servings]').innerText(),'3');
   assert.ok((await page.locator('.ingredient-list').innerText()).includes('1.5 cup'),'rice should scale from one cup for 2 to 1.5 cups for 3');
   assert.equal(await page.getByRole('link',{name:'Watch source video'}).count(),1,'source video links are visible when provided');
+  // Guided cooking persists the step and timer across dialog closing and reload.
+  await page.locator('[data-action="start-cooking"]').click();
+  await page.getByRole('heading',{name:'Step 1 of 2'}).waitFor();
+  await page.locator('[data-action="step-next"]').click();
+  await page.getByRole('heading',{name:'Step 2 of 2'}).waitFor();
+  await page.locator('[data-action="timer-preset"][data-minutes="1"]').click();
+  await page.locator('[data-action="timer-start"]').click();
+  const initialTimer = await page.locator('[data-cooking-clock]').innerText();
+  assert.match(initialTimer,/^0[01]:\d\d$/,'clock displays an active minute timer');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('[role="dialog"]').count(),0);
+  await page.reload();
+  await page.locator('.recipe-photo').first().click();
+  await page.locator('[data-action="start-cooking"]').click();
+  await page.getByRole('heading',{name:'Step 2 of 2'}).waitFor();
+  assert.ok((await page.locator('[data-cooking-clock]').innerText()) !== '05:00','timer survived reload');
+  await page.locator('[data-action="timer-pause"]').click();
+  await page.locator('[data-action="timer-reset"]').click();
+  assert.equal(await page.locator('[data-cooking-clock]').innerText(),'01:00');
+  await page.keyboard.press('ArrowLeft');
+  await page.getByRole('heading',{name:'Step 1 of 2'}).waitFor();
+  await page.keyboard.press('ArrowRight');
+  await page.getByRole('heading',{name:'Step 2 of 2'}).waitFor();
   await page.locator('[data-action="cook-done"]').click();
   await page.locator('#cooking-rating').selectOption('5');
   await page.locator('#cooking-note').fill('Lovely with extra herbs.');
@@ -197,6 +220,7 @@ try {
   assert.equal(journalEntry.cookedCount,1);
   assert.equal(journalEntry.cookingHistory[0].rating,5);
   assert.equal(journalEntry.cookingHistory[0].note,'Lovely with extra herbs.');
+  assert.equal((await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('tasteit.local.v1')).cookingSessions))).length,0,'finished cooking session is cleared');
   assert.equal((await page.evaluate(() => Object.values(JSON.parse(localStorage.getItem('tasteit.local.v1')).planServings)))[0],4,'plan servings restored');
 
   await page.setViewportSize({width:375,height:812});
