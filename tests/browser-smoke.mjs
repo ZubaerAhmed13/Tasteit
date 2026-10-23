@@ -147,7 +147,7 @@ try {
   await page.locator('.world-review-audit').waitFor();
   assert.ok((await page.locator('.world-review-audit').innerText()).includes('1 Wikibooks page(s)'));
   assert.ok((await page.locator('.world-review-audit').innerText()).includes('unverified source clues'));
-  await page.locator('.world-result-head + .recipe-grid .recipe-photo').first().click();
+  await page.locator('.world-result-head ~ .recipe-grid .recipe-photo').first().click();
   await page.locator('[role="dialog"] h2').getByText('Tomato Rice').waitFor();
   await page.keyboard.press('Escape');
   await page.locator('[data-action="world-scan"]').click();
@@ -155,7 +155,7 @@ try {
   assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'));
   assert.equal(await page.locator('.world-result-head').count(),1);
   assert.equal(await page.locator('.world-stats strong').first().innerText(),'2');
-  assert.equal(await page.locator('.world-result-head + .recipe-grid .recipe-card').count(),1,'only sourced candidates');
+  assert.equal(await page.locator('.world-result-head ~ .recipe-grid .recipe-card').count(),1,'only sourced candidates');
   await page.locator('#world-category').selectOption('Dessert');
   await page.getByRole('heading',{name:'No sourced recipes in this combination'}).waitFor();
   await page.locator('#world-category').selectOption('Vegetarian');
