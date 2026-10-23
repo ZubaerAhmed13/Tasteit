@@ -9,6 +9,7 @@ import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecip
 import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, hydrateCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
 import { editorialReview, savedEditorialReview, researchReviewSummary, researchLeadResults, exportEditorialReviewCsv } from './editorial.js';
 import { emptyRightsReview, rightsReviewChecklist } from './rights-review.js';
+import { sourceImageTitles, commonsFileMetadata } from './source-media.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
@@ -65,6 +66,7 @@ let worldResearchFocus='all';
 let worldResearchGapMap=null;
 let worldResearchGapAttempted=false;
 let worldResearchReviewId='';
+let worldMedia={sourceId:'',titles:[],selected:null,loading:false,error:''};
 
 let libraryTab = 'all';
 let libraryTag = '';
@@ -197,6 +199,44 @@ async function loadWorldOptions() {
       worldCategory=worldCategories.includes('Dessert')?'Dessert':worldCategories[0]||'';
   }catch(error){worldOptionsError=error.message||'Country directory could not load.';}
   finally{worldLoadingOptions=false;if(view==='world')render();}
+}
+function sourceMediaPanel(){
+  if(!worldResearchReviewId)return '';
+  const source=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
+  if(!source)return '';
+  const media=worldMedia.sourceId===source.id?worldMedia:
+    {titles:[],selected:null,loading:false,error:''};
+  const selected=media.selected;
+  const fileDetails=selected ?
+    '<div class="source-media-details"><h4>Selected file — unverified rights</h4>'+
+    '<p><a href="'+escapeHtml(selected.filePage)+'" target="_blank" rel="noopener noreferrer">Open original file-description page ↗</a></p>'+
+    '<p>Licence label: <strong>'+escapeHtml(selected.license||'Not reported')+'</strong></p>'+
+    '<p>Artist information (as supplied): '+escapeHtml(selected.artist||'Not reported')+'</p>'+
+    '<p>Credit information (as supplied): '+escapeHtml(selected.credit||'Not reported')+'</p>'+
+    (selected.licenseUrl?'<p><a target="_blank" rel="noopener noreferrer" href="'+escapeHtml(selected.licenseUrl)+'">Inspect claimed licence ↗</a></p>':'<p>No verified licence link returned.</p>')+
+    '<p>Attribution requirement flag: '+escapeHtml(selected.attributionRequired)+'</p>'+
+    '<p>'+(!selected.foundOnCommons ?
+      'This file was not found on Commons; it may be stored locally at Wikibooks. Check the original file description manually.' :
+      'Machine-readable information may be missing, stale or incomplete. Inspect the file page before recording rights.')+
+    '</p></div>' : '';
+  return '<section id="source-media-panel" class="source-media-panel" aria-label="Original-source photograph research">'+
+    '<div><h4>Inspect original Wikibooks file references</h4>'+
+    '<p class="panel-note">Requests happen only when you choose Inspect. Filenames and licensing metadata are clues, not permission to reuse media.</p></div>'+
+    '<button type="button" class="btn secondary small" data-action="world-media-inspect"'+
+      (media.loading?' disabled':'')+'>Inspect linked source media ↗</button>'+
+    (media.loading?'<p role="status" class="panel-note">Checking Wikimedia file metadata…</p>':'')+
+    (media.error?'<p class="world-warning" role="alert">'+escapeHtml(media.error)+'</p>':'')+
+    (media.titles.length ? '<div class="source-media-list" aria-label="Referenced files">'+
+      media.titles.map(title=>'<button type="button" class="btn ghost small" data-action="world-media-file" data-title="'+escapeHtml(title)+'">'+escapeHtml(title)+'</button>').join('')+
+      '</div>' : (!media.loading && !media.error && worldMedia.sourceId===source.id?
+        '<p class="panel-note">No file references were returned. A photograph is not automatically available.</p>' : ''))+
+    fileDetails+
+    '<p class="panel-note"><strong>Reuse remains unapproved.</strong> Record the creator, file page, licence and attribution above only after independent checking.</p>'+
+    '</section>';
+}
+function redrawSourceMediaPanel(){
+  const existing=document.querySelector('#source-media-panel');
+  if(existing)existing.outerHTML=sourceMediaPanel();
 }
 async function loadWorldResearch() {
   if(worldResearchLoading)return;
@@ -709,6 +749,7 @@ function worldPage() {
     (store.editorialReviews?.[editSource.id] ?
       '<button type="button" class="btn secondary" data-action="world-review-delete" data-id="'+escapeHtml(editSource.id)+'">Discard notes</button>' : '')+
     '</div></form>' : '';
+  const originalSourceMedia=editSource?sourceMediaPanel():'';
   const researchList=worldResearchOpen ? '<section class="panel world-research" aria-label="Wikibooks source research"><div class="section-head"><div>'+
     '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as any country’s best recipes.</p></div></div>'+
     (worldResearchLoading?'<p class="panel-note" role="status">Loading source links…</p>':'')+
@@ -757,7 +798,7 @@ function worldPage() {
           '<span class="research-tags">Source tags (unverified): '+
           escapeHtml(worldResearchEvidence.get(x.sourcePageId).slice(0,3).join(' · '))+'</span>' : '')+
         '<button type="button" class="btn secondary small" data-action="world-research-review" data-id="'+
-        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+reviewEditor+
+        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+reviewEditor+originalSourceMedia+
       '<div class="world-research-summary" role="status">Your reviewed leads: '+reviewedStats.reviewed+
       ' · shortlisted (NOT approved): '+reviewedStats.shortlisted+
       ' · verified “best 30” recommendations: 0</div>'+
