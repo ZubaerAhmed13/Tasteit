@@ -438,3 +438,13 @@ h3 { font-size: 24px }
 .rights-editor textarea {min-height:92px;resize:vertical}
 .rights-editor .panel-note {line-height:1.6;margin:8px 0}
 @media(max-width:540px){.rights-editor{padding:12px}}
+
+/* Wikimedia file metadata is a separate research aid, not a photograph preview. */
+.source-media-panel {border:1px solid var(--line);border-radius:13px;padding:17px;background:#f9faf7;margin:17px 0;display:flex;flex-direction:column;gap:12px}
+.source-media-panel h4 {color:var(--forest);font-size:17px;margin:0 0 5px}
+.source-media-panel .btn {align-self:start;max-width:100%;white-space:normal;text-align:left}
+.source-media-list {display:flex;flex-wrap:wrap;gap:8px}
+.source-media-details {border-top:1px solid var(--line);padding-top:12px}
+.source-media-details p {font-size:12px;line-height:1.6;overflow-wrap:anywhere;padding:2px 0}
+.source-media-details a {color:var(--forest);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:540px){.source-media-panel{padding:12px}.source-media-list{flex-direction:column}.source-media-panel .btn{width:100%}}
