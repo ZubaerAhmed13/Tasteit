@@ -3,7 +3,6 @@
 export const EDITORIAL_STATUSES=Object.freeze([
   'researching','needs-evidence','shortlisted','rejected'
 ]);
-const own=(x,k)=>Object.prototype.hasOwnProperty.call(x,k);
 const safeText=(value,max)=>String(value||'').trim().slice(0,max);
 const validUrl=(value)=>{
   if(!value)return true;
@@ -50,6 +49,8 @@ export function editorialReview(input,{id,countries,categories,now=new Date()}){
   if(status==='shortlisted' && (!country || !category ||
     !evidenceUrl || notes.length<20))
     throw new Error('Shortlisting requires country, category, an HTTPS evidence link and at least 20 characters of research notes.');
+  if(status==='shortlisted' && new URL(evidenceUrl).hostname==='en.wikibooks.org')
+    throw new Error('A shortlist needs a supporting source beyond the original Wikibooks page.');
   const review={country,category,status,evidenceUrl,notes,reviewedAt:now.toISOString()};
   if(!checkReviewFields(review))throw new Error('Review contains invalid information.');
   return review;
