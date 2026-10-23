@@ -1,11 +1,12 @@
 import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
-import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableCategories, letterMeals, randomMeal } from './api.js';
+import { featured, searchMeals, cuisineMeals, categoryMeals, mealDetails, pantryCandidates, availableAreas, availableAreaRecords, availableCategories, letterMeals, randomMeal, scanWorldRecipes } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
 import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, filterKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
 import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer } from './cooking.js';
 import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
+import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -32,6 +33,22 @@ let kitchenSelection = [];
 let kitchenDirty = false;
 let kitchenShowAll = false;
 let kitchenReadiness = 'all';
+// Provider-scanned recipe index stays in memory. No fictitious ranks or local
+// redistribution of recipes or third-party photographs.
+let worldAreas = [];
+let worldCategories = [];
+let worldCountry = '';
+let worldCategory = '';
+let worldLoadingOptions = false;
+let worldOptionsError = '';
+let worldScan = null;
+let worldScanProgress = {completed:0,total:26,recipes:0,failed:0};
+let worldScanning = false;
+let worldScanController = null;
+let worldIndex = null;
+let worldPartial = [];
+let worldMeals = [];
+
 let libraryTab = 'all';
 let libraryTag = '';
 let librarySearch = '';
@@ -74,7 +91,7 @@ function save() {
   return saved;
 }
 function findMeal(id) {
-  return activeMeals.find(x => x.idMeal === id) || store.saved[id]?.meal || (selectedMeal?.idMeal === id ? selectedMeal : null);
+  return activeMeals.find(x => x.idMeal === id) || worldMeals.find(x=>x.idMeal===id) || store.saved[id]?.meal || (selectedMeal?.idMeal === id ? selectedMeal : null);
 }
 function savedEntry(id) {
   return store.saved[id] || { meal: findMeal(id), wanted: false, usual: false, favourite: false, cookedCount: 0 };
@@ -95,8 +112,58 @@ function changeView(next) {
   updateNav();
   closeDialog();
   render();
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  window.scrollTo({top:0,behavior:'instant'});
+  if (next==='world' && !worldAreas.length && !worldLoadingOptions) void loadWorldOptions();
 }
+async function loadWorldOptions() {
+  worldLoadingOptions=true;worldOptionsError='';
+  if(view==='world') render();
+  try {
+    const [areas,categoriesFromSource]=await Promise.all([availableAreaRecords(),availableCategories()]);
+    const countries=countryDirectory(areas);
+    if(!countries.length || !categoriesFromSource.length) throw new Error('The source directory has no country or category labels.');
+    worldAreas=areas;
+    worldCategories=categoriesFromSource;
+    if(!countries.some(c=>c.country===worldCountry)) worldCountry=countries[0].country;
+    if(!worldCategories.includes(worldCategory)) worldCategory=worldCategories.includes('Dessert')?'Dessert':worldCategories[0];
+  } catch(error) {worldOptionsError=error.message || 'Country directory could not load.';}
+  finally {worldLoadingOptions=false;if(view==='world')render();}
+}
+async function collectWorldRecipes() {
+  if(worldScanning || !worldAreas.length || !worldCategories.length) return;
+  worldScanning=true;worldIndex=null;worldScan=null;worldMeals=[];worldPartial=[];
+  worldScanProgress={completed:0,total:26,recipes:0,failed:0};
+  worldScanController=new AbortController();
+  render();
+  try {
+    const report=await scanWorldRecipes({
+      signal:worldScanController.signal,
+      onProgress:progress=>{worldScanProgress=progress;if(view==='world')render();}
+    });
+    worldPartial=report.failedLetters;
+    worldScan=report;
+    worldMeals=report.meals;
+    worldIndex=catalogueFromProvider(report.meals,worldAreas,worldCategories);
+  } catch(error) {
+    if(error?.name!=='AbortError') {
+      worldOptionsError='Could not scan the provider catalogue. Please retry.';
+    }
+  } finally {
+    worldScanning=false;worldScanController=null;
+    if(view==='world')render();
+  }
+}
+function downloadWorldIndex(){
+  if(!worldIndex)return;
+  const meta=exportCatalogueIndex(worldIndex);
+  const blob=new Blob([JSON.stringify(meta,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='tasteit-world-catalogue-coverage.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
 
 async function discover(mode = 'featured', value = '') {
   requestNumber += 1;
@@ -404,7 +471,7 @@ function planPage() {
 
 function render() {
   updateNav();
-  appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
+  appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
   if (selectedMeal) renderDialog();
 }
 
