@@ -595,10 +595,13 @@ function worldPage() {
     escapeHtml(worldPartial.join(', ').toUpperCase())+
     ' failed. Counts may be lower than the provider’s actual catalogue.</p>' : '';
   const sourceQuery=worldResearchQuery.trim().toLocaleLowerCase();
-  const matchedResearch=worldResearchEntries.filter(item=>
-    !sourceQuery || item.title.toLocaleLowerCase().includes(sourceQuery));
+  const matchedResearch=researchLeadResults(worldResearchEntries,sourceQuery,worldResearchEvidence,
+    {tag:worldResearchTag,status:worldResearchStatus,reviews:store.editorialReviews});
   const researchPages=Math.max(1,Math.ceil(matchedResearch.length/24));
   const researchPage=Math.max(0,Math.min(worldResearchPage,researchPages-1));
+  const reviewedStats=researchReviewSummary(store.editorialReviews);
+  const editSource=worldResearchEntries.find(x=>x.id===worldResearchReviewId);
+  const selectedResearch=editSource&&(store.editorialReviews?.[editSource.id]||{});
   const researchList=worldResearchOpen ? '<section class="panel world-research" aria-label="Wikibooks source research"><div class="section-head"><div>'+
     '<h3>More recipe sources to research</h3><p>Linked Wikibooks Cookbook pages, not classified or verified as any country’s best recipes.</p></div></div>'+
     (worldResearchLoading?'<p class="panel-note" role="status">Loading source links…</p>':'')+
@@ -608,17 +611,31 @@ function worldPage() {
       '<label for="world-research-query">Search these recipe titles</label><div class="shopping-add-inline">'+
       '<input id="world-research-query" name="query" maxlength="100" value="'+escapeHtml(worldResearchQuery)+
       '" placeholder="Try biryani, stew, cake…">'+
-      '<button class="btn secondary small" type="submit">Search</button></div></form>'+
+      '<button class="btn secondary small" type="submit">Search</button></div>'+
+      '<div class="world-review-filters"><label for="world-research-tag">Source category label contains</label>'+
+      '<input id="world-research-tag" name="tag" maxlength="100" value="'+escapeHtml(worldResearchTag)+
+      '" placeholder="e.g. South Asian, rice, soup">'+
+      '<label for="world-research-status">Your research progress</label>'+
+      '<select id="world-research-status" name="status">'+
+      [['all','All research leads'],['unreviewed','Not yet reviewed'],['researching','Researching'],
+      ['needs-evidence','Needs stronger evidence'],['shortlisted','Shortlisted (not approved)'],['rejected','Excluded']].map(([key,label])=>
+        '<option value="'+key+'"'+(worldResearchStatus===key?' selected':'')+'>'+label+'</option>').join('')+
+      '</select></div></form>'+
       '<p class="panel-note" role="status">'+matchedResearch.length+' linked source records'+
       (sourceQuery?' match your search':'')+'. Page '+(researchPage+1)+' of '+researchPages+' · up to 24 per page'+
       '. Country and course assignments require human verification.</p>'+
       '<ul class="world-research-list">'+matchedResearch.slice(researchPage*24,(researchPage+1)*24).map(x=>
         '<li><a href="'+externalUrl(x.url)+'" target="_blank" rel="noopener noreferrer">'+
         escapeHtml(x.title)+' ↗</a><span>Wikibooks · course/origin unreviewed</span>'+
+        (store.editorialReviews?.[x.id] ? '<span class="research-status">Your research: '+
+          escapeHtml(store.editorialReviews[x.id].status.replaceAll('-',' '))+
+          (store.editorialReviews[x.id].country ? ' · '+escapeHtml(store.editorialReviews[x.id].country) : '')+
+          '</span>' : '')+
         (worldResearchEvidence.has(x.sourcePageId)&&worldResearchEvidence.get(x.sourcePageId).length ?
           '<span class="research-tags">Source tags (unverified): '+
           escapeHtml(worldResearchEvidence.get(x.sourcePageId).slice(0,3).join(' · '))+'</span>' : '')+
-        '</li>').join('')+'</ul>'+
+        '<button type="button" class="btn secondary small" data-action="world-research-review" data-id="'+
+        escapeHtml(x.id)+'">Research this recipe</button></li>').join('')+'</ul>'+
       '<div class="world-research-pages"><button type="button" class="btn secondary small" data-action="world-research-prev"'+(researchPage===0?' disabled':'')+'>← Previous</button><span>Page '+(researchPage+1)+' / '+researchPages+'</span><button type="button" class="btn secondary small" data-action="world-research-next"'+(researchPage>=researchPages-1?' disabled':'')+'>Next →</button></div>'+ '<p class="panel-note">Wikibooks text is subject to CC BY-SA attribution and terms. Images have separate licences. No source photos or recipe instructions are copied into Tasteit.</p>':'')+
       '</section>' :
     '<section class="panel world-research"><div class="section-head"><div><h3>Explore additional recipe leads</h3>'+
