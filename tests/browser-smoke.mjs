@@ -76,7 +76,7 @@ try {
 
   // The world catalogue never fabricates 30 entries; it counts actual source IDs.
   await page.locator('.site-nav [data-nav="world"]').click();
-  await page.locator('#world-country option').first().waitFor();
+  await page.locator('#world-country option').first().waitFor({state:'attached'});
   await page.locator('#world-country').selectOption('India');
   await page.locator('#world-category').selectOption('Vegetarian');
   await page.locator('[data-action="world-scan"]').click();
