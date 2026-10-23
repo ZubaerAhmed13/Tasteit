@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {kitchenIngredientChoices,initialKitchenSelection,reconcileKitchenSelection,
-  searchPantryRows,kitchenMatchDetails,localKitchenRecipes,combineKitchenRecipes,
+  searchPantryRows,kitchenMatchDetails,localKitchenRecipes,combineKitchenRecipes,filterKitchenRecipes,
   MAX_KITCHEN_SEARCH} from '../src/kitchen-discovery.js';
 
 const now = new Date(2026,9,23,12,0);
@@ -48,4 +48,15 @@ test('saved dishes with pantry overlap appear in candidate discovery without fak
   const combined=combineKitchenRecipes(remote,localKitchenRecipes(saved,pantry));
   assert.deepEqual(combined.map(x=>x.idMeal),['rice','new']);
   assert.equal(combined[0].strMeal,'Tomato rice');
+});
+
+test('cookability views separate name coverage from measurable amounts',()=>{
+  const all=[rice,{idMeal:'eggs',strMeal:'Eggs',strIngredient1:'Eggs',strMeasure1:'3 pcs'},
+    {idMeal:'unknown',strMeal:'Unknown',strIngredient1:'Unknown'}];
+  assert.equal(filterKitchenRecipes(all,pantry,'all').length,3);
+  assert.deepEqual(filterKitchenRecipes(all,pantry,'names').map(x=>x.idMeal),['eggs']);
+  assert.deepEqual(filterKitchenRecipes(all,pantry,'amounts').map(x=>x.idMeal),['eggs']);
+  const eggsWithUnknownStock=[{name:'Eggs',quantity:'',unit:'pcs'}];
+  assert.equal(filterKitchenRecipes(all,eggsWithUnknownStock,'names').length,1);
+  assert.equal(filterKitchenRecipes(all,eggsWithUnknownStock,'amounts').length,0);
 });
