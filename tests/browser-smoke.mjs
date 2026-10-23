@@ -20,7 +20,7 @@ const server = createServer(async (req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
-    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js']);
+    const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js','src/source-overlap.js']);
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
     const ext = path.extname(file);
@@ -88,6 +88,9 @@ try {
       {id:'wikibooks:2',title:'Apple Pie',sourcePageId:102,
        url:'https://en.wikibooks.org/wiki/Cookbook:Apple_Pie',
        country:null,course:null,status:'needs-editorial-origin-and-course-review'},
+      {id:'wikibooks:3',title:'Tomato Rice',sourcePageId:103,
+        url:'https://en.wikibooks.org/wiki/Cookbook:Tomato_Rice',
+        country:null,course:null,status:'needs-editorial-origin-and-course-review'},
       ...Array.from({length:26},(_,i)=>({
         id:'wikibooks:test-'+i,title:'Fixture research item '+i,
         url:'https://en.wikibooks.org/wiki/Cookbook:Fixture_'+i,
@@ -257,6 +260,16 @@ try {
   assert.ok(csv.includes('Example contributor'));
   assert.ok(csv.includes('reuse-needs-review'));
   assert.ok(csv.includes('NOT APPROVED'));
+  // A similarly titled recipe across providers is a review clue, not a confirmed duplicate.
+  await page.locator('#world-research-query').fill('tomato rice');
+  await page.locator('#world-research-form button[type=submit]').click();
+  await page.locator('[data-action="world-research-review"]').first().click();
+  await page.locator('.source-overlap-panel').waitFor();
+  assert.ok((await page.locator('.source-overlap-panel').innerText()).includes('Tomato Rice'));
+  assert.ok((await page.locator('.source-overlap-panel').innerText()).includes('Not confirmed duplicates'));
+  assert.equal(await page.locator('.source-overlap-panel a').count(),1,'provider source is linked, not copied');
+  assert.ok((await page.locator('.world-result-head').innerText()).includes('1 / 30'),
+    'potential overlap detection must not change the provider count');
   const coverageDownload=page.waitForEvent('download');
   await page.locator('[data-action="world-export"]').click();
   const report=JSON.parse(await readFile(await (await coverageDownload).path(),'utf8'));
