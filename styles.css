@@ -417,3 +417,12 @@ h3 { font-size: 24px }
 .world-review-filters label {align-self:end;line-height:1.35}
 @media(max-width:760px){.world-review-filters{grid-template-columns:1fr 1fr}}
 @media(max-width:540px){.world-review-filters{grid-template-columns:1fr}}
+
+/* Evidence-linked audit summary — never show research hints as certified food */
+.world-review-audit {border:1px solid #d6e7d6;background:#f5f8f3;padding:17px 20px;border-radius:14px;
+  display:flex;justify-content:space-between;gap:17px;align-items:center;margin:13px 0 25px}
+.world-review-audit h3 {color:var(--forest);font-size:17px;margin:0 0 6px}
+.world-review-audit p {color:var(--muted);font-size:12px;line-height:1.6;max-width:70ch}
+.world-review-audit .btn {flex:0 0 auto}
+@media(max-width:620px){.world-review-audit{flex-direction:column;align-items:stretch;padding:14px}
+  .world-review-audit .btn{width:100%}}
