@@ -8,7 +8,7 @@ on:
       - scripts/collect-provider.mjs
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   catalogue:
@@ -21,6 +21,21 @@ jobs:
           node-version: "22"
       - name: Collect source-linked worldwide candidate index
         run: node scripts/collect-provider.mjs
+      - name: Save source-only catalogue index on this development branch
+        if: success() && github.ref == 'refs/heads/feat/recipe-kitchen-foundation'
+        run: |
+          mkdir -p data
+          cp artifacts/world-catalogue-index.json data/world-catalogue-index.json
+          cp artifacts/world-catalogue-coverage.csv data/world-catalogue-coverage.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/world-catalogue-index.json data/world-catalogue-coverage.csv
+          if git diff --cached --quiet; then
+            echo "No candidate metadata changes"
+          else
+            git commit -m "data: add source-linked worldwide recipe candidate snapshot"
+            git push origin HEAD:refs/heads/feat/recipe-kitchen-foundation
+          fi
       - name: Upload reviewable metadata and coverage gaps
         if: always()
         uses: actions/upload-artifact@v4
