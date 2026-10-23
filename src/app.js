@@ -147,6 +147,12 @@ async function loadWorldOptions() {
         worldScannedAt=String(snapshot.scannedAt||'');
         worldAreas=restored.countries.flatMap(c=>c.areas.map(area=>({strCountry:c.country,strArea:area})));
         worldCategories=restored.categories;
+        // The saved index is ready now: initialise actual selectors before
+        // rendering. Do not wait for the optional live-directory refresh.
+        if(!restored.countries.some(c=>c.country===worldCountry))
+          worldCountry=restored.countries[0]?.country||'';
+        if(!worldCategories.includes(worldCategory))
+          worldCategory=worldCategories.includes('Dessert')?'Dessert':worldCategories[0]||'';
         if(view==='world')render();
       }catch{ /* Unsupported snapshot: do not show unverified data. */ }
     }
