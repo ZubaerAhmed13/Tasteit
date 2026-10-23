@@ -60,3 +60,14 @@ test('rejects unsupported, malformed, or oversized backups', () => {
   assert.throws(()=>parseBackup(JSON.stringify({format:'tasteit-backup',version:1,data:{pantry:'bad',saved:{},plan:{}}})),/missing/);
   assert.throws(()=>parseBackup('X'.repeat(2_000_001)),/smaller/);
 });
+
+test('preserves original publisher links without copying a third-party picture', () => {
+  const base = {title:'Adapted stew',origin:'Regional style',ingredients:'Rice | 1 cup',instructions:'My cooking notes.'};
+  const personal = createPersonalMeal({...base,source:' https://example.com/recipes/traditional-stew '},'personal-source');
+  assert.equal(personal.strSource,'https://example.com/recipes/traditional-stew');
+  assert.equal(personal.strMealThumb,'');
+  for(const invalid of ['javascript:alert(1)','http://example.com','https://user:secret@example.com/x','file:///tmp/foo','not a link']) {
+    assert.throws(()=>createPersonalMeal({...base,source:invalid},'personal-source'),/valid https:\/\//);
+  }
+  assert.equal(createPersonalMeal(base,'personal-source').strSource,'');
+});
