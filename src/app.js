@@ -6,7 +6,7 @@ import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeS
 import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, filterKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
 import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer } from './cooking.js';
 import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
-import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
+import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, hydrateCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -48,6 +48,7 @@ let worldScanController = null;
 let worldIndex = null;
 let worldPartial = [];
 let worldMeals = [];
+let worldScannedAt = '';
 
 let libraryTab = 'all';
 let libraryTag = '';
@@ -117,17 +118,42 @@ function changeView(next) {
 }
 async function loadWorldOptions() {
   worldLoadingOptions=true;worldOptionsError='';
-  if(view==='world') render();
-  try {
-    const [areas,categoriesFromSource]=await Promise.all([availableAreaRecords(),availableCategories()]);
-    const countries=countryDirectory(areas);
-    if(!countries.length || !categoriesFromSource.length) throw new Error('The source directory has no country or category labels.');
-    worldAreas=areas;
-    worldCategories=categoriesFromSource;
-    if(!countries.some(c=>c.country===worldCountry)) worldCountry=countries[0].country;
-    if(!worldCategories.includes(worldCategory)) worldCategory=worldCategories.includes('Dessert')?'Dessert':worldCategories[0];
-  } catch(error) {worldOptionsError=error.message || 'Country directory could not load.';}
-  finally {worldLoadingOptions=false;if(view==='world')render();}
+  if(view==='world')render();
+  try{
+    // Checked-in source metadata has names, provider IDs and remote photo
+    // references; full recipes remain fetched on demand from their source.
+    let snapshot=null;
+    try{
+      const response=await fetch('./data/world-catalogue-index.json');
+      if(response.ok)snapshot=await response.json();
+    }catch{ /* Fall back to live provider catalogue if the file is unavailable. */ }
+    if(snapshot){
+      try{
+        const restored=hydrateCatalogueIndex(snapshot);
+        worldIndex=restored;worldMeals=restored.meals;
+        worldScan={completed:26,total:26};
+        worldPartial=Array.isArray(snapshot.failedInitials)?snapshot.failedInitials:[];
+        worldScannedAt=String(snapshot.scannedAt||'');
+        worldAreas=restored.countries.flatMap(c=>c.areas.map(area=>({strCountry:c.country,strArea:area})));
+        worldCategories=restored.categories;
+        if(view==='world')render();
+      }catch{ /* Unsupported snapshot: do not show unverified data. */ }
+    }
+    try{
+      const [areas,providerCategories]=await Promise.all([availableAreaRecords(),availableCategories()]);
+      if(countryDirectory(areas).length && providerCategories.length){
+        worldAreas=areas;worldCategories=providerCategories;
+      }
+    }catch{
+      if(!worldAreas.length || !worldCategories.length)
+        worldOptionsError='The recipe source directory could not load.';
+    }
+    const countries=countryDirectory(worldAreas);
+    if(!countries.some(c=>c.country===worldCountry))worldCountry=countries[0]?.country||'';
+    if(!worldCategories.includes(worldCategory))
+      worldCategory=worldCategories.includes('Dessert')?'Dessert':worldCategories[0]||'';
+  }catch(error){worldOptionsError=error.message||'Country directory could not load.';}
+  finally{worldLoadingOptions=false;if(view==='world')render();}
 }
 async function collectWorldRecipes() {
   if(worldScanning || !worldAreas.length || !worldCategories.length) return;
@@ -144,6 +170,7 @@ async function collectWorldRecipes() {
     worldScan=report;
     worldMeals=report.meals;
     worldIndex=catalogueFromProvider(report.meals,worldAreas,worldCategories);
+    worldScannedAt=new Date().toISOString();
   } catch(error) {
     if(error?.name!=='AbortError') {
       worldOptionsError='Could not scan the provider catalogue. Please retry.';
@@ -156,6 +183,8 @@ async function collectWorldRecipes() {
 function downloadWorldIndex(){
   if(!worldIndex)return;
   const meta=exportCatalogueIndex(worldIndex);
+  meta.countries=countryDirectory(worldAreas);
+  meta.categories=[...worldCategories];
   meta.failedInitials=[...worldPartial];
   meta.scanComplete=worldScan?.completed===worldScan?.total && !worldPartial.length;
   const blob=new Blob([JSON.stringify(meta,null,2)],{type:'application/json'});
