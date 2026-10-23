@@ -34,6 +34,12 @@ export async function featured(signal) {
   }
   return [...unique.values()].slice(0, 24);
 }
+export async function availableAreaRecords(signal) {
+  const records=asMeals(await request('list.php',{a:'list'},signal));
+  return records
+    .filter(x=>typeof x.strArea==='string' && x.strArea.trim())
+    .map(x=>({strArea:x.strArea.trim(),strCountry:typeof x.strCountry==='string'?x.strCountry.trim():''}));
+}
 export async function availableAreas(signal) {
   const areas = asMeals(await request('list.php', { a: 'list' }, signal))
     .map(x => String(x.strArea || '').trim()).filter(Boolean);
@@ -82,4 +88,37 @@ export async function randomMeal(signal) {
   const meals = asMeals(await request('random.php', {}, signal, false));
   if (!meals.length) throw new Error('No surprise recipe was returned.');
   return meals[0];
+}
+
+
+// Provider V1 offers a recipe-by-initial endpoint. Scan it cautiously when
+// the user explicitly requests a worldwide index; never start 26 requests
+// on normal homepage load. A failed letter is reported, not called complete.
+export async function scanWorldRecipes({getLetter=letterMeals,letters='abcdefghijklmnopqrstuvwxyz'.split(''),
+  signal,onProgress=()=>{},concurrency=3}={}) {
+  const uniqueLetters=[...new Set(letters.map(x=>String(x).toLowerCase()))];
+  if(!uniqueLetters.length || uniqueLetters.some(x=>!/^[a-z]$/.test(x))) throw new Error('Invalid scan letters.');
+  const limit=Math.max(1,Math.min(4,Math.floor(concurrency)||1));
+  const data=new Array(uniqueLetters.length);
+  const failures=[];
+  let cursor=0,done=0;
+  async function worker(){
+    while(cursor<uniqueLetters.length){
+      if(signal?.aborted) throw new DOMException('Cancelled scan','AbortError');
+      const index=cursor++;
+      const letter=uniqueLetters[index];
+      try { data[index]=await getLetter(letter,signal); }
+      catch(error) {
+        if(signal?.aborted || error?.name==='AbortError') throw error;
+        failures.push(letter);
+        data[index]=[];
+      }
+      done++;
+      onProgress({completed:done,total:uniqueLetters.length,letter,
+        recipes:data.reduce((n,x)=>n+(x?.length||0),0),failed:failures.length});
+    }
+  }
+  await Promise.all(Array.from({length:Math.min(limit,uniqueLetters.length)},worker));
+  if(signal?.aborted) throw new DOMException('Cancelled scan','AbortError');
+  return {meals:data.flat(),failedLetters:failures.sort(),completed:done,total:uniqueLetters.length};
 }
