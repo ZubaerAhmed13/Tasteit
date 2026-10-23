@@ -4,6 +4,7 @@ import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
 import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, filterKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
+import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer } from './cooking.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 
 const appRoot = document.getElementById('app');
@@ -46,6 +47,8 @@ let requestNumber = 0;
 let controller = null;
 let toastTimer = null;
 let dialogReturnFocus = null;
+let cookingTimerTicker = null;
+let timerCompletionNotified = null;
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -378,9 +381,43 @@ function render() {
   if (selectedMeal) renderDialog();
 }
 
-function instructions(meal) {
-  return String(meal?.strInstructions || '').split(/\r?\n+/).flatMap(text => text.split(/(?<=[.!?])\s+(?=[A-Z])/u)).map(s => s.trim()).filter(Boolean);
+function instructions(meal) { return recipeSteps(meal); }
+
+function currentCookingSession(meal = selectedMeal) {
+  return safeCookingSession(store.cookingSessions?.[meal?.idMeal],Math.max(1,instructions(meal).length));
 }
+function updateCookingSession(next, remove=false) {
+  if (!selectedMeal) return false;
+  const nextSessions = {...(store.cookingSessions || {})};
+  if (remove) delete nextSessions[selectedMeal.idMeal];
+  else nextSessions[selectedMeal.idMeal] = next;
+  if (!persistStore({...store,cookingSessions:nextSessions})) {
+    notice('Could not save cooking progress in this browser.'); return false;
+  }
+  store.cookingSessions = nextSessions;
+  return true;
+}
+function syncCookingTimer() {
+  clearInterval(cookingTimerTicker);
+  cookingTimerTicker = null;
+  if (!selectedMeal || stepIndex < 0) return;
+  const draw=()=>{
+    const display=overlayRoot.querySelector('[data-cooking-clock]');
+    if (!display || !selectedMeal) return;
+    const session=currentCookingSession();
+    const status=timerStatus(session);
+    display.textContent=status.text;
+    const state=overlayRoot.querySelector('[data-timer-state]');
+    if (state) state.textContent=status.complete ? 'Time is up — check your food.' : status.running ? 'Timer running' : 'Timer stopped';
+    if (status.complete && timerCompletionNotified !== session.endsAt) {
+      timerCompletionNotified = session.endsAt;
+      notice('Cooking timer finished. Check your food.');
+    }
+  };
+  draw();
+  cookingTimerTicker=setInterval(draw,1000);
+}
+
 function actionButton(type, meal, icon, label) {
   const toggled = Boolean(savedEntry(meal.idMeal)[type]);
   return '<button type="button" class="btn ' + (toggled ? '' : 'secondary') + ' small" data-action="' + type + '" data-id="' + escapeHtml(meal.idMeal) + '" aria-pressed="' + toggled + '">' + icon + ' ' + (toggled ? '✓ ' : '') + label + '</button>';
@@ -393,6 +430,8 @@ function renderDialog() {
   const meal = selectedMeal;
   const ingredientItems = ingredientsOf(meal);
   const parts = instructions(meal);
+  const currentSession = currentCookingSession(meal);
+  const timeInfo = timerStatus(currentSession);
   const originalServings = validServings(savedEntry(meal.idMeal).baseServings);
   const targetServings = originalServings ? (validServings(detailTargetServings) || originalServings) : null;
   const prepared = scaledIngredients(meal,originalServings,targetServings);
@@ -410,12 +449,26 @@ function renderDialog() {
       '<button type="button" class="btn secondary" data-action="cancel-cook-log">Back to recipe</button></div></form></div>';
   } else if (stepIndex >= 0) {
     const total = parts.length;
-    contents = '<div class="dialog-content"><div class="eyebrow">COOKING MODE</div><h3>Step ' + (stepIndex + 1) + ' of ' + total + '</h3>' +
-      '<div class="progress-bar"><span style="width:' + (100 * (stepIndex + 1) / Math.max(1,total)) + '%"></span></div>' +
-      '<p class="cook-step">' + escapeHtml(parts[stepIndex] || '') + '</p>' +
+    const timerControls = '<section class="cooking-timer" aria-label="Manual cooking timer">' +
+      '<div class="cooking-timer-header"><div><strong>Cooking timer</strong><p>Set your own time. Never inferred from recipe directions.</p></div>' +
+      '<div class="clock" data-cooking-clock>' + timeInfo.text + '</div></div>' +
+      '<div class="timer-presets">' + [1,5,10,15].map(min => '<button type="button" class="btn secondary small" data-action="timer-preset" data-minutes="' + min + '">' + min + ' min</button>').join('') + '</div>' +
+      '<div class="timer-controls"><label for="cook-minutes">Minutes</label><input id="cook-minutes" type="number" inputmode="numeric" min="1" max="180" step="1" value="' + (currentSession.durationSeconds/60) + '">' +
+      '<button type="button" class="btn secondary small" data-action="timer-set">Set</button>' +
+      (timeInfo.running ? '<button type="button" class="btn small" data-action="timer-pause">Pause</button>' : '<button type="button" class="btn small" data-action="timer-start"' + (timeInfo.remainingSeconds === 0 ? ' disabled' : '') + '>Start</button>') +
+      '<button type="button" class="btn ghost small" data-action="timer-reset">Reset</button></div>' +
+      '<p class="panel-note" data-timer-state aria-live="polite">' + (timeInfo.complete ? 'Time is up — check your food.' : timeInfo.running ? 'Timer running' : 'Timer stopped') + '</p>' +
+      '<p class="panel-note">The countdown uses clock time, including when the tab is in the background. An alert is only shown while Tasteit is open. Do not rely on it for food safety.</p></section>';
+    contents = '<div class="dialog-content cooking-mode"><div class="eyebrow">COOKING MODE · ' + escapeHtml(meal.strMeal) + '</div>' +
+      '<div class="cook-heading"><h3>Step ' + (stepIndex + 1) + ' of ' + total + '</h3><span>' +
+      Math.round(100*(stepIndex+1)/Math.max(1,total)) + '% through the recipe</span></div>' +
+      '<div class="progress-bar"><span style="width:' + (100 * (stepIndex+1)/Math.max(1,total)) + '%"></span></div>' +
+      '<p class="cook-step" tabindex="-1">' + escapeHtml(parts[stepIndex] || '') + '</p>' + timerControls +
       '<div class="dialog-actions"><button type="button" class="btn secondary" data-action="step-back"' + (stepIndex === 0 ? ' disabled' : '') + '>← Previous</button>' +
-      (stepIndex < total - 1 ? '<button type="button" class="btn" data-action="step-next">Next step →</button>' : '<button type="button" class="btn" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">Finish cooking ✓</button>') +
-      '<button type="button" class="btn ghost" data-action="exit-cooking">View full recipe</button></div></div>';
+      (stepIndex < total - 1 ? '<button type="button" class="btn" data-action="step-next">Next step →</button>' :
+      '<button type="button" class="btn" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">Finish cooking ✓</button>') +
+      '<button type="button" class="btn ghost" data-action="exit-cooking">View full recipe</button></div>' +
+      '<p class="panel-note">Your step is saved on this device. Closing the recipe does not erase it.</p></div>';
   } else {
     const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + measuredScore.availability.map((x,i) => {
       const enough = x.status === 'enough';
@@ -456,7 +509,8 @@ function renderDialog() {
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
       '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
-      (parts.length ? '<button type="button" class="btn" data-action="start-cooking" style="margin-top:20px">Start guided cooking →</button>' : '') +
+      (parts.length ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →') + '</button>' +
+      (store.cookingSessions?.[meal.idMeal] ? '<button type="button" class="btn secondary" data-action="restart-cooking">Start from the beginning</button>' : '') + '</div>' : '') +
       '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
   }
   const source = externalUrl(meal.strSource);
@@ -471,6 +525,7 @@ function renderDialog() {
     (meal.strPersonal ? '' : '<a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
     '</div><p class="panel-note">' + (meal.strPersonal ? (externalUrl(meal.strSource) ? 'Your personal adaptation · Original publisher linked. No third-party photo copied.' : 'Personal recipe written by you.') : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
+  syncCookingTimer();
   if (focusedAction) {
     const nextFocus = [...overlayRoot.querySelectorAll('[data-action]')].find(node =>
       node.dataset.action === focusedAction && node.dataset.id === focusedId);
@@ -479,6 +534,7 @@ function renderDialog() {
 }
 function closeDialog() {
   if (!selectedMeal) return;
+  clearInterval(cookingTimerTicker); cookingTimerTicker = null;
   selectedMeal = null;
   stepIndex = -1;
   showCookingLog = false;
