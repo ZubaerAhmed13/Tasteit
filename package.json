@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Personal recipe discovery and kitchen inventory prototype",
   "scripts": {
-    "check": "node --check src/research-priority.js && node --check src/editorial.js && node --check src/world-catalogue.js && node --check src/shopping.js && node --check src/cooking.js && node --check src/kitchen-discovery.js && node --check src/servings.js && node --check src/pantry-batches.js && node --check src/pantry-bulk.js && node --check src/organise.js && node --check src/quantities.js && node --check src/model.js && node --check src/api.js && node --check src/app.js",
+    "check": "node --check src/rights-review.js && node --check src/research-priority.js && node --check src/editorial.js && node --check src/world-catalogue.js && node --check src/shopping.js && node --check src/cooking.js && node --check src/kitchen-discovery.js && node --check src/servings.js && node --check src/pantry-batches.js && node --check src/pantry-bulk.js && node --check src/organise.js && node --check src/quantities.js && node --check src/model.js && node --check src/api.js && node --check src/app.js",
     "test": "node --test",
     "verify": "npm run check && npm test"
   },
