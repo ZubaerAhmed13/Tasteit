@@ -1,3 +1,145 @@
-# Tasteit
+# Tasteit 🍽️
 
-A personal recipe discovery and kitchen companion. Development work is staged in feature branches before merging.
+**A personal recipe universe** — explore cooking traditions, save dishes you want to try, keep track of what's in your kitchen, and plan meals using what you have.
+
+> **Status:** Private testing preview; PR #1 remains draft and unmerged. Personal data stays in this browser by default. Optional account sync uses the private Site backend. Discovery uses TheMealDB’s developer/test API.
+
+## Run it
+
+Use any local HTTP server, for example:
+
+~~~bash
+python3 -m http.server 4173
+# open http://localhost:4173
+~~~
+
+Modern browsers require serving the JavaScript modules over HTTP; opening index.html using file:// may not work.
+
+Discovery now has a compact filter form: type a cuisine name from the suggestions,
+choose a meal type and optionally an initial, then apply. These combine with the
+recipe-name search instead of replacing one another. Current filters can be removed
+individually or cleared together. Filtered results use a shorter header on phones.
+Browser Back/Forward and refresh retain the view and discovery filters; provider
+recipes have direct links and a **Copy recipe link** action. Personal recipe links
+work only where that recipe has been saved or restored; links do not upload data.
+
+Recipe saves and label edits now persist before changing the cookbook on screen.
+Removing a collection flag or label keeps recipes needed by existing meal plans.
+External recipe requests have a 12-second deadline per request, and pantry discovery
+distinguishes no matches from unavailable or partially responding sources. Matching
+saved recipes remain available when the external ingredient search fails.
+
+**Connected kitchen:** tick off shopping purchases, then choose **Review purchases
+for kitchen**. Select actual food purchases and enter their real amounts, units,
+storage and dates before confirming separate pantry batches. Already transferred
+items cannot be transferred again for the same shopping requirement.
+
+When saving a cooking experience, optionally expand **Review ingredients used**.
+Select the batches actually used and confirm editable amounts; incompatible or
+unknown measurements are never guessed. You can also record leftover portions,
+preparation date, fridge/freezer location and an optional reminder date. My kitchen
+shows the leftovers with controls to use or restore a portion. These dates do not
+schedule notifications or certify food safety. The journal, stock deductions,
+leftovers and cooking-session completion save together, or none of them change.
+Backups include these optional records and older version-1 backups remain supported.
+
+Static local browsing needs no installation. Node 22+ runs the unit tests (including real SQLite). Install build tools before producing the private Site Worker:
+
+~~~bash
+npm install --package-lock=false
+npm run verify
+npm run build:site
+~~~
+
+GitHub Actions runs **Playwright browser acceptance in Chromium, Firefox and WebKit** (using fixture-backed API responses). These tests cover discovery, personal recipes, guided cooking, separate dated stock batches, serving-size meal planning, **a checkable shopping list**, backup restoration and narrow mobile layout. Browser fixtures test UI reliability, not live API uptime or image licensing.
+
+The additional `tests/discovery-browser.mjs` scenarios use the complete collected
+country directory and cover combined filters, reload/history, direct recipe links,
+blocked storage, delayed recipe responses, offline local suggestions and readable
+375px filters/navigation. `tests/kitchen-browser.mjs` covers reviewed purchase
+ownership, manual package deductions and atomic cooking saves. The five browser scripts (including personalisation and continuity)
+run in every CI browser job with pinned Playwright 1.64.1.
+
+## Worldwide recipe collection — sourced, not invented
+
+**Collection target:** up to **30 documented recipes for each relevant country × source category**; this is a target, not a fabricated guarantee or user-rating leaderboard. Use the **World recipes** navigation to choose a country and category, inspect sourced recipe cards and the exact count out of 30, and download a transparent coverage report. Recipe details and original photography are retrieved from the provider rather than copied into this repository.
+
+The initial live TheMealDB V1 source scan on **23 October 2026** found **790 actual source records**, covering **195 provider-listed countries**, **14 categories**, and **334 of the 2,730 possible country/category cells**. **Zero cells reached 30.** These are **not** editorially authenticated or ranked “best” dishes. Many listed countries have no candidate from this source. The GitHub collection workflow stores source-linked recipe titles/IDs/remote photo references and a CSV gap report in the **development branch only** and publishes a reviewable Actions artifact. It never merges or deploys.
+
+Source metadata: data/world-catalogue-index.json; gap report: data/world-catalogue-coverage.csv (generated by the collection workflow). When a snapshot is available, the app loads it before contacting the recipe service. An optional full 26-letter refresh can be started manually; failed letters are explicitly flagged.
+
+In a second, separate research collection, the Wikibooks Cookbook API returned **3,799 link-only recipe leads**. Those links are searchable from World recipes when you choose **Explore additional recipe leads**, but are **not automatically assigned a country, category, rating or authentic origin**. Links open the original Wikibooks pages with their own text/photography permissions. Tasteit now includes a **private research workspace** for these leads: search source title and category tags, assign a country/category for further investigation, save source evidence and notes, and mark a lead as researching, needing evidence, shortlisted or excluded. Shortlisted entries require an independently supplied HTTPS evidence link and supporting notes. **Shortlisted does not mean authenticated or ranked among the best.** Research notes are stored in your browser, included in JSON backups, and can be exported to CSV without enabling CSV formula execution. A new **research-priority selector** can show all source leads, only leads whose original Wikibooks category tags mention the chosen country, or only leads whose tags mention both the country and course. It handles shared/ambiguous region labels conservatively and always calls these tags *unverified clues*, not proven origins. This makes large research queues more manageable without adding any unapproved items to the 30-per-country target.
+
+The queue is in data/wikibooks-research-queue.json; it is *not* counted in the 790 classified provider records or the 30-per-cell progress. A second read of Wikimedia's own page metadata retrieved category labels for **all 3,799 pages**, saved as data/wikibooks-category-evidence.json (0 failed batches). The research interface shows those as **unverified source tags**, never automatic country, diet or category certification.
+
+**Research-gap audit:** Tasteit now generates `data/world-research-gaps.csv` and `data/world-research-gaps.json` for every country × course combination, distinguishing existing source records from country-and-course *tag matches* in the Wikibooks research queue. From the collected data, **116 combinations** have joint tag clues; **none** of these clues is an independently verified national recipe. Choose a country/category in World recipes to see the corresponding clue count and open that evidence-only review queue.
+
+**Optional source-photo inspection:** When investigating a Wikibooks recipe, select **Inspect linked source media** to retrieve a small set of original file names, then inspect a particular file's reported Commons creator, licence and attribution information. It does not load or copy the photo itself, or infer permission to publish. If metadata cannot be retrieved, Tasteit directs the researcher back to the original file-description page.
+
+**New rights-evidence review:** Within a Wikibooks research record, expand **Text and photograph rights** to record whether the plan is link-only or a proposed reuse. Proposed text reuse requires a licence/terms URL and attribution wording. Proposed photo reuse requires the original file-description link, specific licence URL, creator and attribution. These are **research notes**, not a permission grant, and Tasteit does not rehost copied source text or photo files. The evidence is kept locally, included in JSON backup and exported in the research CSV.
+
+**Potential cross-source repeats:** The reproducible [overlap audit](data/source-overlap-review.csv) has compared 790 TheMealDB titles with 3,799 Wikibooks research titles, identifying **38 possible overlaps** and **zero confirmed duplicates**. Tasteit now shows source-linked same-title or same-word-order warnings within the Wikibooks research editor. These are review clues only: different ingredients or regional methods may warrant distinct entries, and nothing is automatically removed or counted as verified.
+
+For authenticity, image rights, source research, regional variants and future source adapters, see [our editorial curation policy](docs/CURATION.md).
+
+## First-release capabilities
+
+- Search recipes by name, explore source-provided cuisines **and meal categories** (such as Seafood or Dessert), browse every available **A–Z** initial letter and use **Surprise me** for a fresh random dish. View ingredients, steps, photography attribution, and original publisher/video links where supplied. Categories are not verified dietary or allergen certifications. The initial feed mixes several starting letters rather than only one alphabetical slice.
+- Save **Want to try**, **Usual dishes**, and **Favourites** independently; record cooking ratings/notes, add and edit personal recipes (with optional HTTPS original-source links), and organise anything in named labels such as Weeknight or Family.
+- Search and sort your private cookbook by name, cuisine, last cooked, most cooked or your own labels. Labels and cooking notes persist in JSON backups.
+- Add ingredients to your personal pantry with amount, unit, storage location and an optional recorded best-before date. Use ＋ beside any ingredient to record a **separate purchase batch** without overwriting the old one; edit and remove individual batches. **Bulk add** accepts names separated by commas or one per line, with optional `Ingredient | amount unit | location | date` rows. Preview and explicit confirmation precede writes; bulk duplicate items are skipped rather than overwriting stock. To record a second physical batch, use the individual ＋ action.
+- Select **up to four specific ingredients** from your kitchen for provider-backed discovery; names with separate stock batches are shown once, with soon-dated items prioritised for the starting selection. Tasteit includes relevant recipes already saved in your cookbook, even if the provider cannot find them. Compare recipe ingredients against your **whole usable pantry**, not just the four searched names. Each candidate explains what is present, missing or unmeasurable, with filters for **All ideas**, **Ingredient names on hand**, or **Measured amounts appear sufficient**. Supported regional name aliases include aubergine/eggplant and chickpea/garbanzo. Selection and results do not guarantee quantity accuracy, allergy suitability or food safety.
+- Highlight ingredients with dates within the next three days, and prioritise matching recipes that use them. Recorded best-before dates are not an automatic safety verdict.
+- Set the original serving count yourself (never assumed), adjust serving sizes in a recipe, and plan a different portion count on each day. Compatible ingredient quantities scale conservatively, with warnings for unsupported amounts and fractional whole items.
+- **Guided cooking mode** provides readable step-by-step instructions, keyboard left/right navigation and a user-set **1–180 minute timer** (quick 1/5/10/15-minute presets). Both the current step and timer deadline are saved on this device and included in manual JSON backups, so closing/reopening a recipe or refreshing does not reset them. Completing the cooking journal clears the finished session.
+- Plan the next seven days and generate a shopping list that totals compatible, portion-adjusted amounts across days, subtracts measured pantry stock, and flags vague or incompatible quantities for checking. **Tick items as picked up, add other essentials, remove personal extras, and copy only remaining items.** Shopping progress survives refresh and JSON backup. Changes to recipe requirements invalidate old checkmarks. Checking something off does **not** automatically modify kitchen inventory. Existing meal plans and older backups still load.
+- Local persistence via localStorage, JSON backup export/import, accessible controls, loading/empty/error states and responsive navigation.
+
+## Limits (intentional)
+
+- The developer key \`1\` is for testing/education/personal projects. **Before any public launch** secure a production arrangement with TheMealDB and review its image/content terms. Never claim user-submitted source photography as original Tasteit work.
+- A source's recipe with a high documentation score is **not** automatically a top-rated or authentic national dish. The goal of 30 per pair requires other properly licensed and human-verified sources. A blank cell means *not yet sourced*, not that a cuisine has no such food.
+- TheMealDB is not every recipe in the world; A–Z browsing covers only the provider's catalogue. User-linked outside publishers are references, not additional fetched recipe content. Failed remote food images get a neutral placeholder rather than a fabricated replacement. The provider's cuisine/category tags, photographs and instructions are community-provided and are **not independently verified as authentic, vegetarian, allergen-free or safe**. The recipe detail panel explains provenance and links to the original source/video when available.
+- Checking shopping items tracks purchase progress. Inventory changes only after a separate review of actual purchases. Completed items remain reviewable, transferred items are marked, and changed recipe requirements need checking again.
+- Browser storage can be cleared. JSON backups remain available. **Cloud sync is off by default**: choose Enable cloud sync in My recipes to upload your cookbook, pantry, plan, journal, research notes and preferences to your signed-in Site account. Conflicting snapshots require a whole-copy choice. Turning sync off keeps both copies; Remove cloud copy removes the remote snapshot and keeps browser records. Sync is not a versioned backup or collaboration service.
+- **The manual cooking timer is not a reliable background alarm.** Its remaining time is calculated from wall-clock timestamps even after browser sleep or refresh, but alerts are only visible while Tasteit is open. No push notifications, lock-screen alarm, sound guarantee or background service is provided. Do not use it as a food-safety or medical timer.
+- TheMealDB v1 allows filtering by only one ingredient per request. Tasteit unions suggestions from the four **user-selected** ingredient searches and a subset of saved recipes, then checks candidate ingredients against the complete recorded pantry. It is a capped discovery sample and **not** an exhaustive multi-ingredient catalogue search. Pantry entries dated in the past or with zero quantity are excluded from automatic matching as a cautious default, not as a determination that food has spoiled. The quantity engine compares only unambiguous amounts (including g/kg and ml/l), never guesses densities or converts cups to grams, and flags uncertain measurements. Changing serving sizes requires a user-confirmed original count because the recipe provider does not supply a dependable baseline. Spice amounts, fractional whole items and cooking instructions are not automatically adjusted; displayed scaled amounts may be rounded. Substitutions, dietary/allergen safety and actual food freshness are **not** verified.
+- Saved recipe details work offline after the app reports **Ready offline**. New discovery, the world catalogue and photographs need a connection. A reachable sign-in denial invalidates cached application shells; offline access cannot confirm current account authorisation. Do not deploy this developer prototype publicly without reviewing API and image licensing.
+
+## Testing preview
+
+Open [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site) and sign in with the owning ChatGPT account.
+The continuity stage adds saved-recipe offline access, optional account sync and
+mobile controls. Local data is uploaded only after explicit opt-in. A static local
+server can test local features; `/api/sync` requires the Site Worker, managed DB
+binding and trusted Sites account identity. See [acceptance evidence](docs/ACCEPTANCE.md).
+
+This is a testing preview, not approval for a public production release. The PR
+remains draft and unmerged. An authenticated walkthrough on the hosted URL and
+physical-phone acceptance are separate user checks.
+
+## Product roadmap
+
+Personal discovery includes **Your taste**: optional preferred cuisines and
+ingredient names you would rather skip. **For your table** explains suggestions
+using saved dishes, chosen cuisines and recorded kitchen ingredients. Choose
+**Not for me** to skip a suggestion without deleting the recipe; **Show skipped
+recipes** reverses this. Taste preferences apply to suggestions only, not the full
+recipe search, and are not allergy filters. Existing recipe labels also appear as
+**Curated by you** shortcuts into your cookbook.
+
+Taste choices and skipped IDs stay local and are included in version-1 JSON
+backups; older backups still load. This stage is authorised for a private testing
+preview. The feature PR remains unmerged. Physical-device, source-rights and
+production API checks remain separate. Search indexing is disabled in the source.
+
+1. **Foundation** — diverse discovery, recipe details, personal recipes, local collections, backups and browser acceptance (this PR).
+2. **Personalisation** — cooking history/notes, custom recipes, saved labels, collection search and sorting added; scheduled reminders and personal photo uploads remain.
+3. **Kitchen intelligence** — amount comparisons, vetted name aliases, separately dated stock batches and use-soon suggestions are available; user-confirmed serving scaling added; ingredient-specific equivalence, stock forecasting and calendar/notification controls remain.
+4. **Trustworthy world coverage** — licensed expanded sources, multiple genuine regional variants, editorial provenance and image rights.
+5. **Accounts and synchronisation** — opt-in private snapshots, revision conflicts and offline retries added; authenticated hosted walkthrough and physical-device acceptance remain.
+6. **Advanced conveniences** — optional barcode/photo capture with mandatory user confirmation, multilingual UI and guided cooking.
+
+Recipe source and photography attribution: [TheMealDB](https://www.themealdb.com/). [Official API guide](https://www.themealdb.com/docs_api_guide.php) · [Terms of use](https://www.themealdb.com/terms_of_use.php).
+
+Tasteit source code is an original prototype; third-party recipes and photographs retain their respective rights.
