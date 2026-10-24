@@ -594,7 +594,7 @@ function continuityPanel() {
 }
 function updateConnectionUI() {
   const root=document.getElementById('cloud-controls'),focused=document.activeElement?.id;
-  if(root){root.innerHTML=cloudControls();if(focused?.startsWith('sync-'))document.getElementById(focused)?.focus({preventScroll:true});}
+  if(root){const markup=cloudControls();if(root.innerHTML!==markup)root.innerHTML=markup;if(focused?.startsWith('sync-'))document.getElementById(focused)?.focus({preventScroll:true});}
   const offline=document.getElementById('offline-status');
   if(offline)offline.textContent=offlineState.status==='ready'?'Ready offline':offlineState.status==='update'?'An app update is ready':offlineState.status==='preparing'?'Preparing offline access…':'Offline caching is unavailable in this browser.';
   const bar=document.getElementById('connection-status');if(!bar)return;

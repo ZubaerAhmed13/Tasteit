@@ -39,7 +39,7 @@ try {
       return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:rows})});
     });
     await page.goto(base+'?view=library');await page.locator('#cloud-controls').waitFor();
-    assert.equal(await page.evaluate(()=>{const button=document.getElementById('sync-enable');window.dispatchEvent(new Event('focus'));return button?.isConnected;}),true,'focus while sync is off keeps the opt-in button attached');
+    assert.equal(await page.evaluate(()=>{const button=document.getElementById('sync-enable');window.dispatchEvent(new Event('focus'));window.dispatchEvent(new Event('offline'));return button?.isConnected;}),true,'focus while sync is off keeps the opt-in button attached');
     devices.push(page);return {page,context,read:()=>page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')))};
   }
   const a=await device(seed);
