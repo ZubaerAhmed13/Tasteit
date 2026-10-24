@@ -17,14 +17,14 @@ async function appWithStore(state, persists) {
   const handlers={};
   const sandbox={...bindings,loadStore:()=>state,persistStore:()=>persists,
     document:{getElementById:()=>({querySelector:()=>null,focus:()=>{},scrollIntoView:()=>{}}),addEventListener:(name,handler)=>{handlers[name]=handler;}},
-    window:{addEventListener:()=>{},location:{href:'https://tasteit.test/app/'}},
+    window:{addEventListener:()=>{},location:{href:'https://tasteit.test/app/'},history:{state:{},pushState:()=>{},replaceState:()=>{}}},
     console,URL,AbortController,DOMException,structuredClone,setTimeout,clearTimeout,setInterval,clearInterval,
     FormData:class {constructor(target){this.fields=target.fields||{};}get(key){return this.fields[key]??null;}entries(){return Object.entries(this.fields)[Symbol.iterator]();}[Symbol.iterator](){return this.entries();}},
     notices,meal};
   vm.createContext(sandbox);
-  vm.runInContext(source+'\nrender=()=>{};renderDialog=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,store,select:()=>{selectedMeal=meal;}};',sandbox);
-  return {...sandbox.audit,notices,meal,click:async(action,id,tag)=>{
-    const target={dataset:{action,id,tag},closest:selector=>selector==='[data-action]'?target:null};
+  vm.runInContext(source+'\nrender=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,store,select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
+  return {...sandbox.audit,notices,meal,click:async(action,id,tag,personal=false)=>{
+    const target={dataset:{action,id,tag},closest:selector=>selector==='[data-action]'?target:selector==='[data-personal-recipe]' && personal?target:null};
     await handlers.click({target});
   },submit:async(id,fields)=>handlers.submit({preventDefault:()=>{},target:{id,fields}})};
 }
@@ -117,4 +117,16 @@ test('skipping suggestions changes only the profile and can be reversed',async()
       assert.equal(state.saved['unit-1'].wanted,true);
     }
   }
+});
+for(const action of ['open','wanted'])test('suggestion '+action+' acts on the same detailed recipe used for ingredient exclusions',async()=>{
+  const state=emptyStore(),app=await appWithStore(state,true);
+  const original={...app.meal,strSource:'https://example.org/original'};
+  state.saved['unit-1']={meal:original,wanted:true,tags:['Family']};
+  state.tasteProfile={cuisines:[],avoidIngredients:['milk'],hiddenRecipeIds:[]};
+  app.candidates([{...original,strIngredient1:'Milk',strSource:'https://example.org/new-source'}]);
+  app.prepareSuggestions();
+  await app.click(action,'unit-1',undefined,true);
+  assert.equal(state.saved['unit-1'].meal.strIngredient1,'Rice');
+  assert.equal(state.saved['unit-1'].meal.strSource,'https://example.org/original');
+  if(action==='open')assert.equal(app.selected().strIngredient1,'Rice');
 });

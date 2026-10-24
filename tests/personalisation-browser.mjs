@@ -26,9 +26,13 @@ try {
     if(!localStorage.getItem('tasteit.local.v1'))localStorage.setItem('tasteit.local.v1',JSON.stringify(store));
   },seed);
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/api/json/v1/1/**',route=>{
+  let holdAreas=false,releaseAreas,markAreasRequested;
+  await page.route('**/api/json/v1/1/**',async route=>{
     const u=new URL(route.request().url());
-    const rows=u.pathname.endsWith('list.php')?(u.searchParams.has('a')?[{strArea:'Indian'},{strArea:'Turkish'}]:[{strCategory:'Vegetarian'}]):meals;
+    if(holdAreas && u.pathname.endsWith('list.php') && u.searchParams.has('a')) {
+      markAreasRequested();await new Promise(resolve=>{releaseAreas=resolve;});
+    }
+    const rows=u.pathname.endsWith('list.php')?(u.searchParams.has('a')?[{strArea:'Indian'},{strArea:'Turkish'},...(holdAreas?[{strArea:'Fixture Cuisine'}]:[])]:[{strCategory:'Vegetarian'}]):meals;
     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:rows})});
   });
   const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')));
@@ -73,6 +77,14 @@ try {
   assert.equal(await page.locator('.recipe-title').innerText(),'Tomato Rice');
   assert.ok((await page.locator('.cookbook-tag-filters .selected').innerText()).includes('Weeknight'));
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  // A delayed source directory must not drop a keyboard user out of Your taste.
+  holdAreas=true;
+  const areasRequested=new Promise(resolve=>{markAreasRequested=resolve;});
+  await page.goto(base);await areasRequested;
+  await page.locator('#taste-preferences summary').focus();
+  releaseAreas();
+  await page.waitForFunction(()=>[...document.querySelectorAll('#cuisine-options option')].some(node=>node.value==='Fixture Cuisine'));
+  assert.equal(await page.evaluate(()=>document.activeElement.matches('#taste-preferences summary')),true,'asynchronous refresh keeps summary focus');
   assert.deepEqual(errors,[]);
   console.log('PASS personal discovery: taste saves, exclusions, skips, collections, draft preservation and mobile');
 } finally {await browser?.close();await new Promise(resolve=>server.close(resolve));}
