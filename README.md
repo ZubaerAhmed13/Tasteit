@@ -104,6 +104,17 @@ For authenticity, image rights, source research, regional variants and future so
 - TheMealDB v1 allows filtering by only one ingredient per request. Tasteit unions suggestions from the four **user-selected** ingredient searches and a subset of saved recipes, then checks candidate ingredients against the complete recorded pantry. It is a capped discovery sample and **not** an exhaustive multi-ingredient catalogue search. Pantry entries dated in the past or with zero quantity are excluded from automatic matching as a cautious default, not as a determination that food has spoiled. The quantity engine compares only unambiguous amounts (including g/kg and ml/l), never guesses densities or converts cups to grams, and flags uncertain measurements. Changing serving sizes requires a user-confirmed original count because the recipe provider does not supply a dependable baseline. Spice amounts, fractional whole items and cooking instructions are not automatically adjusted; displayed scaled amounts may be rounded. Substitutions, dietary/allergen safety and actual food freshness are **not** verified.
 - Recipe content and pictures require network access. Do not deploy this developer prototype publicly without reviewing API and image licensing.
 
+## Testing preview
+
+Open [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site) and sign in with the owning ChatGPT account.
+The private preview contains the tested feature source at
+`26ac828e0c2b64c64254a2ba7ba1300192d4c7a1`; later documentation-only changes do
+not alter its application assets. No browser-private records were uploaded.
+
+This is a testing preview, not approval for a public production release. The PR
+remains draft and unmerged. An authenticated walkthrough on the hosted URL and
+physical-phone acceptance are separate user checks.
+
 ## Product roadmap
 
 Personal discovery includes **Your taste**: optional preferred cuisines and

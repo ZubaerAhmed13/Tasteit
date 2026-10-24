@@ -24,26 +24,40 @@
 **Files:** src/personalisation.js, src/model.js, tests/personalisation.test.js.
 **Interfaces:** emptyTasteProfile(), validTasteProfile(profile), createTasteProfile(input),
 recommendRecipes(candidates,saved,pantry,profile,limit=4,now=new Date()) -> [{meal,reasons}].
-- [ ] Write/run failing tests for bounded lists, aliases, ingredient exclusions,
+- [x] Write/run failing tests for bounded lists, aliases, ingredient exclusions,
   detailed ID deduplication, hidden IDs, relevant reasons and past-dated stock.
-- [ ] Implement the pure helpers; extend empty/load/export/parse with optional tasteProfile.
-- [ ] Verify old/new backup round trips, invalid profiles and non-mutation; run Node suite and commit.
+- [x] Implement the pure helpers; extend empty/load/export/parse with optional tasteProfile.
+- [x] Verify old/new backup round trips, invalid profiles and non-mutation; run Node suite and commit.
 
 ## Task 2: Taste form, suggestions and collection shortcuts
 **Files:** src/app.js, styles.css, tests/app-state.test.js, tests/personalisation-browser.mjs,
 tests/browser-smoke.mjs, package.json, .github/workflows/verify.yml.
 **Interfaces:** Task 1 functions; existing collectionTags/filterCookbook and persistStore.
-- [ ] Add failing event-owner and browser scenarios for saves, blocked storage,
+- [x] Add failing event-owner and browser scenarios for saves, blocked storage,
   preserved drafts, reload, Not for me / restoration and labelled collections.
-- [ ] Add a collapsible taste form and explained recommendation section on unfiltered
+- [x] Add a collapsible taste form and explained recommendation section on unfiltered
   Discover; add user-label shortcuts, without duplicating recommended cards below.
-- [ ] Integrate profile changes into backup import and cross-tab state; preserve focus/drafts.
-- [ ] Verify Node checks and all four browser scripts in the three-engine matrix; commit.
+- [x] Integrate profile changes into backup import and cross-tab state; preserve focus/drafts.
+- [x] Verify Node checks and all four browser scripts in the three-engine matrix; commit.
 
 ## Task 3: Review, preview publication and acceptance
 **Files:** directly affected fixes, hosting configuration, README.md, docs/ACCEPTANCE.md.
 **Interfaces:** Tested remote feature SHA, static asset deployment and returned URL.
-- [ ] Independently review the stage diff and fix material findings with regressions.
-- [ ] Add no-index preview configuration and document personalisation/preview boundaries.
-- [ ] Publish the tested source to preview hosting, check actual assets and interactions,
+- [x] Independently review the stage diff and fix material findings with regressions.
+- [x] Add no-index preview configuration and document personalisation/preview boundaries.
+- [x] Publish the tested source to preview hosting, check actual assets and interactions,
   and update PR #1 with the URL and accurate verification evidence.
+
+## Completed verification
+
+130 Node tests and all four browser suites pass in Chromium, Firefox and WebKit
+on `26ac828e0c2b64c64254a2ba7ba1300192d4c7a1`
+([run 40078835781](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40078835781)).
+Independent review found a displayed-recipe/action mismatch and asynchronous
+keyboard focus loss; both were reproduced before their fixes and are covered.
+
+The exact static files were copied from that GitHub commit into the private Site
+source and published successfully. URL: https://tasteit-kitchen-preview.bhuyainria.chatgpt.site.
+The hosted owner sign-in gate was confirmed. Actual source requests, photos and
+taste-form interactions were checked in the matching internal preview. The signed-in
+hosted walkthrough and physical-device checks remain documented acceptance limits.

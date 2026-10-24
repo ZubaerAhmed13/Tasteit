@@ -83,11 +83,18 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [x] Explained ranking, detailed source-ID deduplication, conservative ingredient
   skips, hidden/restored suggestions and unchanged saved recipes
 - [x] Actual event-owner tests for failed profile and suggestion-skip writes
-- [ ] Four browser suites in Chromium, Firefox and WebKit, including preference
+- [x] Four browser suites in Chromium, Firefox and WebKit, including preference
   save/reload, draft preservation, labelled collections and 375px controls
-- [ ] Independent review findings resolved
-- [ ] Private preview published from tested source, assets and interactions checked
+- [x] Independent review findings resolved
+- [x] Private preview published from tested source; archive parity and internal
+  live-source interactions checked; hosted owner sign-in gate confirmed
+- [ ] Authenticated walkthrough on the hosted preview after owner sign-in
 - [ ] Physical Android/iOS and assistive-technology testing
+
+Verified source: `26ac828e0c2b64c64254a2ba7ba1300192d4c7a1`. All 130 Node tests
+and four browser suites per engine passed in
+[CI run 40078835781](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40078835781).
+Private URL: [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site).
 
 The user authorised a testing preview on 24 October 2026. PR #1 stays draft and
 unmerged. Preview access is separate from approval for a public production release.
