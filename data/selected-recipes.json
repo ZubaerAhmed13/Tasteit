@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourceList": "https://chatgpt.com/s/t_6adc780320e48191a978d6ea1aadd9c0",
-  "checkedAt": "2026-10-24T14:46:15.913Z",
+  "checkedAt": "2026-10-24T15:07:30.548Z",
   "scope": "Bounded initial collection; source labels are not independently verified origins.",
   "recipes": [
     {
@@ -766,6 +766,125 @@
       },
       "photoUrl": "https://www.recipetineats.com/tachyon/2019/09/Cooked-white-rice.jpg",
       "checkedAt": "2026-10-24T14:46:11.253Z"
+    },
+    {
+      "id": "tasteatlas-glogg-recipe",
+      "source": "tasteatlas",
+      "url": "https://www.tasteatlas.com/glogg/recipe",
+      "title": "Glögg",
+      "author": "TasteAtlas",
+      "cuisine": "Northern European",
+      "category": "Wine Cocktail",
+      "ingredients": [
+        "1 orange",
+        "1 bottle (750 ml) dry, full-bodied red wine",
+        "⅓ cup (70g) firmly packed brown sugar",
+        "2-inch (5 cm) piece of ginger sliced into thin rounds",
+        "10 whole cloves",
+        "10 cardamom pods crushed (include both pods and seeds)",
+        "3 cinnamon sticks",
+        "½ cup (120 ml) aquavit such as the Linie brand (rum, brandy or vodka will also work)",
+        "golden raisins, blanched almonds and thin orange or clementine slices for serving (optional)"
+      ],
+      "rating": {
+        "value": 4.1,
+        "best": 5,
+        "worst": 1,
+        "count": 27,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://cdn.tasteatlas.com/images/ingredients/9c2a827b74794acdb03bf924ca48298a.jpg",
+      "checkedAt": "2026-10-24T15:04:40.626Z"
+    },
+    {
+      "id": "tasteatlas-bremer-klabenxxx-recipe",
+      "source": "tasteatlas",
+      "url": "https://www.tasteatlas.com/bremer-klabenxxx/recipe",
+      "title": "Bremer Klaben",
+      "author": "TasteAtlas",
+      "cuisine": "German",
+      "category": "Sweet Bread",
+      "ingredients": [
+        "600g (21.1 oz) raisins",
+        "80 ml (1/3 cup) rum",
+        "120 ml (1/2 cup) milk",
+        "10g (2 tsp) dry yeast",
+        "130g (4.6 oz) sugar",
+        "500g (1.1 lbs) flour",
+        "1 tsp salt",
+        "185g (6.5 oz) unsalted butter",
+        "1 tbsp vanilla extract",
+        "130g (4.6 oz) candied orange peel",
+        "130g (4.6 oz) candied lemon peel",
+        "1 tsp cardamom",
+        "100g (3.5 oz) chopped almonds"
+      ],
+      "rating": {
+        "value": 4.3,
+        "best": 5,
+        "worst": 1,
+        "count": 16,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://cdn.tasteatlas.com/images/dishes/b3f260bd83d94107a88ca5fe23cd924f.jpg",
+      "checkedAt": "2026-10-24T15:04:40.877Z"
+    },
+    {
+      "id": "tasteatlas-dakos-recipe",
+      "source": "tasteatlas",
+      "url": "https://www.tasteatlas.com/dakos/recipe",
+      "title": "Dakos",
+      "author": "TasteAtlas",
+      "cuisine": "Greek",
+      "category": "Appetizer",
+      "ingredients": [
+        "4 large barley rusks",
+        "3 large ripe tomatoes, beaten and mashed",
+        "8 tsp virgin olive oil",
+        "200g (7 oz) mizithra cheese",
+        "15 black olives, pitted, chopped, optional",
+        "1 tsp capers, optional",
+        "oregano, salt, pepper"
+      ],
+      "rating": {
+        "value": 4.5,
+        "best": 5,
+        "worst": 1,
+        "count": 79,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://cdn.tasteatlas.com/images/dishes/902120f96d1a4b89aa0516f0fe2d7439.jpg",
+      "checkedAt": "2026-10-24T15:04:41.121Z"
+    },
+    {
+      "id": "tasteatlas-english-breakfast-recipe",
+      "source": "tasteatlas",
+      "url": "https://www.tasteatlas.com/english-breakfast/recipe",
+      "title": "English breakfast",
+      "author": "TasteAtlas",
+      "cuisine": "British",
+      "category": "Breakfast",
+      "ingredients": [
+        "2 pork sausages",
+        "1 tomato",
+        "2 tbsp butter",
+        "2 rashers bacon",
+        "110g (3.9 oz) mushrooms",
+        "1 (220g) (7.8 oz) tin baked beans",
+        "1 large egg",
+        "2 slices white or brown bread",
+        "salt and pepper, to taste",
+        "1 sprig parsley"
+      ],
+      "rating": {
+        "value": 4.7,
+        "best": 5,
+        "worst": 1,
+        "count": 56,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://cdn.tasteatlas.com/images/recipes/e78d131d4f384be699cbe1e7033f7c8c.jpg",
+      "checkedAt": "2026-10-24T15:04:41.373Z"
     }
   ],
   "sources": [
@@ -797,6 +916,20 @@
           "status": "unavailable",
           "reason": "Source HTTP 402",
           "checkedAt": "2026-10-24T14:26:17.987Z"
+        },
+        {
+          "url": "https://www.allrecipes.com/recipe/220477/chunky-vegetarian-vegetable-soup-fast-and-easy/",
+          "source": "allrecipes",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T15:06:05.368Z"
+        },
+        {
+          "url": "https://www.allrecipes.com/recipe/13338/quick-and-easy-vegetable-soup/",
+          "source": "allrecipes",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T15:06:09.971Z"
         }
       ]
     },
@@ -883,6 +1016,20 @@
           "status": "unavailable",
           "reason": "Source HTTP 402",
           "checkedAt": "2026-10-24T14:26:14.836Z"
+        },
+        {
+          "url": "https://www.seriouseats.com/pasta-carbonara-sauce-recipe",
+          "source": "seriouseats",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T15:07:27.195Z"
+        },
+        {
+          "url": "https://www.seriouseats.com/pasta-cacio-e-uovo-vegetarian-carbonara",
+          "source": "seriouseats",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T15:07:30.548Z"
         }
       ]
     },
@@ -892,7 +1039,7 @@
       "hosts": [
         "tasteatlas.com"
       ],
-      "collected": 0,
+      "collected": 4,
       "attempts": [
         {
           "url": "https://www.tasteatlas.com/biryani",
@@ -900,6 +1047,34 @@
           "status": "unavailable",
           "reason": "No unambiguous main Recipe metadata was available.",
           "checkedAt": "2026-10-24T14:26:18.337Z"
+        },
+        {
+          "url": "https://www.tasteatlas.com/glogg/recipe",
+          "finalUrl": "https://www.tasteatlas.com/glogg/recipe",
+          "source": "tasteatlas",
+          "status": "collected",
+          "checkedAt": "2026-10-24T15:04:40.626Z"
+        },
+        {
+          "url": "https://www.tasteatlas.com/bremer-klabenxxx/recipe",
+          "finalUrl": "https://www.tasteatlas.com/bremer-klabenxxx/recipe",
+          "source": "tasteatlas",
+          "status": "collected",
+          "checkedAt": "2026-10-24T15:04:40.877Z"
+        },
+        {
+          "url": "https://www.tasteatlas.com/dakos/recipe",
+          "finalUrl": "https://www.tasteatlas.com/dakos/recipe",
+          "source": "tasteatlas",
+          "status": "collected",
+          "checkedAt": "2026-10-24T15:04:41.121Z"
+        },
+        {
+          "url": "https://www.tasteatlas.com/english-breakfast/recipe",
+          "finalUrl": "https://www.tasteatlas.com/english-breakfast/recipe",
+          "source": "tasteatlas",
+          "status": "collected",
+          "checkedAt": "2026-10-24T15:04:41.373Z"
         }
       ]
     },
@@ -989,6 +1164,20 @@
           "status": "unavailable",
           "reason": "No unambiguous main Recipe metadata was available.",
           "checkedAt": "2026-10-24T14:26:20.989Z"
+        },
+        {
+          "url": "https://cooking.nytimes.com/recipes/1019772-spiced-chickpea-stew-with-coconut-and-turmeric",
+          "source": "nyt",
+          "status": "unavailable",
+          "reason": "No unambiguous main Recipe metadata was available.",
+          "checkedAt": "2026-10-24T15:06:14.350Z"
+        },
+        {
+          "url": "https://cooking.nytimes.com/recipes/1013535-chickpea-vegetable-soup-with-parmesan-rosemary-and-lemon",
+          "source": "nyt",
+          "status": "unavailable",
+          "reason": "No unambiguous main Recipe metadata was available.",
+          "checkedAt": "2026-10-24T15:06:18.715Z"
         }
       ]
     },

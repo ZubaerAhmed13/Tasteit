@@ -781,6 +781,597 @@
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "This image was uploaded as part of Wiki Loves Earth 2024."
+    },
+    {
+      "id": "nori",
+      "label": "Roasted nori sheets",
+      "aliases": [
+        "nori",
+        "roasted nori"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Nori.jpg/250px-Nori.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Nori.jpg",
+      "creator": "Alice Wiegand, (Lyzzy)",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Nori, roasted sheets of seaweed used in Japanese cuisine for sushi. The smaller ones are already seasoned with sesame oil and spices.",
+      "form": "roasted"
+    },
+    {
+      "id": "clove-spice",
+      "label": "Dried cloves",
+      "aliases": [
+        "whole cloves",
+        "cloves"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Cloves.JPG/250px-Cloves.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Cloves.JPG",
+      "creator": "Jorge Barrios",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Cloves.JPG",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Cloves.",
+      "form": "whole"
+    },
+    {
+      "id": "mint-leaf",
+      "label": "Mint leaves",
+      "aliases": [
+        "mint leaves",
+        "bunch mint"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Mint-leaves-2007.jpg/250px-Mint-leaves-2007.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Mint-leaves-2007.jpg",
+      "creator": "Kham Tran - www.khamtran.com",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Mint leaves.",
+      "form": "whole"
+    },
+    {
+      "id": "mirin",
+      "label": "Mirin",
+      "aliases": [
+        "mirin"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Mirinbowl.jpg/250px-Mirinbowl.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Mirinbowl.jpg",
+      "creator": "Badagnani",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A bowl of mirin, a Japanese sweetened rice wine used for cooking. Photo taken in Kent, Ohio with a Panasonic Lumix digital camera (model DMC-LS75). The mirin was purchased in a Cuyahoga Falls, Ohio Korean grocery store.",
+      "form": "liquid"
+    },
+    {
+      "id": "spinach-leaf",
+      "label": "Spinach leaves",
+      "aliases": [
+        "spinach",
+        "spinach leaves"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Spinach_leaves.jpg/250px-Spinach_leaves.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Spinach_leaves.jpg",
+      "creator": "Nillerdk",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "1 kg of Spinach leaves separated from the stems. See Image:spinach_leaves_stems.jpg",
+      "form": "whole"
+    },
+    {
+      "id": "oxtail",
+      "label": "Raw oxtail",
+      "aliases": [
+        "ox tail",
+        "oxtail"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Raw_oxtail-01.jpg/250px-Raw_oxtail-01.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Raw_oxtail-01.jpg",
+      "creator": "FotoosVanRobin",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Oxtail for  my version of Heston Blumenthal's Spaghetti Bolognese",
+      "form": "whole"
+    },
+    {
+      "id": "thyme-fresh",
+      "label": "Fresh thyme",
+      "aliases": [
+        "fresh thyme",
+        "sprigs thyme"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Thyme-Bundle.jpg/250px-Thyme-Bundle.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Thyme-Bundle.jpg",
+      "creator": "Evan-Amos",
+      "licence": "CC0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A bundle of the herb thyme that came from an organic farm co-op.",
+      "form": "whole"
+    },
+    {
+      "id": "onion-powder",
+      "label": "Onion powder",
+      "aliases": [
+        "onion powder"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Onion_Powder%2C_Penzeys_Spices%2C_Arlington_Heights_MA.jpg/250px-Onion_Powder%2C_Penzeys_Spices%2C_Arlington_Heights_MA.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Onion_Powder,_Penzeys_Spices,_Arlington_Heights_MA.jpg",
+      "creator": "John Phelan",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Onion Powder, Penzeys Spices, Arlington Heights Massachusetts",
+      "form": "ground"
+    },
+    {
+      "id": "tomato-paste",
+      "label": "Tomato paste",
+      "aliases": [
+        "tomato paste",
+        "tomatenmark"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Tomato_paste_on_spoon.jpg/250px-Tomato_paste_on_spoon.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Tomato_paste_on_spoon.jpg",
+      "creator": "SKopp",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A spoonful of triple concentrated tomato paste.",
+      "form": "paste"
+    },
+    {
+      "id": "garlic-powder",
+      "label": "Ground dried garlic",
+      "aliases": [
+        "garlic powder",
+        "ground garlic"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Ground-Garlic_31534-480x360_%284904476773%29.jpg/250px-Ground-Garlic_31534-480x360_%284904476773%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ground-Garlic_31534-480x360_(4904476773).jpg",
+      "creator": "Emilian Robert Vicol from Com. Balanesti, Romania",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Free Photos – Ground Garlic – Spices & Flavor\nMore photos and details about possible copyright or licensing restrictions here:\npublic-photo.net/food/ground-garlic/\nFull Size Up to 3072 x 2304 pixels\n\nInformation Regarding Copyright: public-photo.net/copyright/",
+      "form": "ground"
+    },
+    {
+      "id": "rice-vermicelli",
+      "label": "Rice vermicelli",
+      "aliases": [
+        "rice vermicelli"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Rice_vermicelli.jpg/250px-Rice_vermicelli.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Rice_vermicelli.jpg",
+      "creator": "Popo le Chien",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "closeup picture of rice vermicelli",
+      "form": "dry"
+    },
+    {
+      "id": "coconut-oil",
+      "label": "Coconut oil",
+      "aliases": [
+        "coconut oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Coconut_and_oil.jpg/250px-Coconut_and_oil.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Coconut_and_oil.jpg",
+      "creator": "Phu Thinh Co",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Dầu dừa",
+      "form": "liquid"
+    },
+    {
+      "id": "cardamom",
+      "label": "Green cardamom pods and powder",
+      "aliases": [
+        "cardamom pods",
+        "green cardamoms",
+        "pods cardamom",
+        "ground cardamom"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/02017_0119_Kardamom%2C_Winter_in_den_Beskiden.jpg/250px-02017_0119_Kardamom%2C_Winter_in_den_Beskiden.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:02017_0119_Kardamom,_Winter_in_den_Beskiden.jpg",
+      "creator": "Silar",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Kardamom",
+      "form": "pods-and-powder"
+    },
+    {
+      "id": "mung-bean-sprout",
+      "label": "Mung bean sprouts",
+      "aliases": [
+        "mung bean sprouts"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Mung_bean_sprouts.jpg/250px-Mung_bean_sprouts.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Mung_bean_sprouts.jpg",
+      "creator": "국립국어원",
+      "licence": "CC BY-SA 2.0 kr",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/kr/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "mung bean sprouts",
+      "form": "whole"
+    },
+    {
+      "id": "ketchup",
+      "label": "Tomato ketchup",
+      "aliases": [
+        "ketchup"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Ketchup_20160918_181342_%28cropped%29.jpg/250px-Ketchup_20160918_181342_%28cropped%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ketchup_20160918_181342_(cropped).jpg",
+      "creator": "Kim Holger Kelting",
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "",
+      "form": "sauce"
+    },
+    {
+      "id": "paprika-ground",
+      "label": "Paprika powder",
+      "aliases": [
+        "paprika powder",
+        "ground paprika",
+        "paprikapulver"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Piment%C3%B3n_Tap_de_Cort%C3%AD_%28cropped%29.jpg/250px-Piment%C3%B3n_Tap_de_Cort%C3%AD_%28cropped%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Piment%C3%B3n_Tap_de_Cort%C3%AD_(cropped).jpg",
+      "creator": "Marcosgarrido88",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Pimentón Tap de Cortí",
+      "form": "ground"
+    },
+    {
+      "id": "sake",
+      "label": "Sake",
+      "aliases": [
+        "sake"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Overflowing_sake_glass_in_masu.jpg/250px-Overflowing_sake_glass_in_masu.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Overflowing_sake_glass_in_masu.jpg",
+      "creator": "Intforce",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Overflowing sake glass in masu, served in a sushi restaurant in Asakusa, Tokyo",
+      "form": "liquid"
+    },
+    {
+      "id": "nutmeg",
+      "label": "Nutmeg, whole and ground",
+      "aliases": [
+        "whole nutmeg",
+        "nutmeg",
+        "ground nutmeg",
+        "grated nutmeg"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Biji_Pala_Bubuk.jpg/250px-Biji_Pala_Bubuk.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Biji_Pala_Bubuk.jpg",
+      "creator": "Herusutimbul",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Myristica fragrans.",
+      "form": "whole-and-ground"
+    },
+    {
+      "id": "daikon",
+      "label": "Daikon radish (reference varieties)",
+      "aliases": [
+        "daikon"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Different_kinds_of_White_Radish.png/250px-Different_kinds_of_White_Radish.png",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Different_kinds_of_White_Radish.png",
+      "creator": "KimYunmi",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "From left to right: Watermelon radish, Daikon, Lobak, Mu, Yeolmu Ponytail radish, varietals of Raphanus Sativus",
+      "form": "whole"
+    },
+    {
+      "id": "canola-oil",
+      "label": "Canola oil",
+      "aliases": [
+        "canola oil",
+        "rapeseed oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Canola_Oil_%284107885913%29_Cropped.jpg/250px-Canola_Oil_%284107885913%29_Cropped.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Canola_Oil_(4107885913)_Cropped.jpg",
+      "creator": "Veganbaking.net",
+      "licence": "CC BY-SA 2.5",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "crop of File:Canola Oil (4107885913).jpg to center it",
+      "form": "liquid"
+    },
+    {
+      "id": "parmesan",
+      "label": "Parmigiano-Reggiano cheese",
+      "aliases": [
+        "parmesan cheese",
+        "parmesan"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Parmigiano_Reggiano%2C_Italien%2C_Europ%C3%A4ische_Union.jpg/250px-Parmigiano_Reggiano%2C_Italien%2C_Europ%C3%A4ische_Union.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Parmigiano_Reggiano,_Italien,_Europ%C3%A4ische_Union.jpg",
+      "creator": "Naturpuur",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Parmesan, hard cheese \"Parmigiano Reggiano\" from Italy, European Union",
+      "form": "whole"
+    },
+    {
+      "id": "saffron",
+      "label": "Saffron threads",
+      "aliases": [
+        "saffron",
+        "saffron threads"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Saffron_-_premium_spice.jpg/250px-Saffron_-_premium_spice.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Saffron_-_premium_spice.jpg",
+      "creator": "Shaharbano",
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Saffron",
+      "form": "whole"
+    },
+    {
+      "id": "lime-juice",
+      "label": "Lime juice",
+      "aliases": [
+        "lime juice"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Lime_juice.jpg/250px-Lime_juice.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Lime_juice.jpg",
+      "creator": "Jaclyn Le from long beach, ca, us",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Container of lime juice with cut limes",
+      "form": "liquid"
+    },
+    {
+      "id": "lemon-juice",
+      "label": "Lemon juice",
+      "aliases": [
+        "lemon juice"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Lemon_juice.jpg/250px-Lemon_juice.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Lemon_juice.jpg",
+      "creator": "David Goehring",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Lemon juice",
+      "form": "liquid"
+    },
+    {
+      "id": "sunflower-oil",
+      "label": "Sunflower oil (unrefined bottle reference)",
+      "aliases": [
+        "sunflower oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Sunflowerseed_oil.jpg/250px-Sunflowerseed_oil.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Sunflowerseed_oil.jpg",
+      "creator": "Ygrek",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Unrefined sunflower seed oil",
+      "form": "liquid"
+    },
+    {
+      "id": "cumin-ground",
+      "label": "Ground cumin",
+      "aliases": [
+        "ground cumin",
+        "cumin powder"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Cumin_powder.JPG/250px-Cumin_powder.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Cumin_powder.JPG",
+      "creator": "Zeynel Cebeci",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Cups of cumin powder, a spicy for ciğer kebap. Kozan, Adana - Turkey.",
+      "form": "ground"
+    },
+    {
+      "id": "chicken-breast",
+      "label": "Raw chicken breast",
+      "aliases": [
+        "chicken breast",
+        "chicken breasts",
+        "hahnchenbrustfilet"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Kycklingfil%C3%A9.jpg/250px-Kycklingfil%C3%A9.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Kycklingfil%C3%A9.jpg",
+      "creator": "Dnor",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Kycklingfil%C3%A9.jpg",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Raw chicken breast",
+      "form": "raw"
+    },
+    {
+      "id": "shallot-fried",
+      "label": "Fried shallots",
+      "aliases": [
+        "fried shallots",
+        "crispy fried shallots"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Bawang_goreng.JPG/250px-Bawang_goreng.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Bawang_goreng.JPG",
+      "creator": "Sakurai Midori",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Fried shallots",
+      "form": "fried"
+    },
+    {
+      "id": "rice-cooked-white",
+      "label": "Cooked white rice",
+      "aliases": [
+        "cooked white rice",
+        "cooked rice",
+        "steamed white rice",
+        "steamed rice"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Bowl_of_white_rice_01.jpg/250px-Bowl_of_white_rice_01.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Bowl_of_white_rice_01.jpg",
+      "creator": "Douglas Perkins",
+      "licence": "CC0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A bowl of cooked white rice.",
+      "form": "cooked"
+    },
+    {
+      "id": "corn-starch",
+      "label": "Maize starch (package reference)",
+      "aliases": [
+        "corn starch",
+        "cornstarch"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Tepung_Maizena_Hawai.jpg/250px-Tepung_Maizena_Hawai.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Tepung_Maizena_Hawai.jpg",
+      "creator": "Indonesiagood",
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Tepung Maizena Hawai yang ditaruh di atas etalase.",
+      "form": "powder"
+    },
+    {
+      "id": "chicken-stock",
+      "label": "Chicken stock",
+      "aliases": [
+        "chicken stock",
+        "chicken broth"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Chicken_Stock.jpg/250px-Chicken_Stock.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Chicken_Stock.jpg",
+      "creator": "TheCulinaryGeek",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "This photo is from my book 101 Chicken recipes availabe at culinarygeek.net/101.html",
+      "form": "liquid"
+    },
+    {
+      "id": "gim-roasted",
+      "label": "Roasted gim sheets",
+      "aliases": [
+        "gim",
+        "roasted gim"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Korean_laver-Gim-01.jpg/250px-Korean_laver-Gim-01.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Korean_laver-Gim-01.jpg",
+      "creator": "by david&alina at Flickr",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Gim (김), Korean laver",
+      "form": "roasted"
+    },
+    {
+      "id": "jalapeno",
+      "label": "Fresh jalapeño",
+      "aliases": [
+        "jalapeno",
+        "jalapenos"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Immature_jalapeno_capsicum_annuum_var_annuum.jpeg/250px-Immature_jalapeno_capsicum_annuum_var_annuum.jpeg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Immature_jalapeno_capsicum_annuum_var_annuum.jpeg",
+      "creator": "TilmanBaumann (original German Wikipedia upload)",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Immature jalapeño pepper; original-file description identifies TilmanBaumann as the author of his own photograph.",
+      "form": "whole"
     }
   ]
 }

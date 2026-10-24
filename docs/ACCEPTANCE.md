@@ -162,6 +162,22 @@ Wikimedia Commons independently of the recipe publisher allowlist. Their identit
 file provenance and stated licence have been reviewed for this private preview;
 public-release rights clearance remains separate.
 
+## Selected-source expansion — 24 October 2026
+
+- [x] Four original TasteAtlas Recipe records added with recipe-specific published ratings, raw ingredient facts and source links; no dish scores substituted
+- [x] Collection now has 27 recipes across 12 selected publishers, including 21 rated recipes. New Allrecipes and Serious Eats probes returned HTTP 402; new NYT probes had no unambiguous main Recipe metadata. The four remaining source gaps stay explicit
+- [x] 33 additional ingredient references visually reviewed against original Commons file metadata, authors and licences, bringing the registry to 77 photographs
+- [x] 254 of 378 ingredient rows match; 124 remain visibly unresolved. All 184 previously matched rows retain a verified match; 51 gaps in the original 23 recipes are now covered
+- [x] Regressions distinguish garlic clove units from the clove spice, allow a matching roasted-and-shredded reference and single chilled-and-cubed food, preserve actual alternatives, and reject sliced/cubed roots against powdered references
+- [x] All 183 Node tests, syntax and Worker build checks pass locally
+- [ ] One independent data/contract review and material fixes
+- [ ] Six-suite Chromium/Firefox/WebKit matrix and three fresh Firefox continuity sessions
+- [ ] Publish the exact tested source, check live hashes/provenance and preserve owner-only access
+
+Collection and photo coverage remain incomplete. Specific forms, mixed foods,
+unknown names and alternatives stay unresolved when an exact reference is absent.
+Owner-signed-in hosted, physical-phone and assistive-technology checks remain open.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed

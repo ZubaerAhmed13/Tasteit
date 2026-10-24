@@ -42,3 +42,27 @@ test('mixed foods and parenthetical alternatives are rejected before preparation
  const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
  for(const row of ['Sea salt & freshly ground black pepper','garlic (or ginger)','1 tbsp garlic, ground ginger','1 egg (or cornstarch)'])assert.equal(ingredientPhoto(row,p),null,row);
 });
+test('garlic clove units do not become a competing clove-spice photo',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js');const clove={...entry,id:'clove-spice',aliases:['cloves','whole cloves']};
+ for(const line of ['2 cloves garlic, minced','6 garlic cloves','1 clove of garlic'])assert.equal(ingredientPhoto(line,[entry,clove])?.id,'garlic',line);
+ assert.equal(ingredientPhoto('5 whole cloves',[entry,clove])?.id,'clove-spice');assert.equal(ingredientPhoto('garlic, cloves',[entry,clove]),null);
+});
+test('one roasted-and-shredded ingredient needs a matching roasted reference',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js');const gim={...entry,id:'gim',aliases:['gim'],form:'roasted'};
+ assert.equal(ingredientPhoto('1 sheet of gim, roasted and shredded',[gim])?.id,'gim');
+ assert.equal(ingredientPhoto('garlic, roasted and shredded',[entry]),null);assert.equal(ingredientPhoto('gim and garlic',[gim,entry]),null);
+});
+test('a taste adjustment is not a choice of another ingredient',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('1 teaspoon salt ((or to taste))',p)?.id,'salt');
+ assert.equal(ingredientPhoto('salt (or pepper)',p),null);
+});
+test('a chilled-and-cubed ingredient remains one food',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('100g/4oz butter chilled and cubed',p)?.id,'butter');
+ assert.equal(ingredientPhoto('butter and milk',p),null);
+});
+test('a powdered reference cannot illustrate a sliced or cubed root',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('turmeric, sliced',p),null);assert.equal(ingredientPhoto('turmeric, cubed',p),null);
+});
