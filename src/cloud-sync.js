@@ -91,7 +91,7 @@ export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,readCon
     return agreed(remote,syncFingerprint(remote.data));
   }
   async function reconcile() {
-    if(!meta.enabled)return emit('off');
+    if(!meta.enabled)return state;
     assertConsent();
     if(!isOnline())return emit('offline',{message:'Offline. Changes stay here and can sync when you reconnect.'});
     emit('checking');

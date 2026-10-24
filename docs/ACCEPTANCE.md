@@ -107,7 +107,7 @@ unmerged. Preview access is separate from approval for a public production relea
 - [x] Offline edits retry on reconnect; edits during an upload queue a follow-up; conflicting copies remain intact until an explicit choice
 - [x] Offline readiness checks every required shell asset; reachable sign-in/denial invalidates active, waiting and in-progress cache generations; returning after sign-in rebuilds all assets
 - [x] Touch controls at least 44px, phone form text at least 16px, safe-area spacing and visible offline/update status
-- [x] Independent review findings fixed with regression tests; all 156 Node tests and Worker build pass locally
+- [x] Independent review findings fixed with regression tests; all 157 Node tests and Worker build pass locally
 - [ ] Final five-suite browser matrix, including offline reload/edit, two devices, conflict selection, separate accounts and cloud removal
 - [ ] Publish exact tested Worker and apply generated D1 migration; verify archive parity and hosted identity rejection
 - [ ] Hosted walkthrough with the owner signed in; physical Android/iOS offline use and accessibility

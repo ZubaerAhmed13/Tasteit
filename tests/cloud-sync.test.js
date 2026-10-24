@@ -167,3 +167,9 @@ test('changes during a busy upload schedule one automatic follow-up after it fin
     const b=await device(DB);await b.sync.connect();assert.equal(b.local.pantry[0].name,'Potato');a.sync.disconnect();
   } finally {DB.close();}
 });
+test('checking disabled sync leaves the opt-in control undisturbed',async()=>{
+  const DB=sqliteD1();try {
+    const a=await device(DB);await a.sync.sync();await a.sync.sync();
+    assert.equal(a.sync.state.status,'off');assert.equal(a.states.length,0,'focus checks must not redraw a disabled sync control during a click');
+  }finally{DB.close();}
+});
