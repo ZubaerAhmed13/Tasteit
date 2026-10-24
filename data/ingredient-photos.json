@@ -1,0 +1,786 @@
+{
+  "version": 1,
+  "scope": "Real ingredient reference photographs, separate from the selected recipe publishers. Visually reviewed; ambiguous forms remain unmatched.",
+  "photos": [
+    {
+      "id": "onion",
+      "label": "Onion",
+      "aliases": [
+        "onion",
+        "onions",
+        "zwiebel"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Onion_on_White.JPG/250px-Onion_on_White.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Onion_on_White.JPG",
+      "creator": "Colin",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "An onion on a white background."
+    },
+    {
+      "id": "garlic",
+      "label": "Garlic",
+      "aliases": [
+        "garlic",
+        "garlic clove",
+        "garlic cloves",
+        "knoblauchzehe"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Garlic_bulbs_and_cloves.jpg/250px-Garlic_bulbs_and_cloves.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Garlic_bulbs_and_cloves.jpg",
+      "creator": "Ivar Leidus",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Garlic bulbs and cloves"
+    },
+    {
+      "id": "cumin-seeds",
+      "label": "Cumin seeds",
+      "aliases": [
+        "cumin seeds",
+        "cumin seed"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Seeds_of_Cumin.jpg/250px-Seeds_of_Cumin.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Seeds_of_Cumin.jpg",
+      "creator": "Sanjay Acharya",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Picture of Cumin \"Cuminum Cyminum\" Seeds. Length is about 5 mm."
+    },
+    {
+      "id": "fennel-seeds",
+      "label": "Fennel seeds",
+      "aliases": [
+        "fennel seeds",
+        "fennel seed"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Fennel_seed.jpg/250px-Fennel_seed.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Fennel_seed.jpg",
+      "creator": "Holly Cheng",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Fennel seed"
+    },
+    {
+      "id": "cinnamon",
+      "label": "Cinnamon",
+      "aliases": [
+        "cinnamon stick",
+        "cinnamon sticks",
+        "stick cinnamon"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Canelle_Cinnamomum_burmanni_Luc_Viatour.jpg/250px-Canelle_Cinnamomum_burmanni_Luc_Viatour.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Canelle_Cinnamomum_burmanni_Luc_Viatour.jpg",
+      "creator": "Luc Viatour",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Cinnamon bark. Probably Cinnamomum burmanni (not Cinnamomum verum as the previous file name suggests)."
+    },
+    {
+      "id": "turmeric-ground",
+      "label": "Ground turmeric",
+      "aliases": [
+        "turmeric powder",
+        "ground turmeric",
+        "turmeric"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Kunyit_Bubuk.jpg/250px-Kunyit_Bubuk.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Kunyit_Bubuk.jpg",
+      "creator": "Herusutimbul",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Curcuma Longa as an anti-inflammatory is useful for reducing arthritis symptoms, increasing immune function, reducing cardiovascular complications and can also prevent and treat Alzheimer's.",
+      "form": "ground"
+    },
+    {
+      "id": "coriander-ground",
+      "label": "Ground coriander",
+      "aliases": [
+        "coriander powder",
+        "ground coriander"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Coriander_Powder.jpg/250px-Coriander_Powder.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Coriander_Powder.jpg",
+      "creator": "Gaurav Dhwaj Khadka",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Homemade coriander powder.",
+      "form": "ground"
+    },
+    {
+      "id": "curry-powder",
+      "label": "Curry powder",
+      "aliases": [
+        "curry powder",
+        "currypulver"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Curry_powder.jpg/250px-Curry_powder.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Curry_powder.jpg",
+      "creator": "Edithobayaa1",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "This is an image with the theme \"Health and Wellness in Africa\" from:",
+      "form": "ground"
+    },
+    {
+      "id": "sugar",
+      "label": "Sugar",
+      "aliases": [
+        "sugar",
+        "caster sugar",
+        "white sugar",
+        "granulated sugar"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Sugar_2xmacro.jpg/250px-Sugar_2xmacro.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Sugar_2xmacro.jpg",
+      "creator": "Lauri Andler (Phantom)",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Macro photograph of a pile of sugar (saccharose)"
+    },
+    {
+      "id": "tomato",
+      "label": "Tomato",
+      "aliases": [
+        "tomato",
+        "tomatoes"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Organic_home-grown_tomatoes_-_unripe_to_ripe.jpg/250px-Organic_home-grown_tomatoes_-_unripe_to_ripe.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Organic_home-grown_tomatoes_-_unripe_to_ripe.jpg",
+      "creator": "Michal Klajban",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Organic home-grown tomatoes arranged in a circle. Christchurch, New Zealand."
+    },
+    {
+      "id": "black-pepper",
+      "label": "Black pepper",
+      "aliases": [
+        "black pepper",
+        "ground black pepper",
+        "crushed black pepper",
+        "pfeffer"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Black_pepper_%28ground%29.jpg/250px-Black_pepper_%28ground%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Black_pepper_(ground).jpg",
+      "creator": "Susan Slater",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "black pepper (ground)",
+      "form": "ground"
+    },
+    {
+      "id": "coriander-leaf",
+      "label": "Coriander leaves / cilantro",
+      "aliases": [
+        "coriander leaves",
+        "cilantro leaves",
+        "cilantro",
+        "chopped coriander"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Coriander_Leaves.jpg/250px-Coriander_Leaves.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Coriander_Leaves.jpg",
+      "creator": "Rupeshm364",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Coriander Leaves"
+    },
+    {
+      "id": "scallion",
+      "label": "Spring onions / scallions",
+      "aliases": [
+        "scallion",
+        "scallions",
+        "green onion",
+        "green onions",
+        "spring onion",
+        "spring onions"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Spring_onions_displayed.jpg/250px-Spring_onions_displayed.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Spring_onions_displayed.jpg",
+      "creator": "Judethedeus",
+      "licence": "CC0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Careful displayed spring onions"
+    },
+    {
+      "id": "star-anise",
+      "label": "Star anise",
+      "aliases": [
+        "star anise"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Dried_Star_Anise_Fruit_Seeds.jpg/250px-Dried_Star_Anise_Fruit_Seeds.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Dried_Star_Anise_Fruit_Seeds.jpg",
+      "creator": "Sanjay Acharya",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Dried fruits and seeds of the tree Star anise (Illicium verum). These fruit and seeds are ground to be used as spice in Asian cuisine."
+    },
+    {
+      "id": "bell-pepper",
+      "label": "Bell pepper",
+      "aliases": [
+        "bell pepper",
+        "bell peppers",
+        "paprikaschote"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Peppers_in_water.jpg/250px-Peppers_in_water.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Peppers_in_water.jpg",
+      "creator": "ulleo",
+      "licence": "CC0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Red and yellow bell peppers in water"
+    },
+    {
+      "id": "mushroom",
+      "label": "Mushroom",
+      "aliases": [
+        "mushroom",
+        "mushrooms"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/2016-01_Agaricus_bisporus_03.jpg/250px-2016-01_Agaricus_bisporus_03.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:2016-01_Agaricus_bisporus_03.jpg",
+      "creator": "0x010C",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "An Agaricus bisporus"
+    },
+    {
+      "id": "olive-oil",
+      "label": "Olive oil",
+      "aliases": [
+        "olive oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/2023_Oliwa_z_oliwek_Redoro.jpg/250px-2023_Oliwa_z_oliwek_Redoro.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:2023_Oliwa_z_oliwek_Redoro.jpg",
+      "creator": "Jacek Halicki",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Redoro olive oil"
+    },
+    {
+      "id": "flour",
+      "label": "Flour",
+      "aliases": [
+        "flour",
+        "plain flour"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/All-Purpose_Flour_%284107895947%29.jpg/250px-All-Purpose_Flour_%284107895947%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:All-Purpose_Flour_(4107895947).jpg",
+      "creator": "Veganbaking.net from USA",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "All-Purpose Flour",
+      "form": "ground"
+    },
+    {
+      "id": "red-onion",
+      "label": "Red onion",
+      "aliases": [
+        "red onion",
+        "red onions"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Red_Onion_on_White.JPG/250px-Red_Onion_on_White.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Red_Onion_on_White.JPG",
+      "creator": "Colin",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A red onion on a white background."
+    },
+    {
+      "id": "lemon",
+      "label": "Lemon",
+      "aliases": [
+        "lemon",
+        "lemons"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Lemon_-_whole_and_split.jpg/250px-Lemon_-_whole_and_split.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Lemon_-_whole_and_split.jpg",
+      "creator": "Ivar Leidus",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Lemon – whole and halved"
+    },
+    {
+      "id": "lime",
+      "label": "Lime",
+      "aliases": [
+        "lime",
+        "limes"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Lime_-_whole_and_halved.jpg/250px-Lime_-_whole_and_halved.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Lime_-_whole_and_halved.jpg",
+      "creator": "Ivar Leidus",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Limes – whole and halved. Grown in Brazil"
+    },
+    {
+      "id": "orange",
+      "label": "Orange",
+      "aliases": [
+        "orange",
+        "oranges"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Oranges_-_whole-halved-segment.jpg/250px-Oranges_-_whole-halved-segment.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Oranges_-_whole-halved-segment.jpg",
+      "creator": "Ivar Leidus",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Oranges – whole, halved, and peeled segment"
+    },
+    {
+      "id": "almonds",
+      "label": "Ground almonds",
+      "aliases": [
+        "ground almonds",
+        "almond meal"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Almond_meal_by_hand.jpg/250px-Almond_meal_by_hand.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Almond_meal_by_hand.jpg",
+      "creator": "Yun Huang Yong",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Almond meal",
+      "form": "ground"
+    },
+    {
+      "id": "potato",
+      "label": "Potato",
+      "aliases": [
+        "potato",
+        "potatoes",
+        "baby potatoes"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/250px-Patates.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Patates.jpg",
+      "creator": "Scott Bauer, USDA ARS",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Patates.jpg",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Different potato varieties. – The potato is the vegetable of choice in the United States. On average, Americans devour about 65 kg of them per year. New potato releases by ARS scientists give us even more choices of potatoes to eat."
+    },
+    {
+      "id": "butter",
+      "label": "Butter",
+      "aliases": [
+        "butter",
+        "unsalted butter"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/NCI_butter.jpg/250px-NCI_butter.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:NCI_butter.jpg",
+      "creator": "Renee Comet (National Cancer Institute)",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:NCI_butter.jpg",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Butter and a butter knife"
+    },
+    {
+      "id": "yogurt",
+      "label": "Yogurt",
+      "aliases": [
+        "yogurt",
+        "greek yogurt",
+        "plain yogurt",
+        "joghurt"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Joghurt.jpg/250px-Joghurt.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Joghurt.jpg",
+      "creator": "No machine-readable author provided. Rainer Zenz assumed (based on copyright claims).",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Bulgarian yogurt"
+    },
+    {
+      "id": "coconut-milk",
+      "label": "Coconut milk",
+      "aliases": [
+        "coconut milk",
+        "kokosmilch"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Cononut_milk.JPG/250px-Cononut_milk.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Cononut_milk.JPG",
+      "creator": "S Sepp",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Coconut milk in a bowl. It was bought canned."
+    },
+    {
+      "id": "celery",
+      "label": "Celery",
+      "aliases": [
+        "celery"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Celery_1.jpg/250px-Celery_1.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Celery_1.jpg",
+      "creator": "Lombroso",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Celery_1.jpg",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Celery"
+    },
+    {
+      "id": "garam-masala",
+      "label": "Garam masala",
+      "aliases": [
+        "garam masala"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Garammasalaphoto.jpg/250px-Garammasalaphoto.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Garammasalaphoto.jpg",
+      "creator": "Badagnani",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Homemade garam masala. Photo taken in Kent, Ohio with a Panasonic Lumix digital camera (model DMC-LS75).",
+      "form": "ground"
+    },
+    {
+      "id": "bay-leaf",
+      "label": "Bay leaf",
+      "aliases": [
+        "bay leaf",
+        "bay leaves",
+        "dried bay leaves"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Bay_Leaves.JPG/250px-Bay_Leaves.JPG",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Bay_Leaves.JPG",
+      "creator": "Miansari66",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Bay_Leaves.JPG",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Bay leaves, in urdu tez patta, french fuelles de laurer.\nIt is the beauty of Bombay Biryani"
+    },
+    {
+      "id": "sesame-oil",
+      "label": "Sesame oil",
+      "aliases": [
+        "sesame oil",
+        "toasted sesame oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/SesameSeedOil.png/250px-SesameSeedOil.png",
+      "filePage": "https://commons.wikimedia.org/wiki/File:SesameSeedOil.png",
+      "creator": "Itineranttrader",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:SesameSeedOil.png",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Sesame (Sesamum indicum) Seed Oil in clear glass vial"
+    },
+    {
+      "id": "eggs",
+      "label": "Eggs",
+      "aliases": [
+        "egg",
+        "eggs",
+        "large egg",
+        "large eggs"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Chicken_egg_2009-06-04.jpg/250px-Chicken_egg_2009-06-04.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Chicken_egg_2009-06-04.jpg",
+      "creator": "Sun Ladder",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A chicken egg (Gallus gallus domesticus)"
+    },
+    {
+      "id": "chicken-thigh-alt",
+      "label": "Chicken thighs",
+      "aliases": [
+        "chicken thighs",
+        "chicken thigh",
+        "chicken thigh fillets"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Raw_chicken_thighs.jpg/250px-Raw_chicken_thighs.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Raw_chicken_thighs.jpg",
+      "creator": "gran",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "פרגיות עוף"
+    },
+    {
+      "id": "peas",
+      "label": "Peas",
+      "aliases": [
+        "peas",
+        "green peas",
+        "frozen peas"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Peas_in_pods_-_Studio.jpg/250px-Peas_in_pods_-_Studio.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Peas_in_pods_-_Studio.jpg",
+      "creator": "Bill Ebbesen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Studio photo of peas in their pods."
+    },
+    {
+      "id": "rice-dry",
+      "label": "Uncooked white rice",
+      "aliases": [
+        "uncooked white rice",
+        "uncooked rice",
+        "white rice"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/White_rice.jpg/250px-White_rice.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:White_rice.jpg",
+      "creator": "Lucy Gull",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "white rice"
+    },
+    {
+      "id": "soy-sauce",
+      "label": "Soy sauce",
+      "aliases": [
+        "soy sauce",
+        "soya sauce"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Soy_sauce_2.jpg/250px-Soy_sauce_2.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Soy_sauce_2.jpg",
+      "creator": "국립국어원",
+      "licence": "CC BY-SA 2.0 kr",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/kr/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Soy sauce"
+    },
+    {
+      "id": "rice-vinegar",
+      "label": "Rice vinegar",
+      "aliases": [
+        "rice vinegar"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Rice_vinegar.jpg/250px-Rice_vinegar.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Rice_vinegar.jpg",
+      "creator": "Sotaque",
+      "licence": "CC0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Rice vinegar"
+    },
+    {
+      "id": "carrot",
+      "label": "Carrot",
+      "aliases": [
+        "carrot",
+        "carrots",
+        "mohre"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Vegetable-Carrot-Bundle-wStalks.jpg/250px-Vegetable-Carrot-Bundle-wStalks.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Vegetable-Carrot-Bundle-wStalks.jpg",
+      "creator": "Evan-Amos",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Vegetable-Carrot-Bundle-wStalks.jpg",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A bundle of carrots with their stalks still attached. Bought from a farmers market in Brooklyn, from an independent farm."
+    },
+    {
+      "id": "milk",
+      "label": "Milk",
+      "aliases": [
+        "milk"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Glass_of_Milk_%2833657535532%29.jpg/250px-Glass_of_Milk_%2833657535532%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Glass_of_Milk_(33657535532).jpg",
+      "creator": "NIAID",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A glass of milk. Credit: NIAID"
+    },
+    {
+      "id": "brown-sugar",
+      "label": "Brown sugar",
+      "aliases": [
+        "brown sugar"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Brown_sugar.jpg/250px-Brown_sugar.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Brown_sugar.jpg",
+      "creator": "EstherDje",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Brown sugar"
+    },
+    {
+      "id": "ginger",
+      "label": "Ginger",
+      "aliases": [
+        "ginger",
+        "ginger root",
+        "ingwer"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Ginger_root.jpg/250px-Ginger_root.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ginger_root.jpg",
+      "creator": "BogTar201213",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Ginger root - slightly dried"
+    },
+    {
+      "id": "salt",
+      "label": "Salt",
+      "aliases": [
+        "salt",
+        "sea salt",
+        "table salt",
+        "kosher salt",
+        "salz"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Salt_in_a_bowl.jpg/250px-Salt_in_a_bowl.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Salt_in_a_bowl.jpg",
+      "creator": "Hpannu7",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "Salt preservatives"
+    },
+    {
+      "id": "water",
+      "label": "Water",
+      "aliases": [
+        "water",
+        "cold water",
+        "hot water"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Glass_of_water.jpg/250px-Glass_of_water.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Glass_of_water.jpg",
+      "creator": "deavmi",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "A glass of water."
+    },
+    {
+      "id": "sesame-seeds",
+      "label": "Sesame seeds",
+      "aliases": [
+        "sesame seeds",
+        "sesame seed",
+        "roasted sesame seeds"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Sesame_seed.jpg/250px-Sesame_seed.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Sesame_seed.jpg",
+      "creator": "Salma kyari",
+      "licence": "CC0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "verified": true,
+      "checkedAt": "2026-10-24",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "This image was uploaded as part of Wiki Loves Earth 2024."
+    }
+  ]
+}

@@ -10,7 +10,7 @@ The official TheMealDB V1 first-letter scan returned **790 unique sourced recipe
 
 ## Collection process
 
-1. Use documented provider APIs only. Fetch the original recipe, original publisher URL, ingredient list and attribution where available.
+1. For the historical provider catalogue, use documented provider APIs. For the selected-source collection, use original Recipe JSON-LD from only the user-selected publishers. Fetch the original recipe, original publisher URL, ingredient list and attribution where available.
 2. Deduplicate by source ID, name variants and equivalent dishes. Countries sharing an ambiguous regional label must not be assigned without explicit evidence.
 3. Choose at most 30 candidates per provider country/category on documentation completeness alone. This is **not a popularity ranking**.
 4. Commit only source metadata and URLs to the feature branch: ID, title, source, category, country label and remote image credit. Fetch full recipe instructions from source on opening.
@@ -66,4 +66,8 @@ The saved [CSV](../data/source-overlap-review.csv) and [JSON](../data/source-ove
 
 Need independent live-source and link verification, rights-checked photographs, representative country coverage, physical mobile/browser accessibility, source licensing and production API arrangements. The metadata collectors never approve recipes or deploy the application.
 
-**Release lock: do not merge PR #1 or deploy Tasteit until the user explicitly says YES.**
+**Release lock: do not merge PR #1 until the user explicitly approves merging. Owner-private preview updates are authorised in this conversation; public release remains separate.**
+
+## Selected-source collection — 24 October 2026
+
+The new collector restricts recipe URLs, redirects and canonical publishers to the 16 websites in the user’s shared list. It stores factual metadata and ingredient amounts, not recipe methods or user reviews. Ratings belong to the main recipe and retain scale, vote/review count and checked time. Missing ratings and blocked sources remain visible. Ingredient reference photographs have a separate Wikimedia Commons provenance registry, visual identity review, creator and licence evidence; unmatched or ambiguous forms are not illustrated by guesswork. Existing historical source records are not reclassified as members of this collection.

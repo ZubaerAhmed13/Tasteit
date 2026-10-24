@@ -1,0 +1,1094 @@
+{
+  "version": 1,
+  "sourceList": "https://chatgpt.com/s/t_6adc780320e48191a978d6ea1aadd9c0",
+  "checkedAt": "2026-10-24T14:26:35.051Z",
+  "scope": "Bounded initial collection; source labels are not independently verified origins.",
+  "recipes": [
+    {
+      "id": "recipetineats-chicken-curry",
+      "source": "recipetineats",
+      "url": "https://www.recipetineats.com/chicken-curry/",
+      "title": "Easy Chicken Curry",
+      "author": "",
+      "cuisine": "Western",
+      "category": "Mains",
+      "ingredients": [
+        "1.5 tbsp oil ((vegetable, canola))",
+        "2  garlic cloves (, minced)",
+        "2 tsp ginger (, grated)",
+        "1/2  onion  (, finely chopped)",
+        "500g / 1lb  chicken thighs, sliced ((Note 1))",
+        "2.5 tbsp curry powder ((Note 2))",
+        "270 ml / 1.25 cups  coconut milk (, full fat (9 oz) (Note 3))",
+        "1.5 cups (375 ml)  chicken stock low sodium",
+        "1/2 tsp salt",
+        "3/4 cup frozen peas",
+        "1/4 cup coriander / cilantro leaves (, chopped)"
+      ],
+      "rating": {
+        "value": 4.9,
+        "best": 5,
+        "worst": 1,
+        "count": 238,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.recipetineats.com/tachyon/2019/03/Best-easy-Chicken-Curry_5.jpg",
+      "checkedAt": "2026-10-24T14:26:15.045Z"
+    },
+    {
+      "id": "recipetineats-golden-coconut-chicken-curry",
+      "source": "recipetineats",
+      "url": "https://www.recipetineats.com/golden-coconut-chicken-curry/",
+      "title": "Golden coconut chicken curry",
+      "author": "",
+      "cuisine": "Asian, Indian",
+      "category": "Mains",
+      "ingredients": [
+        "3 tbsp coconut oil (, vegetable or canola oil (Note 1))",
+        "3  star anise",
+        "1  cinnamon stick",
+        "1  onion (, finely diced)",
+        "500g / 1lb  chicken thigh fillets (, cut into small 1cm / 1/3\" slices (Note 2 options!))",
+        "1 tsp garlic (, finely grated)",
+        "1 tsp ginger (, finely grated)",
+        "3 tsp turmeric (, finely grated (sub 1 1/2 tsp powder, Note 3))",
+        "2 cups chicken stock/broth (, low sodium)",
+        "400g / 14 oz   coconut cream (, unsweetened (sub coconut milk, Note 4))",
+        "1  large head broccoli (, florets cut small (can use stem too - peel & dice), or other veg (4 heaped cups))",
+        "1 cup coriander/cilantro leaves (, lightly packed, plus extra for garnish (I'd still make without this))",
+        "1 1/2 tsp cooking/kosher salt",
+        "1 1/2 tsp garam masala ((Note 5))",
+        "1 1/2 tsp coriander powder",
+        "1/2 tsp cumin powder",
+        "1/2 tsp fennel powder ((sub more garam masala))",
+        "Crispy fried shallots (, store bought, for garnish (Note 6))",
+        "Rice"
+      ],
+      "rating": {
+        "value": 4.75,
+        "best": 5,
+        "worst": 1,
+        "count": 129,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.recipetineats.com/tachyon/2023/09/Chicken-broccoli-coconut-curry_3.jpg",
+      "checkedAt": "2026-10-24T14:26:15.820Z"
+    },
+    {
+      "id": "recipetineats-spaghetti-bolognese",
+      "source": "recipetineats",
+      "url": "https://www.recipetineats.com/spaghetti-bolognese/",
+      "title": "Spaghetti Bolognese",
+      "author": "Nagi | RecipeTin Eats",
+      "cuisine": "Italian, Western",
+      "category": "Dinner",
+      "ingredients": [
+        "1 1/2 tbsp olive oil",
+        "2  garlic cloves (, minced)",
+        "1  onion (, finely chopped (brown, yellow or white))",
+        "1 lb / 500g   beef mince (ground beef) (OR half pork, half beef (Note 1))",
+        "1/2 cup (125 ml)  dry red wine ((sub water or beef broth/stock))",
+        "2  beef bouillon cubes (, crumbled OR granulated beef bouillon (Note 2))",
+        "800g / 28 oz  can crushed tomato ((or tomato passata))",
+        "2 tbsp tomato paste",
+        "2 tsp white sugar (, if needed (Note 3))",
+        "2 tsp Worcestershire sauce",
+        "2  dried bay leaves",
+        "2  sprigs fresh thyme ((or 1/2 tsp dried thyme or oregano))",
+        "3/4 tsp cooking salt (kosher salt)",
+        "1/2 tsp black pepper",
+        "400 g / 13 oz   spaghetti (, dried)",
+        "Parmesan cheese (and finely chopped parsley (optional))"
+      ],
+      "rating": {
+        "value": 4.97,
+        "best": 5,
+        "worst": 1,
+        "count": 478,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.recipetineats.com/tachyon/2018/07/Spaghetti-Bolognese.jpg",
+      "checkedAt": "2026-10-24T14:26:16.272Z"
+    },
+    {
+      "id": "goodfood-recipes-home-style-chicken-curry",
+      "source": "goodfood",
+      "url": "https://www.bbcgoodfood.com/recipes/home-style-chicken-curry",
+      "title": "Home-style chicken curry",
+      "author": "Roopa Gulati",
+      "cuisine": "Indian",
+      "category": "Dinner, Main course",
+      "ingredients": [
+        "1 large onion",
+        "6 garlic cloves roughly chopped",
+        "50g ginger roughly chopped",
+        "4 tbsp vegetable oil",
+        "2 tsp cumin seeds",
+        "1 tsp fennel seeds",
+        "5cm cinnamon stick",
+        "1 tsp chilli flakes",
+        "1 tsp garam masala",
+        "1 tsp turmeric",
+        "1 tsp caster sugar",
+        "400g can chopped tomatoes",
+        "8 chicken thighs skinned, boneless (about 800g)",
+        "250ml hot chicken stock",
+        "2 tbsp chopped coriander"
+      ],
+      "rating": null,
+      "photoUrl": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-908515_10-0551430.jpg?resize=440,400",
+      "checkedAt": "2026-10-24T14:26:16.386Z"
+    },
+    {
+      "id": "goodfood-recipes-easy-chicken-curry",
+      "source": "goodfood",
+      "url": "https://www.bbcgoodfood.com/recipes/easy-chicken-curry",
+      "title": "Easy chicken curry",
+      "author": "Esther Clark",
+      "cuisine": "",
+      "category": "Dinner, Main course",
+      "ingredients": [
+        "2 tbsp sunflower oil",
+        "1 onion thinly sliced",
+        "2 garlic cloves crushed",
+        "thumb-sized piece of ginger grated",
+        "6 chicken thighs boneless and skinless",
+        "3 tbsp medium spice paste (tikka works well)",
+        "400g can chopped tomatoes",
+        "100g Greek yogurt",
+        "1 small bunch of coriander leaves chopped",
+        "50g ground almonds",
+        "naan breads or cooked basmati rice, to serve"
+      ],
+      "rating": null,
+      "photoUrl": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/easy-chicken-curry-aa22a0b.jpg?resize=440,400",
+      "checkedAt": "2026-10-24T14:26:16.452Z"
+    },
+    {
+      "id": "budgetbytes-easy-sesame-chicken",
+      "source": "budgetbytes",
+      "url": "https://www.budgetbytes.com/easy-sesame-chicken/",
+      "title": "Easy Sesame Chicken",
+      "author": "Beth Moncel",
+      "cuisine": "Asian",
+      "category": "Dinner, Main Course",
+      "ingredients": [
+        "¼ cup soy sauce ($0.20)",
+        "2 Tbsp water ($0.00)",
+        "1 Tbsp toasted sesame oil ($0.32)",
+        "3 Tbsp brown sugar** ($0.30)",
+        "1 Tbsp rice vinegar ($0.14)",
+        "1 tsp grated fresh ginger*** ($0.10)",
+        "2 cloves garlic, minced ($0.08)",
+        "½ Tbsp cornstarch ($0.03)",
+        "1 Tbsp sesame seeds ($0.10)",
+        "2 Tbsp cooking oil ($0.08)",
+        "1 lb boneless skinless chicken thighs* ($3.48)",
+        "1 large egg ($0.67)",
+        "2 Tbsp cornstarch ($0.06)",
+        "1 pinch each salt and pepper ($0.05)",
+        "4 cups cooked jasmine rice ($0.97)",
+        "2 whole green onions ($0.20)"
+      ],
+      "rating": {
+        "value": 4.53,
+        "best": 5,
+        "worst": 1,
+        "count": 486,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.budgetbytes.com/wp-content/uploads/2018/07/Sesame-Chicken-Overhead.jpg",
+      "checkedAt": "2026-10-24T14:26:19.090Z"
+    },
+    {
+      "id": "budgetbytes-easy-orange-chicken",
+      "source": "budgetbytes",
+      "url": "https://www.budgetbytes.com/easy-orange-chicken/",
+      "title": "Easy Orange Chicken",
+      "author": "Beth Moncel",
+      "cuisine": "American, Chinese",
+      "category": "Dinner, Main Course",
+      "ingredients": [
+        "1 large orange ($0.70)",
+        "3 Tbsp soy sauce ($0.15)",
+        "1½ Tbsp brown sugar ($0.05)",
+        "½ Tbsp rice vinegar ($0.06 *)",
+        "1 tsp fresh ginger (grated, $0.10)",
+        "1 garlic clove (minced, $0.04)",
+        "¼ tsp crushed red pepper flakes ($0.02)",
+        "½ Tbsp corn starch ($0.03)",
+        "4 chicken thighs (boneless, skinless, (about 1.3 lbs.) $4.64 **)",
+        "1 large egg ($0.67)",
+        "2 Tbsp corn starch ($0.12)",
+        "1 pinch salt ($0.02)",
+        "1 pinch black pepper (freshly cracked, $0.03)",
+        "2 Tbsp cooking oil ($0.08 ***)",
+        "4 cups cooked rice ($0.97)",
+        "2 green onions (sliced, $0.20)"
+      ],
+      "rating": {
+        "value": 4.61,
+        "best": 5,
+        "worst": 1,
+        "count": 68,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.budgetbytes.com/wp-content/uploads/2017/02/Orange-Chicken-Bowl.jpg",
+      "checkedAt": "2026-10-24T14:26:19.188Z"
+    },
+    {
+      "id": "196flavors-korma",
+      "source": "196flavors",
+      "url": "https://www.196flavors.com/korma/",
+      "title": "Korma",
+      "author": "",
+      "cuisine": "Indian",
+      "category": "Main Course",
+      "ingredients": [
+        "3 lbs chicken thighs ((boneless and skinless))",
+        "2 teaspoons vegetable oil",
+        "2 teaspoons garam masala",
+        "2 teaspoons curry powder",
+        "2 cloves garlic (, pressed)",
+        "½ teaspoon salt",
+        "½ teaspoon black pepper ((freshly ground))",
+        "3  white onions (, peeled and quartered)",
+        "6 cloves garlic (, peeled)",
+        "4 teaspoons curry powder",
+        "1 teaspoon ground turmeric",
+        "1 teaspoon cumin",
+        "1 teaspoon garam masala",
+        "¼ teaspoon ground cardamom",
+        "1 teaspoon salt",
+        "1 teaspoon black pepper",
+        "½ teaspoon ground coriander",
+        "½ teaspoon cinnamon",
+        "⅛ teaspoon freshly grated nutmeg",
+        "3 tablespoons vegetable oil",
+        "3 large tomatoes (, peeled, seeded and cut into small cubes)",
+        "1 tablespoon ginger root (, freshly grated )",
+        "1½ oz ground almonds",
+        "1 cup coconut milk ( canned unsweetened )",
+        "1 cup yogurt ((dahi))",
+        "1 cup cold water",
+        "½ small red hot pepper (, seeded and chopped)",
+        "1 tablespoon brown sugar",
+        "Blender"
+      ],
+      "rating": {
+        "value": 5,
+        "best": 5,
+        "worst": 1,
+        "count": 1,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.196flavors.com/wp-content/uploads/2020/09/korma-2-FP.jpeg",
+      "checkedAt": "2026-10-24T14:26:21.156Z"
+    },
+    {
+      "id": "chefkoch-rezepte-1582261265704130-Chicken-Curry-html",
+      "source": "chefkoch",
+      "url": "https://www.chefkoch.de/rezepte/1582261265704130/Chicken-Curry.html",
+      "title": "Chicken-Curry",
+      "author": "Gelöschter Benutzer",
+      "cuisine": "Deutsch",
+      "category": "Wok",
+      "ingredients": [
+        "600 g Hähnchenbrustfilet(s)",
+        "2 Zwiebel(n) (geschälte)",
+        "1 Paprikaschote(n), rote",
+        "1 Paprikaschote(n), gelbe",
+        "1 Lauchstange(n)",
+        "2 kleine Möhre(n)",
+        "400 ml Kokosmilch (ungesüßte)",
+        "150 g Joghurt",
+        "2 EL, gehäuft Currypulver (leicht gehäuft)",
+        "5 EL Tomatenmark",
+        "2 Knoblauchzehe(n)",
+        "Salz und Pfeffer",
+        "Paprikapulver"
+      ],
+      "rating": {
+        "value": 4.49,
+        "best": 5,
+        "worst": 0,
+        "count": 157,
+        "countType": "ratings"
+      },
+      "photoUrl": null,
+      "checkedAt": "2026-10-24T14:26:21.793Z"
+    },
+    {
+      "id": "chefkoch-rezepte-609611160895684-Chicken-Curry-html",
+      "source": "chefkoch",
+      "url": "https://www.chefkoch.de/rezepte/609611160895684/Chicken-Curry.html",
+      "title": "Chicken Curry von Flutra1",
+      "author": "",
+      "cuisine": "Indisch",
+      "category": "Kochen",
+      "ingredients": [
+        "1 kg Hähnchenfleisch (in kleine Stücke geschnitten)",
+        "2 Zwiebel(n) (feingeschnitten)",
+        "300 g Joghurt",
+        "2 Knoblauchzehe(n) (gehackt oder gepresst je nach geschmack)",
+        "1.5 EL Ingwer (gehackten frischen oder Ingwerpulver)",
+        "50 ml Ghee (oder Öl)",
+        "2 TL Gewürzmischung (Garam Masala oder normales Currypulver)"
+      ],
+      "rating": {
+        "value": 3.21,
+        "best": 5,
+        "worst": 0,
+        "count": 19,
+        "countType": "ratings"
+      },
+      "photoUrl": null,
+      "checkedAt": "2026-10-24T14:26:21.980Z"
+    },
+    {
+      "id": "cookpad-eng-recipes-13434263",
+      "source": "cookpad",
+      "url": "https://cookpad.com/eng/recipes/13434263",
+      "title": "Chicken and Rice",
+      "author": "Adrianne Meszaros",
+      "cuisine": "American",
+      "category": "Main Dish",
+      "ingredients": [
+        "8 skinless chicken thighs (bone-in)",
+        "1/2 stick butter",
+        "1/4 cup canola oil",
+        "1 cup flour",
+        "1 tsp garlic powder",
+        "1 tsp onion powder",
+        "1 tsp thyme",
+        "1 tsp paprika",
+        "1 tsp salt",
+        "1/2 tsp pepper",
+        "1 1/2 cups Uncle Ben's white rice",
+        "1 medium onion chopped",
+        "4 stalks celery chopped",
+        "2 bay leaves",
+        "3 1/4 cups chicken broth"
+      ],
+      "rating": null,
+      "photoUrl": "https://img-global.cpcdn.com/recipes/0ca78213dafa92f0/1200x630cq80/photo.jpg",
+      "checkedAt": "2026-10-24T14:26:24.282Z"
+    },
+    {
+      "id": "cookpad-eng-recipes-2231815",
+      "source": "cookpad",
+      "url": "https://cookpad.com/eng/recipes/2231815",
+      "title": "Green chicken and rice",
+      "author": "fumble bunny",
+      "cuisine": "American",
+      "category": "Main Dish",
+      "ingredients": [
+        "1 can chicken or fresh beast of chicken",
+        "1 cup peas",
+        "Fresh spinach amount to your liking",
+        "Your choice of rice",
+        "Jalapeños",
+        "Seasoning your choice for flavor",
+        "Salt and pepper",
+        "Butter",
+        "Water"
+      ],
+      "rating": null,
+      "photoUrl": "https://img-global.cpcdn.com/recipes/274a619965b78385/1200x630cq80/photo.jpg",
+      "checkedAt": "2026-10-24T14:26:24.610Z"
+    },
+    {
+      "id": "justonecookbook-oyakodon",
+      "source": "justonecookbook",
+      "url": "https://www.justonecookbook.com/oyakodon/",
+      "title": "Oyakodon (Chicken and Egg Rice Bowl)",
+      "author": "",
+      "cuisine": "Japanese",
+      "category": "Main Dish",
+      "ingredients": [
+        "½ yellow onion ((4 oz, 113 g; peeled))",
+        "10 oz boneless, skinless chicken thighs ((1–2 thighs; substitute plant-based meat for vegetarian))",
+        "1 Tbsp sake ((substitute with Chinese rice wine or dry sherry, or omit))",
+        "3-4 large eggs (50 g each w/o shell)",
+        "½ cup dashi (Japanese soup stock)",
+        "2 Tbsp soy sauce",
+        "2 Tbsp mirin",
+        "2 tsp sugar",
+        "2 servings cooked Japanese short-grain rice ((⅔ cups or 250 g per serving))",
+        "4 sprigs mitsuba (Japanese parsley) ((or green onions))",
+        "shichimi togarashi (Japanese seven spice) ((optional))",
+        "Japanese sansho pepper ((optional))"
+      ],
+      "rating": {
+        "value": 4.72,
+        "best": 5,
+        "worst": 1,
+        "count": 657,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.justonecookbook.com/wp-content/uploads/2022/10/Oyakodon-0613-I.jpg",
+      "checkedAt": "2026-10-24T14:26:25.277Z"
+    },
+    {
+      "id": "justonecookbook-chicken-fried-rice",
+      "source": "justonecookbook",
+      "url": "https://www.justonecookbook.com/chicken-fried-rice/",
+      "title": "Japanese Chicken Rice",
+      "author": "",
+      "cuisine": "Japanese",
+      "category": "Main Dish",
+      "ingredients": [
+        "2 cups cooked Japanese short-grain rice ((2 big rice bowls; cooled; preferably day old))",
+        "6 oz chicken thigh",
+        "3 mushrooms",
+        "¼ yellow onion ((2.3 oz, 65 g))",
+        "2 Tbsp green peas ((thawed and warmed))",
+        "1 Tbsp unsalted butter",
+        "⅛ tsp Diamond Crystal kosher salt",
+        "⅛ tsp freshly ground black pepper",
+        "3 Tbsp ketchup",
+        "3 Tbsp tomato paste",
+        "2 Tbsp water"
+      ],
+      "rating": {
+        "value": 4.68,
+        "best": 5,
+        "worst": 1,
+        "count": 37,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.justonecookbook.com/wp-content/uploads/2026/10/Japanese-Chicken-Rice-5283-I.jpg",
+      "checkedAt": "2026-10-24T14:26:25.385Z"
+    },
+    {
+      "id": "maangchi-recipe-kimchi-bokkeumbap",
+      "source": "maangchi",
+      "url": "https://www.maangchi.com/recipe/kimchi-bokkeumbap",
+      "title": "Kimchi fried rice (Kimchi-bokkeumbap)",
+      "author": "",
+      "cuisine": "Korean",
+      "category": "Fried rice",
+      "ingredients": [
+        "3 bowls steamed rice (3 cups)",
+        "1 cup chopped kimchi (should be aged, well-fermented and sour)",
+        "¼ cup kimchi juice",
+        "¼ cup water",
+        "2-3 tablespoons gochujang",
+        "3 teaspoons toasted sesame oil",
+        "1 teaspoon vegetable oil",
+        "1 green onion, chopped",
+        "1 tablespoon roasted sesame seeds",
+        "1 sheet of gim, roasted and shredded"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-24T14:26:25.588Z"
+    },
+    {
+      "id": "196flavors-pho-soup",
+      "source": "196flavors",
+      "url": "https://www.196flavors.com/pho-soup/",
+      "title": "Phở (Vietnamese Noodle Soup)",
+      "author": "",
+      "cuisine": "Asian, Vietnamese",
+      "category": "Soup",
+      "ingredients": [
+        "1 lb short ribs with bone",
+        "4 slices ox tail",
+        "2  marrow bones",
+        "3  scallions (, cut in halves)",
+        "1 whole star anise",
+        "1  whole nutmeg",
+        "1 stick cinnamon",
+        "5 whole cloves",
+        "5 pods cardamom",
+        "½ lb daikon (, julienned)",
+        "8 oz. rice noodles ((ideally bánh phở))",
+        "Soybean sprouts",
+        "10  scallions",
+        "½ bunch mint",
+        "½ bunch cilantro",
+        "½ bunch Thai basil",
+        "2 lb round ((sirloin, or shank))",
+        "3  limes",
+        "2  hot peppers"
+      ],
+      "rating": {
+        "value": 3.6,
+        "best": 5,
+        "worst": 1,
+        "count": 5,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.196flavors.com/wp-content/uploads/2012/12/vietnamese-pho-soup-2-FP.jpg",
+      "checkedAt": "2026-10-24T14:26:27.170Z"
+    },
+    {
+      "id": "woksoflife-classic-chicken-fried-rice",
+      "source": "woksoflife",
+      "url": "https://thewoksoflife.com/classic-chicken-fried-rice/",
+      "title": "Chicken Fried Rice",
+      "author": "",
+      "cuisine": "Chinese",
+      "category": "Rice",
+      "ingredients": [
+        "8 ounces chicken breast ((about 1 large, diced into ½-inch cubes))",
+        "1 teaspoon light soy sauce",
+        "1 teaspoon cornstarch",
+        "1/2 teaspoon sesame oil",
+        "1 teaspoon oil",
+        "1 tablespoon hot water",
+        "¼ teaspoon sugar",
+        "1 tablespoon light soy sauce ((or to taste))",
+        "1 teaspoon dark soy sauce",
+        "1 teaspoon salt ((or to taste))",
+        "1/8 teaspoon white pepper ((or to taste))",
+        "5 cups cooked rice",
+        "3 tablespoons canola oil ((divided))",
+        "2  eggs ((beaten))",
+        "1  medium onion ((diced))",
+        "1 cup fresh mung bean sprouts",
+        "1  scallion ((chopped))",
+        "1 tablespoon shaoxing wine"
+      ],
+      "rating": {
+        "value": 5,
+        "best": 5,
+        "worst": 1,
+        "count": 83,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://thewoksoflife.com/wp-content/uploads/2015/10/chicken-fried-rice-13-1.jpg",
+      "checkedAt": "2026-10-24T14:26:27.368Z"
+    },
+    {
+      "id": "woksoflife-hainanese-chicken-rice",
+      "source": "woksoflife",
+      "url": "https://thewoksoflife.com/hainanese-chicken-rice/",
+      "title": "Hainanese Chicken Rice",
+      "author": "Judy",
+      "cuisine": "Chinese",
+      "category": "Chicken and Poultry",
+      "ingredients": [
+        "1  small chicken ((3-3½ pounds/1.5kg, preferably buddhist-style with head and feet on, or organic))",
+        "1 tablespoon salt",
+        "12-14 cups water",
+        "4-5 slices ginger",
+        "2  whole scallions",
+        "Ice",
+        "2 ounces chicken fat ((taken from the cavity of the chicken))",
+        "1 teaspoon neutral oil ((such as vegetable, canola, or avocado oil))",
+        "4 cloves garlic ((minced))",
+        "3 cups uncooked white rice ((preferably jasmine rice, washed and drained))",
+        "Chicken stock ((from cooking the chicken))",
+        "2 teaspoons salt",
+        "4-inch piece ginger ((roughly chopped))",
+        "2 cloves garlic",
+        "3 tablespoons neutral oil ((such as vegetable, canola, or avocado oil))",
+        "1 pinch salt",
+        "1/4 cup water",
+        "1.25 ounce rock sugar ((2 sizable chunks, or substitute 2.5 tbsp granulated sugar))",
+        "1/4 cup dark soy sauce",
+        "3  fresh red chilies ((choose a chili with medium spice level; we used holland chilies) )",
+        "1.5-inch piece ginger",
+        "2 cloves garlic",
+        "1/4 teaspoon sesame oil",
+        "1/2 teaspoon salt",
+        "1/4 teaspoon sugar",
+        "1 tablespoon fresh lime juice ((1 tbsp/15ml = the juice of 1/2 lime))",
+        "1/2 teaspoon rice vinegar ((or white vinegar))",
+        "2 tablespoons broth from boiling the chicken ((or until a saucy consistency is achieved))"
+      ],
+      "rating": {
+        "value": 4.97,
+        "best": 5,
+        "worst": 1,
+        "count": 54,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://thewoksoflife.com/wp-content/uploads/2024/08/hainan-chicken-rice-25.jpg",
+      "checkedAt": "2026-10-24T14:26:27.462Z"
+    },
+    {
+      "id": "samsungfood-recipes-107d0df0f02d30543be801c7df948a4dd45",
+      "source": "samsungfood",
+      "url": "https://app.samsungfood.com/recipes/107d0df0f02d30543be801c7df948a4dd45",
+      "title": "Chicken Stew",
+      "author": "Jonathan Purvis",
+      "cuisine": "",
+      "category": "Dinner",
+      "ingredients": [
+        "1 red onion, finely chopped",
+        "Two carrots, finely chopped",
+        "Olive oil, for frying",
+        "1/4 stick butter",
+        "1 tbsp plain flour",
+        "Fresh thyme",
+        "Sea salt & freshly ground black pepper",
+        "Chives, finely cut",
+        "500g baby potatoes, cut in half",
+        "300g mushrooms, cut in half",
+        "450ml chicken stock",
+        "500g chicken thighs, skinless and boneless"
+      ],
+      "rating": {
+        "value": 5,
+        "best": 5,
+        "worst": 1,
+        "count": 2,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://art.whisk.com/image/upload/fl_progressive,h_600,w_800,c_fill/v1663503423/recipe/6330fc95f76691166ee091cdda232668.jpg",
+      "checkedAt": "2026-10-24T14:26:30.504Z"
+    },
+    {
+      "id": "swasthi-chicken-biryani-recipe",
+      "source": "swasthi",
+      "url": "https://www.indianhealthyrecipes.com/chicken-biryani-recipe/",
+      "title": "Chicken Biryani Recipe",
+      "author": "",
+      "cuisine": "Indian",
+      "category": "Main",
+      "ingredients": [
+        "½ kg (1.1 lbs) chicken ((skinless bone-in or boneless, large pieces such as thighs, drumsticks, legs or mix of all))",
+        "3 tablespoons plain yogurt ((curd or dahi))",
+        "1¼ tablespoons ginger garlic paste ((1 inch ginger & 4 garlic cloves crushed))",
+        "½ to ¾ teaspoon salt ((adjust to tase))",
+        "¼ teaspoon turmeric",
+        "½ to 1 teaspoon red chilli powder ((or paprika) (use less spicy variety))",
+        "½ to 1 tablespoon garam masala ((or biryani masala) (Refer notes))",
+        "1 tablespoon Lemon juice ((optional))",
+        "1 bay leaf ((tej patta))",
+        "4 green cardamoms ((choti elaichi))",
+        "6 cloves ((lavang))",
+        "1 inch cinnamon ((dalchini))",
+        "1 star anise ((chakri phool ))",
+        "¾ teaspoon shahi jeera ((caraway seeds) (substitute with cumin))",
+        "1 strand mace ((javitri, omit if you don't like))",
+        "2 cups basmati rice ((aged rice only))",
+        "2 tablespoon ghee (or Oil)",
+        "1 large onion (sliced thinly)",
+        "¼ to ½ cup mint leaves (chopped fine (about 15 leaves))",
+        "1 green chili ((slit or chopped))",
+        "¼ cup plain yogurt ((Indian curd))",
+        "¼ to ½ teaspoon red chili powder ((optional, for heat))",
+        "1 teaspoon garam masala ((or biryani masala))",
+        "3 cups water ((3½ cups for pot) (refer notes, more if needed ))",
+        "¾ teaspoon salt ((to stir in water))",
+        "2 tablespoon fried onions ((optional))",
+        "1 pinch saffron ((optional)(soaked in 2 tbsps hot milk))"
+      ],
+      "rating": {
+        "value": 4.99,
+        "best": 5,
+        "worst": 1,
+        "count": 1672,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/12/chicken-biryani-recipe.jpg",
+      "checkedAt": "2026-10-24T14:26:33.444Z"
+    },
+    {
+      "id": "swasthi-chicken-fried-rice-recipe",
+      "source": "swasthi",
+      "url": "https://www.indianhealthyrecipes.com/chicken-fried-rice-recipe/",
+      "title": "Chicken fried rice",
+      "author": "",
+      "cuisine": "Indo Chinese",
+      "category": "Main",
+      "ingredients": [
+        "3 cups cooked rice ((or ½ cup uncooked rice))",
+        "salt (as needed)",
+        "1 tablespoon garlic (chopped)",
+        "1 tablespoon soya sauce (organic (adjust to taste))",
+        "¾ to 1 teaspoon rice vinegar ((or apple cider vinegar))",
+        "¼ to ⅓ teaspoon sugar (optional)",
+        "¼ teaspoon crushed pepper ((or pepper))",
+        "2 tablespoon oil",
+        "1 to 2 green chilies ((optional) or any hot sauce as desired)",
+        "2 sprigs scallions or spring onions (or 1 small onion (greens & whites separated))",
+        "¼ to ½ cup bell peppers (chopped)",
+        "150 grams chicken (chopped to bite size)",
+        "1 egg (or ¾ tbsp corn starch or brine (refer notes))",
+        "½ teaspoon soya sauce",
+        "1 large pinch salt",
+        "1 large pinch crushed black pepper ((or powder))"
+      ],
+      "rating": {
+        "value": 4.97,
+        "best": 5,
+        "worst": 1,
+        "count": 109,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2019/05/chicken-fried-rice.jpg",
+      "checkedAt": "2026-10-24T14:26:35.048Z"
+    }
+  ],
+  "sources": [
+    {
+      "id": "allrecipes",
+      "name": "Allrecipes",
+      "hosts": [
+        "allrecipes.com"
+      ],
+      "collected": 0,
+      "attempts": [
+        {
+          "url": "https://www.allrecipes.com/recipe/46822/indian-chicken-curry-ii/",
+          "source": "allrecipes",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T14:26:17.954Z"
+        },
+        {
+          "url": "https://www.allrecipes.com/recipe/68532/curried-coconut-chicken/",
+          "source": "allrecipes",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T14:26:17.972Z"
+        },
+        {
+          "url": "https://www.allrecipes.com/recipe/20144/banana-banana-bread/",
+          "source": "allrecipes",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T14:26:17.987Z"
+        }
+      ]
+    },
+    {
+      "id": "goodfood",
+      "name": "BBC Good Food",
+      "hosts": [
+        "bbcgoodfood.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://www.bbcgoodfood.com/recipes/home-style-chicken-curry",
+          "finalUrl": "https://www.bbcgoodfood.com/recipes/home-style-chicken-curry",
+          "source": "goodfood",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:16.386Z"
+        },
+        {
+          "url": "https://www.bbcgoodfood.com/recipes/easy-chicken-curry",
+          "finalUrl": "https://www.bbcgoodfood.com/recipes/easy-chicken-curry",
+          "source": "goodfood",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:16.452Z"
+        }
+      ]
+    },
+    {
+      "id": "recipetineats",
+      "name": "RecipeTin Eats",
+      "hosts": [
+        "recipetineats.com"
+      ],
+      "collected": 3,
+      "attempts": [
+        {
+          "url": "https://www.recipetineats.com/chicken-curry/",
+          "finalUrl": "https://www.recipetineats.com/chicken-curry/",
+          "source": "recipetineats",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:15.045Z"
+        },
+        {
+          "url": "https://www.recipetineats.com/golden-coconut-chicken-curry/",
+          "finalUrl": "https://www.recipetineats.com/golden-coconut-chicken-curry/",
+          "source": "recipetineats",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:15.820Z"
+        },
+        {
+          "url": "https://www.recipetineats.com/spaghetti-bolognese/",
+          "finalUrl": "https://www.recipetineats.com/spaghetti-bolognese/",
+          "source": "recipetineats",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:16.272Z"
+        }
+      ]
+    },
+    {
+      "id": "seriouseats",
+      "name": "Serious Eats",
+      "hosts": [
+        "seriouseats.com"
+      ],
+      "collected": 0,
+      "attempts": [
+        {
+          "url": "https://www.seriouseats.com/raghavan-iyer-ultimate-chicken-curry-from-indian-cooking-unfolded",
+          "source": "seriouseats",
+          "status": "unavailable",
+          "reason": "Source HTTP 402",
+          "checkedAt": "2026-10-24T14:26:14.836Z"
+        }
+      ]
+    },
+    {
+      "id": "tasteatlas",
+      "name": "TasteAtlas",
+      "hosts": [
+        "tasteatlas.com"
+      ],
+      "collected": 0,
+      "attempts": [
+        {
+          "url": "https://www.tasteatlas.com/biryani",
+          "source": "tasteatlas",
+          "status": "unavailable",
+          "reason": "No unambiguous main Recipe metadata was available.",
+          "checkedAt": "2026-10-24T14:26:18.337Z"
+        }
+      ]
+    },
+    {
+      "id": "196flavors",
+      "name": "196 Flavors",
+      "hosts": [
+        "196flavors.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://www.196flavors.com/korma/",
+          "finalUrl": "https://www.196flavors.com/korma/",
+          "source": "196flavors",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:21.156Z"
+        },
+        {
+          "url": "https://www.196flavors.com/vietnam-pho/",
+          "finalUrl": "https://www.196flavors.com/pho-soup/",
+          "source": "196flavors",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:27.170Z"
+        }
+      ]
+    },
+    {
+      "id": "budgetbytes",
+      "name": "Budget Bytes",
+      "hosts": [
+        "budgetbytes.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://www.budgetbytes.com/easy-sesame-chicken/",
+          "finalUrl": "https://www.budgetbytes.com/easy-sesame-chicken/",
+          "source": "budgetbytes",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:19.090Z"
+        },
+        {
+          "url": "https://www.budgetbytes.com/easy-orange-chicken/",
+          "finalUrl": "https://www.budgetbytes.com/easy-orange-chicken/",
+          "source": "budgetbytes",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:19.188Z"
+        }
+      ]
+    },
+    {
+      "id": "cookpad",
+      "name": "Cookpad",
+      "hosts": [
+        "cookpad.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://cookpad.com/us/recipes/13434263-chicken-and-rice",
+          "finalUrl": "https://cookpad.com/eng/recipes/13434263",
+          "source": "cookpad",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:24.282Z"
+        },
+        {
+          "url": "https://cookpad.com/us/recipes/2231815-green-chicken-and-rice",
+          "finalUrl": "https://cookpad.com/eng/recipes/2231815",
+          "source": "cookpad",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:24.610Z"
+        }
+      ]
+    },
+    {
+      "id": "nyt",
+      "name": "NYT Cooking",
+      "hosts": [
+        "cooking.nytimes.com"
+      ],
+      "collected": 0,
+      "attempts": [
+        {
+          "url": "https://cooking.nytimes.com/recipes/1024645-chicken-biryani",
+          "source": "nyt",
+          "status": "unavailable",
+          "reason": "No unambiguous main Recipe metadata was available.",
+          "checkedAt": "2026-10-24T14:26:20.989Z"
+        }
+      ]
+    },
+    {
+      "id": "chefkoch",
+      "name": "Chefkoch",
+      "hosts": [
+        "chefkoch.de"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://www.chefkoch.de/rezepte/1582261265704130/Chicken-Curry.html",
+          "finalUrl": "https://www.chefkoch.de/rezepte/1582261265704130/Chicken-Curry.html",
+          "source": "chefkoch",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:21.793Z"
+        },
+        {
+          "url": "https://www.chefkoch.de/rezepte/609611160895684/Chicken-Curry.html",
+          "finalUrl": "https://www.chefkoch.de/rezepte/609611160895684/Chicken-Curry.html",
+          "source": "chefkoch",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:21.980Z"
+        }
+      ]
+    },
+    {
+      "id": "justonecookbook",
+      "name": "Just One Cookbook",
+      "hosts": [
+        "justonecookbook.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://www.justonecookbook.com/oyakodon/",
+          "finalUrl": "https://www.justonecookbook.com/oyakodon/",
+          "source": "justonecookbook",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:25.277Z"
+        },
+        {
+          "url": "https://www.justonecookbook.com/chicken-fried-rice/",
+          "finalUrl": "https://www.justonecookbook.com/chicken-fried-rice/",
+          "source": "justonecookbook",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:25.385Z"
+        }
+      ]
+    },
+    {
+      "id": "maangchi",
+      "name": "Maangchi",
+      "hosts": [
+        "maangchi.com"
+      ],
+      "collected": 1,
+      "attempts": [
+        {
+          "url": "https://www.maangchi.com/recipe/steamed-chicken-rice",
+          "source": "maangchi",
+          "status": "unavailable",
+          "reason": "The recipe is missing usable ingredients.",
+          "checkedAt": "2026-10-24T14:26:25.480Z"
+        },
+        {
+          "url": "https://www.maangchi.com/recipe/kimchi-bokkeumbap",
+          "finalUrl": "https://www.maangchi.com/recipe/kimchi-bokkeumbap",
+          "source": "maangchi",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:25.588Z"
+        }
+      ]
+    },
+    {
+      "id": "woksoflife",
+      "name": "The Woks of Life",
+      "hosts": [
+        "thewoksoflife.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://thewoksoflife.com/classic-chicken-fried-rice/",
+          "finalUrl": "https://thewoksoflife.com/classic-chicken-fried-rice/",
+          "source": "woksoflife",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:27.368Z"
+        },
+        {
+          "url": "https://thewoksoflife.com/hainanese-chicken-rice/",
+          "finalUrl": "https://thewoksoflife.com/hainanese-chicken-rice/",
+          "source": "woksoflife",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:27.462Z"
+        }
+      ]
+    },
+    {
+      "id": "swasthi",
+      "name": "Swasthi’s Recipes",
+      "hosts": [
+        "indianhealthyrecipes.com"
+      ],
+      "collected": 2,
+      "attempts": [
+        {
+          "url": "https://www.indianhealthyrecipes.com/chicken-biryani-recipe/",
+          "finalUrl": "https://www.indianhealthyrecipes.com/chicken-biryani-recipe/",
+          "source": "swasthi",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:33.444Z"
+        },
+        {
+          "url": "https://www.indianhealthyrecipes.com/chicken-fried-rice-recipe/",
+          "finalUrl": "https://www.indianhealthyrecipes.com/chicken-fried-rice-recipe/",
+          "source": "swasthi",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:35.048Z"
+        }
+      ]
+    },
+    {
+      "id": "supercook",
+      "name": "SuperCook",
+      "hosts": [
+        "supercook.com"
+      ],
+      "collected": 0,
+      "attempts": [
+        {
+          "url": "https://www.supercook.com/",
+          "source": "supercook",
+          "status": "unavailable",
+          "reason": "No unambiguous main Recipe metadata was available.",
+          "checkedAt": "2026-10-24T14:26:28.082Z"
+        }
+      ]
+    },
+    {
+      "id": "samsungfood",
+      "name": "Samsung Food",
+      "hosts": [
+        "samsungfood.com",
+        "app.samsungfood.com"
+      ],
+      "collected": 1,
+      "attempts": [
+        {
+          "url": "https://app.samsungfood.com/recipes/107d0df0f02d30543be801c7df948a4dd45",
+          "finalUrl": "https://app.samsungfood.com/recipes/107d0df0f02d30543be801c7df948a4dd45",
+          "source": "samsungfood",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:26:30.504Z"
+        }
+      ]
+    }
+  ]
+}

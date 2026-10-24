@@ -143,3 +143,27 @@ production API checks remain separate. Search indexing is disabled in the source
 Recipe source and photography attribution: [TheMealDB](https://www.themealdb.com/). [Official API guide](https://www.themealdb.com/docs_api_guide.php) · [Terms of use](https://www.themealdb.com/terms_of_use.php).
 
 Tasteit source code is an original prototype; third-party recipes and photographs retain their respective rights.
+
+## Your selected recipe websites
+
+[Open the selected-source collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html).
+New collection is restricted to the **16 websites named in your shared list**.
+The initial checked batch contains **21 recipes from 11 sites; 16 have a published
+recipe rating**. Allrecipes, Serious Eats, NYT Cooking, TasteAtlas and SuperCook
+have explicit collection gaps in this pass; dish/app ratings are not recipe votes.
+Source status, the original score scale, vote/review count and checked date remain
+visible. Full methods open at their original publisher; no instructions or reviews
+are copied. Earlier cookbook records and research are retained separately.
+
+The ingredient checklist includes **44 visually reviewed real reference photographs**
+from Wikimedia Commons, with file, creator and licence links. These photo sources
+are separate from the recipe-source restriction. Unknown ingredients, mixed
+alternatives and missing preparations display a clear photo gap. Images are
+identification references, not pictures of the exact products used by an author.
+The collection needs a connection; existing saved-kitchen offline support remains.
+
+`node scripts/collect-selected-recipes.mjs` collects the bounded seed list,
+checks every redirect/final publisher, parses the main Recipe JSON-LD and saves
+atomic progress checkpoints. It does not bypass blocked or subscription content.
+`data/selected-recipes.json` records the actual initial results and gaps;
+`data/ingredient-photos.json` records photo provenance and review status.
