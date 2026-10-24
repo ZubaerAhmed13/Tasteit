@@ -49,9 +49,14 @@ try {
   await b.page.waitForFunction(()=>document.querySelector('#cloud-status')?.textContent==='Synced');
 
   console.log('Offline readiness',await a.page.evaluate(async()=>({controller:!!navigator.serviceWorker.controller,caches:await caches.keys()})));
-  await a.context.setOffline(true);
-  await Promise.all([a.page.waitForEvent('load'),a.page.evaluate(()=>{setTimeout(()=>location.reload(),0);})]);
+  // Prove the fallback against a real connection refusal, without relying on
+  // an automation browser's global offline navigation implementation.
+  const port=server.address().port;
+  await new Promise(resolve=>{server.close(resolve);server.closeAllConnections();});
+  assert.equal(server.listening,false);await assert.rejects(fetch(base));
+  await a.page.reload();
   await a.page.locator('.recipe-title').getByText('Offline rice').waitFor();
+  await a.context.setOffline(true);
   await a.page.locator('.recipe-photo').click();
   await a.page.locator('[data-action=cook-done]').click();
   await a.page.locator('#cooking-note').fill('Cooked while offline');
@@ -62,6 +67,7 @@ try {
   await a.page.waitForFunction(()=>!new URL(location.href).searchParams.has('recipe'));
   await a.page.locator('#connection-status').filter({hasText:'offline'}).waitFor();
 
+  await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
   await b.page.locator('.recipe-photo').click();await b.page.locator('[data-action=favourite]').click();
   await b.page.keyboard.press('Escape');await b.page.waitForFunction(()=>!new URL(location.href).searchParams.has('recipe'));
   await b.page.locator('#sync-now').click();
@@ -86,4 +92,4 @@ try {
   assert.equal((await b.read()).saved['1'].cookedCount,1);
   assert.deepEqual(errors,[]);
   console.log('PASS continuity: opt-in account sync, offline reload/edit, conflict choice, isolation, cloud removal and mobile');
-} finally {await browser?.close();await new Promise(resolve=>server.close(resolve));DB.close();}
+} finally {await browser?.close();if(server.listening)await new Promise(resolve=>server.close(resolve));DB.close();}

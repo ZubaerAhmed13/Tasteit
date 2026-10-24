@@ -590,7 +590,7 @@ function continuityPanel() {
   const offlineLabels={ready:'Ready offline',preparing:'Preparing offline access…',update:'An app update is ready',unsupported:'Offline caching is not supported in this browser',unavailable:'Offline preparation could not finish — reconnect and reload'};
   return '<section class="panel continuity-panel" aria-label="Offline access and cloud sync"><h3>Your kitchen, wherever you cook</h3><p id="offline-status" class="panel-note">'+escapeHtml(offlineLabels[offlineState.status]||offlineLabels.preparing)+'</p>'+
     '<p class="panel-note">Saved recipe details, your kitchen and local edits work offline after preparation. Photos and new recipes need a connection. You can add Tasteit to your home screen through your browser menu.</p>'+
-    '<h4>Optional cloud sync</h4><p class="panel-note">Enable to sync your recipes, cooking notes, kitchen, plans, leftovers and taste choices with your private signed-in account. It works while Tasteit is open. Off keeps this browser’s data local; removing the cloud copy keeps this browser’s records.</p><div id="cloud-controls">'+cloudControls()+'</div></section>';
+    '<h4>Optional cloud sync</h4><p class="panel-note">Enable to sync your cookbook, pantry, shopping list, meal plans, cooking journal and timers, leftovers, research notes and taste preferences with your private signed-in account. It works while Tasteit is open. Off keeps this browser’s data local; removing the cloud copy keeps this browser’s records.</p><div id="cloud-controls">'+cloudControls()+'</div></section>';
 }
 function updateConnectionUI() {
   const root=document.getElementById('cloud-controls'),focused=document.activeElement?.id;
