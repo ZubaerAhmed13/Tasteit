@@ -66,3 +66,19 @@ test('a powdered reference cannot illustrate a sliced or cubed root',async()=>{
  const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
  assert.equal(ingredientPhoto('turmeric, sliced',p),null);assert.equal(ingredientPhoto('turmeric, cubed',p),null);
 });
+test('candied peel cannot use a whole citrus reference',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const row of ['candied orange peel','candied lemon peel','orange peel'])assert.equal(ingredientPhoto(row,p),null,row);
+});
+test('comma-separated food mixtures need every component represented together',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const row of ['oregano, salt, pepper','salt, oregano','oregano, salt'])assert.equal(ingredientPhoto(row,p),null,row);
+ assert.equal(ingredientPhoto('2 EL, gehäuft Currypulver (leicht gehäuft)',p)?.id,'curry-powder');
+ assert.equal(ingredientPhoto('2 cloves garlic, minced',p)?.id,'garlic');
+});
+test('canned ingredients require an explicitly reviewed canned reference',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('400g can chopped tomatoes',p),null);
+ assert.equal(ingredientPhoto('400g canned chopped tomatoes',p),null);
+ assert.equal(ingredientPhoto('1 cup coconut milk ( canned unsweetened )',p)?.id,'coconut-milk');
+});

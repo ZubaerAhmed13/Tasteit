@@ -482,7 +482,8 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Coconut milk in a bowl. It was bought canned."
+      "description": "Coconut milk in a bowl. It was bought canned.",
+      "form": "canned"
     },
     {
       "id": "celery",

@@ -167,10 +167,10 @@ public-release rights clearance remains separate.
 - [x] Four original TasteAtlas Recipe records added with recipe-specific published ratings, raw ingredient facts and source links; no dish scores substituted
 - [x] Collection now has 27 recipes across 12 selected publishers, including 21 rated recipes. New Allrecipes and Serious Eats probes returned HTTP 402; new NYT probes had no unambiguous main Recipe metadata. The four remaining source gaps stay explicit
 - [x] 33 additional ingredient references visually reviewed against original Commons file metadata, authors and licences, bringing the registry to 77 photographs
-- [x] 254 of 378 ingredient rows match; 124 remain visibly unresolved. All 184 previously matched rows retain a verified match; 51 gaps in the original 23 recipes are now covered
+- [x] 249 of 378 ingredient rows match; 129 remain visibly unresolved. 182 previously correct matches retain the same photo; two pre-existing canned-tomato rows now show a gap rather than a fresh-tomato reference. 51 other gaps in the original 23 recipes are now covered
 - [x] Regressions distinguish garlic clove units from the clove spice, allow a matching roasted-and-shredded reference and single chilled-and-cubed food, preserve actual alternatives, and reject sliced/cubed roots against powdered references
-- [x] All 183 Node tests, syntax and Worker build checks pass locally
-- [ ] One independent data/contract review and material fixes
+- [x] All 186 Node tests, syntax and Worker build checks pass locally
+- [x] One independent data/contract review; candied citrus peel and mixed seasoning defects reproduced before correction. A related pre-existing canned-tomato mismatch also corrected; canned coconut milk retains its verified reference
 - [ ] Six-suite Chromium/Firefox/WebKit matrix and three fresh Firefox continuity sessions
 - [ ] Publish the exact tested source, check live hashes/provenance and preserve owner-only access
 

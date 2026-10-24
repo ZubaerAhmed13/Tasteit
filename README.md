@@ -158,8 +158,8 @@ are copied. Earlier cookbook records and research are retained separately.
 
 The ingredient checklist includes **77 visually reviewed real reference photographs**
 from Wikimedia Commons, with file, creator and licence links. These photo sources
-are separate from the recipe-source restriction. **254 of 378 ingredient rows**
-have matching references; **124 remain unresolved**. Unknown ingredients, mixed
+are separate from the recipe-source restriction. **249 of 378 ingredient rows**
+have matching references; **129 remain unresolved**. Unknown ingredients, mixed
 alternatives and missing preparations display a clear photo gap. Images are
 identification references, not pictures of the exact products used by an author.
 The collection needs a connection; existing saved-kitchen offline support remains.
