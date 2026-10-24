@@ -94,3 +94,27 @@ test('cooking journal, reviewed quantities, session clearing and leftovers commi
     }
   }
 });
+test('taste form saves atomically and a failed write preserves the prior profile',async()=>{
+  for(const writes of [false,true]) {
+    const state=emptyStore();
+    const app=await appWithStore(state,writes);
+    await app.submit('taste-form',{cuisines:'Indian',avoidIngredients:'Aubergine'});
+    assert.equal(state.tasteProfile.cuisines.join(','),writes?'Indian':'');
+    assert.equal(state.tasteProfile.avoidIngredients.join(','),writes?'eggplant':'');
+    assert.ok(app.notices.some(text=>writes?/taste.*saved/i.test(text):/could not save.*taste/i.test(text)));
+  }
+});
+test('skipping suggestions changes only the profile and can be reversed',async()=>{
+  for(const writes of [false,true]) {
+    const state=emptyStore(),app=await appWithStore(state,writes);
+    state.saved['unit-1']={meal:app.meal,wanted:true};
+    await app.click('taste-hide','unit-1');
+    assert.equal(state.tasteProfile.hiddenRecipeIds.join(','),writes?'unit-1':'');
+    assert.equal(state.saved['unit-1'].wanted,true);
+    if(writes) {
+      await app.click('taste-show-hidden');
+      assert.equal(state.tasteProfile.hiddenRecipeIds.length,0);
+      assert.equal(state.saved['unit-1'].wanted,true);
+    }
+  }
+});

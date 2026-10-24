@@ -4,10 +4,11 @@ import { validCookingSessions } from './cooking.js';
 import { validShoppingState } from './shopping.js';
 import { validEditorialReviews } from './editorial.js';
 import { validKitchenState } from './kitchen-flow.js';
+import { emptyTasteProfile,validTasteProfile } from './personalisation.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
-  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {}, shoppingChecked: {}, shoppingExtras: [], editorialReviews: {}, shoppingStocked: {}, leftovers: [] };
+  return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {}, shoppingChecked: {}, shoppingExtras: [], editorialReviews: {}, shoppingStocked: {}, leftovers: [], tasteProfile:emptyTasteProfile() };
 }
 
 export function loadStore(storage) {
@@ -25,7 +26,8 @@ export function loadStore(storage) {
       shoppingExtras: validShoppingState(undefined,parsed.shoppingExtras) && parsed.shoppingExtras ? parsed.shoppingExtras : [],
       editorialReviews: validEditorialReviews(parsed.editorialReviews) && parsed.editorialReviews ? parsed.editorialReviews : {},
       shoppingStocked:validKitchenState(parsed.shoppingStocked,undefined) && parsed.shoppingStocked ? parsed.shoppingStocked : {},
-      leftovers:validKitchenState(undefined,parsed.leftovers) && parsed.leftovers ? parsed.leftovers : []
+      leftovers:validKitchenState(undefined,parsed.leftovers) && parsed.leftovers ? parsed.leftovers : [],
+      tasteProfile:validTasteProfile(parsed.tasteProfile) && parsed.tasteProfile ? parsed.tasteProfile : emptyTasteProfile()
     };
   } catch {
     return emptyStore();
@@ -173,7 +175,8 @@ export function exportBackup(store, now = new Date()) {
       ...(store.shoppingExtras === undefined ? {} : { shoppingExtras:store.shoppingExtras }),
       ...(store.editorialReviews === undefined ? {} : { editorialReviews:store.editorialReviews }),
       ...(store.shoppingStocked === undefined ? {} : { shoppingStocked:store.shoppingStocked }),
-      ...(store.leftovers === undefined ? {} : { leftovers:store.leftovers }) }
+      ...(store.leftovers === undefined ? {} : { leftovers:store.leftovers }),
+      ...(store.tasteProfile === undefined ? {} : { tasteProfile:store.tasteProfile }) }
   }, null, 2);
 }
 
@@ -184,7 +187,7 @@ export function parseBackup(text) {
   if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
     throw new Error('This is not a supported Tasteit backup.');
   }
-  const { pantry, saved, plan, planServings, cookingSessions, shoppingChecked, shoppingExtras, editorialReviews, shoppingStocked, leftovers } = backup.data;
+  const { pantry, saved, plan, planServings, cookingSessions, shoppingChecked, shoppingExtras, editorialReviews, shoppingStocked, leftovers, tasteProfile } = backup.data;
   if (!Array.isArray(pantry) || !saved || typeof saved !== 'object' || Array.isArray(saved) || !plan || typeof plan !== 'object' || Array.isArray(plan)) {
     throw new Error('The backup is missing its recipe, pantry or plan records.');
   }
@@ -195,6 +198,7 @@ export function parseBackup(text) {
   if (!validShoppingState(shoppingChecked,shoppingExtras)) throw new Error('The backup contains invalid shopping checklist records.');
   if (!validEditorialReviews(editorialReviews)) throw new Error('The backup contains invalid editorial research notes.');
   if (!validKitchenState(shoppingStocked,leftovers)) throw new Error('The backup contains invalid kitchen records.');
+  if (!validTasteProfile(tasteProfile)) throw new Error('The backup contains invalid taste preferences.');
   if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && validServings(n) === n))) {
     throw new Error('The backup contains invalid meal serving counts.');
   }
@@ -210,7 +214,8 @@ export function parseBackup(text) {
     ...(shoppingExtras === undefined ? {} : { shoppingExtras }),
     ...(editorialReviews === undefined ? {} : { editorialReviews }),
     ...(shoppingStocked === undefined ? {} : { shoppingStocked }),
-    ...(leftovers === undefined ? {} : { leftovers }) };
+    ...(leftovers === undefined ? {} : { leftovers }),
+    ...(tasteProfile === undefined ? {} : { tasteProfile }) };
 }
 
 export function createPersonalMeal(input, id) {

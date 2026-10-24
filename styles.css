@@ -503,6 +503,25 @@ h3 { font-size: 24px }
 .usage-row {display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.7fr);gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
 .usage-select {overflow-wrap:anywhere}
 .usage-select .panel-note {display:block;margin:6px 0 0 24px}
+.taste-panel {margin:26px 0}
+.taste-panel summary {cursor:pointer;font-weight:700;font-size:18px}
+.taste-panel summary span {font-size:13px;font-weight:400;color:var(--muted);margin-left:12px}
+.taste-panel details > .panel-note {margin:14px 0}
+.taste-form {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.taste-form .dialog-actions {grid-column:1/-1;flex-wrap:wrap}
+.taste-collections {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:16px}
+.taste-collections .chip {max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.personal-empty {margin:28px 0}
+.personal-empty p {margin:10px 0 16px;max-width:680px}
+.personal-reasons {padding:0 18px 18px;border-top:1px solid var(--line)}
+.personal-reasons .eyebrow {display:block;margin-top:16px;font-size:10px}
+.personal-reasons ul {padding-left:18px;margin:8px 0;font-size:12px;line-height:1.6;color:var(--muted)}
+.personal-reasons .btn {margin-top:6px}
+@media(max-width:600px) {
+  .taste-form {grid-template-columns:minmax(0,1fr)}
+  .taste-panel summary span {display:block;margin:6px 0 0}
+  .personal-reasons {padding:0 12px 12px}
+}
 .leftover-row {display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 0;border-top:1px solid var(--line);flex-wrap:wrap}
 .leftover-row strong {overflow-wrap:anywhere}
 .purchase-row input[type=checkbox],.usage-row input[type=checkbox] {width:20px;height:20px;vertical-align:middle;accent-color:var(--forest)}

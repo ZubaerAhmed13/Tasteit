@@ -15,6 +15,7 @@ import { sourceImageTitles, commonsFileMetadata } from './source-media.js';
 import { recipeTitleIndex, possibleSourceMatches } from './source-overlap.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
+import { emptyTasteProfile,createTasteProfile,recommendRecipes } from './personalisation.js';
 
 const appRoot = document.getElementById('app');
 const overlayRoot = document.getElementById('overlay-root');
@@ -39,6 +40,8 @@ let searchTerm = '';
 let discoveryMode = 'featured';
 let filterDraft = null;
 let queryDraft = null;
+let tasteDraft = null;
+let tastePanelOpen = false;
 let kitchenSelection = [];
 let kitchenDirty = false;
 let kitchenShowAll = false;
@@ -422,7 +425,7 @@ function photo(meal) {
   const url = externalUrl(meal?.strMealThumb, true);
   return url ? '<img data-recipe-photo src="' + url + '" alt="' + escapeHtml(meal.strMeal) + '" loading="lazy" referrerpolicy="no-referrer">' : '<div class="card-picture-fallback" aria-hidden="true">🍲</div>';
 }
-function card(meal, kitchenExplanation = false) {
+function card(meal, kitchenExplanation = false, personalReasons = null) {
   const id = escapeHtml(meal.idMeal);
   const entry = savedEntry(meal.idMeal);
   const analysis = ingredientsOf(meal).length && store.pantry.length ? analyseMeal(meal, store.pantry) : null;
@@ -445,7 +448,8 @@ function card(meal, kitchenExplanation = false) {
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(mealCategory) + '</span></div>' +
     reason + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : 'PHOTO · THEMEALDB') + '</span>' +
-    '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div></article>';
+    '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div>' +
+    (personalReasons?'<div class="personal-reasons"><span class="eyebrow">WHY THIS DISH</span><ul>'+personalReasons.map(reason=>'<li>'+escapeHtml(reason)+'</li>').join('')+'</ul><button type="button" class="btn ghost small" data-action="taste-hide" data-id="'+id+'" aria-label="Not for me: '+escapeHtml(meal.strMeal)+'">Not for me</button></div>':'')+'</article>';
 }
 function cards(meals, kitchenExplanation = false) {
   return '<div class="recipe-grid">' + meals.map(meal => card(meal,kitchenExplanation)).join('') + '</div>';
@@ -458,16 +462,37 @@ function loadingBox() {
   return '<div class="loading-screen" role="status"><span class="spinner"></span>Gathering good things to cook...</div>';
 }
 
+function tastePreferences() {
+  const profile=store.tasteProfile||emptyTasteProfile();
+  const fields=tasteDraft||{cuisines:profile.cuisines.join(', '),avoidIngredients:profile.avoidIngredients.join(', ')};
+  const tags=collectionTags(store.saved).slice(0,6);
+  return '<section class="panel taste-panel" aria-label="Personalise your discovery"><details id="taste-preferences"'+(tastePanelOpen?' open':'')+'><summary>Your taste <span>Make suggestions yours</span></summary>'+
+    '<p class="panel-note">Your choices stay in this browser and shape suggestions only. Search still shows the full source selection. Taste preferences are not allergy filters.</p>'+
+    '<form id="taste-form" class="taste-form"><div class="field"><label for="taste-cuisines">Cuisines you enjoy</label><input id="taste-cuisines" name="cuisines" maxlength="650" value="'+escapeHtml(fields.cuisines)+'" placeholder="Indian, Turkish, Italian"><p class="panel-note">Up to 8, separated by commas.</p></div>'+
+    '<div class="field"><label for="taste-avoid">Ingredients you would rather skip</label><textarea id="taste-avoid" name="avoidIngredients" maxlength="1650" rows="2" placeholder="e.g. aubergine, olives">'+escapeHtml(fields.avoidIngredients)+'</textarea><p class="panel-note">Up to 20 names, separated by commas. Check each recipe yourself.</p></div>'+
+    '<div class="dialog-actions"><button type="submit" class="btn small">Save my taste</button>'+
+    (profile.hiddenRecipeIds.length?'<button type="button" class="btn secondary small" data-action="taste-show-hidden">Show skipped recipes ('+profile.hiddenRecipeIds.length+')</button>':'')+'</div></form></details>'+
+    (tags.length?'<div class="taste-collections" aria-label="Your curated collections"><span class="panel-note">Curated by you</span>'+tags.map(tag=>'<button type="button" class="chip" data-action="taste-collection" data-tag="'+escapeHtml(tag.name)+'">'+escapeHtml(tag.name)+' · '+tag.count+'</button>').join('')+'</div>':'')+'</section>';
+}
+function personalSuggestions(rows) {
+  const profile=store.tasteProfile||emptyTasteProfile();
+  if(!rows.length)return '<section class="personal-empty" aria-label="Personal recipe suggestions"><h2 id="personal-suggestions-title" tabindex="-1">Make your next meal yours.</h2><p class="panel-note">Save a dish, add ingredients to your kitchen or choose cuisines in Your taste to get suggestions. Skipped ingredients and recipes can limit this selection.</p>'+
+    (profile.hiddenRecipeIds.length?'<button type="button" class="btn secondary small" data-action="taste-show-hidden">Show skipped recipes ('+profile.hiddenRecipeIds.length+')</button>':'')+'</section>';
+  return '<section id="for-your-table" class="section" aria-labelledby="personal-suggestions-title"><div class="section-head"><div><div class="eyebrow">INSPIRED BY YOUR KITCHEN</div><h2 id="personal-suggestions-title" tabindex="-1">For your table</h2><p>Suggestions from this selection and your cookbook, with the reasons shown. Check quantities and each original recipe before cooking.</p></div></div><div class="recipe-grid">'+rows.map(row=>card(row.meal,false,row.reasons)).join('')+'</div></section>';
+}
+
 function discoverPage() {
   const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb, true));
   const heroPhoto = spotlight ? photo(spotlight) : '<div class="hero-placeholder" aria-hidden="true">🍝</div>';
   const label = discoveryMode==='pantry'?'Ideas from your kitchen':category!=='All'?category+' recipes':area!=='All'?area+' recipes':searchTerm?'Search results':browseLetter?'Recipes beginning with '+browseLetter:'Discover something delicious';
   const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
-  const nextToTry = rankByKitchen(Object.values(store.saved).filter(entry => entry.wanted && entry.meal).map(entry => entry.meal),store.pantry).slice(0,4);
   const filters=normaliseFilters(currentRoute());
   const draft=filterDraft || filters;
   const applied=filterSummary(filters);
+  const showPersonal=!applied.length && discoveryMode!=='pantry';
+  const recommendations=showPersonal?recommendRecipes(loading?[]:activeMeals,store.saved,store.pantry,store.tasteProfile||emptyTasteProfile()):[];
+  const recommendedIds=new Set(recommendations.map(row=>row.meal.idMeal));
   const option=(value,label,selected)=>'<option value="'+escapeHtml(value)+'"'+(selected?' selected':'')+'>'+escapeHtml(label)+'</option>';
   const categoryOptions=[...new Set([...categories.filter(c=>c!=='All'),...(draft.category?[draft.category]:[])])];
   const filterControls=discoveryMode==='pantry'?'':'<form id="discovery-filters" class="discovery-filters" aria-label="Filter recipes">'+
@@ -497,7 +522,7 @@ function discoverPage() {
       (!kitchenSelection.length || loading ? ' disabled' : '') + '>Update recipe ideas →</button></div>' +
     '<p class="panel-note">Recipes come from TheMealDB or your saved cookbook. This is a shortlist, not an exhaustive search. Ingredient names and available amounts may require checking.</p></section>' : '';
   const visibleMeals = discoveryMode === 'pantry'
-    ? filterKitchenRecipes(activeMeals,store.pantry,kitchenReadiness) : activeMeals;
+    ? filterKitchenRecipes(activeMeals,store.pantry,kitchenReadiness) : activeMeals.filter(meal=>!recommendedIds.has(meal.idMeal));
   const kitchenReadinessChips = discoveryMode === 'pantry'
     ? '<div class="kitchen-readiness" role="group" aria-label="Filter recipes by kitchen ingredient availability">' +
       [['all','All ideas'],['names','All ingredient names on hand'],['amounts','Measured amounts appear sufficient']].map(([key,label]) =>
@@ -507,7 +532,7 @@ function discoverPage() {
       '<p class="panel-note" role="status">Showing ' + visibleMeals.length + ' of ' + activeMeals.length +
       ' suggestions. These are inventory estimates, not confirmation of food safety or allergy suitability.</p></div>' : '';
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
-    visibleMeals.length ? cards(visibleMeals, discoveryMode === 'pantry') :
+    visibleMeals.length ? cards(visibleMeals, discoveryMode === 'pantry') : recommendations.length?'<p class="panel-note">This selection is on your table above. Explore a cuisine or search for another dish.</p>':
     (discoveryMode === 'pantry' && activeMeals.length ? empty('🥕', 'Nothing meets that match filter', 'Try All ideas, or add the missing ingredients to your kitchen.', '<button class="btn" type="button" data-action="kitchen-readiness" data-readiness="all">Show all ideas</button>') : empty('🔎', serviceWarning ? 'No recipes returned by available sources' : 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>'));
   return '<section class="hero'+(applied.length || discoveryMode==='pantry'?' browsing':'')+'"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
     '<p class="lead">Discover food from different cultures, collect your favourite meals, and find inspiration in the ingredients you already own.</p>' +
@@ -517,7 +542,7 @@ function discoverPage() {
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
     '<button type="button" class="feature-card" data-nav="library"><span class="feature-icon" aria-hidden="true">♡</span><div><b>My cookbook</b><span>' + countSaved + ' saved or cooked recipes</span></div></button>' +
     '<button type="button" class="feature-card" data-action="suggest"><span class="feature-icon" aria-hidden="true">✦</span><div><b>What can I make?</b><span>Find recipes using my ingredients</span></div></button></div>' +
-    (nextToTry.length && !applied.length && discoveryMode!=='pantry' ? '<section class="section"><div class="section-head"><div><div class="eyebrow">PICKED BY YOU</div><h2>Next on your menu</h2><p>Saved dishes to try, prioritising confirmed available amounts, then ingredient overlap.</p></div><button class="btn ghost small" type="button" data-nav="library">See all →</button></div>' + cards(nextToTry) + '</section>' : '') +
+    (showPersonal?tastePreferences()+personalSuggestions(recommendations):'') +
     '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
     filterControls + kitchenPicker + kitchenReadinessChips + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
@@ -964,11 +989,13 @@ function worldPage() {
 }
 
 function render() {
+  const tasteDetails=document.getElementById('taste-preferences');
+  if(tasteDetails)tastePanelOpen=tasteDetails.open;
   const purchaseForm=document.getElementById('purchase-review-form');
   const purchaseIdentity=purchaseForm?.dataset.reviewId;
   const purchaseFields=captureFields(purchaseForm);
   const active=document.activeElement;
-  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter'].includes(active?.id)
+  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter','taste-cuisines','taste-avoid'].includes(active?.id)
     ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
@@ -1220,6 +1247,22 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
+  if(action==='taste-hide' || action==='taste-show-hidden') {
+    const profile=store.tasteProfile||emptyTasteProfile();
+    if(action==='taste-hide' && (!findMeal(id) || profile.hiddenRecipeIds.includes(id)))return;
+    try {
+      const next=createTasteProfile({...profile,hiddenRecipeIds:action==='taste-hide'?[...profile.hiddenRecipeIds,id]:[]});
+      if(!persistStore({...store,tasteProfile:next})){notice('Could not save your taste preferences. Nothing changed.');return;}
+      store.tasteProfile=next;render();
+      document.getElementById('personal-suggestions-title')?.focus({preventScroll:true});
+      notice(action==='taste-hide'?'Recipe skipped in suggestions. Your cookbook is unchanged.':'Skipped recipes are back in suggestions.');
+    } catch(error){notice(error.message||'Could not update your taste preferences.');}
+    return;
+  }
+  if(action==='taste-collection') {
+    libraryTab='all';libraryTag=button.dataset.tag||'';librarySearch='';
+    changeView('library');return;
+  }
   if (action === 'world-review-focus') {
     worldResearchFocus='country-category';
     worldResearchQuery='';worldResearchTag='';worldResearchStatus='all';worldResearchPage=0;
@@ -1507,6 +1550,9 @@ document.addEventListener('click', async event => {
 });
 
 document.addEventListener('input', event => {
+  if(['taste-cuisines','taste-avoid'].includes(event.target.id)) {
+    tasteDraft={cuisines:document.getElementById('taste-cuisines').value,avoidIngredients:document.getElementById('taste-avoid').value};
+  }
   if(event.target.id==='recipe-search')queryDraft=event.target.value;
   if(['discover-cuisine','discover-category','discover-letter'].includes(event.target.id)) {
     filterDraft={...(filterDraft || normaliseFilters(currentRoute())),[event.target.name]:event.target.value};
@@ -1522,6 +1568,18 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if(event.target.id==='taste-form') {
+    event.preventDefault();
+    try {
+      const fields=Object.fromEntries(new FormData(event.target));
+      const profile=createTasteProfile({...fields,hiddenRecipeIds:store.tasteProfile?.hiddenRecipeIds||[]});
+      if(!persistStore({...store,tasteProfile:profile})){notice('Could not save your taste preferences. Your previous choices are unchanged.');return;}
+      store.tasteProfile=profile;tasteDraft=null;render();
+      document.getElementById('taste-form')?.querySelector('button[type=submit]')?.focus();
+      notice('Your taste preferences are saved.');
+    } catch(error){notice(error.message||'Check your taste preferences.');}
+    return;
+  }
   if(event.target.id==='purchase-review-form') {
     event.preventDefault();if(!purchaseDraft)return;
     const input=Object.fromEntries(new FormData(event.target));
@@ -1768,6 +1826,7 @@ document.addEventListener('change', async event => {
       store.editorialReviews = restored.editorialReviews || {};
       store.shoppingStocked = restored.shoppingStocked || {};
       store.leftovers = restored.leftovers || [];
+      store.tasteProfile = restored.tasteProfile || emptyTasteProfile();tasteDraft=null;
       showRecipeForm = false; editingRecipeId = null;
       render(); notice('Your Tasteit backup has been restored.');
     } catch (error) { notice(error.message || 'Import failed.'); }
@@ -1848,6 +1907,7 @@ window.addEventListener('storage', event => {
   store.editorialReviews = fresh.editorialReviews;
   store.shoppingStocked = fresh.shoppingStocked;
   store.leftovers = fresh.leftovers;
+  store.tasteProfile = fresh.tasteProfile;tasteDraft=null;
   render();
 });
 
