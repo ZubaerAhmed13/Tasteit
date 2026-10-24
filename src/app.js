@@ -475,7 +475,7 @@ function tastePreferences() {
   const fields=tasteDraft||{cuisines:profile.cuisines.join(', '),avoidIngredients:profile.avoidIngredients.join(', ')};
   const tags=collectionTags(store.saved).slice(0,6);
   return '<section class="panel taste-panel" aria-label="Personalise your discovery"><details id="taste-preferences"'+(tastePanelOpen?' open':'')+'><summary id="taste-summary">Your taste <span>Make suggestions yours</span></summary>'+
-    '<p class="panel-note">Your choices stay in this browser and shape suggestions only. Search still shows the full source selection. Taste preferences are not allergy filters.</p>'+
+    '<p class="panel-note">Your choices shape suggestions and stay local unless you enable cloud sync. Search still shows the full source selection. Taste preferences are not allergy filters.</p>'+
     '<form id="taste-form" class="taste-form"><div class="field"><label for="taste-cuisines">Cuisines you enjoy</label><input id="taste-cuisines" name="cuisines" maxlength="650" value="'+escapeHtml(fields.cuisines)+'" placeholder="Indian, Turkish, Italian"><p class="panel-note">Up to 8, separated by commas.</p></div>'+
     '<div class="field"><label for="taste-avoid">Ingredients you would rather skip</label><textarea id="taste-avoid" name="avoidIngredients" maxlength="1650" rows="2" placeholder="e.g. aubergine, olives">'+escapeHtml(fields.avoidIngredients)+'</textarea><p class="panel-note">Up to 20 names, separated by commas. Check each recipe yourself.</p></div>'+
     '<div class="dialog-actions"><button id="taste-save" type="submit" class="btn small">Save my taste</button>'+
@@ -573,7 +573,7 @@ function personalRecipeForm() {
     '<div class="field wide"><label for="personal-ingredients">Ingredients * (one per line, optional amount after |)</label>' +
     '<textarea name="ingredients" id="personal-ingredients" required rows="7" placeholder="Rice | 2 cups&#10;Chicken | 500 g&#10;Onion | 2">' + escapeHtml(ingredientRows) + '</textarea></div>' +
     '<div class="field wide"><label for="personal-instructions">Cooking instructions *</label><textarea name="instructions" id="personal-instructions" required rows="7" maxlength="15000" placeholder="Describe the cooking steps in your own words...">' + escapeHtml(meal?.strInstructions || '') + '</textarea></div>' +
-    '<div class="field wide"><p class="panel-note">Your own recipes stay in this browser for now. Personal photo storage will come later; third-party photographs are not copied without permission.</p></div>' +
+    '<div class="field wide"><p class="panel-note">Your own recipes stay local unless you enable cloud sync. Personal photo storage will come later; third-party photographs are not copied without permission.</p></div>' +
     '<div class="field wide"><button class="btn" type="submit">' + (meal ? 'Save recipe changes' : '+ Add to my usual dishes') + '</button></div></form></section>';
 }
 function cloudControls() {
@@ -1233,7 +1233,7 @@ async function openMeal(id,{history=true,meal:provided}={}) {
   if(history)writeRoute({recipeOverlay:true});
   recipeStatus('Loading ingredients and instructions.');
   try {
-    if(id.startsWith('personal-') && !possible)throw new Error('This personal recipe is available only on the device where you saved or restored it.');
+    if(id.startsWith('personal-') && !possible)throw new Error('This personal recipe is not in this browser. Save, restore or sync it here first.');
     const meal=ingredientsOf(possible).length && possible.strInstructions?possible:await mealDetails(id,currentController.signal);
     if(request!==detailRequestNumber || currentController.signal.aborted)return;
     openingMealId='';selectedMeal=meal;
