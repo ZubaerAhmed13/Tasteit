@@ -171,8 +171,21 @@ public-release rights clearance remains separate.
 - [x] Regressions distinguish garlic clove units from the clove spice, allow a matching roasted-and-shredded reference and single chilled-and-cubed food, preserve actual alternatives, and reject sliced/cubed roots against powdered references
 - [x] All 186 Node tests, syntax and Worker build checks pass locally
 - [x] One independent data/contract review; candied citrus peel and mixed seasoning defects reproduced before correction. A related pre-existing canned-tomato mismatch also corrected; canned coconut milk retains its verified reference
-- [ ] Six-suite Chromium/Firefox/WebKit matrix and three fresh Firefox continuity sessions
-- [ ] Publish the exact tested source, check live hashes/provenance and preserve owner-only access
+- [x] Six-suite Chromium/Firefox/WebKit matrix and three fresh Firefox continuity sessions
+- [x] Publish the exact tested source, check live hashes/provenance and preserve owner-only access
+
+Verified application source: `61f30e5157891c9755fded38ae958f4fc3ec98b6`.
+[CI run 40107515083](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40107515083)
+passes all 186 Node tests, syntax/build checks and six browser suites in Chromium,
+Firefox and WebKit, including all three fresh Firefox continuity sessions.
+
+Private preview **version 5** was published successfully from Site source
+`c89064c576af39854041706e752af03300c4522b`. All 45 source assets and the provenance
+endpoint match the prepared Worker. The package preserves the Site identity, DB
+binding and all three generated migration files. Live collection HTML, dedicated
+CSS, three modules and both JSON registries match their SHA-256 hashes; live
+provenance identifies the tested application commit. Native access remains one
+owner and zero groups.
 
 Collection and photo coverage remain incomplete. Specific forms, mixed foods,
 unknown names and alternatives stay unresolved when an exact reference is absent.
