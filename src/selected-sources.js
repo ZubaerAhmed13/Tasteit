@@ -20,10 +20,10 @@ export function approvedSource(input) {
 const plain=(value,max=400)=>String(value??'').replace(/<[^>]*>/g,'').replaceAll('&amp;','&').replaceAll('&#39;',"'").replaceAll('&quot;','"').trim().slice(0,max);
 const types=node=>[].concat(node?.['@type']||[]).map(x=>String(x).replace(/^https?:\/\/schema.org\//,''));
 const pageKey=input=>{const u=safeHttps(input),source=u&&approvedSource(u.href);return source?source.id+u.pathname.replace(/\/$/,''):'';};
-function nodes(value,out=[],depth=0,refs=new Map(),pages=[]) {
+function nodes(value,out=[],depth=0,refs=new Map(),pages=[],ratings=[],images=[]) {
  if(depth>20||out.length>3000)return out;
- if(Array.isArray(value))for(const child of value)nodes(child,out,depth+1,refs,pages);
- else if(value&&typeof value==='object'){if(typeof value['@id']==='string'&&Object.keys(value).length>Object.keys(refs.get(value['@id'])||{}).length)refs.set(value['@id'],value);if(types(value).includes('Recipe'))out.push(value);if(types(value).includes('WebPage'))pages.push(value);for(const [key,child]of Object.entries(value))if(key!=='aggregateRating')nodes(child,out,depth+1,refs,pages);}
+ if(Array.isArray(value))for(const child of value)nodes(child,out,depth+1,refs,pages,ratings,images);
+ else if(value&&typeof value==='object'){if(typeof value['@id']==='string'&&Object.keys(value).length>Object.keys(refs.get(value['@id'])||{}).length)refs.set(value['@id'],value);if(types(value).includes('ImageObject'))images.push(value);if(types(value).includes('AggregateRating'))ratings.push(value);if(types(value).includes('Recipe'))out.push(value);if(types(value).includes('WebPage'))pages.push(value);for(const [key,child]of Object.entries(value))if(key!=='aggregateRating')nodes(child,out,depth+1,refs,pages,ratings,images);}
  return out;
 }
 function aggregate(input) {
@@ -35,6 +35,32 @@ function aggregate(input) {
  if(!Number.isFinite(value)||!Number.isFinite(best)||!Number.isFinite(worst)||best<=worst||value<worst||value>best||count!==null&&(!Number.isSafeInteger(count)||count<1))return null;
  return {value,best,worst,count,countType};
 }
+function maangchiIngredients(html) {
+ const headings=[...html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)];
+ const starts=headings.filter(h=>plain(h[1]).toLowerCase()==='ingredients');
+ if(starts.length!==1)throw new Error('No unambiguous complete ingredient section was available.');
+ const start=starts[0],end=headings.find(h=>h.index>start.index);
+ if(!end)throw new Error('No unambiguous complete ingredient section was available.');
+ const section=html.slice(start.index+start[0].length,end.index);
+ return [...section.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map(m=>plain(m[1].replace(/&nbsp;/gi,' ').replace(/&#(x[0-9a-f]+|[0-9]+);/gi,(_m,n)=>String.fromCodePoint(Number.parseInt(n.replace(/^x/i,''),/^x/i.test(n)?16:10))),350));
+}
+function recipeRating(input,ratings,url) {
+ if(!input||typeof input!=='object'||Array.isArray(input))return null;
+ if(input.ratingValue!==undefined)return aggregate(input);
+ if(typeof input['@id']!=='string')return null;
+ try {if(pageKey(new URL(input['@id'],url).href)!==pageKey(url))return null;}catch{return null;}
+ // Only the main recipe's explicit same-page reference may supply its score.
+ const matches=[...new Map(ratings.filter(x=>x['@id']===input['@id']).map(x=>[JSON.stringify(x),x])).values()];
+ return matches.length===1?aggregate(matches[0]):null;
+}
+function recipeImage(input,images) {
+ const first=[].concat(input||[])[0];
+ if(typeof first==='string')return first;
+ if(first?.url||first?.contentUrl)return first.url||first.contentUrl;
+ if(typeof first?.['@id']!=='string')return null;
+ const matches=[...new Map(images.filter(x=>x['@id']===first['@id']).map(x=>[JSON.stringify(x),x])).values()];
+ return matches.length===1?matches[0].url||matches[0].contentUrl:null;
+}
 export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
  const source=approvedSource(url);if(!source)throw new Error('Recipe source is not in the selected list.');
  if(typeof html!=='string'||html.length>8_000_000)throw new Error('Source page is missing or too large.');
@@ -45,10 +71,10 @@ export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
   let href=String(attributes.href||'').replace(/&amp;/gi,'&').replace(/&#(x[0-9a-f]+|[0-9]+);/gi,(_m,n)=>String.fromCodePoint(Number.parseInt(n.replace(/^x/i,''),/^x/i.test(n)?16:10)));
   if(!href||/&(?:[a-z]+|#)[^;]*;/i.test(href)||approvedSource(new URL(href,url).href)?.id!==source.id)throw new Error('The canonical publisher is outside this source.');
  }
- const recipes=[],refs=new Map(),pages=[],owned=new Set();
+ const recipes=[],refs=new Map(),pages=[],ratings=[],images=[],owned=new Set();
  for(const script of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
   try {
-   const document=JSON.parse(script[1]);nodes(document,recipes,0,refs,pages);
+   const document=JSON.parse(script[1]);nodes(document,recipes,0,refs,pages,ratings,images);
    for(const root of [].concat(document))if(types(root).includes('Recipe'))owned.add(JSON.stringify(root));
   }catch{ /* Malformed/other scripts cannot supply recipe facts. */ }
  }
@@ -78,14 +104,14 @@ export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
   }
   if(originals(recipe.isBasedOn).some(original=>!approvedSource(original)))throw new Error('The original recipe publisher is not selected.');
  }
- const title=plain(recipe.name,200),ingredients=Array.isArray(recipe.recipeIngredient)?recipe.recipeIngredient.filter(x=>typeof x==='string').map(x=>plain(x,350)):[];
+ const title=plain(recipe.name,200),ingredients=source.id==='maangchi'?maangchiIngredients(html):Array.isArray(recipe.recipeIngredient)?recipe.recipeIngredient.filter(x=>typeof x==='string').map(x=>plain(x,350)):[];
  if(!title||!ingredients.length||ingredients.length>100||ingredients.some(x=>!x))throw new Error('The recipe is missing usable ingredients.');
  const original=new URL(url);original.hash='';original.search='';
  const author=[].concat(recipe.author||[]).map(x=>plain(typeof x==='string'?x:x.name||refs.get(x['@id'])?.name,100)).filter(Boolean).join(', ').slice(0,300);
- const firstImage=[].concat(recipe.image||[])[0],image=typeof firstImage==='string'?firstImage:firstImage?.url||firstImage?.contentUrl;
+ const image=recipeImage(recipe.image,images);
  const record={id:source.id+'-'+original.pathname.replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,150),source:source.id,url:original.href,title,author,
   cuisine:[].concat(recipe.recipeCuisine||[]).map(x=>plain(x,80)).join(', '),category:[].concat(recipe.recipeCategory||[]).map(x=>plain(x,80)).join(', '),
-  ingredients,rating:aggregate(recipe.aggregateRating),photoUrl:safeHttps(image)?.href||null,checkedAt};
+  ingredients,rating:recipeRating(recipe.aggregateRating,ratings,url),photoUrl:safeHttps(image)?.href||null,checkedAt};
  return validateRecipe(record);
 }
 export function validateRecipe(record) {

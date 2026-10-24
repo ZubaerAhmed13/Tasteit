@@ -11,8 +11,8 @@ function reference(line) {
 }
 function recipeCard(r) {
  const source=SOURCES.find(s=>s.id===r.source),rating=r.rating;
- const count=rating?.count===null?'Count not published':rating?rating.count.toLocaleString()+' '+(rating.countType==='ratings'?'rating votes':'reviews'):'';
- const ratingText=rating?rating.value+' / '+rating.best:'Rating not published';
+ const count=rating?.count===null?'Vote count not collected':rating?rating.count.toLocaleString()+' '+(rating.countType==='ratings'?'rating votes':'reviews'):'';
+ const ratingText=rating?rating.value+' / '+rating.best:'Rating not collected';
  return '<article class="selected-card">'+(r.photoUrl?'<a class="selected-recipe-photo" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(r.photoUrl)+'" alt="'+esc(r.title)+' — original publisher photograph" loading="lazy" referrerpolicy="no-referrer"></a>':'')+
   '<div class="selected-card-content"><p class="eyebrow">'+esc(source.name)+'</p><h2>'+esc(r.title)+'</h2>'+(r.author?'<p class="panel-note">By '+esc(r.author)+'</p>':'')+
   '<p class="source-rating"><strong>'+esc(ratingText)+'</strong> <span>'+esc(count)+'</span></p><p class="panel-note">'+esc([r.cuisine,r.category].filter(Boolean).join(' · '))+'</p>'+link(r.url,'Open original recipe ↗','class="btn secondary"')+

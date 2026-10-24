@@ -148,24 +148,26 @@ Tasteit source code is an original prototype; third-party recipes and photograph
 
 [Open the selected-source collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html).
 New collection is restricted to the **16 websites named in your shared list**.
-The expanded checked batch contains **27 recipes from 12 sites; 21 have a published
-recipe rating**. Four TasteAtlas recipes now have recipe-specific scores. Allrecipes,
+The expanded checked batch contains **36 recipes from 12 sites; 28 have a published
+recipe rating**. Linked Maangchi scores retain their original vote counts; the full ingredient
+sections are checked because some embedded ingredient lists are incomplete. Allrecipes,
 Serious Eats, NYT Cooking and SuperCook still have collection gaps; dish/app ratings
 are not recipe votes.
 Source status, the original score scale, vote/review count and checked date remain
 visible. Full methods open at their original publisher; no instructions or reviews
 are copied. Earlier cookbook records and research are retained separately.
 
-The ingredient checklist includes **77 visually reviewed real reference photographs**
+The ingredient checklist includes **109 visually reviewed real reference photographs**
 from Wikimedia Commons, with file, creator and licence links. These photo sources
-are separate from the recipe-source restriction. **249 of 378 ingredient rows**
-have matching references; **129 remain unresolved**. Unknown ingredients, mixed
+are separate from the recipe-source restriction. **340 of 491 ingredient rows**
+have matching references; **151 remain unresolved**. Unknown ingredients, mixed
 alternatives and missing preparations display a clear photo gap. Images are
 identification references, not pictures of the exact products used by an author.
 The collection needs a connection; existing saved-kitchen offline support remains.
 
 `node scripts/collect-selected-recipes.mjs` collects the bounded seed list,
-checks every redirect/final publisher, parses the main Recipe JSON-LD and saves
+checks every redirect/final publisher, parses the main Recipe JSON-LD, follows explicit rating and photograph graph references,
+checks Maangchi’s full ingredient section and saves
 atomic progress checkpoints. It does not bypass blocked or subscription content.
 `data/selected-recipes.json` records the checked results and gaps;
 `data/ingredient-photos.json` records photo provenance and review status.

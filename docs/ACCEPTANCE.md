@@ -191,6 +191,28 @@ Collection and photo coverage remain incomplete. Specific forms, mixed foods,
 unknown names and alternatives stay unresolved when an exact reference is absent.
 Owner-signed-in hosted, physical-phone and assistive-technology checks remain open.
 
+## Third selected-source curation pass — 24 October 2026
+
+- [x] Nine source-linked recipes added from BBC Good Food, Maangchi and 196 Flavors; now 36 recipes across 12 of the selected 16 sites
+- [x] 28 collected recipe ratings: explicit same-page AggregateRating references are resolved; conflicting, unrelated or unlinked graph nodes remain excluded. Maangchi’s earlier kimchi recipe was refreshed from its original page
+- [x] Maangchi’s complete ingredient sections replace truncated structured ingredient lists, bounded before the next main section. Ingredients and ratings reproduce from ten saved original pages; instructions are excluded
+- [x] Missing rating copy says “not collected”, since a publisher may have a score that could not be safely collected. BBC’s conflicting rating evidence stays uncollected
+- [x] 32 additional real Commons references visually inspected with original-file, creator and licence evidence; registry now 109. 340 of 491 ingredient rows match and 151 remain unresolved
+- [x] Original 27 recipes gain 18 new supported row matches. Two unsupported toasted-sesame-oil references are now gaps; roasted sesame seeds use a separately reviewed toasted-seed photograph. All other old matches retain their photograph
+- [x] Explicit ImageObject graph references now supply the original recipe thumbnails; unrelated author images and ambiguous definitions stay excluded
+- [x] New regressions cover graph-linked ratings and images, complete source ingredients and numeric entities, plant versus base milk, plural cans, reviewed heated forms, comma preparation clauses and wine adjectives
+- [x] All 198 Node tests and syntax checks pass locally
+- [ ] One independent data/contract review and material fixes
+- [ ] Worker build, six browser suites per Chromium/Firefox/WebKit and three fresh Firefox continuity runs
+- [ ] Publish the exact tested source, verify live hashes/provenance and preserve owner-only access
+
+New Allrecipes retrieval still returned HTTP 402; Firecrawl reports that its scrape
+service does not support that publisher. Search snippets are discovery leads only.
+Allrecipes, Serious Eats, NYT Cooking and SuperCook remain collection gaps. No access
+restrictions were bypassed. Photo searches that returned rate limits were left
+unresolved. Public rights clearance, physical-device/accessibility checks and the
+owner-signed-in hosted walkthrough remain open.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed

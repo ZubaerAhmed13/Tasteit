@@ -82,3 +82,28 @@ test('canned ingredients require an explicitly reviewed canned reference',async(
  assert.equal(ingredientPhoto('400g canned chopped tomatoes',p),null);
  assert.equal(ingredientPhoto('1 cup coconut milk ( canned unsweetened )',p)?.id,'coconut-milk');
 });
+test('plural cans still require a canned reference',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();assert.equal(ingredientPhoto('2 cans cherry tomatoes',p),null);
+});
+test('unregistered plant and concentrated milks do not receive the base milk photo',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=(await actualRegistry()).filter(x=>x.id==='milk');
+ for(const line of ['125ml oat milk','1 cup almond milk','condensed milk'])assert.equal(ingredientPhoto(line,p),null,line);
+ assert.equal(ingredientPhoto('300ml semi-skimmed milk',p)?.id,'milk');
+});
+test('toasted and roasted references require an explicitly reviewed heated form',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=(await actualRegistry()).filter(x=>['sesame-seeds','sesame-oil','garlic','gim-roasted'].includes(x.id));
+ assert.equal(ingredientPhoto('toasted sesame seeds',p),null);
+ assert.equal(ingredientPhoto('toasted sesame oil',p),null);
+ assert.equal(ingredientPhoto('roasted garlic',p),null);
+ assert.equal(ingredientPhoto('roasted gim',p)?.id,'gim-roasted');
+});
+test('comma-separated preparation clauses keep one food while unknown food mixtures stay unresolved',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const [line,id] of [['garlic, optional','garlic'],['4 ounces spinach, washed and drained','spinach-leaf'],['1 carrot, cut into matchsticks','carrot'],['3 green onions, cut crosswise into 2 inch long pieces','scallion'],['ripe tomatoes, beaten and mashed','tomato']])assert.equal(ingredientPhoto(line,p)?.id,id,line);
+ for(const line of ['salt, chopped oregano','garlic and spinach','garlic, roasted and shredded'])assert.equal(ingredientPhoto(line,p),null,line);
+});
+test('wine adjectives separated by a comma do not become a food mixture',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),wine={...entry,id:'red-wine',aliases:['red wine'],form:'liquid'};
+ assert.equal(ingredientPhoto('1 bottle (750 ml) dry, full-bodied red wine',[wine])?.id,'red-wine');
+ assert.equal(ingredientPhoto('1 bottle dry, red wine, oregano',[wine]),null);
+});

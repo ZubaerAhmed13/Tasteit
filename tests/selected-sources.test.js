@@ -54,3 +54,40 @@ test('rating counts and their stated meaning must agree',async()=>{
  assert.throws(()=>validateRecipe({...r,rating:{...r.rating,countType:null}}),/rating/i);
  assert.throws(()=>validateRecipe({...r,rating:{...r.rating,count:null}}),/rating/i);
 });
+test('the main recipe can link its rating to a same-page AggregateRating graph node',async()=>{
+ const {extractRecipe}=await api(),u='https://www.maangchi.com/recipe/japchae',id='/recipe/japchae#sso/recipe/96/rating-aggregate/4-5/1389/1/5';
+ const main={...recipe,url:u,'@id':u+'#recipe',aggregateRating:{'@id':id}};
+ const score={'@type':'AggregateRating','@id':id,ratingValue:4.5,ratingCount:1389,bestRating:5,worstRating:1};
+ assert.deepEqual(extractRecipe(html({'@graph':[main,score]})+'<h2>Ingredients</h2><ul><li>rice</li></ul><h2>Directions</h2>',u).rating,{value:4.5,best:5,worst:1,count:1389,countType:'ratings'});
+});
+test('linked ratings reject unrelated pages, missing nodes and conflicting graph definitions',async()=>{
+ const {extractRecipe}=await api(),id=url+'#rating',score={'@type':'AggregateRating','@id':id,ratingValue:4.5,ratingCount:12};
+ for(const [reference,targets] of [[id,[]],['https://evil.test/x#rating',[{...score,'@id':'https://evil.test/x#rating'}]],['https://www.recipetineats.com/other/#rating',[{...score,'@id':'https://www.recipetineats.com/other/#rating'}]],[id,[score,{...score,ratingValue:1}]],[id,[{...score,'@type':'WebPage'}]]]){
+  const main={...recipe,aggregateRating:{'@id':reference}};assert.equal(extractRecipe(html({'@graph':[main,...targets]}),url).rating,null,reference);
+ }
+});
+test('an unlinked same-id enrichment cannot silently add a recipe score',async()=>{
+ const {extractRecipe}=await api();const main={...recipe,aggregateRating:undefined};
+ const enrichment={'@id':recipe['@id'],aggregateRating:{'@type':'AggregateRating',ratingValue:5,reviewCount:157}};
+ assert.equal(extractRecipe(html(main)+html(enrichment),url).rating,null);
+});
+test('Maangchi ingredient facts come from the complete main ingredient section',async()=>{
+ const {extractRecipe}=await api(),u='https://www.maangchi.com/recipe/example';
+ const main={...recipe,url:u,'@id':u+'#recipe',recipeIngredient:['garlic']};
+ const section='<h2>Ingredients</h2><ul><li>2 cups rice</li><li>&#49; egg</li></ul><h3>For the sauce</h3><ul><li>1 tbsp soy sauce</li></ul><h2>Directions</h2><ol><li>Do not copy this method.</li></ol>';
+ for(const body of [section,section.replace('>Directions<','>How to prepare the rice<')]){const r=extractRecipe(html(main)+body,u);assert.deepEqual(r.ingredients,['2 cups rice','1 egg','1 tbsp soy sauce']);assert.equal(JSON.stringify(r).includes('Do not copy this method'),false);}
+});
+test('missing or ambiguous Maangchi ingredient sections fail closed',async()=>{
+ const {extractRecipe}=await api(),u='https://www.maangchi.com/recipe/example',main={...recipe,url:u,'@id':u+'#recipe'};
+ const section='<h2>Ingredients</h2><ul><li>rice</li></ul><h2>Directions</h2>';
+ for(const content of ['',section+section,'<h2>Ingredients</h2><ul><li>rice</li></ul>'])assert.throws(()=>extractRecipe(html(main)+content,u),/ingredient section/i);
+});
+test('recipe photographs follow only their explicit ImageObject graph reference',async()=>{
+ const {extractRecipe}=await api(),id='https://images.example.test/dish#image';
+ const main={...recipe,image:[{'@id':id}]},photo={'@type':'ImageObject','@id':id,url:'https://images.example.test/dish.jpg'},avatar={'@type':'ImageObject','@id':'#author-photo',url:'https://images.example.test/avatar.jpg'};
+ assert.equal(extractRecipe(html({'@graph':[avatar,main,photo]}),url).photoUrl,photo.url);
+});
+test('missing or conflicting image graph references remain empty',async()=>{
+ const {extractRecipe}=await api(),id=url+'#image',main={...recipe,image:{'@id':id}},photo={'@type':'ImageObject','@id':id,url:'https://images.example.test/dish.jpg'};
+ for(const targets of [[],[photo,{...photo,url:'https://images.example.test/other.jpg'}],[{...photo,'@type':'WebPage'}],[{...photo,url:'javascript:alert(1)'}]])assert.equal(extractRecipe(html({'@graph':[main,...targets]}),url).photoUrl,null);
+});
