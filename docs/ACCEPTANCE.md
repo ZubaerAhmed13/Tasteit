@@ -203,8 +203,21 @@ Owner-signed-in hosted, physical-phone and assistive-technology checks remain op
 - [x] New regressions cover graph-linked ratings and images, complete source ingredients and numeric entities, plant versus base milk, plural cans, reviewed heated forms, comma preparation clauses and wine adjectives
 - [x] All 199 Node tests and syntax checks pass locally
 - [x] One independent data/contract review approved the candidate, with no Critical/Important findings. Its Minor equipment finding was corrected: explicitly labelled equipment groups are excluded, including Food processor in falafel and Blender in korma, with a regression
-- [ ] Worker build, six browser suites per Chromium/Firefox/WebKit and three fresh Firefox continuity runs
-- [ ] Publish the exact tested source, verify live hashes/provenance and preserve owner-only access
+- [x] Worker build, six browser suites per Chromium/Firefox/WebKit and three fresh Firefox continuity runs
+- [x] Publish the exact tested source, verify live hashes/provenance and preserve owner-only access
+
+Verified application source: `73ff15d27274bda8ce9ad4593464c0478542fbf3`.
+[CI run 40128040157](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40128040157)
+passes all 199 Node tests, syntax/build checks, six browser suites in Chromium,
+Firefox and WebKit, and all three fresh Firefox continuity executions.
+
+Private preview **version 6** was published successfully from Site source
+`caea373296653951e960fc763650115d3a075beb`. All 45 source assets and the provenance
+endpoint match the prepared Worker. The package retains the Site identity, DB
+binding and three unchanged migration files. Live collection HTML, dedicated CSS,
+three modules and both JSON registries match their SHA-256 hashes; live provenance
+identifies the tested application commit. Native access remains one owner and zero
+groups. No user identity was forged and no private browser records were uploaded.
 
 New Allrecipes retrieval still returned HTTP 402; Firecrawl reports that its scrape
 service does not support that publisher. Search snippets are discovery leads only.
