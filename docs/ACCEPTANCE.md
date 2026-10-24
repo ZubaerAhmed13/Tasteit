@@ -130,6 +130,38 @@ and no private browser snapshot was uploaded during these checks. This verifies
 publication and the missing-identity boundary; it does not establish the
 signed-in hosted account walkthrough listed above.
 
+## Selected recipe websites — 24 October 2026
+
+- [x] New recipe collection restricted to the 16 websites named in the shared list; exact HTTPS hosts, redirects, all canonical links and structured original-source references checked
+- [x] Main recipe/root/main-entity evidence required; related recipes, app/dish ratings and review-versus-vote counts kept separate
+- [x] Initial batch: 23 recipes from 11 selected sites; 17 published recipe ratings. Allrecipes, Serious Eats, NYT Cooking, TasteAtlas and SuperCook have explicit gaps in this pass
+- [x] Original methods remain on publisher pages. Recipe metadata and ingredient facts collected; no instructions or user reviews copied
+- [x] 44 visually reviewed real ingredient references, with original file, creator and licence evidence. 184 of 339 ingredient rows match; 155 remain visibly unresolved
+- [x] Parenthetical alternatives, mixed ingredients and conflicting preparation forms cannot receive guessed references; actual grated-turmeric, fried-onion and salt/pepper regressions pass
+- [x] Filter/search/rating/count display, absent/broken photos and phone layout have browser acceptance coverage; collection remains usable if the photo registry fails
+- [x] One independent final review completed; all material findings reproduced and fixed. Additional sync-button interruption reproduced at the actual event owner and fixed
+- [x] All 178 Node tests, syntax and Worker build checks pass
+- [x] Final six-suite Chromium/Firefox/WebKit matrix and three fresh Firefox continuity sessions
+- [x] Publish exact tested package, verify live page/data/script hashes and preserve owner-only access
+- [ ] Physical phone, assistive technology and owner-signed-in hosted walkthrough
+
+Verified application source: `f4126db171ee0399a1ad4f943b25968ce9549709`.
+[CI run 40104650998](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40104650998)
+passes all 178 Node tests, syntax/build checks and six browser suites in all three
+engines. Firefox’s three independent continuity sessions pass, including focus
+and unrelated offline announcements before sync opt-in.
+
+Private preview version 4 was published from Site source
+`f46cb8a71697b76b9a0cb1d256b9368c130e2864`. All 45 source assets and the source
+provenance endpoint match the tested application. Live collection HTML, dedicated CSS, three modules and both data registries match their hashes; the live provenance endpoint names that tested commit. Owner-only access is unchanged.
+
+The new collection is separate from the historical provider catalogue and existing
+saved kitchen data. It is an initial collection, not worldwide completion or
+complete ingredient-photo coverage. Ingredient reference photos come from
+Wikimedia Commons independently of the recipe publisher allowlist. Their identity,
+file provenance and stated licence have been reviewed for this private preview;
+public-release rights clearance remains separate.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed

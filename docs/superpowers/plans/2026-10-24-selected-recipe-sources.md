@@ -37,6 +37,8 @@
 
 ## Task 3: Integration, review and private publication
 **Files:** scripts/build-site.mjs, tests/selected-sources-browser.mjs, .github/workflows/verify.yml, README.md, docs/ACCEPTANCE.md.
-- [ ] Add packaged page/assets and browser source/filter/rating/ingredient-photo acceptance.
-- [ ] Run complete Node/build and three-engine browser matrix; one independent review; fix material findings with regressions.
-- [ ] Publish exact tested source to the same private Site; verify live assets/audience and record final recipe/rating/photo counts and gaps.
+- [x] Add packaged page/assets and browser source/filter/rating/ingredient-photo acceptance.
+- [x] Run complete Node/build and three-engine browser matrix; one independent review; fix material findings with regressions.
+- [x] Publish exact tested source to the same private Site; verify live assets/audience and record final recipe/rating/photo counts and gaps.
+
+Completed software/initial collection publication on 24 October 2026. Data completeness remains limited as recorded in docs/ACCEPTANCE.md (23 recipes,17 source ratings,184/339 ingredient photo references).
