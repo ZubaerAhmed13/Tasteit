@@ -130,3 +130,14 @@ for(const action of ['open','wanted'])test('suggestion '+action+' acts on the sa
   assert.equal(state.saved['unit-1'].meal.strSource,'https://example.org/original');
   if(action==='open')assert.equal(app.selected().strIngredient1,'Rice');
 });
+test('actions inside a suggested recipe dialog retain its displayed ingredients and source',async()=>{
+  const state=emptyStore(),app=await appWithStore(state,true);
+  const original={...app.meal,strSource:'https://example.org/original'};
+  state.saved['unit-1']={meal:original,wanted:true};
+  state.tasteProfile={cuisines:[],avoidIngredients:['milk'],hiddenRecipeIds:[]};
+  app.candidates([{...original,strIngredient1:'Milk',strSource:'https://example.org/updated'}]);
+  app.prepareSuggestions();await app.click('open','unit-1',undefined,true);
+  await app.click('favourite','unit-1');
+  assert.equal(state.saved['unit-1'].meal.strIngredient1,'Rice');
+  assert.equal(app.selected().strSource,'https://example.org/original');
+});

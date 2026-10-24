@@ -1219,7 +1219,7 @@ async function markRecipe(id, field, provided=null) {
   if(recipeMutations.has(id))return;
   recipeMutations.add(id);
   try {
-  let meal = provided || findMeal(id);
+  let meal = provided || (selectedMeal?.idMeal===id?selectedMeal:findMeal(id));
   if (!meal) return;
   if (!ingredientsOf(meal).length || !meal.strInstructions) {
     try { meal = await mealDetails(id); } catch { notice('Recipe details could not load. Try again.'); return; }
