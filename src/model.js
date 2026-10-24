@@ -34,6 +34,16 @@ export function loadStore(storage) {
   }
 }
 
+// Sync must distinguish an absent store from an unreadable or damaged one.
+export function readStoreStrict(storage=globalThis.localStorage) {
+  if(!storage || typeof storage.getItem!=='function')throw new Error('Browser storage is unavailable. Sync paused.');
+  const raw=storage.getItem(STORAGE_KEY);
+  if(raw===null)return emptyStore();
+  const parsed=JSON.parse(raw);
+  if(!parsed || typeof parsed!=='object' || Array.isArray(parsed))throw new Error('Browser records could not be read. Sync paused.');
+  return {...emptyStore(),...parseBackup(exportBackup(parsed,new Date(0)))};
+}
+
 export function persistStore(store, storage) {
   try {
     const target = storage === undefined ? globalThis.localStorage : storage;

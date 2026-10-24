@@ -11,11 +11,23 @@ export async function installOffline(onState=()=>{}) {
   try {
     onState({status:'preparing'});
     const registration=await navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'});
-    const announce=()=>onState({status:registration.waiting?'update':registration.active?'ready':'preparing',registration});
-    registration.addEventListener('updatefound',()=>{
-      registration.installing?.addEventListener('statechange',announce);
+    let sequence=0;
+    const status=worker=>new Promise(resolve=>{
+      if(!worker)return resolve(false);
+      const channel=new MessageChannel(),timeout=setTimeout(()=>{channel.port1.close();resolve(false);},3000);
+      channel.port1.onmessage=event=>{clearTimeout(timeout);channel.port1.close();resolve(event.data?.ready===true);};
+      worker.postMessage('TASTEIT_OFFLINE_STATUS',[channel.port2]);
     });
-    navigator.serviceWorker.addEventListener('controllerchange',announce);
+    const announce=async()=>{
+      const current=++sequence,worker=registration.waiting||navigator.serviceWorker.controller||registration.active;
+      const ready=await status(worker);
+      if(current===sequence)onState({status:ready?(registration.waiting?'update':'ready'):worker?'unavailable':'preparing',registration});
+    };
+    registration.addEventListener('updatefound',()=>{
+      registration.installing?.addEventListener('statechange',()=>{void announce();});
+    });
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{void announce();});
+    navigator.serviceWorker.addEventListener('message',event=>{if(event.data==='TASTEIT_OFFLINE_CHANGED')void announce();});
     navigator.serviceWorker.ready.then(announce).catch(()=>{});
     announce();return registration;
   } catch {onState({status:'unavailable'});return null;}

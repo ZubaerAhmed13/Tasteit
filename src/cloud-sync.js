@@ -1,6 +1,7 @@
 import {emptyStore,exportBackup,parseBackup} from './model.js';
 
-export const SYNC_KEY='tasteit.sync.v1';
+export const SYNC_KEY='tasteit.sync-consent.v1';
+export const SYNC_META_KEY='tasteit.sync-progress.v1';
 export function syncData(store) {
   return {...emptyStore(),...parseBackup(exportBackup(store,new Date(0)))};
 }
@@ -12,27 +13,44 @@ export function copySummary(data) {
     planned:Object.keys(data?.plan||{}).length,leftovers:data?.leftovers?.length||0};
 }
 
-export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,fetch:request=globalThis.fetch,
+export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,readConsent,writeConsent,fetch:request=globalThis.fetch,
   onState=()=>{},isOnline=()=>globalThis.navigator?.onLine!==false}) {
-  let meta;
-  try {meta=readMeta();}catch{}
-  if(!meta || meta.enabled!==true || !Number.isSafeInteger(meta.revision||0) || typeof(meta.base||'')!=='string')meta={enabled:false};
-  let state={status:meta.enabled?'pending':'off',enabled:meta.enabled===true},busy=null,timer=null,conflict=null,generation=0,activeController=null;
+  let meta={enabled:false},consent=null;
+  function settings() {
+    const ticket=readConsent();
+    if(typeof ticket!=='string'||!ticket)return {ticket:null,progress:{enabled:false}};
+    const saved=readMeta();
+    return {ticket,progress:saved?.consentId===ticket && Number.isSafeInteger(saved.revision) && saved.revision>=0 && typeof(saved.base||'')==='string'
+      ?{...saved,enabled:true}:{enabled:true,consentId:ticket,revision:0}};
+  }
+  try {const initial=settings();consent=initial.ticket;meta=initial.progress;}catch{}
+  let state={status:meta.enabled?'pending':'off',enabled:meta.enabled===true},busy=null,timer=null,conflict=null,generation=0,activeController=null,followup=false;
   const emit=(status,extra={})=>{state={status,enabled:meta.enabled===true,...extra};onState(state);return state;};
+  function stop() {
+    generation++;activeController?.abort();clearTimeout(timer);timer=null;followup=false;conflict=null;
+    consent=null;meta={enabled:false};return emit('off');
+  }
+  function assertConsent() {
+    if(!consent || readConsent()!==consent){stop();throw Object.assign(new Error('Sync stopped.'),{cancelled:true});}
+  }
   function saveMeta(next) {
-    if(writeMeta(next)!==true)throw new Error('Could not save sync status in this browser. Your data is still local.');
-    meta=next;
+    assertConsent();
+    if(writeMeta({...next,consentId:consent})!==true)throw new Error('Could not save sync status in this browser. Your data is still local.');
+    meta={...next,consentId:consent};
   }
   async function api(method='GET',body) {
+    assertConsent();
     const controller=new AbortController(),epoch=generation;activeController=controller;let timeout;
     try {
       const work=(async()=>{
         const response=await request('/api/sync',{method,credentials:'same-origin',cache:'no-store',signal:controller.signal,
           headers:{accept:'application/json',...(body?{'content-type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
         if(epoch!==generation)throw Object.assign(new Error('Sync stopped.'),{cancelled:true});
+        assertConsent();
         if(!response.ok)throw Object.assign(new Error(response.status===401?'Sign in again to sync. Local data is unchanged.':response.status===409?'The cloud copy changed. Press Sync now to review it.':'Cloud sync is unavailable. Your edits stay in this browser.'),{status:response.status});
         const result=await response.json();
         if(epoch!==generation)throw Object.assign(new Error('Sync stopped.'),{cancelled:true});
+        assertConsent();
         if(!result || typeof result.accountId!=='string' || !result.accountId || !Number.isSafeInteger(result.revision) || result.revision<0)throw new Error('The cloud returned an invalid response.');
         if(method==='GET') {
           if(!('data' in result))throw new Error('The cloud returned an incomplete copy.');
@@ -52,7 +70,9 @@ export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,fetch:r
   function agreed(remote,base) {
     saveMeta({enabled:true,accountId:remote.accountId,revision:remote.revision,base,updatedAt:remote.updatedAt||null});
     conflict=null;
-    return emit(syncFingerprint(readLocal())===base?'synced':'pending',{updatedAt:remote.updatedAt});
+    const pending=syncFingerprint(readLocal())!==base;
+    if(pending)followup=true;
+    return emit(pending?'pending':'synced',{updatedAt:remote.updatedAt});
   }
   function review(remote,local) {
     conflict={remote,local};
@@ -72,11 +92,13 @@ export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,fetch:r
   }
   async function reconcile() {
     if(!meta.enabled)return emit('off');
+    assertConsent();
     if(!isOnline())return emit('offline',{message:'Offline. Changes stay here and can sync when you reconnect.'});
     emit('checking');
     const remote=await api();
     if(meta.accountId && meta.accountId!==remote.accountId)return emit('account-changed',{message:'The signed-in account changed. Turn sync off, then enable it again to review this account.'});
     if(meta.accountId===remote.accountId && remote.revision<meta.revision)throw new Error('The cloud response was older than the last synced copy. Press Sync now to try again.');
+    if(!meta.accountId)saveMeta({...meta,accountId:remote.accountId});
     const local=syncFingerprint(readLocal());
     const remotePrint=remote.data===null?null:syncFingerprint(remote.data);
     if(remotePrint===local)return agreed(remote,local);
@@ -99,26 +121,39 @@ export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,fetch:r
   async function serial(work) {
     if(busy)return busy;
     const epoch=generation;
-    busy=(async()=>{try{return await work();}catch(error){return error.cancelled || epoch!==generation?state:reportError(error);}finally{busy=null;}})();
+    busy=(async()=>{try{return await work();}catch(error){return error.cancelled || epoch!==generation?state:reportError(error);}finally{
+      busy=null;
+      if(followup && epoch===generation && ['pending','synced'].includes(state.status)) {
+        followup=false;clearTimeout(timer);timer=setTimeout(()=>{timer=null;void engine.sync();},700);
+      }
+    }})();
     return busy;
   }
   const engine={
     get state(){return state;},
     async connect(){
-      try {saveMeta({...meta,enabled:true,revision:meta.revision||0});}catch(error){return reportError(error);}
+      try {
+        if(!meta.enabled){
+          const ticket=globalThis.crypto.randomUUID();
+          if(writeConsent(ticket)!==true)throw new Error('Could not enable sync in this browser.');
+          consent=ticket;saveMeta({enabled:true,revision:0});
+        }
+      }catch(error){return reportError(error);}
       return engine.sync();
     },
     sync:()=>serial(reconcile),
     async refresh(){
       try {
-        const next=readMeta();
-        if(!next || next.enabled!==true)return engine.disconnect();
-        meta=next;
+        const next=settings();
+        if(!next.ticket)return stop();
+        if(next.ticket!==consent){stop();consent=next.ticket;}
+        meta=next.progress;
         return engine.sync();
       } catch(error){return reportError(error);}
     },
     changed(){
       if(!meta.enabled)return;
+      if(busy)followup=true;
       clearTimeout(timer);timer=setTimeout(()=>{timer=null;void engine.sync();},700);
       emit(isOnline()?'pending':'offline');
     },
@@ -133,9 +168,9 @@ export function createCloudSync({readLocal,writeLocal,readMeta,writeMeta,fetch:r
       return download(latest,reviewed.local);
     });},
     disconnect(){
-      generation++;activeController?.abort();
-      clearTimeout(timer);timer=null;conflict=null;
-      try {saveMeta({enabled:false});return emit('off');}catch(error){meta={enabled:false};return reportError(error);}
+      stop();
+      try {if(writeConsent(null)!==true)throw new Error('Could not save the sync preference in this browser.');return state;}
+      catch(error){return reportError(error);}
     },
     removeCloud(){return serial(async()=>{
       const latest=await api();

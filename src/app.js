@@ -1,6 +1,6 @@
 import { purchaseReview, purchaseFingerprint, receivePurchases, consumptionReview, applyConsumption, addLeftover, validKitchenState, STOCK_UNITS, STOCK_LOCATIONS } from './kitchen-flow.js';
 import { readRoute, routeUrl, normaliseFilters, filterSummary } from './navigation.js';
-import { loadStore, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
+import { loadStore, readStoreStrict, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
 import { discoverMeals, mealDetails, pantryCandidateReport, availableAreas, availableAreaRecords, availableCategories, randomMeal, scanWorldRecipes } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
@@ -16,7 +16,7 @@ import { recipeTitleIndex, possibleSourceMatches } from './source-overlap.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 import { emptyTasteProfile,createTasteProfile,recommendRecipes } from './personalisation.js';
-import { createCloudSync,SYNC_KEY } from './cloud-sync.js';
+import { createCloudSync,SYNC_KEY,SYNC_META_KEY } from './cloud-sync.js';
 import { offlineRecipes,installOffline } from './offline.js';
 
 const appRoot = document.getElementById('app');
@@ -1948,7 +1948,7 @@ document.addEventListener('keydown', event => {
 });
 
 window.addEventListener('storage', event => {
-  if(event.key===SYNC_KEY){void cloudSync?.refresh();return;}
+  if(event.key===SYNC_KEY||event.key===SYNC_META_KEY){void cloudSync?.refresh();return;}
   if (event.key !== 'tasteit.local.v1') return;
   const fresh = loadStore();
   store.pantry = fresh.pantry;
@@ -1966,8 +1966,10 @@ window.addEventListener('storage', event => {
 });
 
 // Start application.
-cloudSync=createCloudSync({readLocal:()=>loadStore(),readMeta:()=>JSON.parse(localStorage.getItem(SYNC_KEY)||'null'),
-  writeMeta:data=>{try{localStorage.setItem(SYNC_KEY,JSON.stringify(data));return true;}catch{return false;}},
+cloudSync=createCloudSync({readLocal:()=>readStoreStrict(),readMeta:()=>JSON.parse(localStorage.getItem(SYNC_META_KEY)||'null'),
+  writeMeta:data=>{try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(data));return true;}catch{return false;}},
+  readConsent:()=>localStorage.getItem(SYNC_KEY),
+  writeConsent:value=>{try{if(value===null)localStorage.removeItem(SYNC_KEY);else localStorage.setItem(SYNC_KEY,value);return true;}catch{return false;}},
   writeLocal:data=>{
     if(selectedMeal||openingMealId||showRecipeForm||editingId||bulkOpen||purchaseDraft||tasteDraft)throw new Error('Close the recipe or finish your current editor, then press Sync now. Your local copy is unchanged.');
     const fields=captureFields(document.getElementById('pantry-form')),search=captureFields(document.getElementById('cookbook-search-form'));

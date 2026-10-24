@@ -43,12 +43,14 @@ try {
   assert.equal((await DB.prepare('SELECT count(*) AS count FROM tasteit_sync').first()).count,0,'no upload before opt-in');
   await a.page.locator('#sync-enable').click();
   await a.page.waitForFunction(()=>document.querySelector('#cloud-status')?.textContent==='Synced');
-  await a.page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
+  await a.page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller)&&document.querySelector('#offline-status')?.textContent==='Ready offline');
   const b=await device(emptyStore());await b.page.locator('#sync-enable').click();
   await b.page.locator('.recipe-title').getByText('Offline rice').waitFor();
   await b.page.waitForFunction(()=>document.querySelector('#cloud-status')?.textContent==='Synced');
 
-  await a.context.setOffline(true);await a.page.reload();
+  console.log('Offline readiness',await a.page.evaluate(async()=>({controller:!!navigator.serviceWorker.controller,caches:await caches.keys()})));
+  await a.context.setOffline(true);
+  await Promise.all([a.page.waitForEvent('load'),a.page.evaluate(()=>{setTimeout(()=>location.reload(),0);})]);
   await a.page.locator('.recipe-title').getByText('Offline rice').waitFor();
   await a.page.locator('.recipe-photo').click();
   await a.page.locator('[data-action=cook-done]').click();

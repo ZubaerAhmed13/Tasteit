@@ -2,7 +2,7 @@
 
 **A personal recipe universe** — explore cooking traditions, save dishes you want to try, keep track of what's in your kitchen, and plan meals using what you have.
 
-> **Status:** GitHub-only development prototype. Nothing has been deployed. This first release uses TheMealDB's developer/test API and saves personal data locally in the browser.
+> **Status:** Private testing preview; PR #1 remains draft and unmerged. Personal data stays in this browser by default. Optional account sync uses the private Site backend. Discovery uses TheMealDB’s developer/test API.
 
 ## Run it
 
@@ -43,10 +43,12 @@ schedule notifications or certify food safety. The journal, stock deductions,
 leftovers and cooking-session completion save together, or none of them change.
 Backups include these optional records and older version-1 backups remain supported.
 
-No npm install is needed. Node 20+ runs automated tests:
+Static local browsing needs no installation. Node 22+ runs the unit tests (including real SQLite). Install build tools before producing the private Site Worker:
 
 ~~~bash
+npm install --package-lock=false
 npm run verify
+npm run build:site
 ~~~
 
 GitHub Actions runs **Playwright browser acceptance in Chromium, Firefox and WebKit** (using fixture-backed API responses). These tests cover discovery, personal recipes, guided cooking, separate dated stock batches, serving-size meal planning, **a checkable shopping list**, backup restoration and narrow mobile layout. Browser fixtures test UI reliability, not live API uptime or image licensing.
@@ -55,7 +57,7 @@ The additional `tests/discovery-browser.mjs` scenarios use the complete collecte
 country directory and cover combined filters, reload/history, direct recipe links,
 blocked storage, delayed recipe responses, offline local suggestions and readable
 375px filters/navigation. `tests/kitchen-browser.mjs` covers reviewed purchase
-ownership, manual package deductions and atomic cooking saves. All three scripts
+ownership, manual package deductions and atomic cooking saves. The five browser scripts (including personalisation and continuity)
 run in every CI browser job with pinned Playwright 1.64.1.
 
 ## Worldwide recipe collection — sourced, not invented
@@ -99,17 +101,18 @@ For authenticity, image rights, source research, regional variants and future so
 - A source's recipe with a high documentation score is **not** automatically a top-rated or authentic national dish. The goal of 30 per pair requires other properly licensed and human-verified sources. A blank cell means *not yet sourced*, not that a cuisine has no such food.
 - TheMealDB is not every recipe in the world; A–Z browsing covers only the provider's catalogue. User-linked outside publishers are references, not additional fetched recipe content. Failed remote food images get a neutral placeholder rather than a fabricated replacement. The provider's cuisine/category tags, photographs and instructions are community-provided and are **not independently verified as authentic, vegetarian, allergen-free or safe**. The recipe detail panel explains provenance and links to the original source/video when available.
 - Checking shopping items tracks purchase progress. Inventory changes only after a separate review of actual purchases. Completed items remain reviewable, transferred items are marked, and changed recipe requirements need checking again.
-- Browser-local storage is device-specific and can be cleared. There is **no account, cloud sync, automatic backup, or offline recipe guarantee** yet. Manual JSON backups are available under My recipes.
+- Browser storage can be cleared. JSON backups remain available. **Cloud sync is off by default**: choose Enable cloud sync in My recipes to upload your cookbook, pantry, plan, journal, research notes and preferences to your signed-in Site account. Conflicting snapshots require a whole-copy choice. Turning sync off keeps both copies; Remove cloud copy removes the remote snapshot and keeps browser records. Sync is not a versioned backup or collaboration service.
 - **The manual cooking timer is not a reliable background alarm.** Its remaining time is calculated from wall-clock timestamps even after browser sleep or refresh, but alerts are only visible while Tasteit is open. No push notifications, lock-screen alarm, sound guarantee or background service is provided. Do not use it as a food-safety or medical timer.
 - TheMealDB v1 allows filtering by only one ingredient per request. Tasteit unions suggestions from the four **user-selected** ingredient searches and a subset of saved recipes, then checks candidate ingredients against the complete recorded pantry. It is a capped discovery sample and **not** an exhaustive multi-ingredient catalogue search. Pantry entries dated in the past or with zero quantity are excluded from automatic matching as a cautious default, not as a determination that food has spoiled. The quantity engine compares only unambiguous amounts (including g/kg and ml/l), never guesses densities or converts cups to grams, and flags uncertain measurements. Changing serving sizes requires a user-confirmed original count because the recipe provider does not supply a dependable baseline. Spice amounts, fractional whole items and cooking instructions are not automatically adjusted; displayed scaled amounts may be rounded. Substitutions, dietary/allergen safety and actual food freshness are **not** verified.
-- Recipe content and pictures require network access. Do not deploy this developer prototype publicly without reviewing API and image licensing.
+- Saved recipe details work offline after the app reports **Ready offline**. New discovery, the world catalogue and photographs need a connection. A reachable sign-in denial invalidates cached application shells; offline access cannot confirm current account authorisation. Do not deploy this developer prototype publicly without reviewing API and image licensing.
 
 ## Testing preview
 
 Open [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site) and sign in with the owning ChatGPT account.
-The private preview contains the tested feature source at
-`4df3b65091b56266b1fa4cc81b54ede3b5dce08f`; later documentation-only changes do
-not alter its application assets. No browser-private records were uploaded.
+The continuity stage adds saved-recipe offline access, optional account sync and
+mobile controls. Local data is uploaded only after explicit opt-in. A static local
+server can test local features; `/api/sync` requires the Site Worker, managed DB
+binding and trusted Sites account identity. See [acceptance evidence](docs/ACCEPTANCE.md).
 
 This is a testing preview, not approval for a public production release. The PR
 remains draft and unmerged. An authenticated walkthrough on the hosted URL and
@@ -134,7 +137,7 @@ production API checks remain separate. Search indexing is disabled in the source
 2. **Personalisation** — cooking history/notes, custom recipes, saved labels, collection search and sorting added; scheduled reminders and personal photo uploads remain.
 3. **Kitchen intelligence** — amount comparisons, vetted name aliases, separately dated stock batches and use-soon suggestions are available; user-confirmed serving scaling added; ingredient-specific equivalence, stock forecasting and calendar/notification controls remain.
 4. **Trustworthy world coverage** — licensed expanded sources, multiple genuine regional variants, editorial provenance and image rights.
-5. **Accounts and synchronisation** — optional private backend, migration from local data, privacy and security acceptance.
+5. **Accounts and synchronisation** — opt-in private snapshots, revision conflicts and offline retries added; authenticated hosted walkthrough and physical-device acceptance remain.
 6. **Advanced conveniences** — optional barcode/photo capture with mandatory user confirmation, multilingual UI and guided cooking.
 
 Recipe source and photography attribution: [TheMealDB](https://www.themealdb.com/). [Official API guide](https://www.themealdb.com/docs_api_guide.php) · [Terms of use](https://www.themealdb.com/terms_of_use.php).

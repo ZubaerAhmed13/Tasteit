@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The current release is a GitHub-only development prototype. There is no public deployment.
+The current release is a private testing preview. PR #1 remains draft and unmerged; there is no public release.
 
 ## Automated acceptance
 
@@ -99,6 +99,19 @@ Private URL: [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://t
 The user authorised a testing preview on 24 October 2026. PR #1 stays draft and
 unmerged. Preview access is separate from approval for a public production release.
 
+## Fourth audit stage — offline, optional sync and mobile continuity
+
+- [x] Real SQLite API tests: account isolation, same-origin writes, bounded/schema-validated snapshots, atomic revision conflicts and deletion tombstones
+- [x] Consent off by default; bind the first observed account even before conflict review, assert account on every mutation, and preserve cross-tab opt-out through delayed acknowledgements
+- [x] Strict browser reads pause sync on storage errors/corruption instead of sending an empty replacement
+- [x] Offline edits retry on reconnect; edits during an upload queue a follow-up; conflicting copies remain intact until an explicit choice
+- [x] Offline readiness checks every required shell asset; reachable sign-in/denial invalidates active, waiting and in-progress cache generations; returning after sign-in rebuilds all assets
+- [x] Touch controls at least 44px, phone form text at least 16px, safe-area spacing and visible offline/update status
+- [x] Independent review findings fixed with regression tests; all 156 Node tests and Worker build pass locally
+- [ ] Final five-suite browser matrix, including offline reload/edit, two devices, conflict selection, separate accounts and cloud removal
+- [ ] Publish exact tested Worker and apply generated D1 migration; verify archive parity and hosted identity rejection
+- [ ] Hosted walkthrough with the owner signed in; physical Android/iOS offline use and accessibility
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed
@@ -129,7 +142,7 @@ unmerged. Preview access is separate from approval for a public production relea
 * Pantry recipe discovery is a shortlist from separately queried single ingredients and saved dishes, **not** a complete search of every possible compatible recipe. Selected search names are different from full-stock matching; no nutrition, allergy or cooking-safety certification is inferred. Recipe serving counts are user-confirmed, not inferred from the provider. Supported measurements can be scaled for each planned day; instructions, seasonings, unknown measures, density conversions and fractional whole-item decisions still require manual judgement. Stock availability is checked against currently recorded stock, not projected stock on the future cooking day. Past best-before dates are excluded from matching conservatively, but neither past dates nor future dates prove whether food is safe. Users must check storage and freshness. Tag labels and cuisine text are user/source labels, **not** validated dietary or allergy certifications. Ingredient discovery starts with name presence. The separate measurement engine estimates shortfalls only for confidently parsed, compatible units; ambiguous and mixed units are flagged for review rather than guessed. These estimates are **not** food-safety, allergy, substitution or adequate-portion clearance.
 * Checking a shopping item indicates it was picked up; the app does not silently alter pantry stock, receipt history or quantities. Completed items are reversible and original recipe requirements changing invalidate old checkmarks. The cooking countdown is calculated from wall-clock time, but no background notification/alarm is guaranteed; users must not depend on it for unattended cooking or food safety. Personal recipes, pantry items, saved collections and plans are stored in browser localStorage. JSON backups are local, unencrypted files; safeguard them accordingly.
 * Developer API key 1 is for testing and personal development. Arrange appropriate service terms/key before public release. Never commit private API keys to client-side JavaScript.
-* No hosting or deployment has been performed.
+* An owner-private testing preview is published. Hosted account walkthrough and physical-device acceptance remain separate checks.
 
 ## Next priorities
 
@@ -138,4 +151,4 @@ unmerged. Preview access is separate from approval for a public production relea
 2. More personal search, editable cooking notes, optional dietary preference warnings (never allergy guarantees) and photo uploads with clear rights.
 3. Better stock consumption, portion-aware future expiry forecasting, richer quantity conversions, quicker food capture and regional recipe source verification.
 4. Multi-source discovery with regional provenance and authorised photos.
-5. Optional authenticated sync after local flows are trustworthy.
+5. Authenticated hosted sync walkthrough, physical-device offline/reconnect testing and accessibility checks.

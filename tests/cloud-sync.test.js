@@ -6,10 +6,10 @@ import {handleSync} from '../server/sync-api.js';
 const kitchen=name=>({...emptyStore(),pantry:[{id:name,name,quantity:'1',unit:'pcs'}]});
 async function device(DB,initial=emptyStore(),options={}) {
   const {createCloudSync}=await import('../src/cloud-sync.js');
-  let local=structuredClone(initial),meta=null,account='a',online=true,writable=true;
+  let local=structuredClone(initial),meta=null,consent=null,account='a',online=true,writable=true;
   const states=[];
   const sync=createCloudSync({readLocal:()=>local,writeLocal:data=>{if(!writable)return false;local=structuredClone(data);return true;},
-    readMeta:()=>meta,writeMeta:data=>{meta=structuredClone(data);return true;},isOnline:()=>online,onState:s=>states.push(s),
+    readMeta:()=>meta,writeMeta:data=>{meta=structuredClone(data);return true;},readConsent:()=>consent,writeConsent:value=>{consent=value;return true;},isOnline:()=>online,onState:s=>states.push(s),
     fetch:(url,init={})=>handleSync(new Request('https://tasteit.test'+url,{...init,headers:{...init.headers,'oai-authenticated-user-id':account,origin:'https://tasteit.test'}}),{DB}),...options});
   return {sync,states,get local(){return local;},get meta(){return meta;},edit:data=>{local=data;},account:id=>{account=id;},online:v=>{online=v;},writable:v=>{writable=v;}};
 }
@@ -95,7 +95,7 @@ test('turning sync off during a read prevents any subsequent upload',async()=>{
 });
 test('sync settings changed by another tab are adopted before further writes',async()=>{
   const DB=sqliteD1();try {
-    let shared=null;const settings={readMeta:()=>shared,writeMeta:value=>{shared=structuredClone(value);return true;}};
+    let shared=null,consent=null;const settings={readMeta:()=>shared,writeMeta:value=>{shared=structuredClone(value);return true;},readConsent:()=>consent,writeConsent:value=>{consent=value;return true;}};
     const a=await device(DB,kitchen('Rice'),settings);await a.sync.connect();
     const b=await device(DB,kitchen('Rice'),settings);await b.sync.sync();
     a.sync.disconnect();await b.sync.refresh();b.edit(kitchen('Potato'));await b.sync.sync();
@@ -120,5 +120,50 @@ test('an account switch between checking and uploading cannot copy records to th
     await a.sync.connect();
     const b=await device(DB);b.account('b');await b.sync.connect();
     assert.equal(b.local.pantry.length,0);
+  } finally {DB.close();}
+});
+test('the first observed account stays bound even if the initial attempt needs conflict review',async()=>{
+  const DB=sqliteD1();try {
+    const a=await device(DB,kitchen('Cloud A'));await a.sync.connect();
+    const b=await device(DB,kitchen('Private A'));await b.sync.connect();assert.equal(b.sync.state.status,'conflict');
+    b.account('b');await b.sync.sync();assert.equal(b.sync.state.status,'account-changed');
+    const other=await device(DB);other.account('b');await other.sync.connect();assert.equal(other.local.pantry.length,0);
+  } finally {DB.close();}
+});
+test('an accepted upload acknowledgement cannot re-enable consent revoked in another tab',async()=>{
+  const DB=sqliteD1();try {
+    let progress=null,consent=null,release,arrived;const started=new Promise(r=>{arrived=r;});
+    const shared={readMeta:()=>progress,writeMeta:value=>{progress=structuredClone(value);return true;},readConsent:()=>consent,writeConsent:value=>{consent=value;return true;}};
+    const a=await device(DB,kitchen('Rice'),{...shared,fetch:async(url,init={})=>{
+      const response=await handleSync(new Request('https://tasteit.test'+url,{...init,headers:{...init.headers,'oai-authenticated-user-id':'a',origin:'https://tasteit.test'}}),{DB});
+      if(init.method==='PUT'){arrived();await new Promise(r=>{release=r;});}return response;
+    }});
+    const running=a.sync.connect();await started;
+    const b=await device(DB,kitchen('Rice'),shared);b.sync.disconnect();release();await running;
+    await a.sync.refresh();assert.equal(consent,null);assert.equal(a.sync.state.status,'off');
+  } finally {DB.close();}
+});
+test('an unreadable browser store must not be uploaded as an empty snapshot',async()=>{
+  const {readStoreStrict}=await import('../src/model.js');
+  assert.deepEqual(readStoreStrict({getItem:()=>null}),emptyStore());
+  for(const raw of ['null','{}','bad json',JSON.stringify({...emptyStore(),pantry:'broken'})])assert.throws(()=>readStoreStrict({getItem:()=>raw}));
+  const DB=sqliteD1();try {
+    let broken=false;const a=await device(DB,kitchen('Rice'),{readLocal:()=>broken
+      ?readStoreStrict({getItem(){throw new Error('Storage unavailable');}}):kitchen('Rice')});
+    await a.sync.connect();broken=true;await a.sync.sync();assert.equal(a.sync.state.status,'error');
+    const b=await device(DB);await b.sync.connect();assert.equal(b.local.pantry[0].name,'Rice');
+  } finally {DB.close();}
+});
+test('changes during a busy upload schedule one automatic follow-up after it finishes',async()=>{
+  const DB=sqliteD1();try {
+    let held=false,release,arrived,puts=0;const started=new Promise(r=>{arrived=r;});
+    const a=await device(DB,kitchen('Rice'),{fetch:async(url,init={})=>{
+      if(init.method==='PUT'){puts++;if(held){arrived();await new Promise(r=>{release=r;});held=false;}}
+      return handleSync(new Request('https://tasteit.test'+url,{...init,headers:{...init.headers,'oai-authenticated-user-id':'a',origin:'https://tasteit.test'}}),{DB});
+    }});
+    await a.sync.connect();held=true;a.edit(kitchen('Tomato'));const running=a.sync.sync();await started;
+    a.edit(kitchen('Potato'));a.sync.changed();await new Promise(r=>setTimeout(r,750));release();await running;
+    await new Promise(r=>setTimeout(r,850));assert.equal(puts,3);assert.equal(a.sync.state.status,'synced');
+    const b=await device(DB);await b.sync.connect();assert.equal(b.local.pantry[0].name,'Potato');a.sync.disconnect();
   } finally {DB.close();}
 });
