@@ -50,9 +50,9 @@ tests/browser-smoke.mjs, package.json, .github/workflows/verify.yml.
 
 ## Completed verification
 
-130 Node tests and all four browser suites pass in Chromium, Firefox and WebKit
-on `26ac828e0c2b64c64254a2ba7ba1300192d4c7a1`
-([run 40078835781](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40078835781)).
+131 Node tests and all four browser suites pass in Chromium, Firefox and WebKit
+on `4df3b65091b56266b1fa4cc81b54ede3b5dce08f`
+([run 40079171262](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40079171262)).
 Independent review found a displayed-recipe/action mismatch and asynchronous
 keyboard focus loss; both were reproduced before their fixes and are covered.
 

@@ -108,7 +108,7 @@ For authenticity, image rights, source research, regional variants and future so
 
 Open [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site) and sign in with the owning ChatGPT account.
 The private preview contains the tested feature source at
-`26ac828e0c2b64c64254a2ba7ba1300192d4c7a1`; later documentation-only changes do
+`4df3b65091b56266b1fa4cc81b54ede3b5dce08f`; later documentation-only changes do
 not alter its application assets. No browser-private records were uploaded.
 
 This is a testing preview, not approval for a public production release. The PR

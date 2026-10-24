@@ -91,9 +91,9 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
 - [ ] Authenticated walkthrough on the hosted preview after owner sign-in
 - [ ] Physical Android/iOS and assistive-technology testing
 
-Verified source: `26ac828e0c2b64c64254a2ba7ba1300192d4c7a1`. All 130 Node tests
+Verified source: `4df3b65091b56266b1fa4cc81b54ede3b5dce08f`. All 131 Node tests
 and four browser suites per engine passed in
-[CI run 40078835781](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40078835781).
+[CI run 40079171262](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40079171262).
 Private URL: [https://tasteit-kitchen-preview.bhuyainria.chatgpt.site](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site).
 
 The user authorised a testing preview on 24 October 2026. PR #1 stays draft and
