@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: "22"
       - name: Check syntax and unit tests
-        run: npm run verify
+        run: npm install --package-lock=false && npm run verify && npm run build:site
 
   browser:
     name: Browser acceptance (${{ matrix.browser }})
@@ -44,4 +44,4 @@ jobs:
       - name: Run headless browser acceptance
         env:
           TASTEIT_BROWSER: ${{ matrix.browser }}
-        run: node tests/browser-smoke.mjs && node tests/discovery-browser.mjs && node tests/kitchen-browser.mjs && node tests/personalisation-browser.mjs
+        run: node tests/browser-smoke.mjs && node tests/discovery-browser.mjs && node tests/kitchen-browser.mjs && node tests/personalisation-browser.mjs && node tests/continuity-browser.mjs

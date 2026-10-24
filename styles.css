@@ -517,6 +517,22 @@ h3 { font-size: 24px }
 .personal-reasons .eyebrow {display:block;margin-top:16px;font-size:10px}
 .personal-reasons ul {padding-left:18px;margin:8px 0;font-size:12px;line-height:1.6;color:var(--muted)}
 .personal-reasons .btn {margin-top:6px}
+.continuity-panel {margin-top:28px}
+.continuity-panel h4 {margin:20px 0 8px}
+.continuity-panel .panel-note {margin:8px 0 14px}
+.continuity-panel .dialog-actions {flex-wrap:wrap;margin-top:14px}
+.sync-conflict {padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--cream,#f8f7f3);margin:14px 0}
+.sync-conflict p {font-size:13px;line-height:1.6;margin:8px 0}
+.connection-status {position:fixed;bottom:20px;right:20px;max-width:360px;background:var(--forest);color:white;padding:13px 16px;border-radius:13px;z-index:75;font-size:13px;box-shadow:0 8px 24px #152b2030}
+.connection-status[hidden] {display:none}
+.connection-status button {margin-top:10px}
+@media(max-width:760px) {
+  .field input,.field textarea,.field select,.search-bar input,.cookbook-search-row input,.tag-entry-form input,.plan-select {font-size:16px}
+  .btn.small,.quick-save,.chip,.recipe-tag button,.nav-button {min-height:44px;min-width:44px}
+  #app {padding-bottom:calc(135px + env(safe-area-inset-bottom))}
+  .connection-status {bottom:calc(98px + env(safe-area-inset-bottom));right:12px;left:12px;max-width:none}
+  .toast {bottom:calc(165px + env(safe-area-inset-bottom))}
+}
 @media(max-width:600px) {
   .taste-form {grid-template-columns:minmax(0,1fr)}
   .taste-panel summary span {display:block;margin:6px 0 0}

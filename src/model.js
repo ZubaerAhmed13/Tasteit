@@ -39,6 +39,9 @@ export function persistStore(store, storage) {
     const target = storage === undefined ? globalThis.localStorage : storage;
     if (!target || typeof target.setItem !== 'function') return false;
     target.setItem(STORAGE_KEY, JSON.stringify(store));
+    if(storage===undefined) {
+      try {globalThis.dispatchEvent?.(new CustomEvent('tasteit:local-change'));}catch{}
+    }
     return true;
   } catch {
     return false;

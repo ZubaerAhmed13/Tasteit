@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8f7f3">
+  <meta name="application-name" content="Tasteit">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Tasteit helps you explore recipes from around the world, save what you love and cook with ingredients you already have.">
   <title>Tasteit — Your world, your kitchen</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./app.webmanifest">
   <link rel="stylesheet" href="./styles.css">
   <script type="module" src="./src/app.js"></script>
 </head>
@@ -27,12 +29,13 @@
     </div>
   </header>
   <main id="app" tabindex="-1"><div class="loading-screen"><div class="spinner"></div><p>Setting the table...</p></div></main>
+  <div id="connection-status" class="connection-status" role="status" aria-live="polite" hidden></div>
   <footer class="site-footer">
     <div class="footer-inner">
       <span class="footer-brand">tasteit<span>.</span></span>
       <span>Cook globally. Make it yours.</span>
       <span>Recipe data &amp; photography: <a href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">TheMealDB</a> contributors. <a href="https://www.themealdb.com/terms_of_use.php" target="_blank" rel="noopener noreferrer">Source terms</a>.</span>
-      <span>Development prototype · Your data stays in this browser</span>
+      <span>Private testing preview · Local by default · Cloud sync only when enabled</span>
     </div>
   </footer>
   <div id="overlay-root"></div>

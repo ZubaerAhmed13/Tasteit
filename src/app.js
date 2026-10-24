@@ -16,11 +16,14 @@ import { recipeTitleIndex, possibleSourceMatches } from './source-overlap.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 import { emptyTasteProfile,createTasteProfile,recommendRecipes } from './personalisation.js';
+import { createCloudSync,SYNC_KEY } from './cloud-sync.js';
+import { offlineRecipes,installOffline } from './offline.js';
 
 const appRoot = document.getElementById('app');
 const overlayRoot = document.getElementById('overlay-root');
 const toastRoot = document.getElementById('toast');
 const store = loadStore();
+let cloudSync=null,syncState={status:'off',enabled:false},offlineState={status:'preparing'},applyingCloud=false,applyingUpdate=false;
 
 let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
 let categories = ['All', 'Chicken', 'Seafood', 'Vegetarian', 'Pasta', 'Dessert', 'Vegan'];
@@ -389,7 +392,11 @@ async function discover(mode='featured', value='', {history=true}={}) {
   render();
   try {
     let meals,warning='';
-    if(discoveryMode==='pantry') {
+    if(globalThis.navigator?.onLine===false) {
+      meals=offlineRecipes(store.saved,discoveryMode==='pantry'?{}:normaliseFilters(currentRoute()));
+      if(discoveryMode==='pantry')meals=rankByKitchen(meals,store.pantry);
+      warning='You are offline. Showing recipe details saved in this browser. Photos and new source recipes need a connection.';
+    } else if(discoveryMode==='pantry') {
       kitchenSelection=reconcileKitchenSelection(store.pantry,kitchenSelection);
       if(!kitchenSelection.length)kitchenSelection=initialKitchenSelection(store.pantry);
       const picked=searchPantryRows(store.pantry,kitchenSelection);
@@ -569,6 +576,33 @@ function personalRecipeForm() {
     '<div class="field wide"><p class="panel-note">Your own recipes stay in this browser for now. Personal photo storage will come later; third-party photographs are not copied without permission.</p></div>' +
     '<div class="field wide"><button class="btn" type="submit">' + (meal ? 'Save recipe changes' : '+ Add to my usual dishes') + '</button></div></form></section>';
 }
+function cloudControls() {
+  const labels={off:'Cloud sync is off',pending:'Changes waiting to sync',checking:'Checking the cloud copy…',synced:'Synced',offline:'Offline — changes saved here',conflict:'Review your two copies','account-changed':'Account changed','signed-out':'Sign in to resume sync',error:'Sync needs attention'};
+  const button=(action,label,disabled=false)=>'<button id="'+action+'" type="button" class="btn secondary small" data-action="'+action+'"'+(disabled?' disabled':'')+'>'+label+'</button>';
+  const summary=copy=>copy?copy.recipes+' recipes · '+copy.batches+' kitchen batches · '+copy.planned+' planned days · '+copy.leftovers+' leftover records':'Cloud copy removed';
+  const conflict=syncState.status==='conflict'?'<div class="sync-conflict"><h4>Choose the copy to keep</h4><p class="panel-note">This replaces one complete copy. It does not merge individual records.</p><p><strong>This browser:</strong> '+summary(syncState.local)+'</p><p><strong>Cloud:</strong> '+summary(syncState.remote)+'</p>'+
+    (syncState.updatedAt?'<p class="panel-note">Cloud updated '+escapeHtml(new Date(syncState.updatedAt).toLocaleString())+'</p>':'')+'<div class="dialog-actions">'+button('sync-keep-local','Use this browser’s copy')+(syncState.remote?button('sync-keep-cloud','Use the cloud copy'):'')+'</div></div>':'';
+  return '<p id="cloud-status" role="status" aria-live="polite"><strong>'+escapeHtml(labels[syncState.status]||labels.off)+'</strong></p>'+
+    (syncState.message?'<p class="panel-note">'+escapeHtml(syncState.message)+'</p>':'')+conflict+'<div class="dialog-actions">'+
+    (syncState.enabled?button('sync-now','Sync now',syncState.status==='checking')+button('sync-off','Turn sync off')+button('sync-remove','Remove cloud copy',syncState.status==='checking'):button('sync-enable','Enable cloud sync'))+'</div>';
+}
+function continuityPanel() {
+  const offlineLabels={ready:'Ready offline',preparing:'Preparing offline access…',update:'An app update is ready',unsupported:'Offline caching is not supported in this browser',unavailable:'Offline preparation could not finish — reconnect and reload'};
+  return '<section class="panel continuity-panel" aria-label="Offline access and cloud sync"><h3>Your kitchen, wherever you cook</h3><p id="offline-status" class="panel-note">'+escapeHtml(offlineLabels[offlineState.status]||offlineLabels.preparing)+'</p>'+
+    '<p class="panel-note">Saved recipe details, your kitchen and local edits work offline after preparation. Photos and new recipes need a connection. You can add Tasteit to your home screen through your browser menu.</p>'+
+    '<h4>Optional cloud sync</h4><p class="panel-note">Enable to sync your recipes, cooking notes, kitchen, plans, leftovers and taste choices with your private signed-in account. It works while Tasteit is open. Off keeps this browser’s data local; removing the cloud copy keeps this browser’s records.</p><div id="cloud-controls">'+cloudControls()+'</div></section>';
+}
+function updateConnectionUI() {
+  const root=document.getElementById('cloud-controls'),focused=document.activeElement?.id;
+  if(root){root.innerHTML=cloudControls();if(focused?.startsWith('sync-'))document.getElementById(focused)?.focus({preventScroll:true});}
+  const offline=document.getElementById('offline-status');
+  if(offline)offline.textContent=offlineState.status==='ready'?'Ready offline':offlineState.status==='update'?'An app update is ready':offlineState.status==='preparing'?'Preparing offline access…':'Offline caching is unavailable in this browser.';
+  const bar=document.getElementById('connection-status');if(!bar)return;
+  const disconnected=globalThis.navigator?.onLine===false;
+  bar.hidden=!disconnected&&offlineState.status!=='update';
+  bar.innerHTML=(disconnected?'You are offline. Saved recipes and local changes are available.':'An updated Tasteit is ready.')+
+    (offlineState.status==='update'?'<button type="button" class="btn secondary small" data-action="offline-update">Reload to update</button>':'');
+}
 function libraryPage() {
   const all = filterCookbook(store.saved);
   const tags = collectionTags(store.saved);
@@ -592,10 +626,10 @@ function libraryPage() {
     ((librarySearch || libraryTag) ? '<button class="btn ghost small" type="button" data-action="clear-library-filters">Clear filters</button>' : '') + '</div>' +
     (list.length ? cards(list.map(x => x.meal)) :
       empty('📖', 'Nothing matching yet', all.length ? 'Try a different search, collection or label.' : 'Discover a recipe or add your own everyday dish.', '<button class="btn" type="button" data-action="clear-library-filters">Show all saved recipes</button>')) +
-    '<section class="panel" style="margin-top:28px"><div class="section-head"><div><h3>Your data, your choice</h3><p>Keep a backup of your recipes, labels, cooking history, pantry and meal plans.</p></div></div>' +
+    continuityPanel()+'<section class="panel" style="margin-top:28px"><div class="section-head"><div><h3>Your data, your choice</h3><p>Keep a backup of your recipes, labels, cooking history, pantry and meal plans.</p></div></div>' +
     '<div class="dialog-actions"><button type="button" class="btn secondary small" data-action="export-data">↓ Export backup</button>' +
     '<label class="btn secondary small" for="backup-file">↑ Import backup</label><input type="file" id="backup-file" accept=".json,application/json" class="visually-hidden"></div>' +
-    '<p class="panel-note" style="margin-top:13px">Backups include your personal information. Keep them private. Import replaces everything saved in this browser; nothing is uploaded to a server.</p></section>';
+    '<p class="panel-note" style="margin-top:13px">Backups include your personal information. Keep them private. Import replaces this browser’s copy; if cloud sync is enabled, those changes may sync.</p></section>';
 }
 
 function expiryText(value) {
@@ -1008,6 +1042,7 @@ function render() {
     if(typeof restoreInput.start==='number')input?.setSelectionRange(restoreInput.start,restoreInput.end);
   }
   if (selectedMeal) renderDialog();
+  updateConnectionUI();
 }
 
 function instructions(meal) { return recipeSteps(meal); }
@@ -1248,6 +1283,21 @@ document.addEventListener('click', async event => {
   const action = button.dataset.action;
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
+  if(action.startsWith('sync-')) {
+    if(!cloudSync){notice('Cloud sync is not available yet.');return;}
+    if(action==='sync-enable')await cloudSync.connect();
+    if(action==='sync-now')await cloudSync.sync();
+    if(action==='sync-off')cloudSync.disconnect();
+    if(action==='sync-keep-local' && window.confirm('Replace the cloud copy with this browser’s complete copy?'))await cloudSync.resolve('local');
+    if(action==='sync-keep-cloud' && window.confirm('Replace this browser’s complete copy with the cloud copy? Export a backup first if you want to keep both.'))await cloudSync.resolve('remote');
+    if(action==='sync-remove' && window.confirm('Remove your cloud copy and turn sync off? Your records in this browser will stay.'))await cloudSync.removeCloud();
+    return;
+  }
+  if(action==='offline-update') {
+    if(!offlineState.registration?.waiting)return;
+    if(!window.confirm('Reload to update Tasteit? Saved data stays. Unsaved form text may be lost.'))return;
+    applyingUpdate=true;offlineState.registration.waiting.postMessage('TASTEIT_APPLY_UPDATE');return;
+  }
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
   if(action==='taste-hide' || action==='taste-show-hidden') {
@@ -1898,6 +1948,7 @@ document.addEventListener('keydown', event => {
 });
 
 window.addEventListener('storage', event => {
+  if(event.key===SYNC_KEY){void cloudSync?.refresh();return;}
   if (event.key !== 'tasteit.local.v1') return;
   const fresh = loadStore();
   store.pantry = fresh.pantry;
@@ -1915,6 +1966,28 @@ window.addEventListener('storage', event => {
 });
 
 // Start application.
+cloudSync=createCloudSync({readLocal:()=>loadStore(),readMeta:()=>JSON.parse(localStorage.getItem(SYNC_KEY)||'null'),
+  writeMeta:data=>{try{localStorage.setItem(SYNC_KEY,JSON.stringify(data));return true;}catch{return false;}},
+  writeLocal:data=>{
+    if(selectedMeal||openingMealId||showRecipeForm||editingId||bulkOpen||purchaseDraft||tasteDraft)throw new Error('Close the recipe or finish your current editor, then press Sync now. Your local copy is unchanged.');
+    const fields=captureFields(document.getElementById('pantry-form')),search=captureFields(document.getElementById('cookbook-search-form'));
+    const focus=document.activeElement?.id;
+    applyingCloud=true;
+    try {
+      if(!persistStore(data))return false;
+      Object.assign(store,data);render();
+      restoreFields(document.getElementById('pantry-form'),fields);restoreFields(document.getElementById('cookbook-search-form'),search);
+      document.getElementById(focus)?.focus({preventScroll:true});return true;
+    } finally {applyingCloud=false;}
+  },onState:state=>{syncState=state;updateConnectionUI();}});
+syncState=cloudSync.state;
+window.addEventListener('tasteit:local-change',()=>{if(!applyingCloud)cloudSync.changed();});
+window.addEventListener('online',()=>{updateConnectionUI();void cloudSync.sync();if(view==='discover'&&!selectedMeal&&!openingMealId)void discover('restore','',{history:false});});
+window.addEventListener('offline',()=>{updateConnectionUI();void cloudSync.sync();if(view==='discover'&&!selectedMeal&&!openingMealId)void discover('restore','',{history:false});});
+window.addEventListener('focus',()=>{void cloudSync.sync();});
+if(syncState.status!=='off')void cloudSync.sync();
+void installOffline(state=>{offlineState=state;updateConnectionUI();});
+navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applyingUpdate)window.location.reload();});
 window.addEventListener('popstate',()=>void restoreRoute(readRoute(window.location.href)));
 window.history.replaceState({tasteit:true,recipeOverlay:false,scrollY:0},'',window.location.href);
 void restoreRoute(readRoute(window.location.href));
