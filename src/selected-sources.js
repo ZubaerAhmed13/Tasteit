@@ -44,6 +44,12 @@ function maangchiIngredients(html) {
  const section=html.slice(start.index+start[0].length,end.index);
  return [...section.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map(m=>plain(m[1].replace(/&nbsp;/gi,' ').replace(/&#(x[0-9a-f]+|[0-9]+);/gi,(_m,n)=>String.fromCodePoint(Number.parseInt(n.replace(/^x/i,''),/^x/i.test(n)?16:10))),350));
 }
+function sourceEquipment(html) {
+ const equipment=new Set();
+ for(const group of html.matchAll(/<h([3-6])\b[^>]*>\s*Equipment\s*<\/h\1>\s*<ul\b[^>]*>([\s\S]*?)<\/ul>/gi))
+  for(const item of group[2].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi))equipment.add(plain(item[1],350));
+ return equipment;
+}
 function recipeRating(input,ratings,url) {
  if(!input||typeof input!=='object'||Array.isArray(input))return null;
  if(input.ratingValue!==undefined)return aggregate(input);
@@ -104,7 +110,9 @@ export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
   }
   if(originals(recipe.isBasedOn).some(original=>!approvedSource(original)))throw new Error('The original recipe publisher is not selected.');
  }
- const title=plain(recipe.name,200),ingredients=source.id==='maangchi'?maangchiIngredients(html):Array.isArray(recipe.recipeIngredient)?recipe.recipeIngredient.filter(x=>typeof x==='string').map(x=>plain(x,350)):[];
+ const title=plain(recipe.name,200),rawIngredients=source.id==='maangchi'?maangchiIngredients(html):Array.isArray(recipe.recipeIngredient)?recipe.recipeIngredient.filter(x=>typeof x==='string').map(x=>plain(x,350)):[];
+ const equipment=source.id==='196flavors'?sourceEquipment(html):new Set();
+ const ingredients=rawIngredients.filter(line=>!equipment.has(line));
  if(!title||!ingredients.length||ingredients.length>100||ingredients.some(x=>!x))throw new Error('The recipe is missing usable ingredients.');
  const original=new URL(url);original.hash='';original.search='';
  const author=[].concat(recipe.author||[]).map(x=>plain(typeof x==='string'?x:x.name||refs.get(x['@id'])?.name,100)).filter(Boolean).join(', ').slice(0,300);

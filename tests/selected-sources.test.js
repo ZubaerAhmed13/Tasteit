@@ -91,3 +91,9 @@ test('missing or conflicting image graph references remain empty',async()=>{
  const {extractRecipe}=await api(),id=url+'#image',main={...recipe,image:{'@id':id}},photo={'@type':'ImageObject','@id':id,url:'https://images.example.test/dish.jpg'};
  for(const targets of [[],[photo,{...photo,url:'https://images.example.test/other.jpg'}],[{...photo,'@type':'WebPage'}],[{...photo,url:'javascript:alert(1)'}]])assert.equal(extractRecipe(html({'@graph':[main,...targets]}),url).photoUrl,null);
 });
+test('explicitly labelled equipment is excluded from 196 Flavors ingredient facts',async()=>{
+ const {extractRecipe}=await api(),u='https://www.196flavors.com/falafel-taamiya/';const main={...recipe,url:u,'@id':u+'#recipe',recipeIngredient:['2 cups dried chickpeas','Food processor']};
+ const equipment='<h4 class="wprm-recipe-group-name">Equipment</h4><ul class="wprm-recipe-ingredients"><li><span>Food processor</span></li></ul>';
+ assert.deepEqual(extractRecipe(html(main)+equipment,u).ingredients,['2 cups dried chickpeas']);
+ assert.equal(extractRecipe(html(main),u).ingredients.length,2,'equipment is removed only with explicit publisher evidence');
+});

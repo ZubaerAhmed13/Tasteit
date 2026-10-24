@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourceList": "https://chatgpt.com/s/t_6adc780320e48191a978d6ea1aadd9c0",
-  "checkedAt": "2026-10-24T15:48:43.174Z",
+  "checkedAt": "2026-10-24T20:02:13.773Z",
   "scope": "Bounded checked collection; source labels are not independently verified origins.",
   "recipes": [
     {
@@ -241,7 +241,7 @@
       "source": "196flavors",
       "url": "https://www.196flavors.com/korma/",
       "title": "Korma",
-      "author": "",
+      "author": "Laurie Liagre",
       "cuisine": "Indian",
       "category": "Main Course",
       "ingredients": [
@@ -272,8 +272,7 @@
         "1 cup yogurt ((dahi))",
         "1 cup cold water",
         "½ small red hot pepper (, seeded and chopped)",
-        "1 tablespoon brown sugar",
-        "Blender"
+        "1 tablespoon brown sugar"
       ],
       "rating": {
         "value": 5,
@@ -283,7 +282,7 @@
         "countType": "ratings"
       },
       "photoUrl": "https://www.196flavors.com/wp-content/uploads/2020/09/korma-2-FP.jpeg",
-      "checkedAt": "2026-10-24T14:26:21.156Z"
+      "checkedAt": "2026-10-24T20:02:13.773Z"
     },
     {
       "id": "chefkoch-rezepte-1582261265704130-Chicken-Curry-html",
@@ -1087,8 +1086,7 @@
         "1 tablespoon flour ((or more if necessary))",
         "¼ teaspoon chili powder ((optional))",
         "3 tablespoons sesame seeds ((for ta'amiya))",
-        "Vegetable oil ((for frying))",
-        "Food processor"
+        "Vegetable oil ((for frying))"
       ],
       "rating": {
         "value": 5,
@@ -1429,6 +1427,13 @@
           "checkedAt": "2026-10-24T15:41:07.392Z",
           "finalUrl": "https://www.196flavors.com/ratatouille/",
           "status": "collected"
+        },
+        {
+          "url": "https://www.196flavors.com/korma/",
+          "finalUrl": "https://www.196flavors.com/korma/",
+          "source": "196flavors",
+          "status": "collected",
+          "checkedAt": "2026-10-24T20:02:13.773Z"
         }
       ]
     },

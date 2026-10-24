@@ -195,14 +195,14 @@ Owner-signed-in hosted, physical-phone and assistive-technology checks remain op
 
 - [x] Nine source-linked recipes added from BBC Good Food, Maangchi and 196 Flavors; now 36 recipes across 12 of the selected 16 sites
 - [x] 28 collected recipe ratings: explicit same-page AggregateRating references are resolved; conflicting, unrelated or unlinked graph nodes remain excluded. Maangchi’s earlier kimchi recipe was refreshed from its original page
-- [x] Maangchi’s complete ingredient sections replace truncated structured ingredient lists, bounded before the next main section. Ingredients and ratings reproduce from ten saved original pages; instructions are excluded
+- [x] Maangchi’s complete ingredient sections replace truncated structured ingredient lists, bounded before the next main section. Ingredients and ratings reproduce from eleven saved original pages; instructions are excluded
 - [x] Missing rating copy says “not collected”, since a publisher may have a score that could not be safely collected. BBC’s conflicting rating evidence stays uncollected
-- [x] 32 additional real Commons references visually inspected with original-file, creator and licence evidence; registry now 109. 340 of 491 ingredient rows match and 151 remain unresolved
+- [x] 32 additional real Commons references visually inspected with original-file, creator and licence evidence; registry now 109. 340 of 489 ingredient rows match and 149 remain unresolved
 - [x] Original 27 recipes gain 18 new supported row matches. Two unsupported toasted-sesame-oil references are now gaps; roasted sesame seeds use a separately reviewed toasted-seed photograph. All other old matches retain their photograph
 - [x] Explicit ImageObject graph references now supply the original recipe thumbnails; unrelated author images and ambiguous definitions stay excluded
 - [x] New regressions cover graph-linked ratings and images, complete source ingredients and numeric entities, plant versus base milk, plural cans, reviewed heated forms, comma preparation clauses and wine adjectives
-- [x] All 198 Node tests and syntax checks pass locally
-- [ ] One independent data/contract review and material fixes
+- [x] All 199 Node tests and syntax checks pass locally
+- [x] One independent data/contract review approved the candidate, with no Critical/Important findings. Its Minor equipment finding was corrected: explicitly labelled equipment groups are excluded, including Food processor in falafel and Blender in korma, with a regression
 - [ ] Worker build, six browser suites per Chromium/Firefox/WebKit and three fresh Firefox continuity runs
 - [ ] Publish the exact tested source, verify live hashes/provenance and preserve owner-only access
 
