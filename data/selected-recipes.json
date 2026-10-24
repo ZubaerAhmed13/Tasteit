@@ -1,7 +1,7 @@
 {
   "version": 1,
   "sourceList": "https://chatgpt.com/s/t_6adc780320e48191a978d6ea1aadd9c0",
-  "checkedAt": "2026-10-24T14:26:35.051Z",
+  "checkedAt": "2026-10-24T14:46:15.913Z",
   "scope": "Bounded initial collection; source labels are not independently verified origins.",
   "recipes": [
     {
@@ -723,6 +723,49 @@
       },
       "photoUrl": "https://www.indianhealthyrecipes.com/wp-content/uploads/2019/05/chicken-fried-rice.jpg",
       "checkedAt": "2026-10-24T14:26:35.048Z"
+    },
+    {
+      "id": "goodfood-recipes-shortbread-biscuits",
+      "source": "goodfood",
+      "url": "https://www.bbcgoodfood.com/recipes/shortbread-biscuits",
+      "title": "Shortbread",
+      "author": "Lulu Grimes",
+      "cuisine": "",
+      "category": "Afternoon tea, Treat",
+      "ingredients": [
+        "150g/5oz plain flour plus extra for dusting",
+        "100g/4oz butter chilled and cubed",
+        "50g/2oz caster sugar plus 1 tbsp for sprinkling"
+      ],
+      "rating": null,
+      "photoUrl": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/shortbread-7ed3e1a.jpg?resize=440,400",
+      "checkedAt": "2026-10-24T14:46:06.645Z"
+    },
+    {
+      "id": "recipetineats-how-to-cook-rice",
+      "source": "recipetineats",
+      "url": "https://www.recipetineats.com/how-to-cook-rice/",
+      "title": "How to cook rice - perfectly and easily",
+      "author": "Nagi",
+      "cuisine": "American Chinese, Asian, Chinese, Western",
+      "category": "Side",
+      "ingredients": [
+        "1 cup white rice (- short, medium or long grain, uncooked (Note 1))",
+        "1 1/2 cups water",
+        "2 cups white rice (- short, medium or long grain (Note 1, 2))",
+        "3 cups boiling water ((Note 3))",
+        "1 cup white rice (- short, medium or long grain (Note 1))",
+        "2 cups boiling water ((Note 3))"
+      ],
+      "rating": {
+        "value": 4.98,
+        "best": 5,
+        "worst": 1,
+        "count": 150,
+        "countType": "ratings"
+      },
+      "photoUrl": "https://www.recipetineats.com/tachyon/2019/09/Cooked-white-rice.jpg",
+      "checkedAt": "2026-10-24T14:46:11.253Z"
     }
   ],
   "sources": [
@@ -763,7 +806,7 @@
       "hosts": [
         "bbcgoodfood.com"
       ],
-      "collected": 2,
+      "collected": 3,
       "attempts": [
         {
           "url": "https://www.bbcgoodfood.com/recipes/home-style-chicken-curry",
@@ -778,6 +821,13 @@
           "source": "goodfood",
           "status": "collected",
           "checkedAt": "2026-10-24T14:26:16.452Z"
+        },
+        {
+          "url": "https://www.bbcgoodfood.com/recipes/shortbread-biscuits",
+          "finalUrl": "https://www.bbcgoodfood.com/recipes/shortbread-biscuits",
+          "source": "goodfood",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:46:06.645Z"
         }
       ]
     },
@@ -787,7 +837,7 @@
       "hosts": [
         "recipetineats.com"
       ],
-      "collected": 3,
+      "collected": 4,
       "attempts": [
         {
           "url": "https://www.recipetineats.com/chicken-curry/",
@@ -809,6 +859,13 @@
           "source": "recipetineats",
           "status": "collected",
           "checkedAt": "2026-10-24T14:26:16.272Z"
+        },
+        {
+          "url": "https://www.recipetineats.com/how-to-cook-rice/",
+          "finalUrl": "https://www.recipetineats.com/how-to-cook-rice/",
+          "source": "recipetineats",
+          "status": "collected",
+          "checkedAt": "2026-10-24T14:46:11.253Z"
         }
       ]
     },

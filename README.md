@@ -148,7 +148,7 @@ Tasteit source code is an original prototype; third-party recipes and photograph
 
 [Open the selected-source collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html).
 New collection is restricted to the **16 websites named in your shared list**.
-The initial checked batch contains **21 recipes from 11 sites; 16 have a published
+The initial checked batch contains **23 recipes from 11 sites; 17 have a published
 recipe rating**. Allrecipes, Serious Eats, NYT Cooking, TasteAtlas and SuperCook
 have explicit collection gaps in this pass; dish/app ratings are not recipe votes.
 Source status, the original score scale, vote/review count and checked date remain
