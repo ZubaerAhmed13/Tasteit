@@ -26,34 +26,36 @@
 tests/sync-api.test.js, tests/helpers/sqlite-d1.js, package.json.
 **Interfaces:** handleSync(request,env) -> Response; GET/PUT/DELETE /api/sync,
 {accountId,revision,updatedAt,data}, PUT {revision,data}, DELETE {revision}.
-- [ ] Write/run failing identity/origin, size, malformed-data, account-isolation,
+- [x] Write/run failing identity/origin, size, malformed-data, account-isolation,
   stale-write and tombstone tests against a real SQLite D1 adapter.
-- [ ] Implement bounded validation, parameterised CAS SQL and no-store responses.
-- [ ] Generate/inspect schema-only migration; verify existing Node suite and commit.
+- [x] Implement bounded validation, parameterised CAS SQL and no-store responses.
+- [x] Generate/inspect schema-only migration; verify existing Node suite and commit.
 
 ## Task 2: Local-first reconciliation controller
 **Files:** src/cloud-sync.js, tests/cloud-sync.test.js, src/model.js.
 **Interfaces:** createCloudSync({readLocal,writeLocal,readMeta,writeMeta,fetch,onState,isOnline})
 returns connect(), sync(), resolve(choice), disconnect(), removeCloud(), changed(), get state.
-- [ ] Write/run failing tests for first sync, two-sided conflict, in-flight local
+- [x] Write/run failing tests for first sync, two-sided conflict, in-flight local
   edits, account changes, stale resolution, failed storage, retry and cloud removal.
-- [ ] Implement serial requests, persisted common snapshot and explicit choices.
-- [ ] Notify the controller only after successful local writes; verify suite and commit.
+- [x] Implement serial requests, persisted common snapshot and explicit choices.
+- [x] Notify the controller only after successful local writes; verify suite and commit.
 
 ## Task 3: Offline shell and connected UI
 **Files:** sw.js, app.webmanifest, src/offline.js, src/app.js, index.html,
 styles.css, tests/offline.test.js, tests/continuity-browser.mjs, workflow/test servers.
 **Interfaces:** offlineRecipes(saved,filters); controller from Task 2; /api/sync.
-- [ ] Write/run failing offline filtering/cache-boundary and browser scenarios.
-- [ ] Add safe shell caching/update controls and offline saved-recipe recovery.
-- [ ] Add sync consent/status/conflict/removal controls and preserve local drafts.
-- [ ] Improve phone targets, inputs and safe-area layout; run Node/browser checks.
+- [x] Write/run failing offline filtering/cache-boundary and browser scenarios.
+- [x] Add safe shell caching/update controls and offline saved-recipe recovery.
+- [x] Add sync consent/status/conflict/removal controls and preserve local drafts.
+- [x] Improve phone targets, inputs and safe-area layout; run Node/browser checks.
 
 ## Task 4: Worker packaging, independent review and publication
 **Files:** scripts/build-site.mjs, server/worker.js, README.md, docs/ACCEPTANCE.md,
 existing Site source manifest and generated package.
 **Interfaces:** verified GitHub feature SHA, private Site identity and D1 binding DB.
-- [ ] Bundle all app assets and API into a Worker; include generated migrations.
-- [ ] Run the full five-suite browser matrix and one independent stage review.
-- [ ] Fix material findings with regressions; publish the verified private version.
-- [ ] Record source parity, native deployment result and remaining authenticated/device limits.
+- [x] Bundle all app assets and API into a Worker; include generated migrations.
+- [x] Run the full five-suite browser matrix and one independent stage review.
+- [x] Fix material findings with regressions; publish the verified private version.
+- [x] Record source parity, native deployment result and remaining authenticated/device limits.
+
+Completed 24 October 2026. See docs/ACCEPTANCE.md for CI, exact-source publication and remaining hosted/device acceptance.

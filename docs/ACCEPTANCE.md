@@ -108,9 +108,27 @@ unmerged. Preview access is separate from approval for a public production relea
 - [x] Offline readiness checks every required shell asset; reachable sign-in/denial invalidates active, waiting and in-progress cache generations; returning after sign-in rebuilds all assets
 - [x] Touch controls at least 44px, phone form text at least 16px, safe-area spacing and visible offline/update status
 - [x] Independent review findings fixed with regression tests; all 157 Node tests and Worker build pass locally
-- [ ] Final five-suite browser matrix, including offline reload/edit, two devices, conflict selection, separate accounts and cloud removal
-- [ ] Publish exact tested Worker and apply generated D1 migration; verify archive parity and hosted identity rejection
+- [x] Final five-suite browser matrix, including offline reload/edit, two devices, conflict selection, separate accounts and cloud removal
+- [x] Publish exact tested Worker and apply generated D1 migration; verify archive parity and hosted identity rejection
 - [ ] Hosted walkthrough with the owner signed in; physical Android/iOS offline use and accessibility
+
+Verified application source: `bc4565abf6b7cd51295eef383fe0e27b762c59e0`.
+[CI run 40082991498](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40082991498)
+passed all 157 Node tests, syntax/build checks and five browser suites in Chromium,
+Firefox and WebKit; all three fresh Firefox continuity sessions passed. The
+focus regression verifies that a disabled sync control survives window focus.
+Offline reload uses an actual stopped origin, with a connection-refusal negative check.
+
+Private preview **version 3** was published successfully on 24 October 2026 from
+Site source `313fb662653fa580f1e3f9fc8e51d1b7ceaf19da`. All 38 packaged assets
+match the application source; live HTML, app/sync scripts, styles and service worker
+match their hashes, and `/tasteit-source.json` identifies that tested commit.
+The managed `DB` binding contains `tasteit_sync` after applying the generated
+migration. Read-only service access without a signed-in user identity receives
+401 from `/api/sync`. Owner-only access is unchanged. No user identity was forged
+and no private browser snapshot was uploaded during these checks. This verifies
+publication and the missing-identity boundary; it does not establish the
+signed-in hosted account walkthrough listed above.
 
 ## Collection audit — 23 October 2026
 
