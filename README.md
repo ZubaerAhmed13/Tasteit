@@ -106,6 +106,19 @@ For authenticity, image rights, source research, regional variants and future so
 
 ## Product roadmap
 
+Personal discovery includes **Your taste**: optional preferred cuisines and
+ingredient names you would rather skip. **For your table** explains suggestions
+using saved dishes, chosen cuisines and recorded kitchen ingredients. Choose
+**Not for me** to skip a suggestion without deleting the recipe; **Show skipped
+recipes** reverses this. Taste preferences apply to suggestions only, not the full
+recipe search, and are not allergy filters. Existing recipe labels also appear as
+**Curated by you** shortcuts into your cookbook.
+
+Taste choices and skipped IDs stay local and are included in version-1 JSON
+backups; older backups still load. This stage is authorised for a private testing
+preview. The feature PR remains unmerged. Physical-device, source-rights and
+production API checks remain separate. Search indexing is disabled in the source.
+
 1. **Foundation** — diverse discovery, recipe details, personal recipes, local collections, backups and browser acceptance (this PR).
 2. **Personalisation** — cooking history/notes, custom recipes, saved labels, collection search and sorting added; scheduled reminders and personal photo uploads remain.
 3. **Kitchen intelligence** — amount comparisons, vetted name aliases, separately dated stock batches and use-soon suggestions are available; user-confirmed serving scaling added; ingredient-specific equivalence, stock forecasting and calendar/notification controls remain.

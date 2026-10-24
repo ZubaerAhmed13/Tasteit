@@ -42,6 +42,7 @@ let filterDraft = null;
 let queryDraft = null;
 let tasteDraft = null;
 let tastePanelOpen = false;
+let personalRecipeCards = new Map();
 let kitchenSelection = [];
 let kitchenDirty = false;
 let kitchenShowAll = false;
@@ -442,7 +443,7 @@ function card(meal, kitchenExplanation = false, personalReasons = null) {
       (kitchenInfo.missing.length > 3 ? ' +' + (kitchenInfo.missing.length-3) + ' more' : '') + '</span>' :
       kitchenInfo.needReview.length ? '<span>Check amounts: ' + escapeHtml(kitchenInfo.needReview.slice(0,2).join(', ')) + '</span>' :
       '<span>Check amounts, freshness and dietary suitability before cooking.</span>') + '</div>' : '';
-  return '<article class="recipe-card">' +
+  return '<article class="recipe-card"'+(personalReasons?' data-personal-recipe':'')+'>' +
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
@@ -466,12 +467,12 @@ function tastePreferences() {
   const profile=store.tasteProfile||emptyTasteProfile();
   const fields=tasteDraft||{cuisines:profile.cuisines.join(', '),avoidIngredients:profile.avoidIngredients.join(', ')};
   const tags=collectionTags(store.saved).slice(0,6);
-  return '<section class="panel taste-panel" aria-label="Personalise your discovery"><details id="taste-preferences"'+(tastePanelOpen?' open':'')+'><summary>Your taste <span>Make suggestions yours</span></summary>'+
+  return '<section class="panel taste-panel" aria-label="Personalise your discovery"><details id="taste-preferences"'+(tastePanelOpen?' open':'')+'><summary id="taste-summary">Your taste <span>Make suggestions yours</span></summary>'+
     '<p class="panel-note">Your choices stay in this browser and shape suggestions only. Search still shows the full source selection. Taste preferences are not allergy filters.</p>'+
     '<form id="taste-form" class="taste-form"><div class="field"><label for="taste-cuisines">Cuisines you enjoy</label><input id="taste-cuisines" name="cuisines" maxlength="650" value="'+escapeHtml(fields.cuisines)+'" placeholder="Indian, Turkish, Italian"><p class="panel-note">Up to 8, separated by commas.</p></div>'+
     '<div class="field"><label for="taste-avoid">Ingredients you would rather skip</label><textarea id="taste-avoid" name="avoidIngredients" maxlength="1650" rows="2" placeholder="e.g. aubergine, olives">'+escapeHtml(fields.avoidIngredients)+'</textarea><p class="panel-note">Up to 20 names, separated by commas. Check each recipe yourself.</p></div>'+
-    '<div class="dialog-actions"><button type="submit" class="btn small">Save my taste</button>'+
-    (profile.hiddenRecipeIds.length?'<button type="button" class="btn secondary small" data-action="taste-show-hidden">Show skipped recipes ('+profile.hiddenRecipeIds.length+')</button>':'')+'</div></form></details>'+
+    '<div class="dialog-actions"><button id="taste-save" type="submit" class="btn small">Save my taste</button>'+
+    (profile.hiddenRecipeIds.length?'<button id="taste-show-skipped" type="button" class="btn secondary small" data-action="taste-show-hidden">Show skipped recipes ('+profile.hiddenRecipeIds.length+')</button>':'')+'</div></form></details>'+
     (tags.length?'<div class="taste-collections" aria-label="Your curated collections"><span class="panel-note">Curated by you</span>'+tags.map(tag=>'<button type="button" class="chip" data-action="taste-collection" data-tag="'+escapeHtml(tag.name)+'">'+escapeHtml(tag.name)+' · '+tag.count+'</button>').join('')+'</div>':'')+'</section>';
 }
 function personalSuggestions(rows) {
@@ -492,6 +493,7 @@ function discoverPage() {
   const applied=filterSummary(filters);
   const showPersonal=!applied.length && discoveryMode!=='pantry';
   const recommendations=showPersonal?recommendRecipes(loading?[]:activeMeals,store.saved,store.pantry,store.tasteProfile||emptyTasteProfile()):[];
+  personalRecipeCards=new Map(recommendations.map(row=>[row.meal.idMeal,row.meal]));
   const recommendedIds=new Set(recommendations.map(row=>row.meal.idMeal));
   const option=(value,label,selected)=>'<option value="'+escapeHtml(value)+'"'+(selected?' selected':'')+'>'+escapeHtml(label)+'</option>';
   const categoryOptions=[...new Set([...categories.filter(c=>c!=='All'),...(draft.category?[draft.category]:[])])];
@@ -995,7 +997,7 @@ function render() {
   const purchaseIdentity=purchaseForm?.dataset.reviewId;
   const purchaseFields=captureFields(purchaseForm);
   const active=document.activeElement;
-  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter','taste-cuisines','taste-avoid'].includes(active?.id)
+  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter','taste-cuisines','taste-avoid','taste-summary','taste-save','taste-show-skipped'].includes(active?.id)
     ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
@@ -1213,11 +1215,11 @@ async function openMeal(id,{history=true,meal:provided}={}) {
     recipeStatus(id.startsWith('personal-')?error.message:'Could not load this recipe. Check your connection and try again.',true);
   }
 }
-async function markRecipe(id, field) {
+async function markRecipe(id, field, provided=null) {
   if(recipeMutations.has(id))return;
   recipeMutations.add(id);
   try {
-  let meal = findMeal(id);
+  let meal = provided || findMeal(id);
   if (!meal) return;
   if (!ingredientsOf(meal).length || !meal.strInstructions) {
     try { meal = await mealDetails(id); } catch { notice('Recipe details could not load. Try again.'); return; }
@@ -1245,6 +1247,7 @@ document.addEventListener('click', async event => {
   if (!button) return;
   const action = button.dataset.action;
   const id = button.dataset.id;
+  const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
   if (action === 'overlay') { if (event.target === button) closeDialog(); return; }
   if (action === 'close') { closeDialog(); return; }
   if(action==='taste-hide' || action==='taste-show-hidden') {
@@ -1352,14 +1355,14 @@ document.addEventListener('click', async event => {
   if (action === 'world-cancel') { worldScanController?.abort(); return; }
   if (action === 'world-export') { downloadWorldIndex(); return; }
   if (action === 'world-retry-options') { await loadWorldOptions(); return; }
-  if (action === 'open') { await openMeal(id); return; }
+  if (action === 'open') { await openMeal(id,personalMeal?{meal:personalMeal}:undefined); return; }
   if (action === 'retry-recipe') { await openMeal(id,{history:false}); return; }
   if (action === 'copy-recipe-link') {
     try { await navigator.clipboard.writeText(routeUrl(currentRoute(),window.location.href).href);notice('Recipe link copied.'); }
     catch { notice('Could not copy the link. You can copy it from your browser address bar.'); }
     return;
   }
-  if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action); return; }
+  if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action,personalMeal); return; }
   if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; cookingStockSnapshot=consumptionReview(selectedMeal,store.pantry,savedEntry(id).baseServings,detailTargetServings); showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
   if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
   if (action === 'featured') { await discover(); return; }

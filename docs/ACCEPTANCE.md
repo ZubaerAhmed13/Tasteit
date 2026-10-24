@@ -77,6 +77,21 @@ GitHub Actions runs unit and API tests plus Playwright browser acceptance in hea
   [CI run 40038698323](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40038698323))
 - [ ] Real Android/iOS quantity entry, keyboard and leftover controls
 
+## Third audit stage — personal discovery and testing preview
+
+- [x] Taste profile validation and old/new version-1 backup compatibility
+- [x] Explained ranking, detailed source-ID deduplication, conservative ingredient
+  skips, hidden/restored suggestions and unchanged saved recipes
+- [x] Actual event-owner tests for failed profile and suggestion-skip writes
+- [ ] Four browser suites in Chromium, Firefox and WebKit, including preference
+  save/reload, draft preservation, labelled collections and 375px controls
+- [ ] Independent review findings resolved
+- [ ] Private preview published from tested source, assets and interactions checked
+- [ ] Physical Android/iOS and assistive-technology testing
+
+The user authorised a testing preview on 24 October 2026. PR #1 stays draft and
+unmerged. Preview access is separate from approval for a public production release.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed
