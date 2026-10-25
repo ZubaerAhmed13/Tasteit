@@ -149,6 +149,17 @@ h3 { font-size: 24px }
 .ingredient-list li { border-bottom:1px solid var(--line); padding-bottom:9px; display:flex; justify-content:space-between; gap:8px; font-size:13px }
 .ingredient-list li span:last-child { color:var(--muted); text-align:right }
 .ingredient-list li.missing span:first-child { color:#b25838 }
+.ingredient-list li { display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;align-items:start;padding:12px 0 }
+.ingredient-details { min-width:0;display:grid;gap:7px;overflow-wrap:anywhere }
+.ingredient-list .ingredient-details span { text-align:left }
+.ingredient-list .ingredient-details .ingredient-name { font-size:15px;line-height:1.5 }
+.ingredient-list .ingredient-details .ingredient-stock { font-size:12px;color:var(--muted) }
+.ingredient-reference { margin:0;min-width:0 }
+.ingredient-reference img { display:block;width:80px;height:80px;object-fit:contain;background:#f6f7f4;border-radius:11px }
+.ingredient-reference figcaption { font-size:10px;line-height:1.5;overflow-wrap:anywhere;margin-top:5px }
+.ingredient-photo-missing { display:grid;place-items:center;width:80px;min-height:80px;background:#f0f2ed;border-radius:11px;font-size:11px;line-height:1.4;text-align:center;padding:9px;color:#677268 }
+.home-collection { border-bottom:1px solid var(--line);padding-bottom:26px }
+.home-collection .section-head { align-items:center;gap:16px;flex-wrap:wrap }
 .instruction-list { padding-left:21px; display:flex; flex-direction:column; gap:14px; line-height:1.65; color:#4a6355; font-size:14px }
 .instruction-list li::marker { color:var(--coral); font-weight:800 }
 .dialog-actions { display:flex; gap:9px; flex-wrap:wrap }

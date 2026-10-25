@@ -1,5 +1,6 @@
 import {ingredientsOf,normalizeIngredient,analyseMeal} from './model.js';
 import {recipeUseSoon} from './pantry-batches.js';
+import {collectedRecipe} from './selected-kitchen.js';
 
 export const emptyTasteProfile=()=>({cuisines:[],avoidIngredients:[],hiddenRecipeIds:[]});
 const idPattern=/^[A-Za-z0-9_-]{1,128}$/;
@@ -54,7 +55,7 @@ export function recommendRecipes(candidates,saved,pantry,profile=emptyTasteProfi
   for(const meal of pool.values()) {
     if(hidden.has(meal.idMeal))continue;
     const ingredients=ingredientsOf(meal);
-    if(avoided.size && (!ingredients.length || ingredients.some(x=>avoided.has(normalizeIngredient(x.name)))))continue;
+    if(avoided.size && (collectedRecipe(meal)||!ingredients.length || ingredients.some(x=>avoided.has(normalizeIngredient(x.name)))))continue;
     const entry=saved[meal.idMeal]||{},reasons=[];
     let score=0;
     if(entry.wanted){score+=8;reasons.push('On your want-to-try list');}

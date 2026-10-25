@@ -7,7 +7,7 @@ export function normaliseFilters(input={}) {
     letter:/^[A-Z]$/.test(letter)?letter:''};
 }
 function normaliseRoute(input={}) {
-  const recipe=text(input.recipe,128);
+  const recipe=text(input.recipe,219);
   return {view:VIEWS.has(input.view)?input.view:'discover',...normaliseFilters(input),
     kitchen:input.kitchen===true,recipe:/^[A-Za-z0-9_-]+$/.test(recipe)?recipe:''};
 }

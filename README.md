@@ -155,8 +155,8 @@ across regions and dish types; they are not an official worldwide ranking.
 The Collection selector composes with source, search and rating filters, and
 the original 36 records remain available.
 Private preview **version 8** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40224331929) passes all 213 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. Live collection assets and source provenance match the tested package.
-The expanded checked batch contains **136 recipes from 12 sites; 128 have a published
-recipe rating**. Linked Maangchi scores retain their original vote counts; the full ingredient
+The expanded checked batch contains **1,008 recipes from 12 sites; 1,000 have a published
+recipe rating**. The original 136 recipes and their IDs remain unchanged. Linked Maangchi scores retain their original vote counts; the full ingredient
 sections are checked because some embedded ingredient lists are incomplete. Allrecipes,
 Serious Eats, NYT Cooking and SuperCook still have collection gaps; dish/app ratings
 are not recipe votes.
@@ -166,11 +166,18 @@ are copied. Earlier cookbook records and research are retained separately.
 
 The ingredient checklist includes **172 visually reviewed real reference photographs**
 from Wikimedia Commons, with file, creator, licence and required source-credit links. These photo sources
-are separate from the recipe-source restriction. **1317 of 2111 ingredient rows**
-have matching references; **794 remain unresolved**. Unknown ingredients, mixed
+are separate from the recipe-source restriction. **7,585 of 13,647 ingredient rows**
+have matching references; **6,062 remain unresolved**. Unknown ingredients, mixed
 alternatives and missing preparations display a clear photo gap. Images are
 identification references, not pictures of the exact products used by an author.
 The collection needs a connection; existing saved-kitchen offline support remains.
+
+Home shows **My usual dishes** and **Want to try** from your saved cookbook.
+Recipes in the approved-source collection can be saved directly to either list
+and opened in the same kitchen dialog. That dialog now shows the same credited
+ingredient reference photographs. Original publisher methods remain external;
+source ingredient lines are preserved without guessed quantity conversions.
+Meal-type filters and 24-card pages make the larger collection easier to browse.
 
 `node scripts/collect-selected-recipes.mjs` collects the bounded seed list,
 checks every redirect/final publisher, parses the main Recipe JSON-LD, follows explicit rating and photograph graph references,

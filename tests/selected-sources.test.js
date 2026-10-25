@@ -4,6 +4,21 @@ const api=()=>import('../src/selected-sources.js');
 const url='https://www.recipetineats.com/chicken-curry/';
 const recipe={ '@type':'Recipe','@id':url+'#recipe',url,name:'Chicken Curry',author:{'@type':'Person',name:'Nagi'},recipeIngredient:['2 cloves garlic','1 cup rice'],aggregateRating:{'@type':'AggregateRating',ratingValue:'4.9',bestRating:'5',ratingCount:'238',reviewCount:'517'},image:'https://www.recipetineats.com/tachyon/curry.jpg'};
 const html=value=>'<script type="application/ld+json">'+JSON.stringify(value)+'</script>';
+test('meal-type filters use original categories and compose with source and ingredient search',async()=>{
+ const {recipeCourses,filterRecipes}=await api();
+ const rows=[{id:'sweet',source:'recipetineats',title:'Cake',category:'Dessert, Baking',ingredients:['rice'],rating:null},{id:'starter',source:'goodfood',title:'Rice bites',category:'Appetizer, Snack',ingredients:['rice'],rating:null},{id:'main',source:'goodfood',title:'Dinner',category:'Main Course',ingredients:['rice'],rating:null}];
+ assert.deepEqual(recipeCourses(rows[0]),['dessert']);assert.deepEqual(recipeCourses(rows[1]),['appetiser']);
+ assert.deepEqual(filterRecipes(rows,{source:'goodfood',query:'rice',course:'appetiser'}).map(r=>r.id),['starter']);
+ assert.deepEqual(recipeCourses({title:'Sweet cake',category:'Breakfast'}),['breakfast']);
+ assert.deepEqual(recipeCourses({category:'Mains'}),['main']);assert.deepEqual(recipeCourses({category:'Sides'}),['side']);assert.deepEqual(recipeCourses({category:'Dip'}),['appetiser']);
+ assert.deepEqual(recipeCourses({category:''}),['other']);
+});
+test('recipe pages bound rendering while keeping total counts and clamping stale pages',async()=>{
+ const {recipePage}=await api(),rows=Array.from({length:55},(_,id)=>({id}));
+ const second=recipePage(rows,2);assert.equal(second.records.length,24);assert.equal(second.records[0].id,24);assert.equal(second.start,25);assert.equal(second.end,48);assert.equal(second.total,55);assert.equal(second.pages,3);
+ assert.equal(recipePage(rows,999).records.length,7);assert.equal(recipePage(rows,-1).page,1);
+ assert.equal(recipePage([],8).total,0);assert.equal(recipePage([],8).start,0);
+});
 test('only the 16 selected publishers pass exact HTTPS source validation',async()=>{
  const {SOURCES,approvedSource}=await api();assert.equal(SOURCES.length,16);
  assert.equal(approvedSource(url).id,'recipetineats');
@@ -70,6 +85,16 @@ test('an unlinked same-id enrichment cannot silently add a recipe score',async()
  const {extractRecipe}=await api();const main={...recipe,aggregateRating:undefined};
  const enrichment={'@id':recipe['@id'],aggregateRating:{'@type':'AggregateRating',ratingValue:5,reviewCount:157}};
  assert.equal(extractRecipe(html(main)+html(enrichment),url).rating,null);
+});
+test('Good Food split rating requires the exact main recipe identity and explicit owning page',async()=>{
+ const {extractRecipe}=await api(),u='https://www.bbcgoodfood.com/recipes/example';
+ const main={...recipe,'@id':u+'#Recipe',url:u,mainEntityOfPage:{'@type':'WebPage','@id':u},aggregateRating:undefined};
+ const extra={'@context':'https://schema.org/','@id':u+'#Recipe',aggregateRating:{ratingValue:4.8,bestRating:5,reviewCount:100}};
+ assert.equal(extractRecipe(html(main)+html(extra),u).rating?.count,100);
+ assert.equal(extractRecipe(html(main)+html(extra),u).rating?.countType,'reviews');
+ for(const bad of [{...extra,'@id':u+'-other#Recipe'},{...extra,url:u}, {...extra,aggregateRating:{ratingValue:5,reviewCount:0}}])assert.equal(extractRecipe(html(main)+html(bad),u).rating,null);
+ assert.equal(extractRecipe(html({...main,mainEntityOfPage:undefined})+html(extra),u).rating,null);
+ assert.equal(extractRecipe(html(main)+html(extra)+html({...extra,aggregateRating:{ratingValue:1,reviewCount:100}}),u).rating,null);
 });
 test('Maangchi ingredient facts come from the complete main ingredient section',async()=>{
  const {extractRecipe}=await api(),u='https://www.maangchi.com/recipe/example';

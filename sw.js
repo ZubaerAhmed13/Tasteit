@@ -6,7 +6,8 @@ const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest',
   './src/offline.js','./src/organise.js','./src/pantry-batches.js','./src/pantry-bulk.js',
   './src/personalisation.js','./src/quantities.js','./src/research-priority.js','./src/research-report.js',
   './src/rights-review.js','./src/servings.js','./src/shopping.js','./src/source-media.js',
-  './src/source-overlap.js','./src/world-catalogue.js'];
+  './src/source-overlap.js','./src/world-catalogue.js','./src/selected-kitchen.js',
+  './src/selected-sources.js','./src/ingredient-reference.js','./src/ingredient-photos.js'];
 const root=new URL('./',self.registration.scope).href;
 const allowed=new Set(ASSETS.map(path=>new URL(path,root).href));
 const CONTROL='tasteit-offline-control-v1',epochKey=new URL('.offline-epoch',root).href;

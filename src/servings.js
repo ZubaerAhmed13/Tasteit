@@ -1,4 +1,5 @@
 import { parseMeasure, displayAmount } from './quantities.js';
+import { collectedRecipe } from './selected-kitchen.js';
 
 export const MAX_SERVINGS = 24;
 
@@ -31,6 +32,8 @@ export function scaleMeasure(raw, originalServings, targetServings) {
 }
 
 export function scaledIngredients(meal, base, target) {
+  const original=collectedRecipe(meal);
+  if(original)return original.ingredients.map(name=>({name,originalMeasure:'',value:'',status:'unscaled',machineMeasure:''}));
   const result=[];
   for(let i=1;i<=20;i++){
     const name=String(meal?.['strIngredient'+i] || '').trim();

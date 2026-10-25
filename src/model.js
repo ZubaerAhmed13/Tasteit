@@ -5,6 +5,7 @@ import { validShoppingState } from './shopping.js';
 import { validEditorialReviews } from './editorial.js';
 import { validKitchenState } from './kitchen-flow.js';
 import { emptyTasteProfile,validTasteProfile } from './personalisation.js';
+import { collectedRecipe } from './selected-kitchen.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 
 export function emptyStore() {
@@ -98,6 +99,8 @@ export function normalizeIngredient(value) {
 
 export function ingredientsOf(meal) {
   if (!meal) return [];
+  const original=collectedRecipe(meal);
+  if(original)return original.ingredients.map(name=>({name,measure:''}));
   const ingredients = [];
   for (let i = 1; i <= 20; i += 1) {
     const name = String(meal['strIngredient' + i] || '').trim();
@@ -216,8 +219,9 @@ export function parseBackup(text) {
     throw new Error('The backup contains invalid meal serving counts.');
   }
   if (!pantry.every(item => item && typeof item.name === 'string' && item.name.length <= 150) ||
-      !Object.entries(saved).every(([key, entry]) => key.length < 160 && entry && typeof entry === 'object' &&
-        entry.meal && typeof entry.meal.strMeal === 'string' && entry.meal.strMeal.length <= 200) ||
+      !Object.entries(saved).every(([key, entry]) => key.length < 220 && entry && typeof entry === 'object' &&
+        entry.meal && typeof entry.meal.strMeal === 'string' && entry.meal.strMeal.length <= 200 &&
+        (entry.meal.selectedRecipe===undefined||Boolean(collectedRecipe(entry.meal))&&key===entry.meal.idMeal)) ||
       !Object.entries(plan).every(([key, id]) => /^\d{4}-\d{2}-\d{2}$/.test(key) && typeof id === 'string')) {
     throw new Error('The backup contains invalid records.');
   }

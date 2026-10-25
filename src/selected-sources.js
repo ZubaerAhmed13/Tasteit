@@ -67,6 +67,18 @@ function recipeImage(input,images) {
  const matches=[...new Map(images.filter(x=>x['@id']===first['@id']).map(x=>[JSON.stringify(x),x])).values()];
  return matches.length===1?matches[0].url||matches[0].contentUrl:null;
 }
+function goodFoodSplitRating(recipe,roots,url,source) {
+ // This publisher emits its recipe score as a separate top-level JSON-LD node.
+ // Require both the exact Recipe identity and its explicit owning WebPage.
+ if(source.id!=='goodfood'||recipe.aggregateRating!==undefined||
+  recipe['@id']!==url.replace(/#.*$/,'')+'#Recipe'||
+  pageKey(recipe.mainEntityOfPage?.['@id'])!==pageKey(url))return undefined;
+ const matches=roots.filter(node=>node&&typeof node==='object'&&!Array.isArray(node)&&
+  node['@id']===recipe['@id']&&node.aggregateRating!==undefined&&
+  Object.keys(node).every(key=>['@context','@id','aggregateRating'].includes(key)));
+ const unique=[...new Map(matches.map(node=>[JSON.stringify(node.aggregateRating),node.aggregateRating])).values()];
+ return unique.length===1?unique[0]:undefined;
+}
 export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
  const source=approvedSource(url);if(!source)throw new Error('Recipe source is not in the selected list.');
  if(typeof html!=='string'||html.length>8_000_000)throw new Error('Source page is missing or too large.');
@@ -77,10 +89,10 @@ export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
   let href=String(attributes.href||'').replace(/&amp;/gi,'&').replace(/&#(x[0-9a-f]+|[0-9]+);/gi,(_m,n)=>String.fromCodePoint(Number.parseInt(n.replace(/^x/i,''),/^x/i.test(n)?16:10)));
   if(!href||/&(?:[a-z]+|#)[^;]*;/i.test(href)||approvedSource(new URL(href,url).href)?.id!==source.id)throw new Error('The canonical publisher is outside this source.');
  }
- const recipes=[],refs=new Map(),pages=[],ratings=[],images=[],owned=new Set();
+ const recipes=[],refs=new Map(),pages=[],ratings=[],images=[],owned=new Set(),roots=[];
  for(const script of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
   try {
-   const document=JSON.parse(script[1]);nodes(document,recipes,0,refs,pages,ratings,images);
+   const document=JSON.parse(script[1]);roots.push(...[].concat(document));nodes(document,recipes,0,refs,pages,ratings,images);
    for(const root of [].concat(document))if(types(root).includes('Recipe'))owned.add(JSON.stringify(root));
   }catch{ /* Malformed/other scripts cannot supply recipe facts. */ }
  }
@@ -119,7 +131,7 @@ export function extractRecipe(html,url,checkedAt=new Date().toISOString()) {
  const image=recipeImage(recipe.image,images);
  const record={id:source.id+'-'+original.pathname.replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,150),source:source.id,url:original.href,title,author,
   cuisine:[].concat(recipe.recipeCuisine||[]).map(x=>plain(x,80)).join(', '),category:[].concat(recipe.recipeCategory||[]).map(x=>plain(x,80)).join(', '),
-  ingredients,rating:recipeRating(recipe.aggregateRating,ratings,url),photoUrl:safeHttps(image)?.href||null,checkedAt};
+  ingredients,rating:recipeRating(recipe.aggregateRating??goodFoodSplitRating(recipe,roots,url,source),ratings,url),photoUrl:safeHttps(image)?.href||null,checkedAt};
  return validateRecipe(record);
 }
 export function validateRecipe(record) {
@@ -138,7 +150,22 @@ export function validateWorldFavourites(data,records) {
  selected.forEach(validateRecipe);
  return data;
 }
-export function filterRecipes(records,{query='',source='',ratedOnly=false,sort='title',recipeIds=null}={}) {
+export const RECIPE_COURSES=Object.freeze([
+ ['main','Main dishes'],['dessert','Sweets & desserts'],['appetiser','Appetisers & snacks'],
+ ['breakfast','Breakfast'],['side','Side dishes'],['soup','Soups'],['salad','Salads'],
+ ['drink','Drinks'],['bread','Breads'],['other','Other publisher categories']
+].map(([id,label])=>Object.freeze({id,label})));
+export function recipeCourses(record) {
+ const category=String(record?.category||'').toLowerCase();
+ const patterns=[['main',/\b(mains?|dinner|lunch|entree|entrée)\b/],['dessert',/\b(desserts?|sweets?|cakes?|cookies?|puddings?)\b/],['appetiser',/\b(appeti[sz]ers?|starters?|snacks?|dips?|finger food)\b/],['breakfast',/\b(breakfast|brunch)\b/],['side',/\bsides?( dishes?)?\b/],['soup',/\bsoups?\b/],['salad',/\bsalads?\b/],['drink',/\b(drinks?|beverages?|cocktails?)\b/],['bread',/\bbreads?\b/]];
+ const result=patterns.filter(([,pattern])=>pattern.test(category)).map(([id])=>id);
+ return result.length?result:['other'];
+}
+export function recipePage(records,page=1) {
+ const pages=Math.max(1,Math.ceil(records.length/24)),current=Math.min(pages,Math.max(1,Number.isSafeInteger(page)?page:1)),offset=(current-1)*24;
+ return {records:records.slice(offset,offset+24),page:current,pages,total:records.length,start:records.length?offset+1:0,end:Math.min(offset+24,records.length)};
+}
+export function filterRecipes(records,{query='',source='',course='',ratedOnly=false,sort='title',recipeIds=null}={}) {
  const q=String(query).trim().toLowerCase(),allowedIds=recipeIds===null?null:new Set(Array.isArray(recipeIds)?recipeIds:[]);
- return records.filter(r=>(!allowedIds||allowedIds.has(r.id))&&(!source||r.source===source)&&(!ratedOnly||r.rating)&&(!q||[r.title,r.author,r.cuisine,...r.ingredients].join(' ').toLowerCase().includes(q))).sort((a,b)=>sort==='rating'?(b.rating?b.rating.value/b.rating.best:-1)-(a.rating?a.rating.value/a.rating.best:-1)||a.title.localeCompare(b.title):sort==='votes'?(b.rating?.countType==='ratings'?b.rating.count||0:-1)-(a.rating?.countType==='ratings'?a.rating.count||0:-1)||a.title.localeCompare(b.title):a.title.localeCompare(b.title));
+ return records.filter(r=>(!allowedIds||allowedIds.has(r.id))&&(!source||r.source===source)&&(!course||recipeCourses(r).includes(course))&&(!ratedOnly||r.rating)&&(!q||[r.title,r.author,r.cuisine,r.category,...r.ingredients].join(' ').toLowerCase().includes(q))).sort((a,b)=>sort==='rating'?(b.rating?b.rating.value/b.rating.best:-1)-(a.rating?a.rating.value/a.rating.best:-1)||a.title.localeCompare(b.title):sort==='votes'?(b.rating?.countType==='ratings'?b.rating.count||0:-1)-(a.rating?.countType==='ratings'?a.rating.count||0:-1)||a.title.localeCompare(b.title):a.title.localeCompare(b.title));
 }

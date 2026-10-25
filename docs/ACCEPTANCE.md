@@ -300,6 +300,28 @@ external image delivery can fail and retains its visible fallback. Public-releas
 rights, physical-device/accessibility and owner-signed-in hosted acceptance remain
 open.
 
+## Rated thousand and personal home — 25 October 2026
+
+- [x] Added 872 recipes from permitted original RecipeTin Eats, BBC Good Food, Just One Cookbook and Swasthi pages. All selected records reproduce exactly from retained original HTML and checked SHA-256 hashes. Minimum new source count: five; minimum normalized score: 4/5.
+- [x] Total 1,008 recipes from 12 approved publishers; 1,000 have published recipe ratings and eight preserved entries remain unrated. All original 136 record hashes and world-favourites IDs are unchanged. No methods or review text copied.
+- [x] Original publisher category filters identify 476 mains, 190 sweets/desserts and 172 appetisers/snacks; categories overlap. Publisher balance and within-source rating-count evidence guide curation, rather than a claim of objective world ranking.
+- [x] Home exposes My usual dishes and Want to try, including while discovery is unavailable. Collection cards save either flag using a fresh strict snapshot and persist-before-render; saved records retain labels, cooking history and plans.
+- [x] Namespaced collected recipes open in the main kitchen dialog without a TheMealDB lookup. Full original ingredient lists, including rows beyond 20, survive backups. Source quantities remain unparsed and unscaled; cooking methods link to the original author. Automated suggestions hold unparsed collected recipes when ingredient-skip preferences are set.
+- [x] Main-dialog and collection ingredients share one escaped, credited photo renderer. Late registry loading updates only reference cells and preserves forms/focus; broken/unavailable images keep explicit fallbacks. Existing 172 reviewed references match 7,585 of 13,647 rows; 6,062 remain gaps.
+- [x] Meal-type filters compose with source/search/rating/collection controls. 24-card pages preserve complete-result counts; filter changes reset the page, and the original 100-record collection remains intact across five pages.
+- [x] All 222 Node tests, syntax checks and Worker build pass locally. No new runtime dependency or database migration. The offline shell includes all four additional imported modules.
+- [ ] Fresh final review and detailed three-engine browser checks, including cross-page saves, home/reload, actual image decoding, additional credits, drafts/focus, failure fallbacks and mobile layout.
+- [ ] Publish exact tested native package, verify live changed paths and provenance, and retain the owner-private audience and draft/unmerged PR1.
+
+BBC Good Food now emits its rating in a separate top-level JSON-LD object. Only
+that publisher's exact main Recipe identity with explicit owning-page evidence
+can receive its matching direct score. Conflicting or unrelated supplements stay
+unrated; the general rejection of unlinked same-ID enrichments is preserved.
+Fresh Woks retrieval was held for its explicit crawler restriction. Prior source
+records remain unchanged. Both research streams stopped at a sufficient checkpoint;
+872 records were selected from 1,039 eligible-source candidates after holding ten
+standalone sauce/stock/condiment records and balancing four publishers and courses.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed

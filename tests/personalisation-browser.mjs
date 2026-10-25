@@ -38,7 +38,9 @@ try {
   const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')));
   await page.goto(base);
   await page.locator('#for-your-table').waitFor();
-  assert.equal(await page.locator('.recipe-card').count(),2,'recommended cards are not repeated in the source feed');
+  assert.equal(await page.locator('#for-your-table .recipe-card').count(),2,'recommendations retain distinct recipes');
+  assert.equal(await page.locator('#home-wanted .recipe-card').count(),2,'saved want-to-try recipes are directly available on home');
+  assert.equal(await page.locator('.section').last().locator('.recipe-card').count(),0,'recommended cards are not repeated in the source feed');
   await page.locator('#taste-preferences summary').click();
   await page.locator('#taste-cuisines').fill('Indian');
   await page.locator('#taste-avoid').fill('Aubergines');
