@@ -124,11 +124,36 @@ test('an excluded component cannot expose a misleading fallback for a compound i
 });
 test('green capsicum descriptions cannot receive the red and yellow pepper photo',async()=>{
  const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
- for(const line of ['1 small green capsicum / bell pepper','2 green capsicum / bell pepper'])assert.equal(ingredientPhoto(line,p),null,line);
+ for(const line of ['1 small green capsicum / bell pepper','2 green capsicum / bell pepper']){
+  assert.equal(ingredientPhoto(line,p.filter(x=>x.id==='bell-pepper')),null,line);
+  assert.equal(ingredientPhoto(line,p)?.id,'green-bell-pepper',line);
+ }
  assert.equal(ingredientPhoto('1 red bell pepper',p)?.id,'bell-pepper');
 });
 test('a cilantro stem cannot receive a photograph of cilantro leaves',async()=>{
  const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
  for(const line of ['1 cilantro stem ((washed, smashed, reserve leaves for garnish))','2 cilantro stems','coriander stems'])assert.equal(ingredientPhoto(line,p),null,line);
  assert.equal(ingredientPhoto('cilantro leaves',p)?.id,'coriander-leaf');
+});
+test('plain all-purpose descriptions keep a known flour reference without accepting another food',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('1 cup flour, plain / all purpose ((Note 1))',p)?.id,'flour');
+ assert.equal(ingredientPhoto('1 cup flour, plain / all purpose, chicken',p),null);
+ assert.equal(ingredientPhoto('flour, plain yogurt',p),null);
+});
+test('thawing and bread-size notes describe one food while extra ingredients stay unresolved',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('3 frozen puff pastry sheets, just thawed ((300g/10oz) (Note 2))',p)?.id,'puff-pastry-raw');
+ assert.equal(ingredientPhoto('1 slice homemade-type white bread, 1 inch thick, broken into small bite-sized pieces',p)?.id,'white-bread');
+ assert.equal(ingredientPhoto('puff pastry, just thawed chicken',p),null);
+ assert.equal(ingredientPhoto('white bread, broken chocolate',p),null);
+});
+test('named cultivars without matching photographic evidence remain gaps',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('4 Lebanese / Persian cucumbers ((about 8"/20cm long))',p),null);
+ assert.equal(ingredientPhoto('2 English cucumbers',p),null);
+ assert.equal(ingredientPhoto('2 Japanese cucumbers',p),null);
+ assert.equal(ingredientPhoto('3 fresh red chilies ((choose a chili with medium spice level; we used holland chilies))',p),null);
+ assert.equal(ingredientPhoto('1 cucumber ((de-seeded and julienned))',p)?.id,'cucumber');
+ assert.equal(ingredientPhoto('6 red chilies ((stemmed))',p)?.id,'red-chili');
 });

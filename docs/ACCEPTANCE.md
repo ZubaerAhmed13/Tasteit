@@ -262,6 +262,34 @@ held out. Small source voting samples remain visible; the minimum among these
 100 is four votes. Public-release rights, owner-signed-in hosted walkthrough and
 physical-device/accessibility acceptance remain open.
 
+## Ingredient photography continuation — 25 October 2026
+
+- [x] Added 63 visually inspected real photographs. Total: 172 references, covering 1317 of 2111 source ingredient rows; 794 remain explicit gaps.
+- [x] 195 newly covered rows and 12 more specific light/dark soy-sauce references. No prior match is lost. All 136 recipe records and collection IDs remain unchanged.
+- [x] Every new reference reproduces its creator, licence and image URL from fresh original-file metadata. All 63 inspected for generation markers; none found. Camera/software/date metadata is available for 49. Metadata and visual inspection are evidence, not a forensic authenticity guarantee.
+- [x] Explicit named cucumber and chili varieties without compatible evidence remain gaps. Eight otherwise verified references with no eligible current rows stay outside the published registry.
+- [x] Comparison references identify the food/form shown: green/red/yellow peppers, rice flours, almond forms, and mustard forms with ground white mustard at upper right. The existing UI displays the entire reference image and links its original file.
+- [x] Exact-source regressions fixed known single-food descriptors for plain/all-purpose flour, thawed pastry and bread size notes. Unknown additional foods and alternatives remain unresolved. Explicit capsicum/bell-pepper slash aliases resolve one food without weakening the competing-food guard.
+- [x] All 212 Node tests and syntax checks pass locally; Worker build succeeds. No new dependencies, persistence format or database migration.
+- [ ] One independent final photo/contract review and any material corrections.
+- [ ] Detailed final CI: all six suites in Chromium/Firefox/WebKit and three Firefox continuity executions; all 20 PASS results required.
+- [ ] Exact-source native package and private publication; verify live registry/module hashes, provenance and audience.
+
+Source searches paused when rate-limited, then resumed through one coordinated
+queue respecting cooldowns. Original-file metadata, visual galleries and every
+changed match were audited. Assumed or conflicting creator credits, unclear forms,
+finished dishes, unrelated results and a legacy green-pepper image with a source
+verification flag were held. A clearly credited CC BY-SA color comparison supplies
+the green-pepper reference instead.
+
+The remaining gaps include unspecified oils or spices, alternatives and mixtures,
+unsupported named forms/varieties and unavailable suitable evidence. Source-provided
+heading/equipment strings also remain unillustrated; upstream ingredient-string
+cleanup is a separate editorial task. These counts describe metadata matches;
+external image delivery can fail and retains its visible fallback. Public-release
+rights, physical-device/accessibility and owner-signed-in hosted acceptance remain
+open.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed
