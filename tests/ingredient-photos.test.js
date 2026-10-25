@@ -122,3 +122,13 @@ test('an excluded component cannot expose a misleading fallback for a compound i
  assert.equal(ingredientPhoto('1/2 cup orange-blossom water',p),null);
  const specific={...entry,id:'orange-blossom-water',aliases:['orange blossom water']};assert.equal(ingredientPhoto('1/2 cup orange-blossom water',[...p,specific])?.id,'orange-blossom-water');
 });
+test('green capsicum descriptions cannot receive the red and yellow pepper photo',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const line of ['1 small green capsicum / bell pepper','2 green capsicum / bell pepper'])assert.equal(ingredientPhoto(line,p),null,line);
+ assert.equal(ingredientPhoto('1 red bell pepper',p)?.id,'bell-pepper');
+});
+test('a cilantro stem cannot receive a photograph of cilantro leaves',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const line of ['1 cilantro stem ((washed, smashed, reserve leaves for garnish))','2 cilantro stems','coriander stems'])assert.equal(ingredientPhoto(line,p),null,line);
+ assert.equal(ingredientPhoto('cilantro leaves',p)?.id,'coriander-leaf');
+});

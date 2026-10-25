@@ -233,11 +233,11 @@ owner-signed-in hosted walkthrough remain open.
 - [x] Final selection:20 Europe,15 Americas,4 Oceania,5 Africa,5 Middle East,14 South Asia,37 East/Southeast Asia. These are editorial browsing groups, not certified origins or a worldwide ranking
 - [x] Dedicated100-ID registry, Collection selector and direct query link; existing query/source/rated/sort filters compose. Invalid/unavailable collection metadata preserves ordinary browsing
 - [x] All830 initial non-null new ingredient matches audited. Explicit photo exclusions prevent known wrong foods/parts/forms and retain blocked competing candidates so a compound cannot fall back to another wrong component
-- [x] Existing109 reviewed ingredient references now cover1125 of2111 rows;986 remain gaps. Two earlier unsupported yogurt/thigh matches also become gaps; ingredient photography is incomplete
+- [x] Existing109 reviewed ingredient references now cover1122 of2111 rows;989 remain gaps. Two earlier unsupported yogurt/thigh matches also become gaps; ingredient photography is incomplete
 - [x] Bounded collector accepts144 seeds with hard cap250 and exact publisher validation; no new source/DB dependency
-- [x] All206 Node tests, syntax and Worker build pass locally
+- [x] All208 Node tests, syntax and Worker build pass locally
 - [ ] Final six-suite Chromium/Firefox/WebKit acceptance, including100-card direct collection, composed filters, registry failure and mobile layout; three fresh Firefox continuity executions
-- [ ] One independent final review and any material fixes
+- [x] Independent final review: no Critical/Important findings. Fixed two Minor mismatches (green capsicum wording and cilantro stems) with RED→GREEN source-line regressions; stabilized the pre-existing date-sensitive kitchen test fixture without changing product behaviour
 - [ ] Publish exact tested source, verify live hashes/provenance and retain owner-only access
 
 New source retrieval respects published access rules:196 Flavors disallows general

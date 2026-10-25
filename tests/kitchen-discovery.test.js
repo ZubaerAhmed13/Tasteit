@@ -18,6 +18,9 @@ const pantry = [
 const rice = {idMeal:'rice',strMeal:'Tomato rice',strIngredient1:'Rice',strMeasure1:'500 g',
   strIngredient2:'Tomatoes',strMeasure2:'2',strIngredient3:'Salt',strMeasure3:'to taste'};
 const saved={'rice':{meal:rice,wanted:true}};
+// Matching scenarios do not depend on the date when the suite is run.
+// The dated fixture above remains in the explicit expiry scenarios.
+const undatedPantry=pantry.map(({expiry,...item})=>item);
 test('only usable ingredient names are selectable; batches combine and soon dates lead',()=>{
   const choices=kitchenIngredientChoices(pantry,now);
   assert.deepEqual(choices.map(x=>x.name),['Rice','Onion','Eggs','Mushrooms','Tomatoes']);
@@ -33,7 +36,7 @@ test('a selection cannot secretly include missing or expired ingredients',()=>{
   assert.deepEqual(reconcileKitchenSelection(pantry,[],now),[]);
 });
 test('matching explains name coverage separately from quantities',()=>{
-  const score=kitchenMatchDetails(rice,pantry);
+  const score=kitchenMatchDetails(rice,undatedPantry);
   assert.equal(score.total,3);
   assert.equal(score.matched,2);
   assert.deepEqual(score.missing,['Salt']);
@@ -43,9 +46,9 @@ test('matching explains name coverage separately from quantities',()=>{
 });
 test('saved dishes with pantry overlap appear in candidate discovery without fake source',()=>{
   const other={idMeal:'other',strMeal:'Unknown',strIngredient1:'Unlisted'};
-  assert.deepEqual(localKitchenRecipes({...saved,other:{meal:other}},pantry).map(x=>x.idMeal),['rice']);
+  assert.deepEqual(localKitchenRecipes({...saved,other:{meal:other}},undatedPantry).map(x=>x.idMeal),['rice']);
   const remote=[{idMeal:'rice',strMeal:'Different copy'},{idMeal:'new',strMeal:'Another dish'}];
-  const combined=combineKitchenRecipes(remote,localKitchenRecipes(saved,pantry));
+  const combined=combineKitchenRecipes(remote,localKitchenRecipes(saved,undatedPantry));
   assert.deepEqual(combined.map(x=>x.idMeal),['rice','new']);
   assert.equal(combined[0].strMeal,'Tomato rice');
 });
@@ -53,9 +56,9 @@ test('saved dishes with pantry overlap appear in candidate discovery without fak
 test('cookability views separate name coverage from measurable amounts',()=>{
   const all=[rice,{idMeal:'eggs',strMeal:'Eggs',strIngredient1:'Eggs',strMeasure1:'3 pcs'},
     {idMeal:'unknown',strMeal:'Unknown',strIngredient1:'Unknown'}];
-  assert.equal(filterKitchenRecipes(all,pantry,'all').length,3);
-  assert.deepEqual(filterKitchenRecipes(all,pantry,'names').map(x=>x.idMeal),['eggs']);
-  assert.deepEqual(filterKitchenRecipes(all,pantry,'amounts').map(x=>x.idMeal),['eggs']);
+  assert.equal(filterKitchenRecipes(all,undatedPantry,'all').length,3);
+  assert.deepEqual(filterKitchenRecipes(all,undatedPantry,'names').map(x=>x.idMeal),['eggs']);
+  assert.deepEqual(filterKitchenRecipes(all,undatedPantry,'amounts').map(x=>x.idMeal),['eggs']);
   const eggsWithUnknownStock=[{name:'Eggs',quantity:'',unit:'pcs'}];
   assert.equal(filterKitchenRecipes(all,eggsWithUnknownStock,'names').length,1);
   assert.equal(filterKitchenRecipes(all,eggsWithUnknownStock,'amounts').length,0);

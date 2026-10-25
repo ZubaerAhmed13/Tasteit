@@ -234,7 +234,13 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Coriander Leaves"
+      "description": "Coriander Leaves",
+      "exclusions": [
+        "cilantro stem",
+        "cilantro stems",
+        "coriander stem",
+        "coriander stems"
+      ]
     },
     {
       "id": "scallion",
@@ -292,7 +298,9 @@
       "description": "Red and yellow bell peppers in water",
       "exclusions": [
         "green bell pepper",
-        "green bell peppers"
+        "green bell peppers",
+        "green capsicum",
+        "green capsicums"
       ]
     },
     {
