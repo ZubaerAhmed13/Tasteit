@@ -235,8 +235,8 @@ owner-signed-in hosted walkthrough remain open.
 - [x] All830 initial non-null new ingredient matches audited. Explicit photo exclusions prevent known wrong foods/parts/forms and retain blocked competing candidates so a compound cannot fall back to another wrong component
 - [x] Existing109 reviewed ingredient references now cover1122 of2111 rows;989 remain gaps. Two earlier unsupported yogurt/thigh matches also become gaps; ingredient photography is incomplete
 - [x] Bounded collector accepts144 seeds with hard cap250 and exact publisher validation; no new source/DB dependency
-- [x] All208 Node tests, syntax and Worker build pass locally
-- [ ] Final six-suite Chromium/Firefox/WebKit acceptance, including100-card direct collection, composed filters, registry failure and mobile layout; three fresh Firefox continuity executions
+- [x] All209 Node tests, syntax and Worker build pass locally
+- [ ] Final six-suite Chromium/Firefox/WebKit acceptance, including100-card direct collection, composed filters, registry failure and mobile layout; three fresh Firefox continuity executions. Detailed logs exposed a pre-existing date-dependent discovery fixture and an AND-list failure masked by the following shell conditional; fixture and fail-fast workflow corrected with a regression, final rerun pending
 - [x] Independent final review: no Critical/Important findings. Fixed two Minor mismatches (green capsicum wording and cilantro stems) with RED→GREEN source-line regressions; stabilized the pre-existing date-sensitive kitchen test fixture without changing product behaviour
 - [ ] Publish exact tested source, verify live hashes/provenance and retain owner-only access
 

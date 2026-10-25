@@ -7,7 +7,10 @@ import {chromium,firefox,webkit} from 'playwright';
 const meals=[
   {idMeal:'1',strMeal:'Tomato Rice',strArea:'Indian',strCategory:'Vegetarian'},
   {idMeal:'2',strMeal:'Tandoori Chicken',strArea:'Indian',strCategory:'Chicken'},
-  {idMeal:'3',strMeal:'Apple Pie',strArea:'British',strCategory:'Dessert'}
+  {idMeal:'3',strMeal:'Apple Pie',strArea:'British',strCategory:'Dessert'},
+  // Daily featured initials rotate. A + B cover every rotation, so initial
+  // discovery remains populated without relying on the test execution date.
+  {idMeal:'4',strMeal:'Bean Stew',strArea:'Moroccan',strCategory:'Vegetarian'}
 ].map(m=>({...m,strInstructions:'Prepare ingredients.\nCook and serve.',strIngredient1:'Rice',strMeasure1:'1 cup',
   strMealThumb:'https://www.themealdb.com/images/media/meals/fixture.jpg'}));
 const snapshot=JSON.parse(await readFile('data/world-catalogue-index.json','utf8'));

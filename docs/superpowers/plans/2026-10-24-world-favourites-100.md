@@ -47,5 +47,5 @@ Files: src/selected-sources.js, src/selected-recipes-app.js, selected-recipes.ht
 Files: README.md, docs/ACCEPTANCE.md and this plan.
 
 - [ ] Run syntax, full Node tests/build, six-suite Chromium/Firefox/WebKit matrix and three Firefox continuity executions.
-- [x] One independent final data/contract review; no Critical/Important findings. Two Minor photo issues fixed with RED→GREEN regressions; all208 Node tests pass after stabilizing an existing date-sensitive fixture.
+- [x] One independent final data/contract review; no Critical/Important findings. Two Minor photo issues fixed with RED→GREEN regressions; all209 Node tests pass after stabilizing an existing date-sensitive fixture.
 - [ ] Publish the exact tested package to the same owner-private Site. Verify all source assets, live collection/data/style/module hashes, provenance and audience. Update PR1/docs; do not merge.
