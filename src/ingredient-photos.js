@@ -4,12 +4,23 @@ const preparations=['powder','paste','stock','broth','juice','fat','cream','grou
 const singleFoodDescription=value=>norm(value).replace(/\b(?:boneless and skinless|skinless and boneless)\b/g,'boneless skinless').replace(/\bchilled and cubed\b/g,'chilled cubed');
 const specificMilks=['oat milk','almond milk','soy milk','soya milk','coconut milk','rice milk','cashew milk','goat milk','condensed milk','evaporated milk'];
 const detailWords=new Set('finely freshly lightly roughly thinly thickly coarsely chopped minced sliced slices diced grated peeled seeded boneless skinless skinned roasted shredded julienned crushed pressed rinsed washed drained softened melted chilled cubed cut and into in small half halves quarters crosswise inch inches long piece pieces strips matchsticks thin thick beaten mashed deseeded optional full bodied for frying garnish serving dusting gehauft rote gelbe plain all purpose just thawed broken bite sized'.split(' '));
+export function ingredientPhotoCredits(photo) {
+ if(photo?.creditLinks===undefined)return [];
+ if(!Array.isArray(photo.creditLinks)||!photo.creditLinks.length||photo.creditLinks.length>4)return null;
+ const links=[];
+ for(const item of photo.creditLinks) {
+  const url=safeHttps(item?.url);
+  if(!url||typeof item?.label!=='string'||!item.label.trim()||item.label.length>120)return null;
+  links.push({label:item.label.trim(),url:url.href});
+ }
+ return links;
+}
 function usable(photo) {
  const image=safeHttps(photo?.url),file=safeHttps(photo?.filePage),licence=safeHttps(photo?.licenceUrl);
  return photo?.verified===true&&typeof photo.creator==='string'&&photo.creator.trim()&&
   ['upload.wikimedia.org','thumb.wikimedia.org'].includes(image?.hostname)&&file?.hostname==='commons.wikimedia.org'&&file.pathname.startsWith('/wiki/File:')&&
   ((licence?.hostname==='creativecommons.org'&&/^\/(licenses\/by(?:-sa)?\/|publicdomain\/(?:zero|mark)\/)/.test(licence.pathname))||(photo.licence==='Public domain'&&licence?.href===file?.href))&&
-  Array.isArray(photo.aliases)&&photo.aliases.length>0&&
+  Array.isArray(photo.aliases)&&photo.aliases.length>0&&ingredientPhotoCredits(photo)!==null&&
   (photo.exclusions===undefined||Array.isArray(photo.exclusions)&&photo.exclusions.length<=50&&photo.exclusions.every(term=>typeof term==='string'&&term.length<=80&&norm(term)));
 }
 export function ingredientPhoto(input,registry=[]) {

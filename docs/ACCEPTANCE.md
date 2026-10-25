@@ -270,8 +270,8 @@ physical-device/accessibility acceptance remain open.
 - [x] Explicit named cucumber and chili varieties without compatible evidence remain gaps. Eight otherwise verified references with no eligible current rows stay outside the published registry.
 - [x] Comparison references identify the food/form shown: green/red/yellow peppers, rice flours, almond forms, and mustard forms with ground white mustard at upper right. The existing UI displays the entire reference image and links its original file.
 - [x] Exact-source regressions fixed known single-food descriptors for plain/all-purpose flour, thawed pastry and bread size notes. Unknown additional foods and alternatives remain unresolved. Explicit capsicum/bell-pepper slash aliases resolve one food without weakening the competing-food guard.
-- [x] All 212 Node tests and syntax checks pass locally; Worker build succeeds. No new dependencies, persistence format or database migration.
-- [ ] One independent final photo/contract review and any material corrections.
+- [x] All 213 Node tests and syntax checks pass locally; Worker build succeeds. No new dependencies, persistence format or database migration.
+- [x] Independent final review: no Critical issues; one Important source-credit issue corrected. Three references now render the supplied additional attribution links beside the image. Unsafe or incomplete declared credit links make a reference ineligible. Unit regression verified RED→GREEN; actual link destinations covered in browser acceptance.
 - [ ] Detailed final CI: all six suites in Chromium/Firefox/WebKit and three Firefox continuity executions; all 20 PASS results required.
 - [ ] Exact-source native package and private publication; verify live registry/module hashes, provenance and audience.
 

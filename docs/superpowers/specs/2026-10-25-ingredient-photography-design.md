@@ -7,7 +7,7 @@ plants/spices, sauces/proteins and grains/baking/legumes using the existing regi
 
 Every added reference needs an actual photograph, visual inspection, original file
 page, named creator, compatible licence with its evidence URL and an exact food/form
-description. Preserve verified original facts; no generated imagery, guessed image
+description. Reproduce supplied source-specific credit instructions beside the image; declared credit links must be valid HTTPS destinations before a reference is eligible. Preserve verified original facts; no generated imagery, guessed image
 URLs, assumed attribution or preparation/variety substitutions. Review every newly
 matched source row and every changed old match against the actual image and metadata.
 

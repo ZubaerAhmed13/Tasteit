@@ -157,3 +157,11 @@ test('named cultivars without matching photographic evidence remain gaps',async(
  assert.equal(ingredientPhoto('1 cucumber ((de-seeded and julienned))',p)?.id,'cucumber');
  assert.equal(ingredientPhoto('6 red chilies ((stemmed))',p)?.id,'red-chili');
 });
+test('source credit links must be safe and complete before a reference is eligible',async()=>{
+ const {ingredientPhoto,ingredientPhotoCredits}=await import('../src/ingredient-photos.js');
+ for(const creditLinks of [[],[{}],[{label:'Creator',url:'javascript:alert(1)'}],[{label:'',url:'https://example.org/'}]])assert.equal(ingredientPhoto('garlic',[{...entry,creditLinks}]),null);
+ const credited={...entry,creditLinks:[{label:' Creator website ',url:'https://example.org/credit'}]};
+ assert.equal(ingredientPhoto('garlic',[credited])?.id,'garlic');
+ assert.deepEqual(ingredientPhotoCredits(credited),[{label:'Creator website',url:'https://example.org/credit'}]);
+ assert.deepEqual(ingredientPhotoCredits(entry),[]);
+});

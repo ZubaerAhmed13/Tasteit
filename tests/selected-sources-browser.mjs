@@ -34,6 +34,20 @@ try{
  const unavailable=await browser.newPage();await unavailable.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());await unavailable.route('**/data/world-favourites-100.json',route=>route.abort());await unavailable.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html?collection=world-favourites-100');await unavailable.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await unavailable.locator('.selected-card').count()>100);assert.ok((await unavailable.locator('#selected-collection-note').innerText()).includes('unavailable'));
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  assert.ok((await page.locator('#selected-filters button[type=submit]').boundingBox()).height>=44);
+ // Source-specific credit instructions must be visible beside each reference.
+ for(const [id,ingredient,urls]of [
+  ['woksoflife-wonton-soup-recipe','wonton wrappers',['https://www.hungryhuy.com/','https://www.hungryhuy.com/wonton-soup-recipe/']],
+  ['woksoflife-pad-thai','garlic chives',['https://www.aziatische-ingredienten.nl/']],
+  ['recipetineats-jambalaya-recipe','green capsicum',['https://www.khamtran.com/']]
+ ]){
+  const recipe=catalogue.recipes.find(r=>r.id===id);assert.ok(recipe);
+  await page.locator('#selected-collection').selectOption('');await page.locator('#selected-source').selectOption(recipe.source);await page.locator('#selected-query').fill(recipe.title);await page.locator('#selected-filters button[type=submit]').click();
+  assert.equal(await page.locator('.selected-card').count(),1);await page.locator('.selected-ingredients summary').click();
+  const row=page.locator('.selected-ingredients li').filter({hasText:ingredient});assert.equal(await row.count(),1);
+  const credits=await row.locator('.ingredient-reference figcaption a').evaluateAll(links=>links.map(a=>a.href));
+  for(const url of urls)assert.ok(credits.includes(url),'adjacent source credit: '+url);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ }
  const noPhotos=await browser.newPage();await noPhotos.route('**/data/ingredient-photos.json',route=>route.abort());await noPhotos.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html');await noPhotos.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await noPhotos.locator('.selected-card').count()>0,'recipe collection survives an unavailable photo registry');
  assert.deepEqual(errors,[]);console.log('PASS selected sources: allowlisted recipe collection, genuine rating/count, ingredient photos/credits, filters, gaps and mobile');
 }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}

@@ -2345,7 +2345,13 @@
       "checkedAt": "2026-10-25",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "Cut Chinese garlic chives (jiǔcài).",
-      "form": "raw"
+      "form": "raw",
+      "creditLinks": [
+        {
+          "label": "www.aziatische-ingredienten.nl",
+          "url": "https://www.aziatische-ingredienten.nl/"
+        }
+      ]
     },
     {
       "id": "dried-red-chili",
@@ -3217,6 +3223,16 @@
       "exclusions": [
         "cooked",
         "fried"
+      ],
+      "creditLinks": [
+        {
+          "label": "Hungry Huy",
+          "url": "https://www.hungryhuy.com/"
+        },
+        {
+          "label": "Original photograph source",
+          "url": "https://www.hungryhuy.com/wonton-soup-recipe/"
+        }
       ]
     },
     {
@@ -3354,7 +3370,13 @@
       "checkedAt": "2026-10-25",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "Green, yellow and red bell peppers from the capsicum annuum plant.",
-      "form": "raw"
+      "form": "raw",
+      "creditLinks": [
+        {
+          "label": "Kham Tran website",
+          "url": "https://www.khamtran.com/"
+        }
+      ]
     },
     {
       "id": "mustard-powder-comparison",
