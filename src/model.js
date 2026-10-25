@@ -49,6 +49,10 @@ export function persistStore(store, storage) {
   try {
     const target = storage === undefined ? globalThis.localStorage : storage;
     if (!target || typeof target.setItem !== 'function') return false;
+    const backup=exportBackup(store);
+    // Validate the completed next snapshot, including room for sync's envelope.
+    if(new TextEncoder().encode(backup).byteLength>MAX_BACKUP_SIZE-1024)return false;
+    parseBackup(backup);
     target.setItem(STORAGE_KEY, JSON.stringify(store));
     if(storage===undefined) {
       try {globalThis.dispatchEvent?.(new CustomEvent('tasteit:local-change'));}catch{}
@@ -193,11 +197,11 @@ export function exportBackup(store, now = new Date()) {
       ...(store.shoppingStocked === undefined ? {} : { shoppingStocked:store.shoppingStocked }),
       ...(store.leftovers === undefined ? {} : { leftovers:store.leftovers }),
       ...(store.tasteProfile === undefined ? {} : { tasteProfile:store.tasteProfile }) }
-  }, null, 2);
+  });
 }
 
 export function parseBackup(text) {
-  if (typeof text !== 'string' || text.length > MAX_BACKUP_SIZE) throw new Error('Backup must be a JSON file smaller than 2 MB.');
+  if (typeof text !== 'string' || text.length > MAX_BACKUP_SIZE || new TextEncoder().encode(text).byteLength>MAX_BACKUP_SIZE) throw new Error('Backup must be a JSON file smaller than 2 MB.');
   let backup;
   try { backup = JSON.parse(text); } catch { throw new Error('This is not valid JSON.'); }
   if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {

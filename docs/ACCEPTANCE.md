@@ -309,8 +309,9 @@ open.
 - [x] Namespaced collected recipes open in the main kitchen dialog without a TheMealDB lookup. Full original ingredient lists, including rows beyond 20, survive backups. Source quantities remain unparsed and unscaled; cooking methods link to the original author. Automated suggestions hold unparsed collected recipes when ingredient-skip preferences are set.
 - [x] Main-dialog and collection ingredients share one escaped, credited photo renderer. Late registry loading updates only reference cells and preserves forms/focus; broken/unavailable images keep explicit fallbacks. Existing 172 reviewed references match 7,585 of 13,647 rows; 6,062 remain gaps.
 - [x] Meal-type filters compose with source/search/rating/collection controls. 24-card pages preserve complete-result counts; filter changes reset the page, and the original 100-record collection remains intact across five pages.
-- [x] All 222 Node tests, syntax checks and Worker build pass locally. No new runtime dependency or database migration. The offline shell includes all four additional imported modules.
-- [ ] Fresh final review and detailed three-engine browser checks, including cross-page saves, home/reload, actual image decoding, additional credits, drafts/focus, failure fallbacks and mobile layout.
+- [x] All 226 Node tests, syntax checks and Worker build pass locally. No new runtime dependency or database migration. The offline shell includes all four additional imported modules.
+- [x] Fresh final review findings reproduced and corrected: compact restorable 1,008-recipe backups, validated next-state writes, explicitly reviewed short pantry names for long original source lines, and committed filter state separated from drafts. Four regressions verified RED→GREEN.
+- [ ] Detailed three-engine browser checks, including cross-page saves, home/reload, actual image decoding, additional credits, drafts/focus, real source-line purchases/backup restoration, failure fallbacks and mobile layout.
 - [ ] Publish exact tested native package, verify live changed paths and provenance, and retain the owner-private audience and draft/unmerged PR1.
 
 BBC Good Food now emits its rating in a separate top-level JSON-LD object. Only

@@ -52,10 +52,12 @@ export function receivePurchases(store,review,selections,receiptId,now=new Date(
     if(!STOCK_UNITS.includes(input.unit))throw new Error('Choose a supported unit.');
     if(!STOCK_LOCATIONS.includes(input.location))throw new Error('Choose a storage location.');
     if(input.expiry && !validDate(input.expiry))throw new Error('Check the recorded date.');
+    const name=String(input.name??current.item.name).trim();
+    if(!name||name.length>150||/[\u0000-\u001f\u007f]/.test(name))throw new Error('Enter a pantry ingredient name of 1–150 characters. Keep the original recipe line for reference.');
     const id='purchase-'+receiptId+'-'+index;
     if(store.pantry.some(x=>x.id===id))throw new Error('This purchase receipt was already added.');
     stocked[input.key]=purchaseFingerprint(current);
-    return {id,name:current.item.name,quantity:String(Number(input.quantity)),unit:input.unit,
+    return {id,name,quantity:String(Number(input.quantity)),unit:input.unit,
       location:input.location,expiry:input.expiry||''};
   });
   if(!validKitchenState(stocked,undefined))throw new Error('Too many purchase records to save safely.');

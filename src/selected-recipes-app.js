@@ -6,7 +6,7 @@ import {collectedMeal,toggleCollectedFlag} from './selected-kitchen.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const link=(url,label,extra='')=>'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" '+extra+'>'+esc(label)+'</a>';
 const form=document.getElementById('selected-filters'),status=document.getElementById('selected-status'),results=document.getElementById('selected-results');
-let recipes=[],photos=[],snapshot=null,worldFavourites=null,worldIds=new Set(),pageNumber=1,savedState=loadStore().saved;
+let recipes=[],photos=[],snapshot=null,worldFavourites=null,worldIds=new Set(),pageNumber=1,appliedFilters=null,savedState=loadStore().saved;
 const reference=line=>ingredientReference(line,photos);
 function recipeCard(r) {
  const saved=savedState['selected-'+r.id]||{};
@@ -20,8 +20,9 @@ function recipeCard(r) {
   '<p class="panel-note source-check-date">Rating checked '+esc(new Date(r.checkedAt).toLocaleDateString('en-GB'))+'. Publisher labels and linked photo; cuisine authenticity is not independently certified.</p>'+
   '<details class="selected-ingredients"><summary>'+r.ingredients.length+' ingredients · see photographs</summary><ul>'+r.ingredients.map(line=>'<li>'+reference(line)+'<span class="source-ingredient-text">'+esc(line)+'</span></li>').join('')+'</ul></details></div></article>';
 }
+function readFilters(){const data=new FormData(form);return {query:data.get('query'),source:data.get('source'),course:data.get('course'),sort:data.get('sort'),ratedOnly:data.has('ratedOnly'),collection:data.get('collection')};}
 function render() {
- const data=new FormData(form),visible=filterRecipes(recipes,{query:data.get('query'),source:data.get('source'),course:data.get('course'),sort:data.get('sort'),ratedOnly:data.has('ratedOnly'),recipeIds:data.get('collection')?(worldFavourites?.recipeIds||[]):null});
+ const filters=appliedFilters||readFilters(),visible=filterRecipes(recipes,{...filters,recipeIds:filters.collection?(worldFavourites?.recipeIds||[]):null});
  const current=recipePage(visible,pageNumber);pageNumber=current.page;
  status.textContent=visible.length+' of '+recipes.length+' collected recipes · '+recipes.filter(r=>r.rating).length+' have a published recipe rating · Showing '+current.start+'–'+current.end;
  results.innerHTML=visible.length?current.records.map(recipeCard).join(''):'<div class="empty-state"><h2>No recipes match yet</h2><p>Try another ingredient, meal type or website, or include recipes without a published rating.</p><button type="button" class="btn secondary" id="selected-reset">Clear filters</button></div>';
@@ -30,10 +31,10 @@ function render() {
  const total=current.records.reduce((n,r)=>n+r.ingredients.length,0),matched=current.records.reduce((n,r)=>n+r.ingredients.filter(i=>ingredientPhoto(i,photos)).length,0);
  const coverage=document.getElementById('selected-photo-coverage');if(coverage)coverage.textContent=matched+' of '+total+' ingredient rows on this page have a verified reference photograph. Missing or ambiguous ingredients keep an explicit photo gap.';
 }
-function syncCollectionUrl(){const url=new URL(location.href),value=new FormData(form).get('collection');if(value)url.searchParams.set('collection',value);else url.searchParams.delete('collection');history.replaceState(null,'',url);document.getElementById('selected-collection-note').textContent='';}
-form.addEventListener('submit',event=>{event.preventDefault();pageNumber=1;syncCollectionUrl();render();});
+function syncCollectionUrl(){const url=new URL(location.href),value=appliedFilters?.collection;if(value)url.searchParams.set('collection',value);else url.searchParams.delete('collection');history.replaceState(null,'',url);document.getElementById('selected-collection-note').textContent='';}
+form.addEventListener('submit',event=>{event.preventDefault();appliedFilters=readFilters();pageNumber=1;syncCollectionUrl();render();});
 results.addEventListener('click',event=>{
- if(event.target.id==='selected-reset'){form.reset();pageNumber=1;syncCollectionUrl();render();form.querySelector('input').focus();return;}
+ if(event.target.id==='selected-reset'){form.reset();appliedFilters=readFilters();pageNumber=1;syncCollectionUrl();render();form.querySelector('input').focus();return;}
  const button=event.target.closest('[data-save-recipe]');if(!button)return;
  const record=recipes.find(r=>r.id===button.dataset.saveRecipe),field=button.dataset.saveFlag;if(!record)return;
  const message=document.getElementById('selected-save-status');
@@ -70,7 +71,7 @@ async function boot(){
   const select=document.getElementById('selected-source');for(const s of SOURCES){const option=document.createElement('option');option.value=s.id;option.textContent=s.name+' ('+recipes.filter(r=>r.source===s.id).length+')';select.appendChild(option);}
   const courseSelect=document.getElementById('selected-course');for(const course of RECIPE_COURSES){const option=document.createElement('option');option.value=course.id;option.textContent=course.label;courseSelect.appendChild(option);}
   document.getElementById('selected-coverage').innerHTML='<p>'+recipes.length+' collected recipes from '+new Set(recipes.map(r=>r.source)).size+' of your 16 selected websites. This collection does not establish worldwide coverage.</p><p id="selected-photo-coverage"></p><ul>'+SOURCES.map(s=>'<li><strong>'+esc(s.name)+'</strong>: '+recipes.filter(r=>r.source===s.id).length+' collected'+(recipes.some(r=>r.source===s.id)?'':' · '+link('https://'+s.hosts[0]+'/','Open source; collection unavailable in this pass'))+'</li>').join('')+'</ul><p class="panel-note">Ingredient photographs: Wikimedia Commons, with original-file, creator and licence links beside every picture. Only visibly reviewed photographs are used. Photo references are for identification, not food-safety or allergen certification.</p>';
-  render();
+  appliedFilters=readFilters();render();
  }catch{status.textContent='The collection could not load. Reconnect and reload to try again.';results.innerHTML='<a class="btn secondary" href="./?view=library">Open your saved recipes</a>';}
 }
 void boot();

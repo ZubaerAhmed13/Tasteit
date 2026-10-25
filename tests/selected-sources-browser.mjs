@@ -4,6 +4,7 @@ import {createServer} from 'node:http';
 import {chromium,firefox,webkit} from 'playwright';
 import {applicationAssets} from '../scripts/build-site.mjs';
 import {createWorker} from '../server/worker.js';
+import {parseBackup} from '../src/model.js';
 const catalogue=JSON.parse(await readFile('data/selected-recipes.json','utf8')),registry=JSON.parse(await readFile('data/ingredient-photos.json','utf8'));
 const collection=JSON.parse(await readFile('data/world-favourites-100.json','utf8'));
 assert.ok(catalogue.recipes.filter(r=>r.rating).length>=1000,'at least 1000 original publisher recipe ratings');
@@ -72,7 +73,7 @@ try{
  await kitchenCard.locator('[data-save-flag=usual]').click();assert.equal(await kitchenCard.locator('[data-save-flag=usual]').getAttribute('aria-pressed'),'true');
  let holdPhotos=true,releasePhotos;await page.route('**/data/ingredient-photos.json',async route=>{if(holdPhotos)await new Promise(resolve=>{releasePhotos=resolve;});return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(registry)});});
  // Deterministic image bytes test actual IMG rendering, not live Commons uptime.
- await page.route('https://upload.wikimedia.org/**',route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGP4DwQACfsD/fteaysAAAAASUVORK5CYII=','base64')}));
+ await page.route(/https:\/\/(?:upload|thumb)\.wikimedia\.org\//,route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGP4DwQACfsD/fteaysAAAAASUVORK5CYII=','base64')}));
  const providerLookups=[];page.on('request',r=>{if(r.url().includes('lookup.php?i=selected-'))providerLookups.push(r.url());});
  await kitchenCard.locator('a[href^="./?recipe="]').click();await page.locator('[role=dialog] #recipe-tag-input').fill('Keep my draft');
  assert.ok((await page.locator('#home-usual').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes('My other saved dish'));
@@ -85,6 +86,15 @@ try{
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.reload();await page.locator('[role=dialog]').waitFor();assert.equal(await page.locator('.ingredient-list li').count(),kitchenRecipe.ingredients.length);assert.deepEqual(providerLookups,[]);
  await page.locator('.dialog-close').click();await page.locator('#home-usual [data-action=home-collection]').click();await page.getByRole('heading',{name:'My personal cookbook.'}).waitFor();assert.ok((await page.locator('#app').innerText()).includes(kitchenRecipe.title));
+ // Receive the actual long Maangchi rice-cake line under a reviewed pantry name.
+ const riceCakeRecipe=catalogue.recipes.find(r=>r.id==='maangchi-recipe-tteokbokki'),riceCakeId='selected-'+riceCakeRecipe.id;
+ await page.goto('http://127.0.0.1:'+server.address().port+'/?recipe='+riceCakeId);await page.locator('[role=dialog] [data-action=wanted]').click();await page.locator('.dialog-close').click();
+ await page.locator('.site-nav [data-nav=plan]').click();await page.locator('[data-plan-day]').first().selectOption(riceCakeId);
+ const riceCakeRow=page.locator('.shopping-row').filter({hasText:'cylinder shaped rice cake'});assert.equal(await riceCakeRow.count(),1);await riceCakeRow.locator('input[type=checkbox]').check();
+ await page.locator('[data-action=shopping-receive]').click();assert.equal(await page.locator('#purchase-name-0').inputValue(),'');await page.locator('#purchase-name-0').fill('Rice cakes');await page.locator('#purchase-amount-0').fill('1');await page.locator('#purchase-unit-0').selectOption('kg');await page.locator('#purchase-review-form input[name=pick-0]').check();await page.locator('#purchase-review-form button[type=submit]').click();await page.locator('#purchase-review-form').waitFor({state:'hidden'});
+ await page.locator('.site-nav [data-nav=library]').click();const backupDownload=page.waitForEvent('download');await page.locator('[data-action=export-data]').click();const restored=parseBackup(await readFile(await(await backupDownload).path(),'utf8'));assert.ok(restored.pantry.some(row=>row.name==='Rice cakes'&&row.quantity==='1'));assert.ok(restored.saved[riceCakeId]);
+ // The next selected-source save still works after the purchase/backup cycle.
+ await page.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html');await page.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));await page.locator('[data-save-flag=usual]').first().click();assert.ok((await page.locator('#selected-save-status').innerText()).includes('Saved to'));
  const noPhotos=await browser.newPage();await noPhotos.route('**/data/ingredient-photos.json',route=>route.abort());await noPhotos.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html');await noPhotos.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await noPhotos.locator('.selected-card').count()>0,'recipe collection survives an unavailable photo registry');
  assert.deepEqual(errors,[]);console.log('PASS selected sources: allowlisted recipe collection, genuine rating/count, ingredient photos/credits, filters, gaps and mobile');
 }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}

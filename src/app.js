@@ -734,7 +734,7 @@ function purchasePanel() {
   return '<section class="panel kitchen-review" aria-labelledby="purchase-review-title"><h3 id="purchase-review-title" tabindex="-1">Review food purchases</h3>'+
     '<p class="panel-note">Select only food you want to track. Enter the actual amount you bought, not just the recipe shortfall. Each selected purchase becomes a separate batch.</p>'+
     '<form id="purchase-review-form" data-review-id="'+escapeHtml(purchaseDraft.id)+'">'+purchaseDraft.rows.map((row,i)=>'<fieldset class="purchase-row"><legend><label><input type="checkbox" name="pick-'+i+'"> '+escapeHtml(row.item.name)+'</label></legend>'+
-      '<div class="purchase-fields"><div class="field"><label for="purchase-amount-'+i+'">Actual amount</label><input id="purchase-amount-'+i+'" name="amount-'+i+'" type="number" min="0" step="any" placeholder="Enter amount"></div>'+
+      '<div class="purchase-fields"><div class="field"><label for="purchase-name-'+i+'">Pantry ingredient name</label><input id="purchase-name-'+i+'" name="name-'+i+'" maxlength="150" value="'+escapeHtml(row.item.name.length<=150?row.item.name:'')+'" placeholder="e.g. Rice cakes">'+(row.item.name.length>150?'<p class="panel-note">Give this long ingredient a short pantry name. Its original wording stays above.</p>':'')+'</div><div class="field"><label for="purchase-amount-'+i+'">Actual amount</label><input id="purchase-amount-'+i+'" name="amount-'+i+'" type="number" min="0" step="any" placeholder="Enter amount"></div>'+
       '<div class="field"><label for="purchase-unit-'+i+'">Unit</label><select id="purchase-unit-'+i+'" name="unit-'+i+'">'+choiceOptions(STOCK_UNITS,'pcs')+'</select></div>'+
       '<div class="field"><label for="purchase-location-'+i+'">Stored in</label><select id="purchase-location-'+i+'" name="location-'+i+'">'+choiceOptions(STOCK_LOCATIONS,'Pantry')+'</select></div>'+
       '<div class="field"><label for="purchase-expiry-'+i+'">Recorded date · optional</label><input id="purchase-expiry-'+i+'" name="expiry-'+i+'" type="date"></div></div></fieldset>').join('')+
@@ -1672,7 +1672,7 @@ document.addEventListener('submit', event => {
   if(event.target.id==='purchase-review-form') {
     event.preventDefault();if(!purchaseDraft)return;
     const input=Object.fromEntries(new FormData(event.target));
-    const selections=purchaseDraft.rows.flatMap((row,i)=>input['pick-'+i]?[{key:row.key,quantity:input['amount-'+i],unit:input['unit-'+i],location:input['location-'+i],expiry:input['expiry-'+i]}]:[]);
+    const selections=purchaseDraft.rows.flatMap((row,i)=>input['pick-'+i]?[{key:row.key,name:input['name-'+i],quantity:input['amount-'+i],unit:input['unit-'+i],location:input['location-'+i],expiry:input['expiry-'+i]}]:[]);
     try {
       const next=receivePurchases(store,purchaseDraft.rows,selections,purchaseDraft.id);
       if(!persistStore(next)){notice('Could not save purchases. Your kitchen is unchanged.');return;}
