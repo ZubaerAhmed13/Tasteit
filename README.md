@@ -154,7 +154,7 @@ vote counts and original publisher photographs. They are an editorial selection
 across regions and dish types; they are not an official worldwide ranking.
 The Collection selector composes with source, search and rating filters, and
 the original 36 records remain available.
-Private preview **version 7** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40165360139) passes all 209 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. Live collection assets and source provenance match the tested package.
+Private preview **version 8** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40224331929) passes all 213 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. Live collection assets and source provenance match the tested package.
 The expanded checked batch contains **136 recipes from 12 sites; 128 have a published
 recipe rating**. Linked Maangchi scores retain their original vote counts; the full ingredient
 sections are checked because some embedded ingredient lists are incomplete. Allrecipes,
@@ -165,7 +165,7 @@ visible. Full methods open at their original publisher; no instructions or revie
 are copied. Earlier cookbook records and research are retained separately.
 
 The ingredient checklist includes **172 visually reviewed real reference photographs**
-from Wikimedia Commons, with file, creator and licence links. These photo sources
+from Wikimedia Commons, with file, creator, licence and required source-credit links. These photo sources
 are separate from the recipe-source restriction. **1317 of 2111 ingredient rows**
 have matching references; **794 remain unresolved**. Unknown ingredients, mixed
 alternatives and missing preparations display a clear photo gap. Images are

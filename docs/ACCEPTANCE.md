@@ -272,8 +272,18 @@ physical-device/accessibility acceptance remain open.
 - [x] Exact-source regressions fixed known single-food descriptors for plain/all-purpose flour, thawed pastry and bread size notes. Unknown additional foods and alternatives remain unresolved. Explicit capsicum/bell-pepper slash aliases resolve one food without weakening the competing-food guard.
 - [x] All 213 Node tests and syntax checks pass locally; Worker build succeeds. No new dependencies, persistence format or database migration.
 - [x] Independent final review: no Critical issues; one Important source-credit issue corrected. Three references now render the supplied additional attribution links beside the image. Unsafe or incomplete declared credit links make a reference ineligible. Unit regression verified RED→GREEN; actual link destinations covered in browser acceptance.
-- [ ] Detailed final CI: all six suites in Chromium/Firefox/WebKit and three Firefox continuity executions; all 20 PASS results required.
-- [ ] Exact-source native package and private publication; verify live registry/module hashes, provenance and audience.
+- [x] Detailed final CI: all six suites in Chromium/Firefox/WebKit and three Firefox continuity executions; all 20 PASS results checked in the job logs. Required adjacent credit links pass in all three engines.
+- [x] Exact-source native package published as private preview version 8. All 46 source assets and the provenance endpoint match the prepared Worker; the archive preserves the Site identity, DB binding and all three migration files. Eight live collection paths and the source-provenance endpoint match the tested package. Audience remains one owner, zero external visitors and zero groups. PR #1 stays draft and unmerged.
+
+Verified application source: `4b417fff89a13936e86b4995bef7410441135e37`.
+[Final CI run 40224331929](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40224331929)
+passes all 213 Node tests, syntax/build checks and all 20 browser-suite executions.
+Native Site source: `9a434104ffd0659781a431b3b2fa4ac6dcfbda12`.
+[Open the updated collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html?collection=world-favourites-100).
+
+The corrected credit rendering retains the original Commons and licence links and
+adds source-requested links for garlic chives, wonton wrappers and green bell
+pepper. These are photograph credits, not additional recipe collection sources.
 
 Source searches paused when rate-limited, then resumed through one coordinated
 queue respecting cooldowns. Original-file metadata, visual galleries and every

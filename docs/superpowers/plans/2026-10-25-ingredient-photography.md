@@ -45,7 +45,17 @@
 
 **Interfaces:** Consumes the exact committed registry and match-delta audit; produces browser evidence, a reviewed native package and measured live coverage.
 
-- [ ] Independent final source/photo contract review; reproduce and fix any Important/Critical issue RED→GREEN once, then run the full suite.
-- [ ] Push the candidate to PR1 and inspect detailed CI logs. Expected: all Node tests, six suites each in Chromium/Firefox/WebKit and three Firefox continuity executions pass; all20 browser PASS results present.
-- [ ] Build the exact tested source, compare all source assets and migrations with the native package and publish to the same owner-private Site.
-- [ ] Verify live changed paths, source provenance and unchanged audience. Update counts, rejected-target limits, PR1 and release evidence; do not merge.
+- [x] Independent final source/photo contract review; reproduce and fix any Important/Critical issue RED→GREEN once, then run the full suite.
+- [x] Push the candidate to PR1 and inspect detailed CI logs. Expected: all Node tests, six suites each in Chromium/Firefox/WebKit and three Firefox continuity executions pass; all20 browser PASS results present.
+- [x] Build the exact tested source, compare all source assets and migrations with the native package and publish to the same owner-private Site.
+- [x] Verify live changed paths, source provenance and unchanged audience. Update counts, rejected-target limits, PR1 and release evidence; do not merge.
+
+
+Release evidence: application `4b417fff89a13936e86b4995bef7410441135e37`,
+CI 40224331929 (213 Node tests and 20 browser-suite PASS results), private Site
+version 8 from native source `9a434104ffd0659781a431b3b2fa4ac6dcfbda12`.
+All 46 source assets, eight live collection paths, provenance and three migration
+files verified. One Important review finding was corrected in one pass with
+RED→GREEN unit evidence and three-engine adjacent-link acceptance. Coverage:
+172 reviewed references; 1317 of 2111 rows matched; 794 explicit gaps. No recipe
+records changed. See docs/ACCEPTANCE.md for limits and source constraints.
