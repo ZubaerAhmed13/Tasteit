@@ -226,27 +226,41 @@ restrictions were bypassed. Photo searches that returned rate limits were left
 unresolved. Public rights clearance, physical-device/accessibility checks and the
 owner-signed-in hosted walkthrough remain open.
 
-## 100 world favourites — 24 October 2026
+## 100 world favourites — published 25 October 2026
 
-- [x] Exactly 100 new, distinct recipe records added; all original 36 records/IDs unchanged. Total136 recipes,128 rated, from12 of the selected16 publishers
-- [x] Every addition reproduces exactly from its permitted original source HTML, with factual ingredients, source photo URL and published4.1–5/5 rating plus positive count; no methods/reviews copied
-- [x] Final selection:20 Europe,15 Americas,4 Oceania,5 Africa,5 Middle East,14 South Asia,37 East/Southeast Asia. These are editorial browsing groups, not certified origins or a worldwide ranking
-- [x] Dedicated100-ID registry, Collection selector and direct query link; existing query/source/rated/sort filters compose. Invalid/unavailable collection metadata preserves ordinary browsing
-- [x] All830 initial non-null new ingredient matches audited. Explicit photo exclusions prevent known wrong foods/parts/forms and retain blocked competing candidates so a compound cannot fall back to another wrong component
-- [x] Existing109 reviewed ingredient references now cover1122 of2111 rows;989 remain gaps. Two earlier unsupported yogurt/thigh matches also become gaps; ingredient photography is incomplete
-- [x] Bounded collector accepts144 seeds with hard cap250 and exact publisher validation; no new source/DB dependency
-- [x] All209 Node tests, syntax and Worker build pass locally
-- [ ] Final six-suite Chromium/Firefox/WebKit acceptance, including100-card direct collection, composed filters, registry failure and mobile layout; three fresh Firefox continuity executions. Detailed logs exposed a pre-existing date-dependent discovery fixture and an AND-list failure masked by the following shell conditional; fixture and fail-fast workflow corrected with a regression, final rerun pending
-- [x] Independent final review: no Critical/Important findings. Fixed two Minor mismatches (green capsicum wording and cilantro stems) with RED→GREEN source-line regressions; stabilized the pre-existing date-sensitive kitchen test fixture without changing product behaviour
-- [ ] Publish exact tested source, verify live hashes/provenance and retain owner-only access
+- [x] Exactly 100 new, distinct recipe records added; all original 36 records and IDs unchanged. Total: 136 recipes, 128 rated, from 12 of the selected 16 publishers.
+- [x] Every addition reproduces exactly from its permitted original source HTML, with factual ingredients, source photo URL and published 4.1–5/5 rating plus a positive count. No methods or reviews copied.
+- [x] Editorial selection: 20 Europe, 15 Americas, 4 Oceania, 5 Africa, 5 Middle East, 14 South Asia and 37 East/Southeast Asia. These are browsing groups, not certified origins or a worldwide ranking.
+- [x] Dedicated 100-ID registry, Collection selector and direct query link. Existing query, source, rated and sort filters compose. Invalid or unavailable collection metadata preserves ordinary browsing.
+- [x] All 830 initial non-null new ingredient matches audited. Explicit photo exclusions prevent known wrong foods, parts and forms, while retaining blocked competing candidates so compounds cannot fall back to another wrong component.
+- [x] Existing 109 reviewed ingredient photographs cover 1122 of 2111 rows; 989 remain gaps. Two earlier unsupported yogurt/thigh matches also become gaps. Ingredient photography remains incomplete.
+- [x] Bounded collector accepts 144 seeds with a hard cap of 250 and exact publisher validation; no new database or runtime dependency.
+- [x] All 209 Node tests, syntax checks and Worker build pass locally and in CI.
+- [x] All six browser suites pass in Chromium, Firefox and WebKit, including the 100-card direct collection, composed filters, unavailable registry and mobile layout. Firefox continuity passes in three fresh executions. All 20 browser-suite PASS results checked in detailed logs.
+- [x] Independent data/contract review found no Critical or Important issues. Two Minor photo mismatches (green capsicum wording and cilantro stems) were reproduced and fixed with regressions. Focused follow-up approved those fixes and the CI corrections.
+- [x] Exact tested source published as private preview version 7. All 46 source assets match the native Worker; eight live collection paths and the provenance endpoint match the package. Audience remains one owner, zero external visitors and zero groups. PR #1 stays draft and unmerged.
 
-New source retrieval respects published access rules:196 Flavors disallows general
-crawlers and was excluded from this100; Budget Bytes robots returned403 and no
-recipe was fetched. Existing records from earlier batches remain unchanged. Wellington
-and harira video landing pages, two incomplete Maangchi layouts and other unused
-candidates were held out. Small source voting samples remain visible; the minimum
-among these100 is4 votes. Public-release rights, owner-signed-in hosted walkthrough
-and physical-device/accessibility acceptance remain open.
+Application source: `d2a128a2be04d241a80103f98720dc9fc086bdc2`.
+[Final CI run 40165360139](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40165360139).
+Native Site source: `877bb7e46914552b69a0fadf54776956d692438a`.
+[Open the 100 world favourites](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html?collection=world-favourites-100).
+
+Detailed checks exposed two pre-existing date-sensitive fixtures and a shell
+AND-list failure masked by the subsequent conditional. Non-expiry unit scenarios
+now use undated stock; explicit expiry tests retain their fixed date. The browser
+fixture covers every daily featured-initial rotation. Each browser command now
+stands alone, and a regression executes the real workflow commands with injected
+failures in all six suites across all three engine configurations. Earlier green
+run 40165136964 is not accepted as browser evidence; the final run above passes
+every suite with the corrected gate.
+
+New source retrieval respects published access rules: 196 Flavors disallows general
+crawlers and was excluded from these 100; Budget Bytes robots returned 403 and no
+recipe was fetched. Earlier records remain unchanged. Wellington and harira video
+landing pages, two incomplete Maangchi layouts and other unused candidates were
+held out. Small source voting samples remain visible; the minimum among these
+100 is four votes. Public-release rights, owner-signed-in hosted walkthrough and
+physical-device/accessibility acceptance remain open.
 
 ## Collection audit — 23 October 2026
 

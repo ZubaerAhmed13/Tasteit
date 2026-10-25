@@ -154,6 +154,7 @@ vote counts and original publisher photographs. They are an editorial selection
 across regions and dish types; they are not an official worldwide ranking.
 The Collection selector composes with source, search and rating filters, and
 the original 36 records remain available.
+Private preview **version 7** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40165360139) passes all 209 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. Live collection assets and source provenance match the tested package.
 The expanded checked batch contains **136 recipes from 12 sites; 128 have a published
 recipe rating**. Linked Maangchi scores retain their original vote counts; the full ingredient
 sections are checked because some embedded ingredient lists are incomplete. Allrecipes,

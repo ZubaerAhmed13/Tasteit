@@ -46,6 +46,6 @@ Files: src/selected-sources.js, src/selected-recipes-app.js, selected-recipes.ht
 
 Files: README.md, docs/ACCEPTANCE.md and this plan.
 
-- [ ] Run syntax, full Node tests/build, six-suite Chromium/Firefox/WebKit matrix and three Firefox continuity executions.
+- [x] Run syntax, all 209 Node tests/build, six-suite Chromium/Firefox/WebKit matrix and three Firefox continuity executions. Final CI: 40165360139; all 20 browser-suite PASS results checked.
 - [x] One independent final data/contract review; no Critical/Important findings. Two Minor photo issues fixed with RED→GREEN regressions; all209 Node tests pass after stabilizing an existing date-sensitive fixture.
-- [ ] Publish the exact tested package to the same owner-private Site. Verify all source assets, live collection/data/style/module hashes, provenance and audience. Update PR1/docs; do not merge.
+- [x] Publish exact tested app source d2a128a2be04d241a80103f98720dc9fc086bdc2 as owner-private version 7 from native source 877bb7e46914552b69a0fadf54776956d692438a. Verified 46 source assets, eight live collection hashes, provenance and unchanged audience. PR1/docs updated; PR remains draft and unmerged.
