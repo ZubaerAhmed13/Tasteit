@@ -1,6 +1,6 @@
 import {safeHttps} from './selected-sources.js';
 const norm=value=>String(value||'').normalize('NFKD').toLowerCase().replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9äöüß]+/g,' ').trim();
-const preparations=['powder','paste','stock','broth','juice','fat','cream','ground','dried','flakes','sauce','vinegar','cooked','uncooked','candied','peel'];
+const preparations=['powder','paste','stock','broth','juice','fat','cream','ground','dried','flakes','sauce','vinegar','cooked','uncooked','candied','peel','oil'];
 const singleFoodDescription=value=>norm(value).replace(/\b(?:boneless and skinless|skinless and boneless)\b/g,'boneless skinless').replace(/\bchilled and cubed\b/g,'chilled cubed');
 const specificMilks=['oat milk','almond milk','soy milk','soya milk','coconut milk','rice milk','cashew milk','goat milk','condensed milk','evaporated milk'];
 const detailWords=new Set('finely freshly lightly roughly thinly thickly coarsely chopped minced sliced slices diced grated peeled seeded boneless skinless skinned roasted shredded julienned crushed pressed rinsed washed drained softened melted chilled cubed cut and into in small half halves quarters crosswise inch inches long piece pieces strips matchsticks thin thick beaten mashed deseeded optional full bodied for frying garnish serving dusting gehauft rote gelbe plain all purpose just thawed broken bite sized'.split(' '));
@@ -57,6 +57,7 @@ export function ingredientPhoto(input,registry=[]) {
  if(matches.some(x=>x.photo.id!==best.photo.id&&!best.word.includes(x.word)&&!x.word.includes(best.word)))return null;
  if(preparations.some(p=>(' '+text+' ').includes(' '+p+' ')&&!(' '+best.word+' ').includes(' '+p+' ')))return null;
  if(/\bfried\b/.test(preparation)&&!best.word.includes('fried'))return null;
- if(best.photo.form==='ground'&&/\b(grated|root|fresh|whole|peppercorns?|sliced|cubed|chopped|minced|peeled)\b/.test(preparation))return null;
+ if(best.photo.form==='ground'&&/\b(grated|root|fresh|whole|peppercorns?|sliced|cubed|chopped|peeled)\b/.test(preparation))return null;
+ if(best.photo.form==='ground'&&/\bminced\b/.test(preparation)&&!/\bminced\b/.test(best.word))return null;
  return best.photo;
 }

@@ -165,3 +165,17 @@ test('source credit links must be safe and complete before a reference is eligib
  assert.deepEqual(ingredientPhotoCredits(credited),[{label:'Creator website',url:'https://example.org/credit'}]);
  assert.deepEqual(ingredientPhotoCredits(entry),[]);
 });
+test('the screenshot sesame seed oil name uses its verified oil photograph',async()=>{
+ const {readFile}=await import('node:fs/promises'),{ingredientPhoto}=await import('../src/ingredient-photos.js');const p=JSON.parse(await readFile(new URL('../data/ingredient-photos.json',import.meta.url))).photos;
+ assert.equal(ingredientPhoto('Sesame Seed Oil',p)?.id,'sesame-oil');
+});
+test('oil cannot fall back to a seed photograph when the oil reference is absent',async()=>{
+ const {readFile}=await import('node:fs/promises'),{ingredientPhoto}=await import('../src/ingredient-photos.js');const p=JSON.parse(await readFile(new URL('../data/ingredient-photos.json',import.meta.url))).photos;
+ assert.equal(ingredientPhoto('sesame seed oil',p.filter(p=>p.id==='sesame-seeds')),null);
+ assert.equal(ingredientPhoto('sesame seeds',p)?.id,'sesame-seeds');
+});
+test('explicit minced beef aliases allow the matching ground form and preserve conflicting-form gaps',async()=>{
+ const {readFile}=await import('node:fs/promises'),{ingredientPhoto}=await import('../src/ingredient-photos.js');const p=JSON.parse(await readFile(new URL('../data/ingredient-photos.json',import.meta.url))).photos;
+ assert.equal(ingredientPhoto('Minced Beef',p)?.id,'beef-ground');
+ assert.equal(ingredientPhoto('whole minced beef',p),null);assert.equal(ingredientPhoto('minced turmeric',p),null);
+});
