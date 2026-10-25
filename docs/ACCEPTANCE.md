@@ -226,6 +226,28 @@ restrictions were bypassed. Photo searches that returned rate limits were left
 unresolved. Public rights clearance, physical-device/accessibility checks and the
 owner-signed-in hosted walkthrough remain open.
 
+## 100 world favourites — 24 October 2026
+
+- [x] Exactly 100 new, distinct recipe records added; all original 36 records/IDs unchanged. Total136 recipes,128 rated, from12 of the selected16 publishers
+- [x] Every addition reproduces exactly from its permitted original source HTML, with factual ingredients, source photo URL and published4.1–5/5 rating plus positive count; no methods/reviews copied
+- [x] Final selection:20 Europe,15 Americas,4 Oceania,5 Africa,5 Middle East,14 South Asia,37 East/Southeast Asia. These are editorial browsing groups, not certified origins or a worldwide ranking
+- [x] Dedicated100-ID registry, Collection selector and direct query link; existing query/source/rated/sort filters compose. Invalid/unavailable collection metadata preserves ordinary browsing
+- [x] All830 initial non-null new ingredient matches audited. Explicit photo exclusions prevent known wrong foods/parts/forms and retain blocked competing candidates so a compound cannot fall back to another wrong component
+- [x] Existing109 reviewed ingredient references now cover1125 of2111 rows;986 remain gaps. Two earlier unsupported yogurt/thigh matches also become gaps; ingredient photography is incomplete
+- [x] Bounded collector accepts144 seeds with hard cap250 and exact publisher validation; no new source/DB dependency
+- [x] All206 Node tests, syntax and Worker build pass locally
+- [ ] Final six-suite Chromium/Firefox/WebKit acceptance, including100-card direct collection, composed filters, registry failure and mobile layout; three fresh Firefox continuity executions
+- [ ] One independent final review and any material fixes
+- [ ] Publish exact tested source, verify live hashes/provenance and retain owner-only access
+
+New source retrieval respects published access rules:196 Flavors disallows general
+crawlers and was excluded from this100; Budget Bytes robots returned403 and no
+recipe was fetched. Existing records from earlier batches remain unchanged. Wellington
+and harira video landing pages, two incomplete Maangchi layouts and other unused
+candidates were held out. Small source voting samples remain visible; the minimum
+among these100 is4 votes. Public-release rights, owner-signed-in hosted walkthrough
+and physical-device/accessibility acceptance remain open.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed

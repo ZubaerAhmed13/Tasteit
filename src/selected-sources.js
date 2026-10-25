@@ -130,7 +130,15 @@ export function validateRecipe(record) {
  if(record.photoUrl&&!safeHttps(record.photoUrl))throw new Error('Invalid publisher photo URL.');
  return record;
 }
-export function filterRecipes(records,{query='',source='',ratedOnly=false,sort='title'}={}) {
- const q=String(query).trim().toLowerCase();
- return records.filter(r=>(!source||r.source===source)&&(!ratedOnly||r.rating)&&(!q||[r.title,r.author,r.cuisine,...r.ingredients].join(' ').toLowerCase().includes(q))).sort((a,b)=>sort==='rating'?(b.rating?b.rating.value/b.rating.best:-1)-(a.rating?a.rating.value/a.rating.best:-1)||a.title.localeCompare(b.title):sort==='votes'?(b.rating?.countType==='ratings'?b.rating.count||0:-1)-(a.rating?.countType==='ratings'?a.rating.count||0:-1)||a.title.localeCompare(b.title):a.title.localeCompare(b.title));
+export function validateWorldFavourites(data,records) {
+ const byId=new Map(records.map(r=>[r.id,r]));
+ if(!data||data.id!=='world-favourites-100'||typeof data.title!=='string'||!data.title||data.title.length>100||typeof data.summary!=='string'||!data.summary||data.summary.length>1000||!Number.isFinite(Date.parse(data.checkedAt))||!Array.isArray(data.recipeIds)||data.recipeIds.length!==100||new Set(data.recipeIds).size!==100)throw new Error('Invalid world favourites curation.');
+ const selected=data.recipeIds.map(id=>byId.get(id));
+ if(selected.some(r=>!r||!r.rating||r.rating.value/r.rating.best<0.8||!(r.rating.count>0)||!r.photoUrl||!safeHttps(r.photoUrl))||new Set(selected.map(r=>r.url)).size!==100)throw new Error('Invalid world favourites curation records.');
+ selected.forEach(validateRecipe);
+ return data;
+}
+export function filterRecipes(records,{query='',source='',ratedOnly=false,sort='title',recipeIds=null}={}) {
+ const q=String(query).trim().toLowerCase(),allowedIds=recipeIds===null?null:new Set(Array.isArray(recipeIds)?recipeIds:[]);
+ return records.filter(r=>(!allowedIds||allowedIds.has(r.id))&&(!source||r.source===source)&&(!ratedOnly||r.rating)&&(!q||[r.title,r.author,r.cuisine,...r.ingredients].join(' ').toLowerCase().includes(q))).sort((a,b)=>sort==='rating'?(b.rating?b.rating.value/b.rating.best:-1)-(a.rating?a.rating.value/a.rating.best:-1)||a.title.localeCompare(b.title):sort==='votes'?(b.rating?.countType==='ratings'?b.rating.count||0:-1)-(a.rating?.countType==='ratings'?a.rating.count||0:-1)||a.title.localeCompare(b.title):a.title.localeCompare(b.title));
 }

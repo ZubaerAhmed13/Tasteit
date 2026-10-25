@@ -97,3 +97,23 @@ test('explicitly labelled equipment is excluded from 196 Flavors ingredient fact
  assert.deepEqual(extractRecipe(html(main)+equipment,u).ingredients,['2 cups dried chickpeas']);
  assert.equal(extractRecipe(html(main),u).ingredients.length,2,'equipment is removed only with explicit publisher evidence');
 });
+test('world-favourites membership composes with source, query and rating filters',async()=>{
+ const {filterRecipes,extractRecipe}=await api(),a=extractRecipe(html(recipe),url),b={...a,id:'other',title:'Other dish'};
+ assert.deepEqual(filterRecipes([a,b],{recipeIds:['other']}).map(x=>x.id),['other']);
+ assert.equal(filterRecipes([a,b],{recipeIds:[],query:'garlic'}).length,0);
+ assert.equal(filterRecipes([a,b],{recipeIds:['other'],source:'recipetineats',query:'other',ratedOnly:true}).length,1);
+ assert.equal(filterRecipes([a,b],{recipeIds:['other'],source:'maangchi'}).length,0);
+});
+test('a world favourites registry must name exactly 100 distinct rated and photographed recipes',async()=>{
+ const {validateWorldFavourites,extractRecipe}=await api(),a=extractRecipe(html(recipe),url);
+ const records=Array.from({length:100},(_,i)=>({...a,id:'dish-'+i,url:'https://www.recipetineats.com/dish-'+i+'/'}));const collection={id:'world-favourites-100',title:'100 world favourites',summary:'Editorial curation, not a worldwide ranking.',checkedAt:'2026-10-24T12:00:00Z',recipeIds:records.map(x=>x.id)};
+ assert.equal(validateWorldFavourites(collection,records).recipeIds.length,100);
+ for(const recipeIds of [collection.recipeIds.slice(1),collection.recipeIds.map(()=>records[0].id),[...collection.recipeIds.slice(1),'missing']])assert.throws(()=>validateWorldFavourites({...collection,recipeIds},records),/curation/i);
+ for(const extra of [{rating:null},{photoUrl:null},{rating:{...a.rating,value:3.9}},{rating:{...a.rating,count:null,countType:null}}])assert.throws(()=>validateWorldFavourites(collection,[{...records[0],...extra},...records.slice(1)]),/curation/i);
+});
+test('the recipe collector accepts the expanded seed batch while retaining a hard allowlisted bound',async()=>{
+ const {validateSeeds}=await import('../scripts/collect-selected-recipes.mjs');const seeds=Array.from({length:144},(_,i)=>'https://www.recipetineats.com/dish-'+i+'/');
+ assert.equal(validateSeeds(seeds).length,144);
+ assert.throws(()=>validateSeeds([...seeds,...Array(107).fill(url)]),/seed/i);
+ assert.throws(()=>validateSeeds([...seeds,'https://evil.test/recipe']),/seed/i);
+});

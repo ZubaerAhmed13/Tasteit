@@ -1,5 +1,9 @@
 import {readFile,writeFile,mkdir,rename} from 'node:fs/promises';
 import {approvedSource,extractRecipe,SOURCES,SOURCE_LIST_URL} from '../src/selected-sources.js';
+export function validateSeeds(seeds) {
+ if(!Array.isArray(seeds)||seeds.length>250||seeds.some(x=>!approvedSource(x)))throw new Error('Invalid bounded seed list.');
+ return seeds;
+}
 export async function fetchPage(input,request=fetch) {
  let url=input;
  for(let redirects=0;redirects<4;redirects++) {
@@ -17,7 +21,7 @@ export async function fetchPage(input,request=fetch) {
 }
 if(process.argv[1]===new URL(import.meta.url).pathname) {
  const seeds=JSON.parse(await readFile('data/selected-recipe-seeds.json','utf8'));
- if(!Array.isArray(seeds)||seeds.length>100||seeds.some(x=>!approvedSource(x)))throw new Error('Invalid bounded seed list.');
+ validateSeeds(seeds);
  const previous=await readFile('data/selected-recipes.json','utf8').then(JSON.parse).catch(()=>({recipes:[]}));
  const records=new Map(previous.recipes.map(r=>[r.url,r])),attempts=[];
  let writing=Promise.resolve();

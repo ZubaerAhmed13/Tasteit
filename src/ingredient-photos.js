@@ -9,7 +9,8 @@ function usable(photo) {
  return photo?.verified===true&&typeof photo.creator==='string'&&photo.creator.trim()&&
   ['upload.wikimedia.org','thumb.wikimedia.org'].includes(image?.hostname)&&file?.hostname==='commons.wikimedia.org'&&file.pathname.startsWith('/wiki/File:')&&
   ((licence?.hostname==='creativecommons.org'&&/^\/(licenses\/by(?:-sa)?\/|publicdomain\/(?:zero|mark)\/)/.test(licence.pathname))||(photo.licence==='Public domain'&&licence?.href===file?.href))&&
-  Array.isArray(photo.aliases)&&photo.aliases.length>0;
+  Array.isArray(photo.aliases)&&photo.aliases.length>0&&
+  (photo.exclusions===undefined||Array.isArray(photo.exclusions)&&photo.exclusions.length<=50&&photo.exclusions.every(term=>typeof term==='string'&&term.length<=80&&norm(term)));
 }
 export function ingredientPhoto(input,registry=[]) {
  let text=String(input||'').toLowerCase().replaceAll('&amp;','&').replaceAll('&',' and ');
@@ -25,11 +26,12 @@ export function ingredientPhoto(input,registry=[]) {
  const matches=[];
  for(const photo of registry)if(usable(photo))for(const alias of photo.aliases) {
   const word=norm(alias);if(!word||!aliasSegments.some(segment=>(' '+segment+' ').includes(' '+word+' ')))continue;
-  matches.push({photo,length:word.length,word});
+  matches.push({photo,length:word.length,word,excluded:photo.exclusions?.some(term=>(' '+preparation+' ').includes(' '+norm(term)+' '))});
  }
  matches.sort((a,b)=>b.length-a.length);
  if(!matches.length)return null;
  const best=matches[0];
+ if(best.excluded)return null;
  if(/\b(roasted|toasted)\b/.test(preparation)&&!['roasted','toasted'].includes(best.photo.form))return null;
  if(specificMilks.some(name=>(' '+text+' ').includes(' '+name+' ')&&!(' '+best.word+' ').includes(' '+name+' ')))return null;
  if((/\b(?:canned|tinned)\b/.test(preparation)||/\bcans?\b/.test(text))&&best.photo.form!=='canned')return null;

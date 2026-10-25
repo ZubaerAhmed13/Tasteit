@@ -148,7 +148,13 @@ Tasteit source code is an original prototype; third-party recipes and photograph
 
 [Open the selected-source collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html).
 New collection is restricted to the **16 websites named in your shared list**.
-The expanded checked batch contains **36 recipes from 12 sites; 28 have a published
+[Browse the new 100 world favourites](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html?collection=world-favourites-100).
+All 100 additions have source scores from 4.1 to 5 out of 5, positive published
+vote counts and original publisher photographs. They are an editorial selection
+across regions and dish types; they are not an official worldwide ranking.
+The Collection selector composes with source, search and rating filters, and
+the original 36 records remain available.
+The expanded checked batch contains **136 recipes from 12 sites; 128 have a published
 recipe rating**. Linked Maangchi scores retain their original vote counts; the full ingredient
 sections are checked because some embedded ingredient lists are incomplete. Allrecipes,
 Serious Eats, NYT Cooking and SuperCook still have collection gaps; dish/app ratings
@@ -159,8 +165,8 @@ are copied. Earlier cookbook records and research are retained separately.
 
 The ingredient checklist includes **109 visually reviewed real reference photographs**
 from Wikimedia Commons, with file, creator and licence links. These photo sources
-are separate from the recipe-source restriction. **340 of 489 ingredient rows**
-have matching references; **149 remain unresolved**. Unknown ingredients, mixed
+are separate from the recipe-source restriction. **1125 of 2111 ingredient rows**
+have matching references; **986 remain unresolved**. Unknown ingredients, mixed
 alternatives and missing preparations display a clear photo gap. Images are
 identification references, not pictures of the exact products used by an author.
 The collection needs a connection; existing saved-kitchen offline support remains.

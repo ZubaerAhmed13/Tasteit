@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
 import {createServer} from 'node:http';
 import {chromium,firefox,webkit} from 'playwright';
 import {applicationAssets} from '../scripts/build-site.mjs';
@@ -26,6 +27,11 @@ try{
  await page.locator('#selected-reset').click();assert.equal(await page.locator('.selected-card').count(),initial);
  await page.locator('#selected-rated').uncheck();await page.locator('#selected-filters button[type=submit]').click();assert.ok(await page.locator('.selected-card').count()>initial);
  assert.ok((await page.locator('.source-rating').allTextContents()).some(x=>x.includes('Rating not collected')),'uncollected scores do not imply that the publisher has no ratings');
+ const collection=JSON.parse(await readFile('data/world-favourites-100.json','utf8')),catalogue=JSON.parse(await readFile('data/selected-recipes.json','utf8'));
+ await page.locator('#selected-collection').selectOption('world-favourites-100');await page.locator('#selected-filters button[type=submit]').click();assert.equal(await page.locator('.selected-card').count(),100);assert.ok(page.url().includes('collection=world-favourites-100'));
+ const sample=catalogue.recipes.find(x=>x.id===collection.recipeIds[0]);await page.locator('#selected-source').selectOption(sample.source);await page.locator('#selected-query').fill(sample.title);await page.locator('#selected-filters button[type=submit]').click();assert.equal(await page.locator('.selected-card').count(),1);
+ const direct=await browser.newPage({viewport:{width:375,height:812}});await direct.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());await direct.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html?collection=world-favourites-100');await direct.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.startsWith('100 of '));assert.equal(await direct.locator('#selected-collection').inputValue(),'world-favourites-100');assert.equal(await direct.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ const unavailable=await browser.newPage();await unavailable.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());await unavailable.route('**/data/world-favourites-100.json',route=>route.abort());await unavailable.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html?collection=world-favourites-100');await unavailable.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await unavailable.locator('.selected-card').count()>100);assert.ok((await unavailable.locator('#selected-collection-note').innerText()).includes('unavailable'));
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  assert.ok((await page.locator('#selected-filters button[type=submit]').boundingBox()).height>=44);
  const noPhotos=await browser.newPage();await noPhotos.route('**/data/ingredient-photos.json',route=>route.abort());await noPhotos.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html');await noPhotos.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await noPhotos.locator('.selected-card').count()>0,'recipe collection survives an unavailable photo registry');

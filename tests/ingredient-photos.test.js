@@ -107,3 +107,18 @@ test('wine adjectives separated by a comma do not become a food mixture',async()
  assert.equal(ingredientPhoto('1 bottle (750 ml) dry, full-bodied red wine',[wine])?.id,'red-wine');
  assert.equal(ingredientPhoto('1 bottle dry, red wine, oregano',[wine]),null);
 });
+test('explicit photo exclusions are normalised and malformed exclusions fail closed',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),restricted={...entry,exclusions:['garlic chives']};
+ assert.equal(ingredientPhoto('1 cup Chinese-garlic chives',[restricted]),null);assert.equal(ingredientPhoto('2 cloves garlic',[restricted])?.id,'garlic');
+ for(const exclusions of ['garlic chives',[7],['']])assert.equal(ingredientPhoto('garlic',[{...entry,exclusions}]),null);
+});
+test('published specialised foods cannot receive a conflicting generic food photograph',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ const cases=[['butter','1/3 cup creamy peanut butter'],['water','1/4 cup rose water'],['flour','2 tbsp rice flour'],['flour','2 tbsp wheat flour (atta)'],['sugar','1 cup powdered sugar'],['sugar','icing sugar'],['ginger','1 Tbsp pickled red ginger'],['ginger','sushi ginger (gari)'],['mushroom','2 shiitake mushrooms'],['kombu','shio kombu (prepared)'],['eggs','20 egg dumpling wrappers'],['eggs','6 egg whites'],['eggs','2 egg yolks'],['eggs','hard-boiled eggs'],['garlic','1 cup Chinese garlic chives'],['lime','5 makrut lime leaves'],['lime','2 tsp lime zest'],['lemon','Zest of 1 lemon'],['kimchi','1/4 cup kimchi brine'],['bell-pepper','1 green bell pepper'],['yogurt','1/3 cup Greek yogurt (hung curd)'],['chicken-thigh-alt','4 bone-in skin-on chicken thighs'],['potato','Baked potato wedges'],['tomato','400g crushed tomatoes']];
+ for(const [id,line] of cases)assert.equal(ingredientPhoto(line,p.filter(x=>x.id===id)),null,line);
+});
+test('an excluded component cannot expose a misleading fallback for a compound ingredient',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=(await actualRegistry()).filter(x=>['water','orange'].includes(x.id));
+ assert.equal(ingredientPhoto('1/2 cup orange-blossom water',p),null);
+ const specific={...entry,id:'orange-blossom-water',aliases:['orange blossom water']};assert.equal(ingredientPhoto('1/2 cup orange-blossom water',[...p,specific])?.id,'orange-blossom-water');
+});

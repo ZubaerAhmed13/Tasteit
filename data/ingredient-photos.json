@@ -37,7 +37,10 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Garlic bulbs and cloves"
+      "description": "Garlic bulbs and cloves",
+      "exclusions": [
+        "garlic chives"
+      ]
     },
     {
       "id": "cumin-seeds",
@@ -163,7 +166,15 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Macro photograph of a pile of sugar (saccharose)"
+      "description": "Macro photograph of a pile of sugar (saccharose)",
+      "exclusions": [
+        "powdered sugar",
+        "icing sugar",
+        "confectioners sugar",
+        "confectioner s sugar",
+        "palm sugar",
+        "rock sugar"
+      ]
     },
     {
       "id": "tomato",
@@ -180,7 +191,11 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Organic home-grown tomatoes arranged in a circle. Christchurch, New Zealand."
+      "description": "Organic home-grown tomatoes arranged in a circle. Christchurch, New Zealand.",
+      "exclusions": [
+        "crushed tomato",
+        "crushed tomatoes"
+      ]
     },
     {
       "id": "black-pepper",
@@ -274,7 +289,11 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Red and yellow bell peppers in water"
+      "description": "Red and yellow bell peppers in water",
+      "exclusions": [
+        "green bell pepper",
+        "green bell peppers"
+      ]
     },
     {
       "id": "mushroom",
@@ -291,7 +310,10 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "An Agaricus bisporus"
+      "description": "An Agaricus bisporus",
+      "exclusions": [
+        "shiitake"
+      ]
     },
     {
       "id": "olive-oil",
@@ -325,7 +347,13 @@
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "All-Purpose Flour",
-      "form": "ground"
+      "form": "ground",
+      "exclusions": [
+        "rice flour",
+        "atta",
+        "whole wheat flour",
+        "wholemeal flour"
+      ]
     },
     {
       "id": "red-onion",
@@ -359,7 +387,10 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Lemon – whole and halved"
+      "description": "Lemon – whole and halved",
+      "exclusions": [
+        "zest"
+      ]
     },
     {
       "id": "lime",
@@ -376,7 +407,11 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Limes – whole and halved. Grown in Brazil"
+      "description": "Limes – whole and halved. Grown in Brazil",
+      "exclusions": [
+        "lime leaves",
+        "zest"
+      ]
     },
     {
       "id": "orange",
@@ -429,7 +464,15 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Different potato varieties. – The potato is the vegetable of choice in the United States. On average, Americans devour about 65 kg of them per year. New potato releases by ARS scientists give us even more choices of potatoes to eat."
+      "description": "Different potato varieties. – The potato is the vegetable of choice in the United States. On average, Americans devour about 65 kg of them per year. New potato releases by ARS scientists give us even more choices of potatoes to eat.",
+      "exclusions": [
+        "baked potato",
+        "baked potatoes",
+        "mashed potato",
+        "mashed potatoes",
+        "fried potato",
+        "fried potatoes"
+      ]
     },
     {
       "id": "butter",
@@ -446,14 +489,16 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Butter and a butter knife"
+      "description": "Butter and a butter knife",
+      "exclusions": [
+        "peanut butter"
+      ]
     },
     {
       "id": "yogurt",
       "label": "Yogurt",
       "aliases": [
         "yogurt",
-        "greek yogurt",
         "plain yogurt",
         "joghurt"
       ],
@@ -465,7 +510,14 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Bulgarian yogurt"
+      "description": "Bulgarian yogurt",
+      "exclusions": [
+        "greek yogurt",
+        "greek yoghurt",
+        "hung curd",
+        "strained yogurt",
+        "strained yoghurt"
+      ]
     },
     {
       "id": "coconut-milk",
@@ -569,7 +621,16 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "A chicken egg (Gallus gallus domesticus)"
+      "description": "A chicken egg (Gallus gallus domesticus)",
+      "exclusions": [
+        "egg white",
+        "egg whites",
+        "egg yolk",
+        "egg yolks",
+        "wrappers",
+        "hard boiled",
+        "boiled eggs"
+      ]
     },
     {
       "id": "chicken-thigh-alt",
@@ -587,7 +648,11 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "פרגיות עוף"
+      "description": "פרגיות עוף",
+      "exclusions": [
+        "bone-in",
+        "skin-on"
+      ]
     },
     {
       "id": "peas",
@@ -724,7 +789,12 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "Ginger root - slightly dried"
+      "description": "Ginger root - slightly dried",
+      "exclusions": [
+        "pickled",
+        "sushi ginger",
+        "gari"
+      ]
     },
     {
       "id": "salt",
@@ -762,7 +832,11 @@
       "verified": true,
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
-      "description": "A glass of water."
+      "description": "A glass of water.",
+      "exclusions": [
+        "rose water",
+        "orange blossom water"
+      ]
     },
     {
       "id": "sesame-seeds",
@@ -1565,7 +1639,10 @@
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "various kimchi",
-      "form": "fermented"
+      "form": "fermented",
+      "exclusions": [
+        "brine"
+      ]
     },
     {
       "id": "ghee",
@@ -1763,7 +1840,10 @@
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "en:Kombu, a kelp used in japanese cuisine",
-      "form": "dried"
+      "form": "dried",
+      "exclusions": [
+        "shio kombu"
+      ]
     },
     {
       "id": "dill-leaf",
