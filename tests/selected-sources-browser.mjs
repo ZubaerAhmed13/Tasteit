@@ -81,7 +81,7 @@ try{
  // Deterministic image bytes test actual IMG rendering, not live Commons uptime.
  await page.route(/https:\/\/(?:upload|thumb)\.wikimedia\.org\//,route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGP4DwQACfsD/fteaysAAAAASUVORK5CYII=','base64')}));
  const providerLookups=[];page.on('request',r=>{if(r.url().includes('lookup.php?i=selected-'))providerLookups.push(r.url());});
- await kitchenCard.locator('a[href^="./?recipe="]').click();await page.locator('[role=dialog] #recipe-tag-input').fill('Keep my draft');
+ await kitchenCard.getByRole('link',{name:'Open in my kitchen →',exact:true}).click();await page.locator('[role=dialog] #recipe-tag-input').fill('Keep my draft');
  assert.ok((await page.locator('#home-usual').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes('My other saved dish'));
  assert.equal(await page.locator('.ingredient-list li').count(),kitchenRecipe.ingredients.length);
  holdPhotos=false;assert.ok(releasePhotos);releasePhotos();
