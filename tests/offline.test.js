@@ -72,3 +72,16 @@ test('a valid return after sign-in rewarms every shell asset before reporting re
   assert.equal((await w.asset('src/app.js')).status,200);
   assert.equal((await w.asset('styles.css')).status,200);
 });
+
+test('saved publisher metadata remains searchable offline without copied methods',async()=>{
+ const {offlineRecipes}=await import('../src/offline.js');
+ const {collectedMeal}=await import('../src/selected-kitchen.js');
+ const {readFile}=await import('node:fs/promises');
+ const record=JSON.parse(await readFile(new URL('../data/selected-recipes.json',import.meta.url))).recipes.find(r=>/poha/i.test(r.title));
+ const meal=collectedMeal(record);assert.equal(meal.strInstructions,'');
+ const saved={[meal.idMeal]:{meal,wanted:true}};
+ assert.equal(offlineRecipes(saved,{query:'poha'}).length,1);
+ assert.equal(offlineRecipes(saved,{query:'lasagna'}).length,0);
+ const broken={...meal,selectedRecipe:{...record,url:'https://invalid.example/recipe'}};
+ assert.equal(offlineRecipes({x:{meal:broken}}).length,0);
+});

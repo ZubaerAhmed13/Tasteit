@@ -7,6 +7,8 @@ import { validKitchenState } from './kitchen-flow.js';
 import { emptyTasteProfile,validTasteProfile } from './personalisation.js';
 import { collectedRecipe } from './selected-kitchen.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
+export const LAST_GOOD_KEY = 'tasteit.local.last-good.v1';
+export const RECOVERY_KEY = 'tasteit.local.recovery.v1';
 
 export function emptyStore() {
   return { pantry: [], saved: {}, plan: {}, planServings: {}, cookingSessions: {}, shoppingChecked: {}, shoppingExtras: [], editorialReviews: {}, shoppingStocked: {}, leftovers: [], tasteProfile:emptyTasteProfile() };
@@ -45,15 +47,50 @@ export function readStoreStrict(storage=globalThis.localStorage) {
   return {...emptyStore(),...parseBackup(exportBackup(parsed,new Date(0)))};
 }
 
+export function localStoreStatus(storage=globalThis.localStorage) {
+  let raw;
+  try {
+    if(!storage || typeof storage.getItem!=='function')throw new Error('Storage unavailable');
+    raw=storage.getItem(STORAGE_KEY);
+  } catch {return {status:'unavailable',raw:null,lastGood:null};}
+  let lastGood=null;
+  try {const text=storage.getItem(LAST_GOOD_KEY);if(text)lastGood={...JSON.parse(text),data:parseBackup(text)};}catch{ /* Never trust a damaged checkpoint. */ }
+  if(raw===null)return {status:'empty',raw,lastGood};
+  try {readStoreStrict(storage);return {status:'ready',raw,lastGood};}
+  catch {return {status:'damaged',raw,lastGood};}
+}
+
+function writeLocalSnapshot(store,target) {
+  const backup=exportBackup(store);
+  if(new TextEncoder().encode(backup).byteLength>MAX_BACKUP_SIZE-1024)return false;
+  parseBackup(backup);
+  target.setItem(STORAGE_KEY,JSON.stringify(store));
+  // A full browser can still accept the primary write but not another copy.
+  // Keep the older checkpoint and never report that successful save as failed.
+  try {target.setItem(LAST_GOOD_KEY,backup);}catch{}
+  return true;
+}
+
+export function restoreLocalStore(store,expectedRaw,storage) {
+  try {
+    const target=storage===undefined?globalThis.localStorage:storage;
+    const health=localStoreStatus(target);
+    if(health.status!=='damaged'||health.raw!==expectedRaw)return false;
+    const backup=exportBackup(store);parseBackup(backup);
+    if(new TextEncoder().encode(backup).byteLength>MAX_BACKUP_SIZE-1024)return false;
+    target.setItem(RECOVERY_KEY,expectedRaw);
+    if(target.getItem(STORAGE_KEY)!==expectedRaw)return false;
+    if(!writeLocalSnapshot(store,target))return false;
+    if(storage===undefined)globalThis.dispatchEvent?.(new CustomEvent('tasteit:local-change'));
+    return true;
+  }catch{return false;}
+}
+
 export function persistStore(store, storage) {
   try {
     const target = storage === undefined ? globalThis.localStorage : storage;
-    if (!target || typeof target.setItem !== 'function') return false;
-    const backup=exportBackup(store);
-    // Validate the completed next snapshot, including room for sync's envelope.
-    if(new TextEncoder().encode(backup).byteLength>MAX_BACKUP_SIZE-1024)return false;
-    parseBackup(backup);
-    target.setItem(STORAGE_KEY, JSON.stringify(store));
+    if (!target || typeof target.setItem !== 'function' || !['ready','empty'].includes(localStoreStatus(target).status)) return false;
+    if(!writeLocalSnapshot(store,target))return false;
     if(storage===undefined) {
       try {globalThis.dispatchEvent?.(new CustomEvent('tasteit:local-change'));}catch{}
     }

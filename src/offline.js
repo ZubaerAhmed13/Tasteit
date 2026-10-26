@@ -1,8 +1,9 @@
 import {ingredientsOf} from './model.js';
 import {normaliseFilters} from './navigation.js';
+import {collectedRecipe} from './selected-kitchen.js';
 export function offlineRecipes(saved,input={}) {
   const f=normaliseFilters(input),norm=x=>String(x||'').toLowerCase();
-  return Object.values(saved).map(x=>x?.meal).filter(meal=>meal && ingredientsOf(meal).length && meal.strInstructions &&
+  return Object.values(saved).map(x=>x?.meal).filter(meal=>meal && ingredientsOf(meal).length && (collectedRecipe(meal)||meal.strInstructions) &&
     (!f.query||norm(meal.strMeal).includes(norm(f.query))) && (!f.area||norm(meal.strArea)===norm(f.area)) &&
     (!f.category||norm(meal.strCategory)===norm(f.category)) && (!f.letter||norm(meal.strMeal).startsWith(norm(f.letter))));
 }

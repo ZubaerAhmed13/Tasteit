@@ -47,7 +47,7 @@ test('all 1008 collected recipes remain editable and restorable at the former pr
  for(const r of rows){const meal=collectedMeal(r);state.saved[meal.idMeal]={meal,wanted:true};}
  assert.ok(JSON.stringify(JSON.parse(exportBackup(state)),null,2).length>2_000_000,'reproduce the pretty-print boundary');
  assert.equal(Object.keys(parseBackup(exportBackup(state)).saved).length,rows.length);
- let raw=JSON.stringify(state);const storage={getItem:()=>raw,setItem:(_key,value)=>{raw=value;}};
+ const values=new Map([['tasteit.local.v1',JSON.stringify(state)]]),storage={getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)};
  const fresh=readStoreStrict(storage),next=toggleCollectedFlag(fresh,rows.at(-1),'wanted');
  assert.equal(persistStore(next,storage),true);assert.equal(Object.keys(readStoreStrict(storage).saved).length,rows.length-1);
 });

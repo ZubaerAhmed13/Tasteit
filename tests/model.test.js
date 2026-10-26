@@ -28,7 +28,7 @@ test('recovers from malformed browser data', () => {
   const storage = { getItem: () => '{invalid', setItem: () => {} };
   assert.deepEqual(loadStore(storage), emptyStore());
   const items = new Map();
-  const mock = { getItem: k => items.get(k), setItem: (k,v) => items.set(k,v) };
+  const mock = { getItem: k => items.get(k)??null, setItem: (k,v) => items.set(k,v) };
   assert.equal(persistStore({pantry:[],saved:{},plan:{}},mock),true);
   assert.deepEqual(loadStore(mock),emptyStore());
 });

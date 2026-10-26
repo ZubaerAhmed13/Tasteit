@@ -4,7 +4,8 @@ import {createServer} from 'node:http';
 import {chromium,firefox,webkit} from 'playwright';
 import {applicationAssets} from '../scripts/build-site.mjs';
 import {createWorker} from '../server/worker.js';
-import {parseBackup} from '../src/model.js';
+import {parseBackup,emptyStore,exportBackup} from '../src/model.js';
+import {collectedMeal} from '../src/selected-kitchen.js';
 const catalogue=JSON.parse(await readFile('data/selected-recipes.json','utf8')),registry=JSON.parse(await readFile('data/ingredient-photos.json','utf8'));
 const collection=JSON.parse(await readFile('data/world-favourites-100.json','utf8'));
 const breakfastBatch=JSON.parse(await readFile('docs/research/2026-10-26-breakfast-100-evidence.json','utf8'));
@@ -109,5 +110,70 @@ try{
  await legacy.goto('http://127.0.0.1:'+server.address().port+'/?recipe=10042');await legacy.locator('[role=dialog] .ingredient-list').waitFor().catch(async error=>{throw new Error(error.message+'; intercepted='+screenshotLookup+'; dialog='+(await legacy.locator('#overlay-root').innerText()));});assert.equal(screenshotLookup,true);
  const screenshotBeef=legacy.locator('[data-ingredient-photo="Minced Beef"]'),screenshotOil=legacy.locator('[data-ingredient-photo="Sesame Seed Oil"]');await screenshotBeef.locator('.ingredient-reference').waitFor();assert.ok((await screenshotBeef.innerText()).includes('Raw ground beef'));assert.ok((await screenshotOil.innerText()).includes('Sesame oil'));assert.ok(!(await screenshotOil.innerText()).includes('Sesame seeds'));
  const noPhotos=await browser.newPage();await noPhotos.route('**/data/ingredient-photos.json',route=>route.abort());await noPhotos.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html');await noPhotos.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await noPhotos.locator('.selected-card').count()>0,'recipe collection survives an unavailable photo registry');
+
+ // Release 1: primary catalogue is usable while both optional requests are pending.
+ const base='http://127.0.0.1:'+server.address().port+'/';
+ const loading=await browser.newPage({viewport:{width:375,height:812}});loading.on('pageerror',e=>errors.push(e.message));
+ await loading.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
+ let releaseRegistry,releaseCuration;
+ await loading.route('**/data/ingredient-photos.json',async route=>{await new Promise(r=>releaseRegistry=r);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(registry)});});
+ await loading.route('**/data/world-favourites-100.json',async route=>{await new Promise(r=>releaseCuration=r);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(collection)});});
+ await loading.goto(base+'selected-recipes.html?course=breakfast&page=3');
+ await loading.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('Showing 49–72'));
+ await loading.locator('#selected-query').fill('draft egg');
+ const committedUrl=loading.url(),beforeIds=await loading.locator('.selected-card').evaluateAll(cs=>cs.map(c=>c.dataset.recipeId));
+ releaseRegistry();releaseCuration();
+ await loading.waitForFunction(()=>document.querySelector('#selected-load-status')?.textContent.trim()==='');
+ assert.deepEqual(await loading.locator('.selected-card').evaluateAll(cs=>cs.map(c=>c.dataset.recipeId)),beforeIds);
+ assert.equal(await loading.locator('#selected-query').inputValue(),'draft egg');assert.equal(await loading.locator('#selected-query').evaluate(n=>n===document.activeElement),true);
+ assert.equal(loading.url(),committedUrl);
+ await loading.locator('.selected-card [data-save-flag=wanted]').first().click();assert.equal(loading.url(),committedUrl);
+ await loading.reload();await loading.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('Showing 49–72'));
+ assert.equal(await loading.locator('#selected-query').inputValue(),'');
+ await loading.locator('[data-page=next]').click();assert.ok(loading.url().includes('page=4'));
+ await loading.goBack();await loading.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('Showing 49–72'));
+ const returnId=await loading.locator('[data-return-recipe]').first().getAttribute('data-return-recipe');
+ await loading.locator('[data-return-recipe]').first().click();await loading.locator('[role=dialog]').waitFor();
+ await loading.goBack();await loading.waitForFunction(id=>document.activeElement?.dataset.returnRecipe===id,returnId);
+ assert.ok(loading.url().includes('page=3'));
+ // Requested curated results stay empty until curation resolves, then show exactly 100.
+ const pending=await browser.newPage();let releaseWorld;
+ await pending.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
+ await pending.route('**/data/world-favourites-100.json',async route=>{await new Promise(r=>releaseWorld=r);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(collection)});});
+ await pending.goto(base+'selected-recipes.html?collection=world-favourites-100');
+ await pending.locator('#selected-status').filter({hasText:'Loading your world favourites'}).waitFor();assert.equal(await pending.locator('.selected-card').count(),0);
+ releaseWorld();await pending.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.startsWith('100 of '));
+ // Damaged bytes are never rendered as an empty cookbook or overwritten by an ordinary save.
+ const damaged='{incomplete Tasteit records\n',recoverySeed=emptyStore(),offlineRecord=catalogue.recipes.find(r=>/poha/i.test(r.title)),offlineMeal=collectedMeal(offlineRecord);
+ recoverySeed.saved[offlineMeal.idMeal]={meal:offlineMeal,wanted:true};
+ const recovery=await browser.newPage();recovery.on('pageerror',e=>errors.push(e.message));
+ await recovery.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
+ await recovery.goto(base+'selected-recipes.html');
+ await recovery.evaluate(({damaged,checkpoint})=>{localStorage.setItem('tasteit.local.v1',damaged);localStorage.setItem('tasteit.local.last-good.v1',checkpoint);},{damaged,checkpoint:exportBackup(recoverySeed)});
+ await recovery.goto(base+'?view=library');await recovery.locator('#recovery-title').waitFor();
+ assert.equal(await recovery.locator('.recipe-card').count(),0);
+ const downloadPromise=recovery.waitForEvent('download');await recovery.locator('[data-action=recovery-download]').click();const download=await downloadPromise;
+ assert.equal(await readFile(await download.path(),'utf8'),damaged);
+ assert.equal(await recovery.evaluate(async()=>{const m=await import('./src/model.js');return m.persistStore(m.emptyStore());}),false);
+ // Failed preservation leaves primary bytes untouched and keeps the recovery screen.
+ await recovery.evaluate(()=>{window.savedSetter=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){if(k==='tasteit.local.recovery.v1')throw new DOMException('Full','QuotaExceededError');return window.savedSetter.call(this,k,v);};});
+ recovery.once('dialog',d=>d.accept());await recovery.locator('[data-action=recovery-restore]').click();
+ await recovery.getByRole('status').filter({hasText:'Could not preserve and restore'}).waitFor();
+ assert.equal(await recovery.evaluate(()=>localStorage.getItem('tasteit.local.v1')),damaged);
+ await recovery.evaluate(()=>Storage.prototype.setItem=window.savedSetter);
+ recovery.once('dialog',d=>d.accept());await recovery.locator('[data-action=recovery-restore]').click();
+ await recovery.locator('.recipe-title').filter({hasText:offlineRecord.title}).waitFor();
+ assert.equal(await recovery.evaluate(()=>localStorage.getItem('tasteit.local.recovery.v1')),damaged);
+ // The same recovery screen supports existing version-1 backup imports.
+ await recovery.evaluate(()=>localStorage.setItem('tasteit.local.v1','[broken again'));await recovery.reload();await recovery.locator('#recovery-title').waitFor();
+ recovery.once('dialog',d=>d.accept());await recovery.locator('#backup-file').setInputFiles({name:'tasteit.json',mimeType:'application/json',buffer:Buffer.from(exportBackup(recoverySeed))});
+ await recovery.locator('.recipe-title').filter({hasText:offlineRecord.title}).waitFor();assert.equal(await recovery.evaluate(()=>localStorage.getItem('tasteit.local.recovery.v1')),'[broken again');
+ // A saved publisher recipe has no copied method, but remains discoverable offline.
+ await recovery.waitForFunction(()=>Boolean(navigator.serviceWorker.controller)&&document.querySelector('#offline-status')?.textContent==='Ready offline');
+ await recovery.context().setOffline(true);await recovery.locator('[data-nav=discover]').click();
+ await recovery.locator('#recipe-search').fill('poha');await recovery.locator('#search-form button').click();
+ await recovery.locator('.recipe-title').filter({hasText:offlineRecord.title}).waitFor();await recovery.locator('.recipe-title').filter({hasText:offlineRecord.title}).click();
+ await recovery.locator('[role=dialog]').waitFor();assert.ok((await recovery.locator('[role=dialog]').innerText()).includes('Open original cooking method'));
+ await recovery.context().setOffline(false);
  assert.deepEqual(errors,[]);console.log('PASS selected sources: allowlisted recipe collection, genuine rating/count, ingredient photos/credits, filters, gaps and mobile');
 }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}

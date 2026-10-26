@@ -1,6 +1,6 @@
 import { purchaseReview, purchaseFingerprint, receivePurchases, consumptionReview, applyConsumption, addLeftover, validKitchenState, STOCK_UNITS, STOCK_LOCATIONS } from './kitchen-flow.js';
 import { readRoute, routeUrl, normaliseFilters, filterSummary } from './navigation.js';
-import { loadStore, readStoreStrict, persistStore, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
+import { loadStore, readStoreStrict, persistStore, localStoreStatus, restoreLocalStore, RECOVERY_KEY, normalizeIngredient, ingredientsOf, analyseMeal, shoppingList, nextSevenDates, usablePantryItem, exportBackup, parseBackup, createPersonalMeal, recordCooking } from './model.js';
 import { discoverMeals, mealDetails, pantryCandidateReport, availableAreas, availableAreaRecords, availableCategories, randomMeal, scanWorldRecipes } from './api.js';
 import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
@@ -26,6 +26,7 @@ const appRoot = document.getElementById('app');
 const overlayRoot = document.getElementById('overlay-root');
 const toastRoot = document.getElementById('toast');
 const store = loadStore();
+let recoveryViewRaw=null;
 let ingredientPhotos=[];
 let cloudSync=null,syncState={status:'off',enabled:false},offlineState={status:'preparing'},applyingCloud=false,applyingUpdate=false;
 
@@ -651,7 +652,7 @@ function libraryPage() {
       empty('📖', 'Nothing matching yet', all.length ? 'Try a different search, collection or label.' : 'Discover a recipe or add your own everyday dish.', '<button class="btn" type="button" data-action="clear-library-filters">Show all saved recipes</button>')) +
     continuityPanel()+'<section class="panel" style="margin-top:28px"><div class="section-head"><div><h3>Your data, your choice</h3><p>Keep a backup of your recipes, labels, cooking history, pantry and meal plans.</p></div></div>' +
     '<div class="dialog-actions"><button type="button" class="btn secondary small" data-action="export-data">↓ Export backup</button>' +
-    '<label class="btn secondary small" for="backup-file">↑ Import backup</label><input type="file" id="backup-file" accept=".json,application/json" class="visually-hidden"></div>' +
+    '<label class="btn secondary small" for="backup-file">↑ Import backup</label><input type="file" id="backup-file" accept=".json,application/json" class="visually-hidden"><button type="button" class="btn ghost small" data-action="recovery-download-preserved">Download preserved recovery data</button></div>' +
     '<p class="panel-note" style="margin-top:13px">Backups include your personal information. Keep them private. Import replaces this browser’s copy; if cloud sync is enabled, those changes may sync.</p></section>';
 }
 
@@ -1047,7 +1048,27 @@ function worldPage() {
     researchList;
 }
 
+function recoveryPage(health) {
+  recoveryViewRaw=health.raw;
+  const unavailable=health.status==='unavailable',copy=health.lastGood;
+  return '<section class="panel recovery-panel" role="region" aria-labelledby="recovery-title"><div class="eyebrow">YOUR COOKBOOK</div><h1 id="recovery-title">'+(unavailable?'Browser storage is unavailable':'Your cookbook needs attention')+'</h1><p class="lead">'+(unavailable?'Allow this browser to store site data, then retry. Your cookbook has not been reset.':'We could not read this browser’s saved records. Editing is paused so a new save cannot replace them.')+'</p>'+
+    '<div class="dialog-actions"><button class="btn secondary" type="button" data-action="recovery-retry">Retry</button>'+
+    (!unavailable?'<button class="btn secondary" type="button" data-action="recovery-download">Download unreadable copy</button><label class="btn secondary" for="backup-file">Import a backup</label><input type="file" id="backup-file" accept=".json,application/json" class="visually-hidden">':'')+'</div>'+
+    (copy?'<h2>Last saved recovery copy</h2><p>'+Object.keys(copy.data.saved).length+' recipes · '+copy.data.pantry.length+' kitchen items. Restore only if this is the copy you want.</p><button class="btn" type="button" data-action="recovery-restore">Restore this copy</button>':'<p class="panel-note">No validated recovery copy is available in this browser.</p>')+
+    '<p class="panel-note">An explicit restore keeps the most recent unreadable copy separately. Download recovery files somewhere private.</p></section>';
+}
+function downloadRecoveryCopy(raw) {
+  if(typeof raw!=='string'){notice('No preserved recovery data is available.');return;}
+  const url=URL.createObjectURL(new Blob([raw],{type:'text/plain'})),link=document.createElement('a');
+  link.href=url;link.download='tasteit-recovery-'+new Date().toISOString().slice(0,10)+'.txt';
+  document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
 function render() {
+  const health=localStoreStatus();
+  if(!['ready','empty'].includes(health.status)) {
+    closeDialog({history:false});updateNav();appRoot.innerHTML=recoveryPage(health);updateConnectionUI();return;
+  }
+  recoveryViewRaw=null;
   const tasteDetails=document.getElementById('taste-preferences');
   if(tasteDetails)tastePanelOpen=tasteDetails.open;
   const purchaseForm=document.getElementById('purchase-review-form');
@@ -1316,6 +1337,18 @@ document.addEventListener('click', async event => {
   const action = button.dataset.action;
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
+  if(action==='recovery-retry'){Object.assign(store,loadStore());render();return;}
+  if(action==='recovery-download'){downloadRecoveryCopy(recoveryViewRaw);return;}
+  if(action==='recovery-download-preserved'){
+    try{downloadRecoveryCopy(localStorage.getItem(RECOVERY_KEY));}catch{notice('Browser storage is unavailable.');}return;
+  }
+  if(action==='recovery-restore') {
+    const expected=recoveryViewRaw,health=localStoreStatus();
+    if(health.status!=='damaged'||health.raw!==expected||!health.lastGood){render();notice('The browser copy changed. Review it again.');return;}
+    if(!window.confirm('Restore this saved recovery copy? The unreadable data will be preserved separately.'))return;
+    if(!restoreLocalStore(health.lastGood.data,expected)){notice('Could not preserve and restore this copy. Nothing was replaced. Check available browser storage, then retry.');return;}
+    Object.assign(store,loadStore());render();notice('Your recovery copy has been restored.');return;
+  }
   if(action.startsWith('sync-')) {
     if(!cloudSync){notice('Cloud sync is not available yet.');return;}
     if(action==='sync-enable')await cloudSync.connect();
@@ -1901,10 +1934,11 @@ document.addEventListener('change', async event => {
     if (!file) return;
     try {
       if (file.size > 2_000_000) throw new Error('Backup is too large (max 2 MB).');
+      const expectedRecovery=recoveryViewRaw;
       const restored = parseBackup(await file.text());
       const yes = window.confirm('Import this backup? Your current Tasteit recipes, kitchen and plans in this browser will be replaced.');
       if (!yes) return;
-      if (!persistStore(restored)) throw new Error('The backup could not be saved in this browser. Your previous data is unchanged.');
+      if (!(expectedRecovery!==null?restoreLocalStore(restored,expectedRecovery):persistStore(restored))) throw new Error('The backup could not be saved or the browser copy changed. Your previous data is unchanged.');
       store.pantry = restored.pantry;
       store.saved = restored.saved;
       store.plan = restored.plan;
