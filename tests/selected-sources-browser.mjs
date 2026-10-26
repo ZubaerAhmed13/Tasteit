@@ -85,7 +85,7 @@ try{
  assert.ok((await page.locator('#home-usual').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes('My other saved dish'));
  assert.equal(await page.locator('.ingredient-list li').count(),kitchenRecipe.ingredients.length);
  holdPhotos=false;assert.ok(releasePhotos);releasePhotos();
- const actualPhoto=page.locator('.ingredient-list .ingredient-reference img').first();await actualPhoto.waitFor();await actualPhoto.scrollIntoViewIfNeeded();await actualPhoto.evaluate(img=>img.decode());assert.ok(await actualPhoto.evaluate(img=>img.naturalWidth>0));
+ const actualPhoto=page.locator('.ingredient-list .ingredient-reference img').first();await actualPhoto.waitFor();await actualPhoto.scrollIntoViewIfNeeded();await page.waitForFunction(()=>{const img=document.querySelector('.ingredient-list .ingredient-reference img');return img?.complete&&img.naturalWidth>0;});await actualPhoto.evaluate(img=>img.decode());assert.ok(await actualPhoto.evaluate(img=>img.naturalWidth>0));
  assert.equal(await page.locator('#recipe-tag-input').inputValue(),'Keep my draft');assert.equal(await page.locator('#recipe-tag-input').evaluate(node=>node===document.activeElement),true);
  assert.ok((await page.locator('[role=dialog]').innerText()).includes('Open original cooking method'));assert.deepEqual(providerLookups,[]);
  await actualPhoto.dispatchEvent('error');assert.ok(await page.locator('.ingredient-list .ingredient-photo-missing').filter({hasText:'Photo unavailable'}).count()>0);
