@@ -40,11 +40,11 @@ markup. `collectedMeal(record)` returns a namespaced existing-meal envelope;
 `collectedRecipe(meal)` validates/retrieves its original record. Original rows
 remain unparsed ingredient names with unknown measurements.
 
-- [ ] Add adapter/backup, >20-row, safe photo rendering and actual home-shelf
+- [x] Add adapter/backup, >20-row, safe photo rendering and actual home-shelf
   regressions; observe failures before implementation.
-- [ ] Share photo rendering between pages; connect optional registry to the main
+- [x] Share photo rendering between pages; connect optional registry to the main
   dialog without whole-dialog redraw; handle broken images visibly.
-- [ ] Implement adapter, main open/save source distinction and home shelves;
+- [x] Implement adapter, main open/save source distinction and home shelves;
   preserve atomic writes and offline shell imports. Run focused tests; commit.
 
 ### Task 2: Rated expansion and browse/save controls
@@ -58,13 +58,13 @@ tests/fixtures/selected-source-preserved-136.json.
 filters solely from publisher categories; `filterRecipes` gains `course`.
 Fresh `loadStore` then persist-before-render owns each collection flag mutation.
 
-- [ ] Add failing course and >24-result navigation/saving acceptance cases.
-- [ ] Merge original evidence without replacing existing136; select enough new
+- [x] Add failing course and >24-result navigation/saving acceptance cases.
+- [x] Merge original evidence without replacing existing136; select enough new
   eligible records for >=1000 rated, including mains, desserts and appetisers.
   Audit source/rating/photo/ingredient facts and preserve baseline hashes.
-- [ ] Add 24-card pagination and course control; compose with all filters;
+- [x] Add 24-card pagination and course control; compose with all filters;
   add wanted/usual buttons and main detail link using the shared adapter.
-- [ ] Run full verify/build and source/data audits; commit candidate.
+- [x] Run full verify/build and source/data audits; commit candidate.
 
 ### Task 3: Review, three-engine acceptance and private release
 
@@ -73,8 +73,13 @@ Fresh `loadStore` then persist-before-render owns each collection flag mutation.
 **Interfaces:** Exact committed app source -> verified native Worker archive ->
 same Site with unchanged owner access and measured live asset/provenance parity.
 
-- [ ] Fresh final review; reproduce any Important/Critical issue RED→GREEN in
+- [x] Fresh final review; reproduce any Important/Critical issue RED→GREEN in
   one fix pass; run full suite. Inspect all Node and browser job logs.
-- [ ] Build final tested source; package exact Worker, Site manifest and existing
+- [x] Build final tested source; package exact Worker, Site manifest and existing
   migrations; publish owner-private and verify live changed paths/provenance.
-- [ ] Update counts, limitations, acceptance evidence and PR1 without merging.
+- [x] Update counts, limitations, acceptance evidence and PR1 without merging.
+
+Release evidence is retained in `docs/ACCEPTANCE.md` and the original-source
+manifest at `docs/research/2026-10-25-rated-thousand-evidence.json`. Application
+source `4ce206ee9df4f47f85543c9a450a746a2dbd7028` is the tested and published
+product; subsequent documentation-only commits do not require another deployment.

@@ -147,14 +147,14 @@ Tasteit source code is an original prototype; third-party recipes and photograph
 ## Your selected recipe websites
 
 [Open the selected-source collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html).
-New collection is restricted to the **16 websites named in your shared list**.
-[Browse the new 100 world favourites](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html?collection=world-favourites-100).
-All 100 additions have source scores from 4.1 to 5 out of 5, positive published
+The collection is restricted to the **16 websites named in your shared list**.
+[Browse the original 100 world favourites](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html?collection=world-favourites-100).
+Those 100 recipes have source scores from 4.1 to 5 out of 5, positive published
 vote counts and original publisher photographs. They are an editorial selection
 across regions and dish types; they are not an official worldwide ranking.
 The Collection selector composes with source, search and rating filters, and
 the original 36 records remain available.
-Private preview **version 8** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40224331929) passes all 213 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. Live collection assets and source provenance match the tested package.
+Private preview **version 9** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40228614990) passes all 229 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. All 19 checked live release paths and source provenance match the tested package. The audience remains owner-private.
 The expanded checked batch contains **1,008 recipes from 12 sites; 1,000 have a published
 recipe rating**. The original 136 recipes and their IDs remain unchanged. Linked Maangchi scores retain their original vote counts; the full ingredient
 sections are checked because some embedded ingredient lists are incomplete. Allrecipes,

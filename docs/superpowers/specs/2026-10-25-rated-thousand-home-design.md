@@ -38,7 +38,7 @@ not an objective worldwide ranking. No instructions or review text copied.
 - Main-dialog and selected-collection ingredient rows use one shared real-photo
   renderer and the existing strict matching/credit validation. Optional registry
   failure and image failure leave explicit gaps. Loading photos must not replace
-  unsaved forms or move focus. No guessed new photographs or changed matching.
+  unsaved forms or move focus. No guessed new photographs. Targeted corrections to known form mismatches require exact-source regressions and a complete match-delta audit.
 - Selected collection has source-backed meal-type filters and 24-card pages with
   full-result counts and previous/next controls. Filters reset to page one; direct
   world-favourites links still identify the original 100 records.

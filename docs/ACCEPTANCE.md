@@ -311,8 +311,23 @@ open.
 - [x] Meal-type filters compose with source/search/rating/collection controls. 24-card pages preserve complete-result counts; filter changes reset the page, and the original 100-record collection remains intact across five pages.
 - [x] All 229 Node tests, syntax checks and Worker build pass locally. No new runtime dependency or database migration. The offline shell includes all four additional imported modules.
 - [x] Fresh final review findings reproduced and corrected: compact restorable 1,008-recipe backups, validated next-state writes, explicitly reviewed short pantry names for long original source lines, and committed filter state separated from drafts. Four regressions verified RED→GREEN.
-- [ ] Detailed three-engine browser checks, including cross-page saves, home/reload, actual image decoding, additional credits, drafts/focus, real source-line purchases/backup restoration, failure fallbacks and mobile layout.
-- [ ] Publish exact tested native package, verify live changed paths and provenance, and retain the owner-private audience and draft/unmerged PR1.
+- [x] Detailed three-engine browser checks, including cross-page saves, home/reload, actual image decoding, additional credits, drafts/focus, real source-line purchases/backup restoration, failure fallbacks and mobile layout. All 20 PASS results inspected: six suites each in Chromium and WebKit; eight Firefox executions including three independent continuity runs.
+- [x] Published exact tested native package as private preview version 9 on 26 October 2026. All 48 source assets and provenance match the prepared Worker. The archive preserves Site identity, DB binding and all three migration files. All 19 checked live release paths and provenance match the tested application source. Audience remains one owner, zero groups and zero external visitors; PR1 stays draft and unmerged.
+
+Verified application source: `4ce206ee9df4f47f85543c9a450a746a2dbd7028`.
+[Final CI run 40228614990](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40228614990)
+passes all 229 Node tests, syntax/build checks and all 20 browser-suite executions.
+Native Site source: `7822f2deb55f9761b785f53d946f4bc8f3deffff`.
+[Open the rated collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html).
+
+The final screenshot fixture uses a separate context with service workers blocked
+so its mocked legacy API response is observable. The main cross-page flow and
+dedicated offline continuity runs retain real service workers. Product assertions
+and timeouts were not weakened. Real image decoding uses deterministic browser
+fixtures; live availability of every external image is not guaranteed. A sampled
+ordinary olive-oil photograph request succeeded; other missing images retain their
+visible fallbacks. Owner-signed-in hosted walkthrough, physical-device/accessibility
+acceptance and public-release rights review remain open.
 
 BBC Good Food now emits its rating in a separate top-level JSON-LD object. Only
 that publisher's exact main Recipe identity with explicit owning-page evidence
