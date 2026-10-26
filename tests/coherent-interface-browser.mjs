@@ -35,7 +35,7 @@ try{
  await page.reload();await page.locator('#discovery-page-status').filter({hasText:'Page 2'}).waitFor();
  assert.equal(await page.locator('#discover-source').inputValue(),'swasthi');assert.equal(await page.locator('#discover-course').inputValue(),'breakfast');
  await page.locator('.recipe-card .recipe-title').first().click();await page.locator('[role=dialog]').waitFor();const returning=await page.locator('#dialog-title').innerText(),returnScroll=await page.evaluate(()=>scrollY);await page.goBack();await page.locator('[role=dialog]').waitFor({state:'hidden'});
- await page.waitForFunction(title=>document.activeElement?.textContent===title,returning);assert.ok(page.url().includes('page=2'));assert.ok(Math.abs(await page.evaluate(()=>scrollY)-returnScroll)<2);
+ await page.waitForFunction(title=>document.activeElement?.textContent===title,returning).catch(async error=>{throw new Error(error.message+'; return diagnostics='+JSON.stringify(await page.evaluate(()=>({href:location.href,state:history.state,focus:document.activeElement?.outerHTML,scroll:scrollY}))));});assert.ok(page.url().includes('page=2'));assert.ok(Math.abs(await page.evaluate(()=>scrollY)-returnScroll)<2);
  // Mobile disclosure, readable credits, stable failed image and zoomed layout.
  await page.locator('#discovery-filter-panel').evaluate(n=>n.open=true);await page.locator('#discover-course').focus();assert.equal(await page.locator('#discover-course').evaluate(n=>n===document.activeElement),true);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);

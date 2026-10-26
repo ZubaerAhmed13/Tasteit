@@ -56,3 +56,8 @@ test('result scroll is restored after loading has rebuilt the overlay return pag
  p.run("closeDialog=originalCloseDialog;selectedMeal=activeMeals[0];dialogReturnId=selectedMeal.idMeal;dialogReturnFocus={isConnected:false};window.history.replaceState({...window.history.state,scrollY:480},'',window.location.href);window.scrollY=0;window.scrollTo=({top})=>{window.scrollY=top;};render=()=>{window.scrollY=0;};");
  await p.run('restoreRoute(readRoute(window.location.href))');await new Promise(r=>setImmediate(r));assert.equal(p.run('window.scrollY'),480);
 });
+test('recipe return identity follows the clicked title when the browser does not focus buttons',async()=>{
+ const p=await controller();await p.run("discover('filters',{query:'poha',course:'breakfast'},{history:false})");p.run("recipeStatus=()=>{};renderDialog=()=>{};document.activeElement={dataset:{},matches:()=>false};");
+ await p.run("openMeal(activeMeals[0].idMeal,{meal:activeMeals[0],history:false,trigger:{dataset:{id:activeMeals[0].idMeal},matches:s=>s==='.recipe-title',isConnected:false}})");
+ assert.equal(p.run('dialogReturnId'),p.run('activeMeals[0].idMeal'));assert.equal(p.run('dialogReturnKind'),'recipe-title');
+});

@@ -1315,13 +1315,13 @@ function recipeStatus(message,failed=false) {
   document.body.style.overflow='hidden';
   overlayRoot.querySelector('.dialog-close')?.focus();
 }
-async function openMeal(id,{history=true,meal:provided}={}) {
+async function openMeal(id,{history=true,meal:provided,trigger=null}={}) {
   let possible=provided || findMeal(id);
   const request=++detailRequestNumber;
   detailController?.abort();
   const currentController=new AbortController();detailController=currentController;
   pendingResultFocus=null;
-  if(!dialogReturnFocus){dialogReturnFocus=document.activeElement;dialogReturnId=document.activeElement?.dataset?.id||window.history.state?.returnRecipe||'';dialogReturnKind=document.activeElement?.matches?.('.recipe-title')?'recipe-title':window.history.state?.returnKind||'recipe-photo';dialogReturnHref=window.history.state?.recipeOverlay?window.history.state.returnHref||'':window.location.href;}
+  if(!dialogReturnFocus){const origin=trigger||document.activeElement;dialogReturnFocus=origin;dialogReturnId=origin?.dataset?.id||window.history.state?.returnRecipe||'';dialogReturnKind=origin?.matches?.('.recipe-title')?'recipe-title':window.history.state?.returnKind||'recipe-photo';dialogReturnHref=window.history.state?.recipeOverlay?window.history.state.returnHref||'':window.location.href;}
   openingMealId=id;selectedMeal=null;
   if(history)writeRoute({recipeOverlay:true});
   recipeStatus('Loading ingredients and instructions.');
@@ -1521,7 +1521,7 @@ document.addEventListener('click', async event => {
   if (action === 'world-cancel') { worldScanController?.abort(); return; }
   if (action === 'world-export') { downloadWorldIndex(); return; }
   if (action === 'world-retry-options') { await loadWorldOptions(); return; }
-  if (action === 'open') { await openMeal(id,personalMeal?{meal:personalMeal}:undefined); return; }
+  if (action === 'open') { await openMeal(id,{...(personalMeal?{meal:personalMeal}:{}),trigger:button}); return; }
   if (action === 'retry-recipe') { await openMeal(id,{history:false}); return; }
   if (action === 'copy-recipe-link') {
     try { await navigator.clipboard.writeText(routeUrl(currentRoute(),window.location.href).href);notice('Recipe link copied.'); }
