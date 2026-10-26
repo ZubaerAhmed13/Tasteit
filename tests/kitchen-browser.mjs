@@ -34,7 +34,7 @@ try {
     Storage.prototype.setItem=()=>{throw new DOMException('Storage blocked','QuotaExceededError');};
   });
   const unblock=()=>page.evaluate(()=>{Storage.prototype.setItem=window.originalSetItem;});
-  await page.goto(base+'?view=plan');
+  await page.goto(base+'?scope=provider&view=plan');
   await page.locator('[data-action=shopping-receive]').click();
   await page.getByRole('heading',{name:'Review food purchases'}).waitFor();
   await page.locator('[name=pick-0]').check();

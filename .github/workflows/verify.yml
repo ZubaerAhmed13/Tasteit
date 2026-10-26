@@ -51,6 +51,7 @@ jobs:
           node tests/personalisation-browser.mjs
           node tests/continuity-browser.mjs
           node tests/selected-sources-browser.mjs
+          node tests/coherent-interface-browser.mjs
           # Independent fresh sessions guard the Firefox focus/click regression.
           # Every execution must pass; these are stability checks, not retries.
           if [ "$TASTEIT_BROWSER" = firefox ]; then

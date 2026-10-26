@@ -19,7 +19,11 @@ import { emptyTasteProfile,createTasteProfile,recommendRecipes } from './persona
 import { createCloudSync,SYNC_KEY,SYNC_META_KEY } from './cloud-sync.js';
 import { offlineRecipes,installOffline } from './offline.js';
 import { collectedMeal,collectedRecipe } from './selected-kitchen.js';
-import { validateRecipe,SOURCES } from './selected-sources.js';
+import {recipeRatingMarkup} from './recipe-presentation.js';
+import {planRecipe} from './recipe-planning.js';
+import {discoveryOptions} from './discovery-options.js';
+import {createRecipeCollectionLoader,searchRecipeCollection} from './recipe-discovery.js';
+import { validateRecipe,SOURCES,RECIPE_COURSES,recipePage } from './selected-sources.js';
 import { ingredientReference } from './ingredient-reference.js';
 
 const appRoot = document.getElementById('app');
@@ -34,6 +38,8 @@ let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', '
 let categories = ['All', 'Chicken', 'Seafood', 'Vegetarian', 'Pasta', 'Dessert', 'Vegan'];
 let view = 'discover';
 let activeMeals = [];
+const collectionLoader=createRecipeCollectionLoader();
+let collectionRecords=[],discoveryChoice=discoveryOptions({}),filtersOpen=window.matchMedia?.('(min-width:761px)').matches??true;
 let loading = true;
 let problem = '';
 let serviceWarning = '';
@@ -109,6 +115,7 @@ let requestNumber = 0;
 let controller = null;
 let toastTimer = null;
 let dialogReturnFocus = null;
+let dialogReturnId='';
 let cookingTimerTicker = null;
 let timerCompletionNotified = null;
 
@@ -157,7 +164,7 @@ function updateNav() {
   });
 }
 function currentRoute() {
-  return {view,query:searchTerm,area:area==='All'?'':area,
+  return {...discoveryChoice,view,query:searchTerm,area:area==='All'?'':area,
     category:category==='All'?'':category,letter:browseLetter,
     kitchen:discoveryMode==='pantry',recipe:selectedMeal?.idMeal || openingMealId};
 }
@@ -175,6 +182,7 @@ function changeView(next) {
   closeDialog({history:false});
   filterDraft=null;queryDraft=null;purchaseDraft=null;
   view=next;
+  if(next==='discover'){searchTerm='';area='All';category='All';browseLetter='';discoveryChoice=discoveryOptions({scope:discoveryChoice.scope==='provider'?'provider':'collection'});discoveryMode='browse';}
   writeRoute();
   if(next==='discover')void discover('restore','',{history:false});
   else render();
@@ -188,6 +196,7 @@ async function restoreRoute(route) {
   filterDraft=null;queryDraft=null;purchaseDraft=null;
   view=route.view;
   const filters=normaliseFilters(route);
+  discoveryChoice=discoveryOptions(route);
   searchTerm=filters.query;area=filters.area||'All';category=filters.category||'All';browseLetter=filters.letter;
   discoveryMode=route.kitchen?'pantry':'browse';
   if(view==='discover')void discover('restore','',{history:false});
@@ -394,9 +403,11 @@ async function discover(mode='featured', value='', {history=true}={}) {
   closeDialog({history:false});
   view='discover';
   if(mode==='featured' || mode==='pantry') {
+    discoveryChoice=discoveryOptions({scope:discoveryChoice.scope});
     searchTerm='';area='All';category='All';browseLetter='';
-  } else if(mode==='search')searchTerm=String(value).trim().slice(0,100);
+  } else if(mode==='search'){searchTerm=String(value).trim().slice(0,100);discoveryChoice={...discoveryChoice,page:1};}
   else if(mode==='filters') {
+    discoveryChoice=discoveryOptions({...currentRoute(),...value,page:1});
     const next=normaliseFilters({...currentRoute(),...value});
     searchTerm=next.query;area=next.area||'All';category=next.category||'All';browseLetter=next.letter;
   }
@@ -427,6 +438,16 @@ async function discover(mode='featured', value='', {history=true}={}) {
         warning='The recipe service is unavailable. Showing matching recipes saved on this device.';
       }
       meals=rankByKitchen(combineKitchenRecipes(remote,local),store.pantry);
+    } else if(discoveryChoice.scope!=='provider') {
+      let available=[];
+      if(discoveryChoice.scope!=='saved') {
+        try {available=await collectionLoader.load();}
+        catch {warning='The collected recipe catalogue is unavailable. Showing matching recipes saved in this browser. Retry to reconnect.';}
+      }
+      if(thisRequest!==requestNumber||signal.aborted)return;
+      collectionRecords=available;
+      meals=searchRecipeCollection(available,store.saved,currentRoute());
+      const extraAreas=available.map(r=>r.cuisine).filter(Boolean);cuisines=[...new Set([...cuisines,...extraAreas])].sort();
     } else {
       const report=await discoverMeals(normaliseFilters(currentRoute()),signal);
       meals=report.meals;
@@ -440,7 +461,7 @@ async function discover(mode='featured', value='', {history=true}={}) {
     activeMeals=[];
     problem='The recipe service could not be reached. Check your connection and try again. Your saved recipes are still in My recipes.';
   } finally {
-    if(thisRequest===requestNumber) {loading=false;render();}
+    if(thisRequest===requestNumber) {loading=false;render({preserveDialog:true});}
   }
 }
 
@@ -465,12 +486,12 @@ function card(meal, kitchenExplanation = false, personalReasons = null) {
       (kitchenInfo.missing.length > 3 ? ' +' + (kitchenInfo.missing.length-3) + ' more' : '') + '</span>' :
       kitchenInfo.needReview.length ? '<span>Check amounts: ' + escapeHtml(kitchenInfo.needReview.slice(0,2).join(', ')) + '</span>' :
       '<span>Check amounts, freshness and dietary suitability before cooking.</span>') + '</div>' : '';
-  return '<article class="recipe-card"'+(personalReasons?' data-personal-recipe':'')+'>' +
+  return '<article class="recipe-card" data-recipe-id="'+id+'"'+(personalReasons?' data-personal-recipe':'')+'>' +
     '<button type="button" class="recipe-photo" data-action="open" data-id="' + id + '" aria-label="View recipe for ' + escapeHtml(meal.strMeal) + '">' +
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(mealCategory) + '</span></div>' +
-    reason + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : collectedRecipe(meal) ? escapeHtml(SOURCES.find(s=>s.id===meal.selectedRecipe.source)?.name||'Original publisher') : 'PHOTO · THEMEALDB') + '</span>' +
+    reason + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : collectedRecipe(meal) ? escapeHtml(SOURCES.find(s=>s.id===meal.selectedRecipe.source)?.name||'Original publisher') : 'PHOTO · THEMEALDB') + '</span>' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div>' +
     (personalReasons?'<div class="personal-reasons"><span class="eyebrow">WHY THIS DISH</span><ul>'+personalReasons.map(reason=>'<li>'+escapeHtml(reason)+'</li>').join('')+'</ul><button type="button" class="btn ghost small" data-action="taste-hide" data-id="'+id+'" aria-label="Not for me: '+escapeHtml(meal.strMeal)+'">Not for me</button></div>':'')+'</article>';
 }
@@ -514,28 +535,32 @@ function homeCollections() {
 }
 
 function discoverPage() {
-  const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb, true));
+  const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb,!collectedRecipe(x)));
   const heroPhoto = spotlight ? photo(spotlight) : '<div class="hero-placeholder" aria-hidden="true">🍝</div>';
   const label = discoveryMode==='pantry'?'Ideas from your kitchen':category!=='All'?category+' recipes':area!=='All'?area+' recipes':searchTerm?'Search results':browseLetter?'Recipes beginning with '+browseLetter:'Discover something delicious';
-  const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'A whole world of <strong>good food.</strong>';
+  const title = discoveryMode === 'pantry' ? 'Cook with what you <strong>have.</strong>' : 'Find your next <strong>favourite.</strong>';
   const countSaved = Object.values(store.saved).filter(flags).length;
   const filters=normaliseFilters(currentRoute());
-  const draft=filterDraft || filters;
+  const draft=filterDraft || currentRoute();
   const applied=filterSummary(filters);
-  const showPersonal=!applied.length && discoveryMode!=='pantry';
+  const showPersonal=!applied.length&&!discoveryChoice.course&&!discoveryChoice.source&&!discoveryChoice.ratedOnly&&discoveryMode!=='pantry'&&discoveryChoice.page===1;
   const recommendations=showPersonal?recommendRecipes(loading?[]:activeMeals,store.saved,store.pantry,store.tasteProfile||emptyTasteProfile()):[];
   personalRecipeCards=new Map(recommendations.map(row=>[row.meal.idMeal,row.meal]));
   const recommendedIds=new Set(recommendations.map(row=>row.meal.idMeal));
   const option=(value,label,selected)=>'<option value="'+escapeHtml(value)+'"'+(selected?' selected':'')+'>'+escapeHtml(label)+'</option>';
   const categoryOptions=[...new Set([...categories.filter(c=>c!=='All'),...(draft.category?[draft.category]:[])])];
-  const filterControls=discoveryMode==='pantry'?'':'<form id="discovery-filters" class="discovery-filters" aria-label="Filter recipes">'+
-    '<div class="field"><label for="discover-cuisine">Cuisine</label><input id="discover-cuisine" name="area" type="search" autocomplete="off" list="cuisine-options" maxlength="80" placeholder="All cuisines · type to find" value="'+escapeHtml(draft.area)+'">'+
-    '<datalist id="cuisine-options">'+cuisines.filter(c=>c!=='All').map(c=>option(c,c,false)).join('')+'</datalist></div>'+
-    '<div class="field"><label for="discover-category">Meal type</label><select id="discover-category" name="category">'+option('','All types',!draft.category)+categoryOptions.map(c=>option(c,c,c===draft.category)).join('')+'</select></div>'+
-    '<div class="field"><label for="discover-letter">Starts with <span class="optional-label">optional</span></label><select id="discover-letter" name="letter">'+option('','Any letter',!draft.letter)+alphabet.map(l=>option(l,l,l===draft.letter)).join('')+'</select></div>'+
-    '<button type="submit" class="btn">Apply filters</button></form>'+
-    '<div class="discovery-filter-footer"><div class="active-filters" aria-label="Current filters">'+(applied.length?applied.map(f=>'<button class="chip" type="button" data-action="remove-filter" data-filter="'+f.key+'" aria-label="Remove '+escapeHtml(f.label)+'">'+escapeHtml(f.label)+' <span aria-hidden="true">×</span></button>').join(''):'<span class="panel-note">Explore a cuisine or combine filters to narrow your search.</span>')+'</div>'+
-    (applied.length?'<button type="button" class="btn ghost small" data-action="featured">Clear filters</button>':'')+'<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me</button></div>';
+  const provider=draft.scope==='provider';
+  const filterControls=discoveryMode==='pantry'?'':'<details id="discovery-filter-panel" class="discovery-filter-panel"'+(filtersOpen?' open':'')+'><summary>Filter &amp; sort <span>'+escapeHtml(discoveryChoice.scope==='provider'?'TheMealDB':discoveryChoice.scope==='saved'?'Saved recipes':'Your collection')+'</span></summary><form id="discovery-filters" class="discovery-filters" aria-label="Filter recipes">'+
+    '<div class="field"><label for="discover-scope">Search in</label><select id="discover-scope" name="scope">'+[['collection','Collection + my cookbook'],['saved','My saved recipes'],['provider','TheMealDB · additional source']].map(([v,l])=>option(v,l,draft.scope===v)).join('')+'</select></div>'+
+    '<div class="field"><label for="discover-cuisine">Cuisine</label><input id="discover-cuisine" name="area" type="search" autocomplete="off" list="cuisine-options" maxlength="80" placeholder="All cuisines · type to find" value="'+escapeHtml(draft.area)+'"><datalist id="cuisine-options">'+cuisines.filter(c=>c!=='All').map(c=>option(c,c,false)).join('')+'</datalist></div>'+
+    (provider?'<div class="field"><label for="discover-category">Meal type</label><select id="discover-category" name="category">'+option('','All types',!draft.category)+categoryOptions.map(c=>option(c,c,c===draft.category)).join('')+'</select></div><div class="field"><label for="discover-letter">Starts with</label><select id="discover-letter" name="letter">'+option('','Any letter',!draft.letter)+alphabet.map(l=>option(l,l,l===draft.letter)).join('')+'</select></div>':
+    '<div class="field"><label for="discover-course">Meal type</label><select id="discover-course" name="course">'+option('','All meal types',!draft.course)+RECIPE_COURSES.map(c=>option(c.id,c.label,c.id===draft.course)).join('')+'</select></div>'+
+    '<div class="field"><label for="discover-source">Publisher</label><select id="discover-source" name="source">'+option('','All selected websites',!draft.source)+SOURCES.map(x=>option(x.id,x.name,x.id===draft.source)).join('')+'</select></div>'+
+    '<div class="field"><label for="discover-sort">Sort by</label><select id="discover-sort" name="sort">'+[['title','Name A–Z'],['rating','Publisher rating'],['votes','Votes / reviews']].map(([v,l])=>option(v,l,draft.sort===v)).join('')+'</select></div><label class="discovery-rated"><input type="checkbox" id="discover-rated" name="ratedOnly"'+(draft.ratedOnly?' checked':'')+'> With a publisher rating</label>')+
+    '<button type="submit" class="btn">Apply filters</button></form><p class="panel-note">'+(provider?'Additional community recipes from TheMealDB.':'Collected publisher recipes and your cookbook. Publisher scores come from different communities; they are not a Tasteit ranking.')+'</p></details>'+
+    '<div class="discovery-filter-footer"><div class="active-filters" aria-label="Current filters">'+applied.map(f=>'<button class="chip" type="button" data-action="remove-filter" data-filter="'+f.key+'" aria-label="Remove '+escapeHtml(f.label)+'">'+escapeHtml(f.label)+' ×</button>').join('')+
+    (discoveryChoice.course?'<button type="button" class="chip" data-action="meal-shortcut" data-course="">'+escapeHtml(RECIPE_COURSES.find(c=>c.id===discoveryChoice.course)?.label)+' ×</button>':'')+'</div>'+
+    (applied.length||discoveryChoice.course||discoveryChoice.source||discoveryChoice.ratedOnly?'<button type="button" class="btn ghost small" data-action="featured">Clear filters</button>':'')+'<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me</button></div>';
   const kitchenChoices = discoveryMode === 'pantry' ? kitchenIngredientChoices(store.pantry) : [];
   const choicesShown = kitchenShowAll ? kitchenChoices : kitchenChoices.slice(0,24);
   const kitchenPicker = discoveryMode === 'pantry' ? '<section class="kitchen-selector" aria-label="Choose ingredients for recipe discovery">' +
@@ -554,8 +579,10 @@ function discoverPage() {
     '<button type="button" class="btn small" data-action="kitchen-update"' +
       (!kitchenSelection.length || loading ? ' disabled' : '') + '>Update recipe ideas →</button></div>' +
     '<p class="panel-note">Recipes come from TheMealDB or your saved cookbook. This is a shortlist, not an exhaustive search. Ingredient names and available amounts may require checking.</p></section>' : '';
+  const resultPage=recipePage(activeMeals,discoveryChoice.page);
+  if(discoveryMode!=='pantry'&&!loading&&discoveryChoice.page!==resultPage.page){discoveryChoice={...discoveryChoice,page:resultPage.page};writeRoute({replace:true});}
   const visibleMeals = discoveryMode === 'pantry'
-    ? filterKitchenRecipes(activeMeals,store.pantry,kitchenReadiness) : activeMeals.filter(meal=>!recommendedIds.has(meal.idMeal));
+    ? filterKitchenRecipes(activeMeals,store.pantry,kitchenReadiness) : resultPage.records.filter(meal=>!recommendedIds.has(meal.idMeal));
   const kitchenReadinessChips = discoveryMode === 'pantry'
     ? '<div class="kitchen-readiness" role="group" aria-label="Filter recipes by kitchen ingredient availability">' +
       [['all','All ideas'],['names','All ingredient names on hand'],['amounts','Measured amounts appear sufficient']].map(([key,label]) =>
@@ -564,22 +591,24 @@ function discoverPage() {
         (kitchenReadiness === key) + '">' + label + '</button>').join('') +
       '<p class="panel-note" role="status">Showing ' + visibleMeals.length + ' of ' + activeMeals.length +
       ' suggestions. These are inventory estimates, not confirmation of food safety or allergy suitability.</p></div>' : '';
+  const pagination=discoveryMode!=='pantry'&&!loading&&resultPage.pages>1?'<nav class="main-pagination" aria-label="Recipe pages"><button class="btn secondary" data-action="discovery-page" data-page="'+(resultPage.page-1)+'"'+(resultPage.page===1?' disabled':'')+'>← Previous</button><span role="status" id="discovery-page-status" tabindex="-1">Page '+resultPage.page+' of '+resultPage.pages+' · '+resultPage.start+'–'+resultPage.end+' of '+resultPage.total+'</span><button class="btn secondary" data-action="discovery-page" data-page="'+(resultPage.page+1)+'"'+(resultPage.page===resultPage.pages?' disabled':'')+'>Next →</button></nav>':'';
   const currentResults = loading ? loadingBox() : problem ? '<div class="alert">' + escapeHtml(problem) + '<button class="btn small" type="button" data-action="retry">Try again</button></div>' :
     visibleMeals.length ? cards(visibleMeals, discoveryMode === 'pantry') : recommendations.length?'<p class="panel-note">This selection is on your table above. Explore a cuisine or search for another dish.</p>':
     (discoveryMode === 'pantry' && activeMeals.length ? empty('🥕', 'Nothing meets that match filter', 'Try All ideas, or add the missing ingredients to your kitchen.', '<button class="btn" type="button" data-action="kitchen-readiness" data-readiness="all">Show all ideas</button>') : empty('🔎', serviceWarning ? 'No recipes returned by available sources' : 'No recipes found', 'Try a different dish name, cuisine or kitchen ingredient.', '<button class="btn" type="button" data-action="featured">Explore popular dishes</button>'));
-  return (showPersonal?homeCollections():'')+'<section class="selected-source-link"><div><strong>Your selected recipe websites</strong><p class="panel-note">Publisher ratings, original recipes and credited ingredient photographs.</p></div><a class="btn secondary" href="./selected-recipes.html">Explore your collection →</a></section><section class="hero'+(applied.length || discoveryMode==='pantry'?' browsing':'')+'"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
+  return '<section class="hero'+(applied.length || discoveryMode==='pantry'?' browsing':'')+'"><div class="hero-copy"><div class="eyebrow">YOUR PERSONAL RECIPE UNIVERSE</div><h1>' + title + '</h1>' +
     '<p class="lead">Discover food from different cultures, collect your favourite meals, and find inspiration in the ingredients you already own.</p>' +
-    '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" maxlength="100" placeholder="Search biryani, pasta, curry..." value="' + escapeHtml(queryDraft ?? searchTerm) + '"><button class="btn" type="submit">Find recipes ↗</button></form>' +
-    '</div><div class="hero-visual">' + heroPhoto + (spotlight ? '<div class="photo-tag"><span class="spark">✳ ON THE MENU</span><b>' + escapeHtml(spotlight.strMeal) + '</b><span>Photograph: TheMealDB contributors</span></div>' : '') + '</div></section>' +
+    '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" maxlength="100" placeholder="Search a recipe or ingredient…" value="' + escapeHtml(queryDraft ?? searchTerm) + '"><button class="btn" type="submit">Find recipes ↗</button></form>' +
+    '</div><div class="hero-visual">' + heroPhoto + (spotlight ? '<div class="photo-tag"><span class="spark">✳ ON THE MENU</span><b>' + escapeHtml(spotlight.strMeal) + '</b><span>Photograph: '+escapeHtml(collectedRecipe(spotlight)?SOURCES.find(s=>s.id===spotlight.selectedRecipe.source)?.name:'TheMealDB contributors')+'</span></div>' : '') + '</div></section>' +
+    (showPersonal?'<nav class="meal-shortcuts" aria-label="Explore meal types">'+[['breakfast','Breakfast'],['main','Main dishes'],['dessert','Sweets'],['appetiser','Snacks']].map(([id,label])=>'<button class="chip" data-action="meal-shortcut" data-course="'+id+'">'+label+'</button>').join('')+'</nav>':'')+
     '<div class="feature-strip">' +
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
     '<button type="button" class="feature-card" data-nav="library"><span class="feature-icon" aria-hidden="true">♡</span><div><b>My cookbook</b><span>' + countSaved + ' saved or cooked recipes</span></div></button>' +
     '<button type="button" class="feature-card" data-action="suggest"><span class="feature-icon" aria-hidden="true">✦</span><div><b>What can I make?</b><span>Find recipes using my ingredients</span></div></button></div>' +
-    (showPersonal?tastePreferences()+personalSuggestions(recommendations):'') +
-    '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : 'Explore dishes, stories and ideas from TheMealDB.') + '</p></div>' +
+    (showPersonal?homeCollections()+tastePreferences()+personalSuggestions(recommendations):'') +
+    '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2 id="discovery-results-title" tabindex="-1">' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : discoveryChoice.scope==='provider'?'Additional recipes from TheMealDB.':'Your selected recipe websites and personal cookbook, together.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
     filterControls + kitchenPicker + kitchenReadinessChips + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
-    (serviceWarning ? '<div class="note service-warning" role="status">' + escapeHtml(serviceWarning) + '<button class="btn secondary small" type="button" data-action="retry">Try again</button></div>' : '') + currentResults + '</section>';
+    (serviceWarning ? '<div class="note service-warning" role="status">' + escapeHtml(serviceWarning) + '<button class="btn secondary small" type="button" data-action="retry">Try again</button></div>' : '') + currentResults + pagination + '</section>';
 }
 
 function personalRecipeForm() {
@@ -1063,7 +1092,7 @@ function downloadRecoveryCopy(raw) {
   link.href=url;link.download='tasteit-recovery-'+new Date().toISOString().slice(0,10)+'.txt';
   document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
 }
-function render() {
+function render({preserveDialog=false}={}) {
   const health=localStoreStatus();
   if(!['ready','empty'].includes(health.status)) {
     closeDialog({history:false});updateNav();appRoot.innerHTML=recoveryPage(health);updateConnectionUI();return;
@@ -1075,7 +1104,7 @@ function render() {
   const purchaseIdentity=purchaseForm?.dataset.reviewId;
   const purchaseFields=captureFields(purchaseForm);
   const active=document.activeElement;
-  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter','taste-cuisines','taste-avoid','taste-summary','taste-save','taste-show-skipped'].includes(active?.id)
+  const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter','discover-scope','discover-source','discover-course','discover-sort','discover-rated','taste-cuisines','taste-avoid','taste-summary','taste-save','taste-show-skipped'].includes(active?.id)
     ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
   appRoot.innerHTML = view === 'discover' ? discoverPage() : view === 'world' ? worldPage() : view === 'library' ? libraryPage() : view === 'pantry' ? pantryPage() : planPage();
@@ -1085,7 +1114,7 @@ function render() {
     input?.focus({preventScroll:true});
     if(typeof restoreInput.start==='number')input?.setSelectionRange(restoreInput.start,restoreInput.end);
   }
-  if (selectedMeal) renderDialog();
+  if (selectedMeal&&!preserveDialog) renderDialog();
   updateConnectionUI();
 }
 
@@ -1216,7 +1245,7 @@ function renderDialog() {
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
-      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
+      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (collectedRecipe(meal)?'<p class="panel-note">Cooking methods stay with the original author. Ingredient amounts above are shown as written; they are not automatically parsed or scaled.</p><a class="btn secondary" href="'+externalUrl(meal.strSource)+'" target="_blank" rel="noopener noreferrer">Open original cooking method ↗</a>':parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       (parts.length ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →') + '</button>' +
       (store.cookingSessions?.[meal.idMeal] ? '<button type="button" class="btn secondary" data-action="restart-cooking">Start from the beginning</button>' : '') + '</div>' : '') +
@@ -1254,9 +1283,10 @@ function closeDialog({history=true}={}) {
   overlayRoot.innerHTML='';document.body.style.overflow='';
   if(wasOpen) {
     if(dialogReturnFocus?.isConnected)dialogReturnFocus.focus({preventScroll:true});
+    else if(dialogReturnId)document.querySelector('[data-action="open"][data-id="'+dialogReturnId+'"]')?.focus({preventScroll:true});
     else document.querySelector('.site-nav .active')?.focus({preventScroll:true});
   }
-  dialogReturnFocus=null;
+  dialogReturnFocus=null;dialogReturnId='';
   if(history && wasOpen) {
     if(window.history.state?.recipeOverlay)window.history.back();
     else writeRoute({replace:true});
@@ -1275,16 +1305,14 @@ async function openMeal(id,{history=true,meal:provided}={}) {
   const request=++detailRequestNumber;
   detailController?.abort();
   const currentController=new AbortController();detailController=currentController;
-  if(!dialogReturnFocus)dialogReturnFocus=document.activeElement;
+  if(!dialogReturnFocus){dialogReturnFocus=document.activeElement;dialogReturnId=document.activeElement?.dataset?.id||'';}
   openingMealId=id;selectedMeal=null;
   if(history)writeRoute({recipeOverlay:true});
   recipeStatus('Loading ingredients and instructions.');
   try {
     if(id.startsWith('selected-')&&!possible) {
-      const response=await fetch('./data/selected-recipes.json',{signal:currentController.signal});
-      if(!response.ok)throw new Error('Your collection is unavailable.');
-      const data=await response.json();if(!Array.isArray(data.recipes)||data.recipes.length>2500)throw new Error('Invalid collection.');
-      const record=data.recipes.find(r=>'selected-'+r.id===id);if(record)possible=collectedMeal(validateRecipe(record));
+      const records=await collectionLoader.load();
+      const record=records.find(r=>'selected-'+r.id===id);if(record)possible=collectedMeal(validateRecipe(record));
     }
     if(id.startsWith('selected-')&&!collectedRecipe(possible))throw new Error('This collected recipe is unavailable. Reconnect or open a saved copy.');
     if(id.startsWith('personal-') && !possible)throw new Error('This personal recipe is not in this browser. Save, restore or sync it here first.');
@@ -1337,6 +1365,8 @@ document.addEventListener('click', async event => {
   const action = button.dataset.action;
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
+  if(action==='discovery-page'){discoveryChoice={...discoveryChoice,page:Number(button.dataset.page)};writeRoute();render();document.getElementById('discovery-page-status')?.focus({preventScroll:true});document.getElementById('discovery-results-title')?.scrollIntoView({block:'start'});return;}
+  if(action==='meal-shortcut'){void discover('filters',{query:'',area:'',category:'',letter:'',scope:'collection',source:'',course:button.dataset.course,sort:'title',ratedOnly:false});return;}
   if(action==='recovery-retry'){Object.assign(store,loadStore());render();return;}
   if(action==='recovery-download'){downloadRecoveryCopy(recoveryViewRaw);return;}
   if(action==='recovery-download-preserved'){
@@ -1485,6 +1515,7 @@ document.addEventListener('click', async event => {
   if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; cookingStockSnapshot=consumptionReview(selectedMeal,store.pantry,savedEntry(id).baseServings,detailTargetServings); showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
   if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
   if (action === 'featured') { await discover(); return; }
+  if(action==='surprise'&&discoveryChoice.scope!=='provider'){const choices=activeMeals.length?activeMeals:searchRecipeCollection(collectionRecords,store.saved,{});if(choices.length){const chosen=choices[Math.floor(Math.random()*choices.length)];void openMeal(chosen.idMeal,{meal:chosen});}else notice('Load a recipe collection first.');return;}
   if (action === 'surprise') {
     const intent=++detailRequestNumber;
     detailController?.abort();
@@ -1671,13 +1702,14 @@ document.addEventListener('click', async event => {
   }
 });
 
+document.addEventListener('toggle',event=>{if(event.target.id==='discovery-filter-panel')filtersOpen=event.target.open;},true);
 document.addEventListener('input', event => {
   if(['taste-cuisines','taste-avoid'].includes(event.target.id)) {
     tasteDraft={cuisines:document.getElementById('taste-cuisines').value,avoidIngredients:document.getElementById('taste-avoid').value};
   }
   if(event.target.id==='recipe-search')queryDraft=event.target.value;
-  if(['discover-cuisine','discover-category','discover-letter'].includes(event.target.id)) {
-    filterDraft={...(filterDraft || normaliseFilters(currentRoute())),[event.target.name]:event.target.value};
+  if(['discover-cuisine','discover-category','discover-letter','discover-scope','discover-source','discover-course','discover-sort','discover-rated'].includes(event.target.id)) {
+    filterDraft={...(filterDraft || currentRoute()),[event.target.name]:event.target.type==='checkbox'?event.target.checked:event.target.value};
   }
   if(event.target.id==='discover-cuisine')event.target.setCustomValidity('');
   if (event.target.id !== 'bulk-input') return;
@@ -1714,6 +1746,11 @@ document.addEventListener('submit', event => {
     } catch(error) {notice(error.message || 'Could not add these purchases.');}
     return;
   }
+  if(event.target.id==='recipe-plan-form') {
+    event.preventDefault();if(!selectedMeal)return;const day=new FormData(event.target).get('day');
+    if(store.plan[day]&&store.plan[day]!==selectedMeal.idMeal&&!window.confirm('Replace the recipe already planned for this day?'))return;
+    try{const next=planRecipe(store,selectedMeal,day);if(!persistStore(next))throw Error('Could not save your plan. Nothing changed.');Object.assign(store,next);render();notice('Added to your meal plan.');}catch(error){notice(error.message);}return;
+  }
   if(event.target.id==='discovery-filters') {
     event.preventDefault();
     const fields=Object.fromEntries(new FormData(event.target));
@@ -1724,7 +1761,7 @@ document.addEventListener('submit', event => {
       input.setCustomValidity('Choose a cuisine from the suggestions, or leave it empty.');
       input.reportValidity();return;
     }
-    void discover('filters',{...fields,area:cuisine==='All'?'':cuisine||typed});
+    void discover('filters',{...fields,ratedOnly:fields.ratedOnly==='on',area:cuisine==='All'?'':cuisine||typed});
     return;
   }
   if(event.target.id==='world-review-form'){
@@ -2070,10 +2107,10 @@ void restoreRoute(readRoute(window.location.href));
 availableAreas().then(areas => {
   if (!areas.length) return;
   cuisines = ['All', ...areas];
-  if (view === 'discover') render();
+  if (view === 'discover') render({preserveDialog:true});
 }).catch(() => { /* Keep fallback cuisines when the area endpoint is unavailable. */ });
 availableCategories().then(values => {
   if (!values.length) return;
   categories = ['All', ...values];
-  if (view === 'discover') render();
+  if (view === 'discover') render({preserveDialog:true});
 }).catch(() => { /* Keep fallback meal categories when the endpoint is unavailable. */ });

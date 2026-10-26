@@ -1,3 +1,4 @@
+import {recipeRatingMarkup} from './recipe-presentation.js';
 import {SOURCES,validateRecipe,filterRecipes,safeHttps,validateWorldFavourites,recipePage,RECIPE_COURSES} from './selected-sources.js';
 import {ingredientPhoto} from './ingredient-photos.js';
 import {ingredientReference} from './ingredient-reference.js';
@@ -15,12 +16,10 @@ const reference=line=>'<div data-ingredient-reference="'+esc(line)+'">'+ingredie
 function recipeCard(r) {
  const saved=savedState['selected-'+r.id]||{};
  const saveButtons=['wanted','usual'].map(field=>'<button type="button" class="btn secondary small" data-save-recipe="'+esc(r.id)+'" data-save-flag="'+field+'" aria-pressed="'+Boolean(saved[field])+'">'+(saved[field]?'✓ ':'+ ')+(field==='wanted'?'Want to try':'My usual dishes')+'</button>').join('');
- const source=SOURCES.find(s=>s.id===r.source),rating=r.rating;
- const count=rating?.count===null?'Vote count not collected':rating?rating.count.toLocaleString()+' '+(rating.countType==='ratings'?'rating votes':'reviews'):'';
- const ratingText=rating?rating.value+' / '+rating.best:'Rating not collected';
- return '<article class="selected-card" data-recipe-id="'+esc(r.id)+'">'+(r.photoUrl?'<a class="selected-recipe-photo" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(r.photoUrl)+'" alt="'+esc(r.title)+' — original publisher photograph" loading="lazy" referrerpolicy="no-referrer"></a>':'')+
-  '<div class="selected-card-content">'+'<p class="selected-curation-label" data-world-id="'+esc(r.id)+'"'+(worldIds.has(r.id)?'':' hidden')+'>World favourite</p>'+'<p class="eyebrow">'+esc(source.name)+'</p><h2>'+esc(r.title)+'</h2>'+(r.author?'<p class="panel-note">By '+esc(r.author)+'</p>':'')+
-  '<p class="source-rating"><strong>'+esc(ratingText)+'</strong> <span>'+esc(count)+'</span></p><p class="panel-note">'+esc([r.cuisine,r.category].filter(Boolean).join(' · '))+'</p>'+link(r.url,'Open original recipe ↗','class="btn secondary"')+'<div class="selected-save-actions">'+saveButtons+'<a class="btn ghost small" data-return-recipe="'+esc(r.id)+'" href="./?recipe='+esc(collectedMeal(r).idMeal)+'">Open in my kitchen →</a></div>'+
+ const source=SOURCES.find(s=>s.id===r.source);
+ return '<article class="selected-card" data-recipe-id="'+esc(r.id)+'">'+(r.photoUrl?'<a class="selected-recipe-photo" href="./?recipe=selected-'+esc(r.id)+'" data-return-recipe="'+esc(r.id)+'"><img src="'+esc(r.photoUrl)+'" alt="'+esc(r.title)+' — original publisher photograph" loading="lazy" referrerpolicy="no-referrer"></a>':'')+
+  '<div class="selected-card-content">'+'<p class="selected-curation-label" data-world-id="'+esc(r.id)+'"'+(worldIds.has(r.id)?'':' hidden')+'>World favourite</p>'+'<p class="eyebrow">'+esc(source.name)+'</p><h2><a href="./?recipe=selected-'+esc(r.id)+'" data-return-recipe="'+esc(r.id)+'">'+esc(r.title)+'</a></h2>'+(r.author?'<p class="panel-note">By '+esc(r.author)+'</p>':'')+
+  recipeRatingMarkup(r)+'<p class="panel-note">'+esc([r.cuisine,r.category].filter(Boolean).join(' · '))+'</p>'+link(r.url,'Open original recipe ↗','class="btn secondary"')+'<div class="selected-save-actions">'+saveButtons+'<a class="btn ghost small" data-return-recipe="'+esc(r.id)+'" href="./?recipe='+esc(collectedMeal(r).idMeal)+'">Open in my kitchen →</a></div>'+
   '<p class="panel-note source-check-date">Rating checked '+esc(new Date(r.checkedAt).toLocaleDateString('en-GB'))+'. Publisher labels and linked photo; cuisine authenticity is not independently certified.</p>'+
   '<details class="selected-ingredients"><summary>'+r.ingredients.length+' ingredients · see photographs</summary><ul>'+r.ingredients.map(line=>'<li>'+reference(line)+'<span class="source-ingredient-text">'+esc(line)+'</span></li>').join('')+'</ul></details></div></article>';
 }
@@ -131,7 +130,7 @@ document.getElementById('selected-load-status')?.addEventListener('click',event=
 results.addEventListener('error',event=>{
  const image=event.target;if(image.tagName!=='IMG')return;
  if(image.closest('.ingredient-reference')){const message=document.createElement('span');message.className='ingredient-photo-missing';message.textContent='Photo unavailable';image.replaceWith(message);}
- else {image.closest('.selected-recipe-photo')?.remove();}
+ else {const fallback=document.createElement('span');fallback.className='selected-photo-unavailable';fallback.textContent='Photograph unavailable';image.replaceWith(fallback);}
 },true);
 window.addEventListener('storage',event=>{if(event.key===STORAGE_KEY){savedState=loadStore().saved;if(catalogueReady)render();}});
 window.addEventListener('popstate',()=>{if(catalogueReady)applyRoute();});

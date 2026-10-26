@@ -53,9 +53,9 @@ try {
     await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:results.length?results:null})});
   });
   await page.route('**/images/media/meals/**',route=>route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="#d9e5d7"/></svg>'}));
-  await page.goto(base);
+  await page.goto(base+'?scope=provider');
   await page.locator('.recipe-card').first().waitFor();
-  await page.locator('#discovery-filters').waitFor({timeout:2500});
+  await page.locator('#discovery-filter-panel').evaluate(n=>n.open=true);await page.locator('#discovery-filters').waitFor({timeout:2500});
   assert.equal(await page.locator('[data-action="area"]').count(),0,'195 regions are options, not 195 buttons');
   await page.locator('#discover-cuisine').fill('Indian');
   await page.locator('#discover-category').selectOption('Vegetarian');
@@ -126,14 +126,14 @@ try {
     localStorage.setItem('tasteit.local.v1',JSON.stringify(store));
   });
   ingredientFailure=true;
-  await page.goto(base+'?mode=kitchen');
+  await page.goto(base+'?scope=provider&mode=kitchen');
   await page.locator('.service-warning').filter({hasText:'Showing matching recipes saved'}).waitFor();
   assert.equal(await page.locator('.recipe-title').innerText(),'Tomato Rice');
   assert.equal(await page.locator('.service-warning [data-action=retry]').count(),1);
 
   // A direct recipe link can open without first appearing in discovery results.
   ingredientFailure=false;
-  await page.goto(base+'?recipe=3');
+  await page.goto(base+'?scope=provider&recipe=3');
   await page.locator('[role=dialog] h2').getByText('Apple Pie').waitFor();
   await page.locator('[data-action=close]').click();
   await page.locator('[role=dialog]').waitFor({state:'hidden'});

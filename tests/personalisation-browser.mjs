@@ -36,7 +36,7 @@ try {
     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:rows})});
   });
   const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')));
-  await page.goto(base);
+  await page.goto(base+'?scope=provider');
   await page.locator('#for-your-table').waitFor();
   assert.equal(await page.locator('#for-your-table .recipe-card').count(),2,'recommendations retain distinct recipes');
   assert.equal(await page.locator('#home-wanted .recipe-card').count(),2,'saved want-to-try recipes are directly available on home');
@@ -82,7 +82,7 @@ try {
   // A delayed source directory must not drop a keyboard user out of Your taste.
   holdAreas=true;
   const areasRequested=new Promise(resolve=>{markAreasRequested=resolve;});
-  await page.goto(base);await areasRequested;
+  await page.goto(base+'?scope=provider');await areasRequested;
   await page.locator('#taste-preferences summary').focus();
   releaseAreas();
   await page.waitForFunction(()=>[...document.querySelectorAll('#cuisine-options option')].some(node=>node.value==='Fixture Cuisine'));

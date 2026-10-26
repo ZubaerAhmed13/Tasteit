@@ -22,7 +22,7 @@ const server = createServer(async (req, res) => {
     const file = pathname === '/' ? 'index.html' : pathname.slice(1);
     const allowed = new Set(['index.html','styles.css','favicon.svg','src/app.js','src/navigation.js','src/kitchen-flow.js','src/api.js','src/model.js','src/quantities.js','src/organise.js','src/pantry-bulk.js','src/pantry-batches.js','src/servings.js','src/kitchen-discovery.js','src/cooking.js','src/shopping.js','src/world-catalogue.js','src/editorial.js','src/research-priority.js','src/rights-review.js','src/source-media.js','src/source-overlap.js']);
     allowed.add('src/personalisation.js');
-    for(const name of ['selected-kitchen','selected-sources','ingredient-reference','ingredient-photos'])allowed.add('src/'+name+'.js');
+    for(const name of ['discovery-options','recipe-discovery','recipe-presentation','recipe-planning','collection-request','selected-kitchen','selected-sources','ingredient-reference','ingredient-photos'])allowed.add('src/'+name+'.js');
     allowed.add('src/cloud-sync.js');allowed.add('src/offline.js');
     if (!allowed.has(file)) { res.writeHead(404); res.end('Not found'); return; }
     const body = await readFile(path.join(process.cwd(),file));
@@ -131,7 +131,7 @@ try {
     body:'<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140"><rect width="200" height="140" fill="#dde7cf"/></svg>'
   }));
 
-  await page.goto(url);
+  await page.goto(url+'/?scope=provider');
   await page.locator('.recipe-card').first().waitFor({timeout:12000}).catch(async error => { throw new Error(error.message + '\nBrowser errors: ' + JSON.stringify(errors) + '\nPage snapshot: ' + (await page.locator('#app').innerText()).slice(0,900)); });
   assert.equal(await page.locator('.recipe-card').count(),1,'live discovery card from fixture');
   await page.locator('#discover-category').selectOption('Vegetarian');
@@ -152,7 +152,7 @@ try {
   await page.locator('.recipe-card').first().waitFor();
 
   // The world catalogue never fabricates 30 entries; it counts actual source IDs.
-  await page.locator('.site-nav [data-nav="world"]').click();
+  await page.locator('.more-tools summary').click();await page.locator('.more-tools [data-nav="world"]').click();
   await page.locator('.world-stats').waitFor({timeout:14000}).catch(async error=>{
     throw new Error('World source snapshot did not load: '+error.message+
       '\nUI snapshot: '+(await page.locator('#app').innerText()).slice(0,1500)+

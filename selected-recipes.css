@@ -7,3 +7,9 @@
 .selected-save-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.selected-save-actions [aria-pressed=true]{background:#e7eee4;border-color:#234e42;color:#234e42}.selected-pagination{display:flex;justify-content:center;align-items:center;gap:14px;margin:30px 0;flex-wrap:wrap}.selected-pagination[hidden]{display:none}.selected-pagination button:disabled{opacity:.45;cursor:default}.selected-filter-panel form{grid-template-columns:repeat(3,minmax(0,1fr))}.selected-rated{grid-column:span 2}@media(max-width:700px){.selected-filter-panel form{grid-template-columns:1fr}.selected-rated{grid-column:auto}}
 
 .selected-curation-label[hidden]{display:none}
+
+/* The source-audit view uses the same navigation, rating component and detail destination. */
+.selected-card h2 a{text-decoration:none}.selected-card h2 a:hover{text-decoration:underline}
+.selected-photo-unavailable{display:grid;place-items:center;width:100%;height:100%;color:var(--muted);background:#e6e8df;font-size:14px}
+.selected-ingredients li{grid-template-columns:120px minmax(0,1fr)}.selected-ingredients .ingredient-reference{width:120px}.selected-card .ingredient-reference figcaption{font-size:12px;line-height:1.6}.selected-source-page .nav-button{font-size:14px}.selected-card-content{padding:22px}
+@media(max-width:700px){.selected-ingredients li{grid-template-columns:100px minmax(0,1fr);gap:12px}.selected-ingredients .ingredient-reference{width:100px}.selected-source-page .site-nav{position:fixed;bottom:0;top:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;max-width:none}.selected-source-page .site-nav a{display:flex;justify-content:center;font-size:13px;min-height:44px}.selected-main{padding-bottom:100px}}
