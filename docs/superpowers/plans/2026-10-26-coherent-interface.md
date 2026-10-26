@@ -25,23 +25,23 @@ Site, PR1 draft/unmerged. Catalogue fetch/body deadline12seconds. Page size24.
 
 **Files:** src/discovery-options.js, src/recipe-discovery.js, src/navigation.js, sw.js; tests/recipe-discovery.test.js, tests/navigation.test.js.
 **Interfaces:** discoveryOptions(input)->validated scope/source/course/sort/ratedOnly/page; searchRecipeCollection(records,saved,filters)->unique meals; createRecipeCollectionLoader(request?)->{load({retry?})}.
-- [ ] Write tests for real collected breakfast/ingredient search, personal/saved merge and flags, filters/page URL, invalid values, failed/retry/shared loader.
-- [ ] Observe RED; implement validated pure helpers and bounded catalogue loading, preserve existing route fields and shell imports.
-- [ ] Run focused and full Node tests/build; commit.
+- [x] Write tests for real collected breakfast/ingredient search, personal/saved merge and flags, filters/page URL, invalid values, failed/retry/shared loader.
+- [x] Observe RED; implement validated pure helpers and bounded catalogue loading, preserve existing route fields and shell imports.
+- [x] Run focused and full Node tests/build; commit.
 
 ### Task 2: Main app integration and coherent presentation
 
 **Files:** src/app.js, src/recipe-presentation.js, src/selected-recipes-app.js, index.html, selected-recipes.html, styles.css, selected-recipes.css; controller/presentation tests.
 **Interfaces:** existing collectedMeal/details/persistence; Task1 route/search/loader; shared publisher identity/rating HTML.
-- [ ] Add failing controller/presentation checks for search/paging/identity, real ratings and compact consistent action semantics.
-- [ ] Integrate default collection+saved search, explicit provider scope, catalogue failure fallback, URL paging and direct selected detail lookup.
-- [ ] Search-first home, shortcuts/personal shelves, four-item shared nav and More tools research, native mobile filter disclosure, readable credited photos and stable failed images.
-- [ ] Preserve drafts/focus, old links and recovery; run full Node/build; commit.
+- [x] Add failing controller/presentation checks for search/paging/identity, real ratings and compact consistent action semantics.
+- [x] Integrate default collection+saved search, explicit provider scope, catalogue failure fallback, URL paging and direct selected detail lookup.
+- [x] Search-first home, shortcuts/personal shelves, four-item shared nav and More tools research, native mobile filter disclosure, readable credited photos and stable failed images.
+- [x] Preserve drafts/focus, old links and recovery; run full Node/build; commit.
 
 ### Task 3: Actual acceptance and private release
 
 **Files:** tests/coherent-interface-browser.mjs, existing browser fixture scopes, .github/workflows/verify.yml, docs/releases and docs/ACCEPTANCE.md; native Worker.
 **Interfaces:** unchanged real application and Worker; source helper exact-source archive.
-- [ ] Add actual complete collected breakfast search/save/home/open/Back/plan tests, filters/page/reload, failures/offline, keyboard/375px/zoom/empty/large cookbook. Existing provider suites explicitly select provider scope, keeping their assertions.
-- [ ] Full Node/build; one fresh final reviewer, one Important/Critical TDD fix pass. Inspect detailed three-engine logs and source-tree equivalence.
-- [ ] Package exact verified source, preserve bindings/migrations/audience, publish private and check live files/provenance; record evidence/PR draft unmerged.
+- [x] Add actual complete collected breakfast search/save/home/open/Back/plan tests, filters/page/reload, failures/offline, keyboard/375px/zoom/empty/large cookbook. Existing provider suites explicitly select provider scope, keeping their assertions.
+- [x] Full Node/build; one fresh final reviewer, one Important/Critical TDD fix pass. Inspect detailed three-engine logs and source-tree equivalence.
+- [x] Package exact verified source, preserve bindings/migrations/audience, publish private and check live files/provenance; record evidence/PR draft unmerged.

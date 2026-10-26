@@ -436,3 +436,38 @@ CI merge `b8b33de3eef5fd664d8aa1febaecefbc5898403e` equals the candidate's tree
 
 All 21 checked live release paths and application provenance match the tested
 Release 1 source. No owner-signed-in hosted or physical-device walkthrough is claimed.
+
+## Coherent interface release — 26 October 2026
+
+- [x] Default Home search now combines all 1,108 approved-source recipes with the
+  personal cookbook, including ingredient metadata. TheMealDB remains an explicit
+  additional source. Exact-ID merging retains personal flags and avoids duplicates.
+- [x] Search-first Home, meal shortcuts and usual/want-to-try shelves; four shared
+  destinations; research under More tools; native mobile filter disclosure.
+  Compact cards preserve publisher ratings/count types and original-method links.
+  Photos/titles open internal details, which can add recipes atomically to the
+  existing daily plan. Readable ingredient-photo credits and larger-photo links.
+- [x] Validated full filters and page URLs, reload/Back, result focus and scroll,
+  source-switch draft preservation, late cuisine options, course-only removal,
+  offline saved ingredient search and composed source/course/rating filters.
+- [x] One fresh independent final review; all findings addressed with observed
+  RED→GREEN regressions in one fix pass. No unresolved/deferred findings. Physical
+  magnification/screen-reader checks remain distinct from 320CSSpx reflow acceptance.
+- [x] Final CI40361696542: 266 Node tests, syntax/build and all 23 browser-suite
+  executions pass. Seven suites in Chromium and WebKit; nine Firefox executions
+  including three independent continuity sessions. Detailed logs inspected.
+- [x] Application source `65e7c0558d1d90d8a959461e0a4ef9cd561e95ce` and synthetic
+  CI merge `8e86e6e7928f47e7b2d53f6bb5e558a77dc177f8` have identical tree
+  `cb71664bc4c7630be2fd82b226bf09362366db4a`. All 54 source assets plus provenance
+  match the prepared Worker; archive matches Site ID, DB/r2 and three migration files.
+- [x] Published private version12, native source
+  `a621ca409fc83a8b70da230be9b869695b4ea594`. Audience remains one owner, zero groups,
+  zero external visitors. PR1 remains draft and unmerged. No recipe/photo-registry,
+  dependency, backup-format, database or account-boundary change.
+
+[Release notes and rulings](releases/2026-10-26-coherent-interface.md) ·
+[Final CI run](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40361696542).
+
+All 25 checked live Release 2 paths and tested application provenance match.
+No owner-signed-in hosted walkthrough or physical-device/zoom/screen-reader
+conformance claim is inferred from automated acceptance.
