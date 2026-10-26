@@ -33,8 +33,8 @@ try{
  await page.goBack();await page.locator('#discovery-page-status').filter({hasText:'Page 2'}).waitFor();assert.deepEqual(await page.locator('.recipe-card').evaluateAll(cs=>cs.map(c=>c.dataset.recipeId)),ids);
  await page.reload();await page.locator('#discovery-page-status').filter({hasText:'Page 2'}).waitFor();
  assert.equal(await page.locator('#discover-source').inputValue(),'swasthi');assert.equal(await page.locator('#discover-course').inputValue(),'breakfast');
- await page.locator('.recipe-card .recipe-title').first().click();await page.locator('[role=dialog]').waitFor();const returning=await page.locator('#dialog-title').innerText();await page.goBack();await page.locator('[role=dialog]').waitFor({state:'hidden'});
- await page.waitForFunction(title=>document.activeElement?.textContent===title,returning);assert.ok(page.url().includes('page=2'));
+ await page.locator('.recipe-card .recipe-title').first().click();await page.locator('[role=dialog]').waitFor();const returning=await page.locator('#dialog-title').innerText(),returnScroll=await page.evaluate(()=>scrollY);await page.goBack();await page.locator('[role=dialog]').waitFor({state:'hidden'});
+ await page.waitForFunction(title=>document.activeElement?.textContent===title,returning);assert.ok(page.url().includes('page=2'));assert.ok(Math.abs(await page.evaluate(()=>scrollY)-returnScroll)<2);
  // Mobile disclosure, readable credits, stable failed image and zoomed layout.
  await page.locator('#discovery-filter-panel').evaluate(n=>n.open=true);await page.locator('#discover-course').focus();assert.equal(await page.locator('#discover-course').evaluate(n=>n===document.activeElement),true);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
@@ -51,8 +51,12 @@ try{
  await page.route('**/data/selected-recipes.json',r=>r.abort());await page.goto(base+'?q='+encodeURIComponent(breakfast.title));await page.locator('[data-recipe-id="'+id+'"]').waitFor();assert.ok((await page.locator('.service-warning').innerText()).includes('catalogue is unavailable'));await page.unroute('**/data/selected-recipes.json');await page.locator('.service-warning [data-action=retry]').click();await page.locator('.service-warning').waitFor({state:'hidden'});
  // Offline filters and ingredient search retain the same saved metadata meaning.
  await page.goto(base+'?view=library');await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller)&&document.querySelector('#offline-status')?.textContent==='Ready offline');
- await context.setOffline(true);await page.goto(base+'?scope=saved&source=swasthi&course=breakfast&rated=1&sort=rating&page=2');await page.locator('#discovery-page-status').filter({hasText:'of 51'}).waitFor();assert.equal(await page.locator('.recipe-card').count(),24);
- await page.goto(base+'?scope=saved&q=beaten%20rice');await page.locator('[data-recipe-id="'+id+'"]').waitFor();await context.setOffline(false);
+ await page.goto(base+'?scope=saved&source=swasthi&course=breakfast&rated=1&sort=rating&page=2');await page.locator('#discovery-page-status').filter({hasText:'of 51'}).waitFor();
+ // Exercise offline UI changes directly; continuity-browser separately proves
+ // shell reload against a real connection refusal (Firefox automation's global
+ // offline navigation can reject before the service worker handles it).
+ await context.setOffline(true);await page.locator('.service-warning').filter({hasText:'You are offline'}).waitFor();await page.locator('#discovery-page-status').filter({hasText:'of 51'}).waitFor();assert.equal(await page.locator('.recipe-card').count(),24);
+ await page.locator('#recipe-search').fill('beaten rice');await page.locator('#recipe-search').press('Enter');await page.locator('[data-recipe-id="'+id+'"]').waitFor();await context.setOffline(false);
  // A delayed provider directory must preserve a typed catalogue-only cuisine.
  const late=await context.newPage();late.on('pageerror',e=>errors.push(e.message));let releaseAreas;
  await late.route('**/list.php?a=list',async route=>{await new Promise(r=>releaseAreas=r);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:[{strArea:'Indian'}]})});});

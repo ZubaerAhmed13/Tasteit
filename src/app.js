@@ -1102,6 +1102,7 @@ function restoreResultFocus() {
   if(pending.href&&pending.href!==window.location.href)return;
   if(document.activeElement?.matches?.('input,textarea,select'))return;
   if(/^[A-Za-z0-9_-]{1,219}$/.test(pending.id))document.querySelector('.'+pending.kind+'[data-action="open"][data-id="'+pending.id+'"]')?.focus({preventScroll:true});
+  window.scrollTo({top:window.history.state?.scrollY||0,behavior:'instant'});
 }
 function render({preserveDialog=false}={}) {
   const filterPanel=document.getElementById('discovery-filter-panel');if(filterPanel)filtersOpen=filterPanel.open;

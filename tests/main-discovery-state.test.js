@@ -51,3 +51,8 @@ test('removing the course filter keeps the remaining committed search choices',a
  const p=await controller();await p.run("discover('filters',{query:'poha',source:'swasthi',course:'breakfast',ratedOnly:true,sort:'rating'},{history:false})");const button={dataset:{action:'remove-course'},closest:s=>s==='[data-action]'?button:null};await p.event('click',{target:button});await new Promise(r=>setImmediate(r));
  assert.equal(p.run('currentRoute().course'),'');assert.equal(p.run('currentRoute().query'),'poha');assert.equal(p.run('currentRoute().source'),'swasthi');assert.equal(p.run('currentRoute().ratedOnly'),true);assert.equal(p.run('currentRoute().sort'),'rating');
 });
+test('result scroll is restored after loading has rebuilt the overlay return page',async()=>{
+ const p=await controller();await p.run("discover('filters',{query:'poha',course:'breakfast'})");
+ p.run("closeDialog=originalCloseDialog;selectedMeal=activeMeals[0];dialogReturnId=selectedMeal.idMeal;dialogReturnFocus={isConnected:false};window.history.replaceState({...window.history.state,scrollY:480},'',window.location.href);window.scrollY=0;window.scrollTo=({top})=>{window.scrollY=top;};render=()=>{window.scrollY=0;};");
+ await p.run('restoreRoute(readRoute(window.location.href))');await new Promise(r=>setImmediate(r));assert.equal(p.run('window.scrollY'),480);
+});
