@@ -80,7 +80,7 @@ h3 { font-size: 24px }
 .card-bottom { display:flex; align-items:center; justify-content:space-between; border-top:1px solid #f0f0eb; padding-top:11px; gap:8px }
 .source-line { font-size:10px; color:#626f65; letter-spacing:.03em }
 .quick-save { border:1px solid #e1e6dd; background:#fff; border-radius:9px; min-height:31px; padding:6px 10px; font-size:12px; font-weight:700; color:var(--forest) }
-.quick-save.saved { border-color:#eed0c3; color:#b7553b; background:#fff2ed }
+.quick-save.saved { border-color:#eed0c3; color:#a34932; background:#fff2ed }
 .feature-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; margin:27px 0 }
 .feature-card { border-radius:17px; padding:19px 20px; background:white; border:1px solid var(--line); text-align:left; display:flex; gap:14px; align-items:center; color:var(--ink) }
 .feature-card:hover { background:#eef3ed }
@@ -311,7 +311,7 @@ h3 { font-size: 24px }
 .due-list {display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
 .due-item {display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid #eee4d4;font-size:12px;align-items:center}
 .due-item strong {font-weight:750;color:var(--forest)}
-.due-item span {text-align:right;color:#a36b3f}
+.due-item span {text-align:right;color:#925e36}
 @media (max-width:760px) {.due-item {flex-wrap:wrap}}
 
 /* Serving references and per-day portion editing */

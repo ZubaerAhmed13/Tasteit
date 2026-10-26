@@ -37,3 +37,11 @@ test('unavailable curation fallback preserves the preceding committed history en
  assert.ok(p.location.href.includes('query=egg'));assert.ok(!p.location.href.includes('collection='));
  await p.back();assert.equal(p.fields.query,'');assert.ok(!p.location.href.includes('query='));
 });
+test('submitted queries use the same validated identity as reload and Back',async()=>{
+ const p=await page(),title='q'.repeat(200),record={...catalogue.recipes[0],title};
+ p.run('recipes='+JSON.stringify([record])+';catalogueReady=true;');p.fields.query=title+'x';p.fields.ratedOnly=false;
+ await p.event('selected-filters:submit',{preventDefault(){}});
+ assert.equal(new URL(p.location.href).searchParams.get('query'),title);
+ assert.match(p.node('selected-status').textContent,/1 of 1/);
+ const before=p.node('selected-status').textContent;p.run('applyRoute()');assert.equal(p.node('selected-status').textContent,before);
+});

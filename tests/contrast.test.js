@@ -14,3 +14,6 @@ test('normal text in branded recipe and collection components meets 4.5:1 contra
  check('rating count',property(selected,'.source-rating span','color'),'#ffffff');
  check('lead on hero',property(css,'.lead','color'),'#e6eee5');
 });
+
+test('saved quick action normal text has 4.5:1 contrast',()=>check('saved quick action',property(css,'.quick-save.saved','color'),property(css,'.quick-save.saved','background')));
+test('upcoming due date normal text has 4.5:1 contrast',()=>check('upcoming due date',property(css,'.due-item span','color'),property(css,'.due-item','background')));

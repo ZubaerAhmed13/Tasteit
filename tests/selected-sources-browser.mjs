@@ -136,6 +136,18 @@ try{
  await loading.locator('[data-return-recipe]').first().click();await loading.locator('[role=dialog]').waitFor();
  await loading.goBack();await loading.waitForFunction(id=>document.activeElement?.dataset.returnRecipe===id,returnId);
  assert.ok(loading.url().includes('page=3'));
+ // Submitted searches and reload share the same validated query identity.
+ await loading.locator('#selected-query').fill('q'.repeat(201));await loading.locator('#selected-filters button[type=submit]').click();
+ assert.equal(new URL(loading.url()).searchParams.get('query').length,200);assert.equal((await loading.locator('#selected-query').inputValue()).length,200);
+ const longQueryStatus=await loading.locator('#selected-status').innerText();await loading.reload();await loading.locator('#selected-reset').waitFor();assert.equal(await loading.locator('#selected-status').innerText(),longQueryStatus);
+ // Accessor denial itself must show recovery guidance rather than a blank app.
+ const denied=await browser.newPage();denied.on('pageerror',e=>errors.push(e.message));
+ await denied.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());
+ await denied.addInitScript(()=>Object.defineProperty(window,'localStorage',{configurable:true,get(){throw new DOMException('Storage denied','SecurityError');}}));
+ await denied.goto(base+'?view=library');await denied.locator('#recovery-title').filter({hasText:'Browser storage is unavailable'}).waitFor();
+ await denied.locator('[data-action=recovery-retry]').click();assert.equal(await denied.locator('#backup-file').count(),0);
+ await denied.goto(base+'selected-recipes.html');await denied.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));
+ assert.ok((await denied.locator('#selected-save-status').innerText()).includes('Open recovery options'));
  // Requested curated results stay empty until curation resolves, then show exactly 100.
  const pending=await browser.newPage();let releaseWorld;
  await pending.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());

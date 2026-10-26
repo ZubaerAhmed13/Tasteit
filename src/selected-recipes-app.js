@@ -24,7 +24,7 @@ function recipeCard(r) {
   '<p class="panel-note source-check-date">Rating checked '+esc(new Date(r.checkedAt).toLocaleDateString('en-GB'))+'. Publisher labels and linked photo; cuisine authenticity is not independently certified.</p>'+
   '<details class="selected-ingredients"><summary>'+r.ingredients.length+' ingredients · see photographs</summary><ul>'+r.ingredients.map(line=>'<li>'+reference(line)+'<span class="source-ingredient-text">'+esc(line)+'</span></li>').join('')+'</ul></details></div></article>';
 }
-function readFilters(){const data=new FormData(form);return {query:data.get('query'),source:data.get('source'),course:data.get('course'),sort:data.get('sort'),ratedOnly:data.has('ratedOnly'),collection:data.get('collection')};}
+function readFilters(){const data=new FormData(form);return readSelectedRoute(selectedRouteUrl(location.href,{query:data.get('query'),source:data.get('source'),course:data.get('course'),sort:data.get('sort'),ratedOnly:data.has('ratedOnly'),collection:data.get('collection')}));}
 function writeFields(route){
  for(const key of ['query','source','course','sort','collection'])document.getElementById('selected-'+key).value=route[key]||'';
  document.getElementById('selected-rated').checked=route.ratedOnly;
@@ -106,7 +106,7 @@ function applyRoute(){
 form.addEventListener('input',()=>{formTouched=true;});
 form.addEventListener('submit',event=>{
  event.preventDefault();if(!catalogueReady)return;
- appliedFilters=readFilters();pageNumber=1;formTouched=false;restorePending=false;
+ appliedFilters=readFilters();writeFields(appliedFilters);pageNumber=1;formTouched=false;restorePending=false;
  document.getElementById('selected-collection-note').textContent='';resolveCuration();commitRoute(true);render();commitRoute();
 });
 results.addEventListener('click',event=>{

@@ -47,9 +47,10 @@ export function readStoreStrict(storage=globalThis.localStorage) {
   return {...emptyStore(),...parseBackup(exportBackup(parsed,new Date(0)))};
 }
 
-export function localStoreStatus(storage=globalThis.localStorage) {
+export function localStoreStatus(storage) {
   let raw;
   try {
+    storage=storage===undefined?globalThis.localStorage:storage;
     if(!storage || typeof storage.getItem!=='function')throw new Error('Storage unavailable');
     raw=storage.getItem(STORAGE_KEY);
   } catch {return {status:'unavailable',raw:null,lastGood:null};}
