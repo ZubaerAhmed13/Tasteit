@@ -31,11 +31,11 @@ tests/storage-recovery.test.js and browser acceptance.
 `restoreLocalStore(next, expectedRaw, storage?)` preserves reviewed damaged bytes
 before replacing. Ordinary `persistStore` refuses damaged existing data.
 
-- [ ] Observe failures for ordinary overwrite of damaged records, last-good
+- [x] Observe failures for ordinary overwrite of damaged records, last-good
   preservation, explicit/stale/failed recovery and denied/quota storage.
-- [ ] Implement validated write guard/checkpoint/recovery and main recovery UI,
+- [x] Implement validated write guard/checkpoint/recovery and main recovery UI,
   raw/preserved download, existing backup import integration and cross-tab refresh.
-- [ ] Run focused/full tests; commit.
+- [x] Run focused/full tests; commit.
 
 ### Task 2: Loading, offline discovery and route continuity
 
@@ -46,11 +46,11 @@ tests/selected-page-state.test.js, tests/offline.test.js.
 **Interfaces:** bounded JSON request with body deadline; pure selected-route
 read/write helpers; existing actual page owns committed state and rendering.
 
-- [ ] Observe RED for pending optional data, request/body deadline, collected
+- [x] Observe RED for pending optional data, request/body deadline, collected
   offline metadata, full route round-trip and actual page reload/Back/draft handling.
-- [ ] Render catalogue first, update optional cells/curation independently with
+- [x] Render catalogue first, update optional cells/curation independently with
   retries; restore validated route/history/page/focus without losing drafts.
-- [ ] Add offline eligibility, complete shell imports; run full tests/build; commit.
+- [x] Add offline eligibility, complete shell imports; run full tests/build; commit.
 
 ### Task 3: Contrast, final acceptance and private release
 
@@ -59,10 +59,10 @@ native Site Worker package.
 **Interfaces:** existing branded components; exact tested source -> native archive
 -> owner-private deployment with checked live asset/provenance parity.
 
-- [ ] Observe failing real CSS colour-pair checks; correct normal text/backgrounds.
-- [ ] Extend real browser acceptance for recovery/raw preservation/import, stalled
+- [x] Observe failing real CSS colour-pair checks; correct normal text/backgrounds.
+- [x] Extend real browser acceptance for recovery/raw preservation/import, stalled
   optional loads, offline collected discovery and route/Back/reload/draft continuity.
-- [ ] Run full tests/build; fresh final review, one Important/Critical fix pass;
+- [x] Run full tests/build; fresh final review, one Important/Critical fix pass;
   inspect detailed Node/all three-engine logs and source equivalence.
-- [ ] Package exact tested source with unchanged Site bindings/migration files,
+- [x] Package exact tested source with unchanged Site bindings/migration files,
   publish private and verify live assets/provenance/audience; update docs/PR unmerged.

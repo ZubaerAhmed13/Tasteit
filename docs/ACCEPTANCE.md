@@ -400,3 +400,39 @@ public-release rights limits remain unchanged.
 3. Better stock consumption, portion-aware future expiry forecasting, richer quantity conversions, quicker food capture and regional recipe source verification.
 4. Multi-source discovery with regional provenance and authorised photos.
 5. Authenticated hosted sync walkthrough, physical-device offline/reconnect testing and accessibility checks.
+
+## Trust and continuity release — 26 October 2026
+
+- [x] Damaged local records block ordinary writes and show recovery guidance. Raw
+  downloads, last-good restore and existing v1 backup imports preserve the exact
+  unreadable copy first. Denied storage accessors and failed/quota writes have
+  focused regressions and actual browser acceptance. Recovery checkpoints are
+  best effort after successful primary saves and may be older when storage is full.
+- [x] Catalogue loading is independent of optional photo/curation metadata. Fetch
+  and body parsing have 12-second deadlines and local retry controls. Late photos
+  preserve drafts/focus; world-favourites waits for membership metadata.
+- [x] Saved publisher metadata is discoverable offline without copying cooking
+  methods. Full committed selected-route state survives reload/Back/saves, and
+  returning from an internal recipe restores result focus.
+- [x] Secondary/source/accent/ingredient-gap/saved-action/due-date CSS pairs meet
+  4.5:1. Full accessibility conformance and physical-device acceptance remain open.
+- [x] No recipe, ingredient-registry, dependency, backup-format, database or account
+  boundary change. Catalogue remains 1,108 recipes, 1,100 rated; 146 breakfasts,
+  143 rated. Ingredient coverage remains 8,136/14,737 rows from 172 references.
+- [x] Full local and CI verification: 246 Node tests, syntax/Worker build and all
+  20 browser-suite executions (six Chromium, six WebKit, eight Firefox). Detailed
+  logs inspected. Fresh final review issues fixed with RED→GREEN regressions in
+  one pass; no unresolved/deferred findings.
+- [x] Owner-private version 11 publishes application source
+  `42e5c301788627c64c19319d4a0590f4558a1a1c` through native Site source
+  `cc247190ea4955459596291c8a8074af0c7eeef9`. All 50 source assets plus provenance
+  match the prepared Worker; archive preserves Site ID, DB/r2 and three migration
+  files. Audience remains one owner, zero groups and zero external visitors.
+
+[Release notes and rulings](releases/2026-10-26-trust-continuity.md) ·
+[Final CI run 40353743082](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40353743082).
+CI merge `b8b33de3eef5fd664d8aa1febaecefbc5898403e` equals the candidate's tree
+`aecdd12fabe0969a782770fe9734b3a44d9e8e6b`. PR1 remains draft and unmerged.
+
+All 21 checked live release paths and application provenance match the tested
+Release 1 source. No owner-signed-in hosted or physical-device walkthrough is claimed.
