@@ -338,6 +338,28 @@ records remain unchanged. Both research streams stopped at a sufficient checkpoi
 872 records were selected from 1,039 eligible-source candidates after holding ten
 standalone sauce/stock/condiment records and balancing four publishers and courses.
 
+## Breakfast expansion — 26 October 2026
+
+- [x] Added exactly 100 distinct new approved-source breakfasts: 35 RecipeTin Eats, 30 BBC Good Food and 35 Swasthi recipes, selected from 127 eligible candidates. Every addition has an explicit source Breakfast/Brunch category, a published score of at least 4/5, at least 15 votes/reviews, an original publisher dish photograph and usable original ingredient metadata. Source communities differ; this is an editorial selection, not an official worldwide ranking.
+- [x] Total 1,108 recipes, 1,100 rated; 146 breakfasts, of which 143 are rated. Three earlier unrated breakfasts remain unchanged and available by clearing the published-rating filter. All 1,008 previous records and original world-favourites IDs remain unchanged, with no canonical URL duplicates.
+- [x] All 100 selected original HTML hashes and exact fresh extractions verified. The committed evidence manifest records original URLs, dates, hashes, discovery pages, selection policy and preserved-record hash. No methods or review text copied. Fresh robots/access checks respected; research stopped at a sufficient checkpoint.
+- [x] Existing 172 ingredient references now match 8,136 of 14,737 rows; 6,601 remain explicit gaps. No new ingredient photographs or matching rules were invented. The existing credited renderer, failure fallbacks, kitchen saves and home shelves are reused.
+- [x] New data-integrity acceptance observed RED against the 1,008-record baseline and GREEN after expansion. All 230 Node tests, syntax checks and Worker build pass locally. No runtime dependency, application-JavaScript, persistence or database migration change.
+- [x] Independent final review found zero Critical, Important or Minor issues. Its audit reproduced all 100 original HTML hashes and exact extractions against the current strict parser, preserved all 1,008 git-base records, and found no category/rating/canonical-URL or same-publisher title/photo/ingredient duplicates. Three ordinary sampled publisher dish-image requests returned image/jpeg successfully; this does not guarantee every external image remains available.
+- [x] Detailed final three-engine browser logs inspected: six suites in Chromium and WebKit; eight Firefox executions including three independent continuity runs. All 20 PASS results include full Breakfast pagination and visibility of every new recipe ID. The CI merge commit and candidate have identical source trees.
+- [x] Exact-source native package published as private preview version 10. All 48 source assets and source provenance match the prepared Worker. The archive preserves Site identity, DB/r2 bindings and all three migration files. All 19 checked live release paths and provenance match the tested source. Audience remains one owner, zero groups and zero external visitors; PR1 stays draft and unmerged.
+
+Verified application source: `72de55d4969a7fec56df275acd8c8fbd2a24d6ca`.
+[Final CI run 40302717364](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40302717364)
+passes all 230 Node tests and all 20 browser-suite executions. CI merge
+`65c378785ceea86564ecdd26d74989d6dd07edab` and the application candidate have
+identical tree `df299e8a4135a70f3531e2e6ad9cb683d7b8d964`.
+Native Site source: `efec7180846e00922af83cfce96783f474826f9f`.
+[Open the collection](https://tasteit-kitchen-preview.bhuyainria.chatgpt.site/selected-recipes.html)
+and select Meal type → Breakfast. Existing source-photo availability,
+physical-device/accessibility, owner-signed-in hosted walkthrough and
+public-release rights limits remain unchanged.
+
 ## Collection audit — 23 October 2026
 
 - 195 countries and 14 provider categories listed

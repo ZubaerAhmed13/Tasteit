@@ -154,9 +154,9 @@ vote counts and original publisher photographs. They are an editorial selection
 across regions and dish types; they are not an official worldwide ranking.
 The Collection selector composes with source, search and rating filters, and
 the original 36 records remain available.
-Private preview **version 9** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40228614990) passes all 229 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. All 19 checked live release paths and source provenance match the tested package. The audience remains owner-private.
-The expanded checked batch contains **1,008 recipes from 12 sites; 1,000 have a published
-recipe rating**. The original 136 recipes and their IDs remain unchanged. Linked Maangchi scores retain their original vote counts; the full ingredient
+Private preview **version 10** is published. [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40302717364) passes all 230 Node tests and six suites in Chromium, Firefox and WebKit, with three Firefox continuity executions. All 19 checked live release paths and source provenance match the tested package. The audience remains owner-private.
+The expanded checked batch contains **1,108 recipes from 12 sites; 1,100 have a published
+recipe rating**. All 1,008 earlier recipes and their IDs remain unchanged. There are now 146 breakfast/brunch recipes, including 143 with ratings. The 100 new breakfasts have source scores of at least 4/5 and at least 15 published votes/reviews. Linked Maangchi scores retain their original vote counts; the full ingredient
 sections are checked because some embedded ingredient lists are incomplete. Allrecipes,
 Serious Eats, NYT Cooking and SuperCook still have collection gaps; dish/app ratings
 are not recipe votes.
@@ -166,8 +166,8 @@ are copied. Earlier cookbook records and research are retained separately.
 
 The ingredient checklist includes **172 visually reviewed real reference photographs**
 from Wikimedia Commons, with file, creator, licence and required source-credit links. These photo sources
-are separate from the recipe-source restriction. **7,585 of 13,647 ingredient rows**
-have matching references; **6,062 remain unresolved**. Unknown ingredients, mixed
+are separate from the recipe-source restriction. **8,136 of 14,737 ingredient rows**
+have matching references; **6,601 remain unresolved**. Unknown ingredients, mixed
 alternatives and missing preparations display a clear photo gap. Images are
 identification references, not pictures of the exact products used by an author.
 The collection needs a connection; existing saved-kitchen offline support remains.
