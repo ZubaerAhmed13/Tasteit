@@ -150,6 +150,7 @@ try {
   await page.locator('#search-form button').click();
   await started;
   await page.locator('#recipe-search').fill('Next unsent query');
+  if(!await page.locator('#discovery-filter-panel').evaluate(n=>n.open))await page.locator('#discovery-filter-panel>summary').click();
   await page.locator('#discover-category').selectOption('Dessert');
   releaseSearch();
   await page.locator('.recipe-title').getByText('Tomato Rice').waitFor();

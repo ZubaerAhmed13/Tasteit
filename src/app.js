@@ -22,7 +22,7 @@ import { collectedMeal,collectedRecipe } from './selected-kitchen.js';
 import {recipeRatingMarkup} from './recipe-presentation.js';
 import {planRecipe} from './recipe-planning.js';
 import {discoveryOptions} from './discovery-options.js';
-import {createRecipeCollectionLoader,searchRecipeCollection} from './recipe-discovery.js';
+import {createRecipeCollectionLoader,searchRecipeCollection,recipeCuisineOptions} from './recipe-discovery.js';
 import { validateRecipe,SOURCES,RECIPE_COURSES,recipePage } from './selected-sources.js';
 import { ingredientReference } from './ingredient-reference.js';
 
@@ -35,6 +35,7 @@ let ingredientPhotos=[];
 let cloudSync=null,syncState={status:'off',enabled:false},offlineState={status:'preparing'},applyingCloud=false,applyingUpdate=false;
 
 let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
+let providerCuisines=cuisines.filter(x=>x!=='All');
 let categories = ['All', 'Chicken', 'Seafood', 'Vegetarian', 'Pasta', 'Dessert', 'Vegan'];
 let view = 'discover';
 let activeMeals = [];
@@ -115,7 +116,8 @@ let requestNumber = 0;
 let controller = null;
 let toastTimer = null;
 let dialogReturnFocus = null;
-let dialogReturnId='';
+let dialogReturnId='',dialogReturnKind='recipe-photo',dialogReturnHref='';
+let pendingResultFocus=null;
 let cookingTimerTicker = null;
 let timerCompletionNotified = null;
 
@@ -172,7 +174,7 @@ function writeRoute({replace=false,recipeOverlay=false}={}) {
   const url=routeUrl(currentRoute(),window.location.href);
   if(!replace && url.href===window.location.href)return;
   if(!replace)window.history.replaceState({...window.history.state,scrollY:window.scrollY},'',window.location.href);
-  window.history[replace?'replaceState':'pushState']({tasteit:true,recipeOverlay,scrollY:window.scrollY},'',url.href);
+  window.history[replace?'replaceState':'pushState']({tasteit:true,recipeOverlay,scrollY:window.scrollY,returnRecipe:dialogReturnId,returnKind:dialogReturnKind,returnHref:dialogReturnHref},'',url.href);
 }
 function stopDiscovery() {
   requestNumber++; controller?.abort(); loading=false;
@@ -181,6 +183,7 @@ function changeView(next) {
   stopDiscovery();
   closeDialog({history:false});
   filterDraft=null;queryDraft=null;purchaseDraft=null;
+  pendingResultFocus=null;
   view=next;
   if(next==='discover'){searchTerm='';area='All';category='All';browseLetter='';discoveryChoice=discoveryOptions({scope:discoveryChoice.scope==='provider'?'provider':'collection'});discoveryMode='browse';}
   writeRoute();
@@ -201,7 +204,7 @@ async function restoreRoute(route) {
   discoveryMode=route.kitchen?'pantry':'browse';
   if(view==='discover')void discover('restore','',{history:false});
   else {
-    render();
+    render();restoreResultFocus();
     if(view==='world' && !worldAreas.length && !worldLoadingOptions)void loadWorldOptions();
   }
   if(route.recipe)void openMeal(route.recipe,{history:false});
@@ -419,7 +422,8 @@ async function discover(mode='featured', value='', {history=true}={}) {
   try {
     let meals,warning='';
     if(globalThis.navigator?.onLine===false) {
-      meals=offlineRecipes(store.saved,discoveryMode==='pantry'?{}:normaliseFilters(currentRoute()));
+      const available=offlineRecipes(store.saved,{});
+      meals=discoveryMode==='pantry'?available:discoveryChoice.scope==='provider'?offlineRecipes(store.saved,normaliseFilters(currentRoute())):searchRecipeCollection([],Object.fromEntries(available.map(m=>[m.idMeal,{...store.saved[m.idMeal],meal:m}])),currentRoute());
       if(discoveryMode==='pantry')meals=rankByKitchen(meals,store.pantry);
       warning='You are offline. Showing recipe details saved in this browser. Photos and new source recipes need a connection.';
     } else if(discoveryMode==='pantry') {
@@ -447,7 +451,7 @@ async function discover(mode='featured', value='', {history=true}={}) {
       if(thisRequest!==requestNumber||signal.aborted)return;
       collectionRecords=available;
       meals=searchRecipeCollection(available,store.saved,currentRoute());
-      const extraAreas=available.map(r=>r.cuisine).filter(Boolean);cuisines=[...new Set([...cuisines,...extraAreas])].sort();
+      cuisines=recipeCuisineOptions(providerCuisines,collectionRecords,store.saved);
     } else {
       const report=await discoverMeals(normaliseFilters(currentRoute()),signal);
       meals=report.meals;
@@ -461,7 +465,7 @@ async function discover(mode='featured', value='', {history=true}={}) {
     activeMeals=[];
     problem='The recipe service could not be reached. Check your connection and try again. Your saved recipes are still in My recipes.';
   } finally {
-    if(thisRequest===requestNumber) {loading=false;render({preserveDialog:true});}
+    if(thisRequest===requestNumber) {loading=false;render({preserveDialog:true});restoreResultFocus();}
   }
 }
 
@@ -559,7 +563,7 @@ function discoverPage() {
     '<div class="field"><label for="discover-sort">Sort by</label><select id="discover-sort" name="sort">'+[['title','Name A–Z'],['rating','Publisher rating'],['votes','Votes / reviews']].map(([v,l])=>option(v,l,draft.sort===v)).join('')+'</select></div><label class="discovery-rated"><input type="checkbox" id="discover-rated" name="ratedOnly"'+(draft.ratedOnly?' checked':'')+'> With a publisher rating</label>')+
     '<button type="submit" class="btn">Apply filters</button></form><p class="panel-note">'+(provider?'Additional community recipes from TheMealDB.':'Collected publisher recipes and your cookbook. Publisher scores come from different communities; they are not a Tasteit ranking.')+'</p></details>'+
     '<div class="discovery-filter-footer"><div class="active-filters" aria-label="Current filters">'+applied.map(f=>'<button class="chip" type="button" data-action="remove-filter" data-filter="'+f.key+'" aria-label="Remove '+escapeHtml(f.label)+'">'+escapeHtml(f.label)+' ×</button>').join('')+
-    (discoveryChoice.course?'<button type="button" class="chip" data-action="meal-shortcut" data-course="">'+escapeHtml(RECIPE_COURSES.find(c=>c.id===discoveryChoice.course)?.label)+' ×</button>':'')+'</div>'+
+    (discoveryChoice.course?'<button type="button" class="chip" data-action="remove-course">'+escapeHtml(RECIPE_COURSES.find(c=>c.id===discoveryChoice.course)?.label)+' ×</button>':'')+'</div>'+
     (applied.length||discoveryChoice.course||discoveryChoice.source||discoveryChoice.ratedOnly?'<button type="button" class="btn ghost small" data-action="featured">Clear filters</button>':'')+'<button type="button" class="btn secondary small" data-action="surprise">✦ Surprise me</button></div>';
   const kitchenChoices = discoveryMode === 'pantry' ? kitchenIngredientChoices(store.pantry) : [];
   const choicesShown = kitchenShowAll ? kitchenChoices : kitchenChoices.slice(0,24);
@@ -1092,7 +1096,16 @@ function downloadRecoveryCopy(raw) {
   link.href=url;link.download='tasteit-recovery-'+new Date().toISOString().slice(0,10)+'.txt';
   document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
 }
+function restoreResultFocus() {
+  if(!pendingResultFocus||loading||selectedMeal||openingMealId)return;
+  const pending=pendingResultFocus;pendingResultFocus=null;
+  if(pending.href&&pending.href!==window.location.href)return;
+  if(document.activeElement?.matches?.('input,textarea,select'))return;
+  if(/^[A-Za-z0-9_-]{1,219}$/.test(pending.id))document.querySelector('.'+pending.kind+'[data-action="open"][data-id="'+pending.id+'"]')?.focus({preventScroll:true});
+}
 function render({preserveDialog=false}={}) {
+  const filterPanel=document.getElementById('discovery-filter-panel');if(filterPanel)filtersOpen=filterPanel.open;
+  cuisines=recipeCuisineOptions(providerCuisines,collectionRecords,store.saved);
   const health=localStoreStatus();
   if(!['ready','empty'].includes(health.status)) {
     closeDialog({history:false});updateNav();appRoot.innerHTML=recoveryPage(health);updateConnectionUI();return;
@@ -1115,7 +1128,7 @@ function render({preserveDialog=false}={}) {
     if(typeof restoreInput.start==='number')input?.setSelectionRange(restoreInput.start,restoreInput.end);
   }
   if (selectedMeal&&!preserveDialog) renderDialog();
-  updateConnectionUI();
+  updateConnectionUI();restoreResultFocus();
 }
 
 function instructions(meal) { return recipeSteps(meal); }
@@ -1276,6 +1289,7 @@ function renderDialog() {
 }
 function closeDialog({history=true}={}) {
   const wasOpen=Boolean(selectedMeal || openingMealId);
+  if(wasOpen&&dialogReturnId)pendingResultFocus={id:dialogReturnId,kind:dialogReturnKind,href:dialogReturnHref};
   detailRequestNumber++;
   detailController?.abort();detailController=null;
   clearInterval(cookingTimerTicker);cookingTimerTicker=null;
@@ -1305,7 +1319,8 @@ async function openMeal(id,{history=true,meal:provided}={}) {
   const request=++detailRequestNumber;
   detailController?.abort();
   const currentController=new AbortController();detailController=currentController;
-  if(!dialogReturnFocus){dialogReturnFocus=document.activeElement;dialogReturnId=document.activeElement?.dataset?.id||'';}
+  pendingResultFocus=null;
+  if(!dialogReturnFocus){dialogReturnFocus=document.activeElement;dialogReturnId=document.activeElement?.dataset?.id||window.history.state?.returnRecipe||'';dialogReturnKind=document.activeElement?.matches?.('.recipe-title')?'recipe-title':window.history.state?.returnKind||'recipe-photo';dialogReturnHref=window.history.state?.recipeOverlay?window.history.state.returnHref||'':window.location.href;}
   openingMealId=id;selectedMeal=null;
   if(history)writeRoute({recipeOverlay:true});
   recipeStatus('Loading ingredients and instructions.');
@@ -1366,6 +1381,7 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
   if(action==='discovery-page'){discoveryChoice={...discoveryChoice,page:Number(button.dataset.page)};writeRoute();render();document.getElementById('discovery-page-status')?.focus({preventScroll:true});document.getElementById('discovery-results-title')?.scrollIntoView({block:'start'});return;}
+  if(action==='remove-course'){void discover('filters',{course:''});return;}
   if(action==='meal-shortcut'){void discover('filters',{query:'',area:'',category:'',letter:'',scope:'collection',source:'',course:button.dataset.course,sort:'title',ratedOnly:false});return;}
   if(action==='recovery-retry'){Object.assign(store,loadStore());render();return;}
   if(action==='recovery-download'){downloadRecoveryCopy(recoveryViewRaw);return;}
@@ -1710,6 +1726,7 @@ document.addEventListener('input', event => {
   if(event.target.id==='recipe-search')queryDraft=event.target.value;
   if(['discover-cuisine','discover-category','discover-letter','discover-scope','discover-source','discover-course','discover-sort','discover-rated'].includes(event.target.id)) {
     filterDraft={...(filterDraft || currentRoute()),[event.target.name]:event.target.type==='checkbox'?event.target.checked:event.target.value};
+    if(event.target.id==='discover-scope')render({preserveDialog:true});
   }
   if(event.target.id==='discover-cuisine')event.target.setCustomValidity('');
   if (event.target.id !== 'bulk-input') return;
@@ -2106,7 +2123,7 @@ void restoreRoute(readRoute(window.location.href));
 
 availableAreas().then(areas => {
   if (!areas.length) return;
-  cuisines = ['All', ...areas];
+  providerCuisines=areas;cuisines=recipeCuisineOptions(providerCuisines,collectionRecords,store.saved);
   if (view === 'discover') render({preserveDialog:true});
 }).catch(() => { /* Keep fallback cuisines when the area endpoint is unavailable. */ });
 availableCategories().then(values => {

@@ -26,3 +26,7 @@ test('collection loader shares pending work, validates records and retries failu
  let fail=true;const retry=discovery.createRecipeCollectionLoader(async()=>{if(fail)throw Error('unavailable');return {recipes:[records[1]]};});await assert.rejects(retry.load());fail=false;assert.equal((await retry.load()).length,1);
  const invalid=discovery.createRecipeCollectionLoader(async()=>({recipes:[{id:'bad'}]}));await assert.rejects(invalid.load());
 });
+test('late provider directory merges catalogue-only and saved cuisine options',()=>{
+ const saved={x:{meal:{idMeal:'personal-x',strMeal:'My dish',strArea:'Home region'}}},catalogue=[{...records[0],cuisine:'South Indian'}];
+ const options=discovery.recipeCuisineOptions(['Indian','British'],catalogue,saved);assert.ok(options.includes('South Indian'));assert.ok(options.includes('Home region'));assert.ok(options.includes('Indian'));assert.equal(new Set(options).size,options.length);
+});

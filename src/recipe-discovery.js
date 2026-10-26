@@ -30,3 +30,7 @@ export function createRecipeCollectionLoader(request=collectionJson) {
   return pending;
  }};
 }
+
+export function recipeCuisineOptions(provider=[],records=[],saved={}) {
+ return ['All',...[...new Set([...provider,...records.map(r=>r.cuisine),...Object.values(saved).map(e=>e?.meal?.strArea)].filter(x=>typeof x==='string'&&x.trim()&&x!=='All').map(x=>x.trim()))].sort((a,b)=>a.localeCompare(b))];
+}

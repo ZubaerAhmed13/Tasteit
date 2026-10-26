@@ -8,6 +8,7 @@ try{
  const context=await browser.newContext({viewport:{width:375,height:812}}),page=await context.newPage(),errors=[],providerLookups=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/search.php|lookup.php/.test(r.url()))providerLookups.push(r.url());});
  await context.route(/https:\/\/(?!127\.0\.0\.1)/,r=>r.abort());
+ await page.route(/https:\/\//,r=>r.request().resourceType()==='image'?r.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGP4DwQACfsD/fteaysAAAAASUVORK5CYII=','base64')}):r.abort());
  await page.goto(base);await page.locator('[data-recipe-id]').first().waitFor();
  assert.equal(await page.locator('.site-nav [data-nav]').count(),4);assert.equal(await page.evaluate(()=>Boolean(document.getElementById('search-form').compareDocumentPosition(document.getElementById('home-usual'))&Node.DOCUMENT_POSITION_FOLLOWING)),true);
  assert.equal(await page.locator('#home-usual .recipe-card').count(),0);assert.equal(await page.locator('#home-wanted .recipe-card').count(),0);
@@ -40,12 +41,30 @@ try{
  await page.locator('.recipe-card .recipe-photo').first().click();await page.locator('[role=dialog]').waitFor();
  const reference=page.locator('.ingredient-reference').first();await reference.waitFor();assert.ok(Number.parseFloat(await reference.locator('figcaption').evaluate(n=>getComputedStyle(n).fontSize))>=12);assert.ok(await reference.locator('.ingredient-photo-link').getAttribute('href'));
  const photo=page.locator('.dialog-photo').first();if(await photo.count()){const before=await photo.boundingBox();await photo.dispatchEvent('error');const after=await page.locator('.dialog-photo-unavailable').boundingBox();assert.ok(after.height>=before.height-1);}
- await page.setViewportSize({width:640,height:900});await page.evaluate(()=>document.documentElement.style.fontSize='200%');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
- await page.keyboard.press('Escape');await page.evaluate(()=>document.documentElement.style.fontSize='');
+ // 320 CSS px is the reflow width of a 1280px viewport at 400% magnification.
+ await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.ok((await page.locator('#recipe-plan-form button').boundingBox()).height>=44);assert.ok(Number.parseFloat(await reference.locator('figcaption').evaluate(n=>getComputedStyle(n).fontSize))>=12);
+ await page.keyboard.press('Escape');await page.setViewportSize({width:640,height:900});
  // Large cookbook stays paginated; overlapping catalogue IDs do not duplicate results.
  const large=emptyStore();for(const record of catalogue.recipes){const m=collectedMeal(record);large.saved[m.idMeal]={meal:m,wanted:true};}
  await page.evaluate(store=>localStorage.setItem('tasteit.local.v1',JSON.stringify(store)),large);await page.goto(base+'?scope=saved&course=breakfast');await page.locator('#discovery-page-status').waitFor();assert.equal(await page.locator('.recipe-card').count(),24);assert.equal(new Set(await page.locator('.recipe-card').evaluateAll(cs=>cs.map(c=>c.dataset.recipeId))).size,24);
  // Failed collection keeps a saved breakfast and a visible retry, then recovers.
  await page.route('**/data/selected-recipes.json',r=>r.abort());await page.goto(base+'?q='+encodeURIComponent(breakfast.title));await page.locator('[data-recipe-id="'+id+'"]').waitFor();assert.ok((await page.locator('.service-warning').innerText()).includes('catalogue is unavailable'));await page.unroute('**/data/selected-recipes.json');await page.locator('.service-warning [data-action=retry]').click();await page.locator('.service-warning').waitFor({state:'hidden'});
- assert.deepEqual(providerLookups,[]);assert.deepEqual(errors,[]);console.log('PASS coherent interface: collected breakfast search/save/home/open/plan, route paging/Back, keyboard/mobile/zoom, large cookbook and failure recovery');
+ // Offline filters and ingredient search retain the same saved metadata meaning.
+ await page.goto(base+'?view=library');await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller)&&document.querySelector('#offline-status')?.textContent==='Ready offline');
+ await context.setOffline(true);await page.goto(base+'?scope=saved&source=swasthi&course=breakfast&rated=1&sort=rating&page=2');await page.locator('#discovery-page-status').filter({hasText:'of 51'}).waitFor();assert.equal(await page.locator('.recipe-card').count(),24);
+ await page.goto(base+'?scope=saved&q=beaten%20rice');await page.locator('[data-recipe-id="'+id+'"]').waitFor();await context.setOffline(false);
+ // A delayed provider directory must preserve a typed catalogue-only cuisine.
+ const late=await context.newPage();late.on('pageerror',e=>errors.push(e.message));let releaseAreas;
+ await late.route('**/list.php?a=list',async route=>{await new Promise(r=>releaseAreas=r);await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:[{strArea:'Indian'}]})});});
+ await late.goto(base);await late.locator('.recipe-card').first().waitFor();await late.locator('#discovery-filter-panel').evaluate(n=>n.open=true);await late.locator('#discover-cuisine').fill('South Indian');assert.ok(releaseAreas);releaseAreas();
+ await late.waitForFunction(()=>[...document.querySelectorAll('#cuisine-options option')].some(n=>n.value==='South Indian'));assert.equal(await late.locator('#discover-cuisine').inputValue(),'South Indian');await late.locator('#discovery-filters button[type=submit]').click();await late.waitForFunction(()=>new URL(location.href).searchParams.get('cuisine')==='South Indian');await late.locator('.recipe-card').first().waitFor();assert.ok(await late.locator('.recipe-card').count()>0);
+ // Scope switches update available controls, clear unsupported applied filters,
+ // and preserve the unrelated draft query.
+ const scoped=await context.newPage();scoped.on('pageerror',e=>errors.push(e.message));await scoped.route('**/search.php*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:[]})}));
+ await scoped.goto(base+'?source=swasthi&course=breakfast&rated=1&sort=rating&q=poha');await scoped.locator('.recipe-card').first().waitFor();await scoped.locator('#discovery-filter-panel').evaluate(n=>n.open=true);await scoped.locator('#recipe-search').fill('unsent draft');await scoped.locator('#discover-scope').focus();await scoped.locator('#discover-scope').selectOption('provider');
+ await scoped.locator('#discover-category').waitFor();assert.equal(await scoped.locator('#discover-course').count(),0);assert.equal(await scoped.locator('#recipe-search').inputValue(),'unsent draft');assert.equal(await scoped.locator('#discover-scope').evaluate(n=>n===document.activeElement),true);
+ await scoped.locator('#discovery-filters button[type=submit]').click();await scoped.waitForFunction(()=>new URL(location.href).searchParams.get('scope')==='provider');for(const key of ['source','course','rated','sort'])assert.equal(new URL(scoped.url()).searchParams.has(key),false);
+ // Removing only the course keeps query, publisher and rating choices.
+ await scoped.goto(base+'?source=swasthi&course=breakfast&rated=1&sort=rating&q=poha');await scoped.locator('[data-action=remove-course]').click();await scoped.waitForFunction(()=>!new URL(location.href).searchParams.has('course'));for(const [k,v]of [['source','swasthi'],['rated','1'],['sort','rating'],['q','poha']])assert.equal(new URL(scoped.url()).searchParams.get(k),v);
+ assert.deepEqual(providerLookups,[]);assert.deepEqual(errors,[]);console.log('PASS coherent interface: collected breakfast search/save/home/open/plan, route paging/Back, keyboard/mobile/320px reflow, large cookbook and failure recovery');
 }finally{await browser?.close();await new Promise(r=>server.close(r));}
