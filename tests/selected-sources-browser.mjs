@@ -7,6 +7,7 @@ import {createWorker} from '../server/worker.js';
 import {parseBackup} from '../src/model.js';
 const catalogue=JSON.parse(await readFile('data/selected-recipes.json','utf8')),registry=JSON.parse(await readFile('data/ingredient-photos.json','utf8'));
 const collection=JSON.parse(await readFile('data/world-favourites-100.json','utf8'));
+const breakfastBatch=JSON.parse(await readFile('docs/research/2026-10-26-breakfast-100-evidence.json','utf8'));
 assert.ok(catalogue.recipes.filter(r=>r.rating).length>=1000,'at least 1000 original publisher recipe ratings');
 const worker=createWorker(await applicationAssets());
 const server=createServer(async(req,res)=>{try{const response=await worker.fetch(new Request('http://127.0.0.1:'+server.address().port+req.url),{});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));}catch{res.writeHead(500);res.end();}});
@@ -23,6 +24,10 @@ try{
  const firstIds=await page.locator('.selected-card').evaluateAll(cards=>cards.map(c=>c.dataset.recipeId));await page.locator('[data-page=next]').click();assert.equal(await page.locator('.selected-card').count(),24);assert.notDeepEqual(await page.locator('.selected-card').evaluateAll(cards=>cards.map(c=>c.dataset.recipeId)),firstIds);
  await page.locator('#selected-course').selectOption('dessert');await page.locator('#selected-filters button[type=submit]').click();assert.ok((await page.locator('#selected-pagination').innerText()).includes('Page 1 of'));assert.ok(await page.locator('.selected-card').count()>0);
  await page.locator('#selected-course').selectOption('appetiser');await page.locator('#selected-filters button[type=submit]').click();assert.ok(await page.locator('.selected-card').count()>0);
+ await page.locator('#selected-course').selectOption('breakfast');await page.locator('#selected-filters button[type=submit]').click();
+ const breakfastTotal=Number((await page.locator('#selected-status').innerText()).match(/^([0-9]+) of /)?.[1]);assert.ok(breakfastTotal>=143);
+ const breakfastIds=[];for(let n=0;n<50;n++){breakfastIds.push(...await page.locator('.selected-card').evaluateAll(cards=>cards.map(c=>c.dataset.recipeId)));if(await page.locator('[data-page=next]').isDisabled())break;await page.locator('[data-page=next]').click();}
+ assert.equal(breakfastIds.length,breakfastTotal);assert.equal(new Set(breakfastIds).size,breakfastTotal);for(const recipe of breakfastBatch.recipes)assert.ok(breakfastIds.includes(recipe.id),'new breakfast is browsable: '+recipe.id);
  await page.locator('#selected-course').selectOption('');
  assert.equal(await page.locator('#selected-source option').count(),17);
  await page.locator('#selected-source').selectOption('recipetineats');await page.locator('#selected-query').fill('Easy Chicken Curry');await page.locator('#selected-filters button[type=submit]').click();
