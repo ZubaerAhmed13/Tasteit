@@ -5,10 +5,10 @@ async function controller({load=async()=>({recipes:records}),online=true}={}) {
  for(const m of source.matchAll(/^import \{[^\n]+\} from '([^']+)';$/gm))Object.assign(bindings,await import(new URL('../src/'+m[1].slice(2),import.meta.url)));
  const helpers=await import('../src/recipe-discovery.js');bindings.createRecipeCollectionLoader=()=>helpers.createRecipeCollectionLoader(load);bindings.discoverMeals=async()=>{providerCalls++;return {meals:[]};};
  source=source.replace(/^import .*;\n/gm,'').split('// Start application.')[0];
- const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',hidden:false,focus(){},querySelector:()=>null,querySelectorAll:()=>[]});return nodes.get(id);};
+ const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',hidden:false,dataset:{},elements:[],focus(){},querySelector:()=>null,querySelectorAll:()=>[]});return nodes.get(id);};
  const location={href:'https://tasteit.test/'},history={state:{},replaceState(state,_title,url){history.state=state;location.href=String(url);},pushState(state,_title,url){history.state=state;location.href=String(url);}};
  const handlers={};const document={body:{style:{}},getElementById:node,addEventListener(name,fn){(handlers[name]??=[]).push(fn);},querySelectorAll:()=>[],querySelector(selector){const id=/data-id=\"([^\"]+)/.exec(selector)?.[1];return id?{dataset:{id},focus(){document.activeElement=this;}}:null;},activeElement:null};
- const box={...bindings,document,window:{location,history,scrollY:0,addEventListener(){},scrollTo(){}},navigator:{onLine:online},URL,AbortController,DOMException,setTimeout,clearTimeout,setInterval,clearInterval,console};vm.createContext(box);vm.runInContext(source,box);vm.runInContext('const originalCloseDialog=closeDialog;render=()=>{};closeDialog=()=>{};',box);
+ const box={...bindings,document,window:{location,history,scrollY:0,addEventListener(){},scrollTo(){}},navigator:{onLine:online},URL,AbortController,DOMException,setTimeout,clearTimeout,setInterval,clearInterval,console};vm.createContext(box);vm.runInContext(source,box);vm.runInContext('const originalCloseDialog=closeDialog,originalRender=render;render=()=>{};closeDialog=()=>{};',box);
  return {run:code=>vm.runInContext(code,box),providerCalls:()=>providerCalls,location,event:async(name,event)=>{for(const fn of handlers[name]||[])await fn(event);}};
 }
 test('actual main controller searches collected breakfasts without a provider request',async()=>{
@@ -60,4 +60,9 @@ test('recipe return identity follows the clicked title when the browser does not
  const p=await controller();await p.run("discover('filters',{query:'poha',course:'breakfast'},{history:false})");p.run("recipeStatus=()=>{};renderDialog=()=>{};document.activeElement={dataset:{},matches:()=>false};");
  await p.run("openMeal(activeMeals[0].idMeal,{meal:activeMeals[0],history:false,trigger:{dataset:{id:activeMeals[0].idMeal},matches:s=>s==='.recipe-title',isConnected:false}})");
  assert.equal(p.run('dialogReturnId'),p.run('activeMeals[0].idMeal'));assert.equal(p.run('dialogReturnKind'),'recipe-title');
+});
+test('late catalogue option renders preserve the focused recipe title',async()=>{
+ const p=await controller();await p.run("discover('filters',{query:'poha',course:'breakfast'},{history:false})");
+ p.run("localStoreStatus=()=>({status:'ready'});updateConnectionUI=()=>{};updateNav=()=>{};const focusedId=activeMeals[0].idMeal;document.activeElement={id:'',dataset:{id:focusedId},matches:s=>s==='.recipe-title',closest:()=>({dataset:{id:focusedId},matches:s=>s==='.recipe-title'})};appRoot.querySelector=selector=>selector.includes(focusedId)?{focus(){document.activeElement={dataset:{id:focusedId},textContent:'restored'};}}:null;Object.defineProperty(appRoot,'innerHTML',{set(){document.activeElement=null;}});originalRender({preserveDialog:true});");
+ assert.equal(p.run('document.activeElement?.textContent'),'restored');
 });

@@ -1126,6 +1126,9 @@ function render({preserveDialog=false}={}) {
   const purchaseIdentity=purchaseForm?.dataset.reviewId;
   const purchaseFields=captureFields(purchaseForm);
   const active=document.activeElement;
+  const recipeControl=active?.closest?.('.recipe-card [data-action="open"]');
+  const restoreRecipe=recipeControl&&/^[A-Za-z0-9_-]{1,219}$/.test(recipeControl.dataset.id)
+    ? {id:recipeControl.dataset.id,kind:recipeControl.matches('.recipe-title')?'recipe-title':'recipe-photo'}:null;
   const restoreInput=['recipe-search','discover-cuisine','discover-category','discover-letter','discover-scope','discover-source','discover-course','discover-sort','discover-rated','taste-cuisines','taste-avoid','taste-summary','taste-save','taste-show-skipped'].includes(active?.id)
     ? {id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
   updateNav();
@@ -1136,6 +1139,7 @@ function render({preserveDialog=false}={}) {
     input?.focus({preventScroll:true});
     if(typeof restoreInput.start==='number')input?.setSelectionRange(restoreInput.start,restoreInput.end);
   }
+  else if(restoreRecipe)appRoot.querySelector('.'+restoreRecipe.kind+'[data-action="open"][data-id="'+restoreRecipe.id+'"]')?.focus({preventScroll:true});
   if (selectedMeal&&!preserveDialog) renderDialog();
   updateConnectionUI();restoreResultFocus();
 }
