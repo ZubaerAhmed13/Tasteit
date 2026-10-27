@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 import {emptyStore} from '../src/model.js';
+import {createCloudSync,syncFingerprint} from '../src/cloud-sync.js';
 
 // Exercise the actual event owner with only the browser boundary replaced.
 // A failed persist followed by a mutation or a removed plan must fail these tests.
@@ -22,7 +23,7 @@ async function appWithStore(state, persists) {
     FormData:class {constructor(target){this.fields=target.fields||{};}get(key){return this.fields[key]??null;}entries(){return Object.entries(this.fields)[Symbol.iterator]();}[Symbol.iterator](){return this.entries();}},
     notices,meal};
   vm.createContext(sandbox);
-  vm.runInContext(source+'\nconst originalRenderDialog=renderDialog;syncCookingTimer=()=>{};render=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,targetServings:()=>detailTargetServings,previewCooking:target=>{selectedMeal=meal;detailTargetServings=target;stepIndex=0;originalRenderDialog();return overlayRoot.innerHTML;},store,cloudMarkup:cloudControls,paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
+  vm.runInContext(source+'\nconst originalRenderDialog=renderDialog;syncCookingTimer=()=>{};render=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,targetServings:()=>detailTargetServings,previewCooking:target=>{selectedMeal=meal;detailTargetServings=target;stepIndex=0;originalRenderDialog();return overlayRoot.innerHTML;},store,cloudMarkup:cloudControls,paintAccount:(root,state)=>{hostAuthState=state;const previous=document.getElementById;document.getElementById=id=>id==="host-account"?root:null;updateConnectionUI();document.getElementById=previous;},setAccountBoundary:(auth,sync)=>{hostAuth=auth;cloudSync=sync;document.querySelector=()=>null;},paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
   return {...sandbox.audit,notices,meal,click:async(action,id,tag,personal=false,planSlot='')=>{
     const target={dataset:{action,id,tag,planOpen:planSlot},closest:selector=>selector==='[data-action]'?target:selector==='[data-personal-recipe]' && personal?target:null};
     await handlers.click({target});
@@ -188,4 +189,34 @@ test('opening two planned slots carries their independent portion targets and di
  await app.click('open','unit-1',undefined,false,'2026-10-27:breakfast');assert.equal(app.targetServings(),4);
  await app.click('open','unit-1',undefined,false,'2026-10-27');assert.equal(app.targetServings(),3);
  await app.click('open','unit-1');assert.equal(app.targetServings(),2);
+});
+
+test('connection status paints preserve a partially typed account form despite DOM normalization',async()=>{
+ const app=await appWithStore(emptyStore(),true);let html='',writes=0,typed='';
+ const node={get innerHTML(){return html.replaceAll(' required>',' required="">');},set innerHTML(value){html=value;writes++;typed='';}};
+ const state={supported:true,user:null,loading:false,message:''};
+ app.paintAccount(node,state);typed='entered password';app.paintAccount(node,state);
+ assert.equal(typed,'entered password');assert.equal(writes,1);
+});
+test('sign-out cancels cloud application before awaiting the remote account request',async()=>{
+ const state=emptyStore(),app=await appWithStore(state,true);let finish,disconnected=false;
+ app.setAccountBoundary({submit:()=>new Promise(r=>finish=r)},{disconnect:()=>{disconnected=true;}});
+ const pending=app.click('account-sign-out');const stoppedBeforeResponse=disconnected;finish({succeeded:true});await pending;
+ assert.equal(stoppedBeforeResponse,true,'an in-flight download must be cancelled immediately');assert.deepEqual(state,emptyStore());
+});
+test('sign-out preserves local records when delayed cloud reads or writes outlive failed auth',{timeout:2000},async()=>{
+ for(const heldMethod of ['GET','PUT'])for(const authSuccess of [true,false]){
+  const state={...emptyStore(),pantry:[{id:'local',name:'Local rice',quantity:'1',unit:'kg'}]},app=await appWithStore(state,true);
+  let releaseRequest,finishAuth,notifyHeld;const held=new Promise(r=>notifyHeld=r);let consent='test-consent',meta={consentId:consent,revision:heldMethod==='GET'?1:0,base:syncFingerprint(heldMethod==='GET'?state:emptyStore())};
+  const remote={...emptyStore(),pantry:[{id:'remote',name:'Remote replacement',quantity:'2',unit:'kg'}]};
+  const sync=createCloudSync({readLocal:()=>state,writeLocal:data=>{Object.assign(state,data);return true;},readConsent:()=>consent,writeConsent:value=>{consent=value;return true;},readMeta:()=>meta,writeMeta:value=>{meta=value;return true;},isOnline:()=>true,fetch:async(_url,options)=>{
+   if(options.method===heldMethod){notifyHeld();return await new Promise(r=>releaseRequest=r);}
+   return Response.json({accountId:'owner',revision:0,data:null});
+  }});
+  app.setAccountBoundary({submit:()=>new Promise(r=>finishAuth=r)},sync);
+  const inFlight=sync.sync();await held;const signOut=app.click('account-sign-out');
+  releaseRequest(Response.json(heldMethod==='GET'?{accountId:'owner',revision:2,data:remote}:{accountId:'owner',revision:1,updatedAt:new Date().toISOString()}));await inFlight;
+  finishAuth({succeeded:authSuccess});await signOut;
+  assert.equal(state.pantry[0].name,'Local rice',heldMethod+' response must not apply after sign-out');assert.equal(sync.state.enabled,false);assert.equal(consent,null);
+ }
 });

@@ -34,6 +34,8 @@ try{
  await page.goto('http://127.0.0.1:'+server.address().port+'/?view=library');
  const form=page.locator('#sync-account-form');await form.waitFor();
  await form.locator('[name=email]').fill(user.email);await form.locator('[name=password]').fill('wrong password 123');
+ await page.evaluate(()=>{window.dispatchEvent(new Event('offline'));window.dispatchEvent(new Event('focus'));});
+ assert.equal(await form.locator('[name=email]').inputValue(),user.email);assert.equal(await form.locator('[name=password]').inputValue(),'wrong password 123');
  await form.locator('[value=sign-in]').click();await page.getByRole('status').filter({hasText:'Could not sign in'}).waitFor();
  assert.equal(writes,0);await form.locator('[name=password]').fill('correct password 123');
  await form.locator('[value=sign-up]').click();await page.getByRole('status').filter({hasText:'Check your email'}).waitFor();

@@ -38,6 +38,7 @@ let ingredientPhotos=[];
 let planningMetadata=[];
 let cloudSync=null,syncState={status:'off',enabled:false},offlineState={status:'preparing'},applyingCloud=false,applyingUpdate=false;
 let hostAuth=null,hostAuthState={supported:false,user:null,loading:false,message:''};
+const accountRenderings=new WeakMap();
 
 let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
 let providerCuisines=cuisines.filter(x=>x!=='All');
@@ -675,7 +676,7 @@ function continuityPanel() {
     '<div id="host-account">'+accountMarkup(hostAuthState)+'</div><h4>Optional cloud sync</h4><p class="panel-note">Enable to sync your cookbook, pantry, shopping list, meal plans, cooking journal and timers, leftovers, research notes and taste preferences with your private signed-in account. It works while Tasteit is open. Off keeps this browser’s data local; removing the cloud copy keeps this browser’s records.</p><div id="cloud-controls">'+cloudControls()+'</div></section>';
 }
 function updateConnectionUI() {
-  const account=document.getElementById('host-account');if(account){const html=accountMarkup(hostAuthState);if(account.innerHTML!==html)account.innerHTML=html;}
+  const account=document.getElementById('host-account');if(account){const html=accountMarkup(hostAuthState);if(accountRenderings.get(account)!==html){account.innerHTML=html;accountRenderings.set(account,html);}}
   const root=document.getElementById('cloud-controls'),focused=document.activeElement?.id;
   if(root){const markup=cloudControls();if(root.innerHTML!==markup)root.innerHTML=markup;if(focused?.startsWith('sync-'))document.getElementById(focused)?.focus({preventScroll:true});}
   const offline=document.getElementById('offline-status');
@@ -1399,7 +1400,7 @@ document.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
   const action = button.dataset.action;
-  if(action==='account-sign-out') {if(hostAuth){const result=await hostAuth.submit('sign-out');if(result.succeeded)cloudSync?.disconnect();document.querySelector('.account-status')?.focus({preventScroll:true});}return;}
+  if(action==='account-sign-out') {cloudSync?.disconnect();if(hostAuth){await hostAuth.submit('sign-out');document.querySelector('.account-status')?.focus({preventScroll:true});}return;}
   if(['plan-previous','plan-next','plan-today'].includes(action)){planWeekOffset=action==='plan-today'?0:Math.max(-52,Math.min(52,planWeekOffset+(action==='plan-next'?1:-1)));render();appRoot.querySelector('[data-action="'+action+'"]')?.focus();return;}
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
