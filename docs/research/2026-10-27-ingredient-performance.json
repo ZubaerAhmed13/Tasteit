@@ -1,0 +1,25 @@
+{
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "rows": 14737,
+  "registry": 172,
+  "uncached": {
+    "ms": 8733.06,
+    "matched": 8160,
+    "digest": "9933c23cb3b415b9ffef432c5fe8ec1d43cadb395da97435a894b3bcc5e753df"
+  },
+  "compiledCold": {
+    "ms": 532.43,
+    "matched": 8160,
+    "digest": "9933c23cb3b415b9ffef432c5fe8ec1d43cadb395da97435a894b3bcc5e753df"
+  },
+  "compiledWarm": {
+    "ms": 1.11,
+    "matched": 8160,
+    "digest": "9933c23cb3b415b9ffef432c5fe8ec1d43cadb395da97435a894b3bcc5e753df"
+  },
+  "scope": "Controlled full-catalogue CPU run; no browser, phone or field-performance claim."
+}

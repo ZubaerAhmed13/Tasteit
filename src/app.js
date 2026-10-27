@@ -555,6 +555,11 @@ function homeCollections() {
   }).join('');
 }
 
+function useSoonPanel() {
+ const batches=expiringBatches(store.pantry).filter((row,i,all)=>all.findIndex(other=>normalizeIngredient(other.name)===normalizeIngredient(row.name))===i).slice(0,4);
+ if(!batches.length)return '';
+ return '<section class="panel use-soon-panel" aria-labelledby="use-soon-title"><h3 id="use-soon-title">Ideas for ingredients dated soon</h3><p class="panel-note">Based on the dates you recorded. Check freshness yourself; these dates do not certify safety.</p><div class="dialog-actions">'+batches.map(row=>'<button type="button" class="btn secondary" data-action="use-soon" data-id="'+escapeHtml(row.name)+'">'+escapeHtml(row.name)+' · '+escapeHtml(row.dateInfo.label)+' ↗</button>').join('')+'</div></section>';
+}
 function discoverPage() {
   const spotlight = activeMeals.find(x => externalUrl(x.strMealThumb,!collectedRecipe(x)));
   const heroPhoto = spotlight ? photo(spotlight) : '<div class="hero-placeholder" aria-hidden="true">🍝</div>';
@@ -625,7 +630,7 @@ function discoverPage() {
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
     '<button type="button" class="feature-card" data-nav="library"><span class="feature-icon" aria-hidden="true">♡</span><div><b>My cookbook</b><span>' + countSaved + ' saved or cooked recipes</span></div></button>' +
     '<button type="button" class="feature-card" data-action="suggest"><span class="feature-icon" aria-hidden="true">✦</span><div><b>What can I make?</b><span>Find recipes using my ingredients</span></div></button></div>' +
-    (showPersonal?homeCollections()+tastePreferences()+personalSuggestions(recommendations):'') +
+    (showPersonal?homeCollections()+useSoonPanel()+tastePreferences()+personalSuggestions(recommendations):'') +
     '<section class="section"><div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2 id="discovery-results-title" tabindex="-1">' + escapeHtml(label) + '</h2><p>' + (discoveryMode === 'pantry' ? 'Sorted by ingredient-name overlap; exact amounts are checked where measurements are clear.' : discoveryChoice.scope==='provider'?'Additional recipes from TheMealDB.':'Your selected recipe websites and personal cookbook, together.') + '</p></div>' +
     '<span class="source-line">' + (loading ? 'LOADING' : activeMeals.length + ' RECIPES') + '</span></div>' +
     filterControls + kitchenPicker + kitchenReadinessChips + (discoveryMode === 'pantry' ? '<p class="note" style="margin-bottom:22px">* Match percentages compare names only. Amount checks use compatible units and exclude expired entries. Food safety, allergies and substitutions are not verified.</p>' : '') +
@@ -1388,6 +1393,7 @@ document.addEventListener('click', async event => {
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
   if(action==='discovery-page'){discoveryChoice={...discoveryChoice,page:Number(button.dataset.page)};writeRoute();render();document.getElementById('discovery-page-status')?.focus({preventScroll:true});document.getElementById('discovery-results-title')?.scrollIntoView({block:'start'});return;}
+  if(action==='use-soon'){void discover('filters',{query:id,area:'',category:'',letter:'',scope:'collection',source:'',course:'',sort:'title',ratedOnly:false});return;}
   if(action==='remove-course'){void discover('filters',{course:''});return;}
   if(action==='meal-shortcut'){void discover('filters',{query:'',area:'',category:'',letter:'',scope:'collection',source:'',course:button.dataset.course,sort:'title',ratedOnly:false});return;}
   if(action==='recovery-retry'){Object.assign(store,loadStore());render();return;}

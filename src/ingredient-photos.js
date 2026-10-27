@@ -23,9 +23,31 @@ function usable(photo) {
   Array.isArray(photo.aliases)&&photo.aliases.length>0&&ingredientPhotoCredits(photo)!==null&&
   (photo.exclusions===undefined||Array.isArray(photo.exclusions)&&photo.exclusions.length<=50&&photo.exclusions.every(term=>typeof term==='string'&&term.length<=80&&norm(term)));
 }
-export function ingredientPhoto(input,registry=[]) {
+function compiledRegistry(registry) {
+ return registry.filter(usable).flatMap(photo=>photo.aliases.map(alias=>({photo,word:norm(alias),exclusions:(photo.exclusions||[]).map(norm)}))).filter(x=>x.word);
+}
+export function ingredientPhoto(input,registry=[]) {return findIngredientPhoto(input,compiledRegistry(registry));}
+// Callers replace immutable registries after a load; a resolver belongs to one snapshot.
+export function createIngredientPhotoMatcher(registry=[]) {
+ const compiled=compiledRegistry(structuredClone(registry)),cache=new Map();
+ return input=>{
+  const key=String(input||'');
+  if(cache.has(key))return cache.get(key);
+  const result=findIngredientPhoto(key,compiled);
+  if(cache.size>=20000)cache.clear();
+  cache.set(key,result);return result;
+ };
+}
+const resolvers=new WeakMap();
+export function cachedIngredientPhoto(input,registry=[]) {
+ if(!resolvers.has(registry))resolvers.set(registry,createIngredientPhotoMatcher(registry));
+ return resolvers.get(registry)(input);
+}
+function findIngredientPhoto(input,compiled) {
  let text=String(input||'').toLowerCase().replaceAll('&amp;','&').replaceAll('&',' and ');
  text=text.replace(/\bor to taste\b/g,'to taste');
+ // English spoon-measured paprika is the powder; unqualified paprika stays ambiguous.
+ text=text.replace(/^(\s*[\d¼½¾⅓⅔⅛⅜⅝⅞.\/\s]+(?:tsp|teaspoons?|tbsp|tablespoons?)\s+)paprika(?=\s*(?:$|\())/i,'$1ground paprika');
  const preparation=norm(text);
  if(/\b(or|oder|sub|substitute|instead)\b/.test(preparation))return null;
  // Parentheses contain the publisher's notes; alternatives in the primary name stay explicit.
@@ -35,9 +57,9 @@ export function ingredientPhoto(input,registry=[]) {
  text=singleFoodDescription(text);
  const mixedConnector=/\b(or|and|oder|und)\b/.test(text);
  const matches=[];
- for(const photo of registry)if(usable(photo))for(const alias of photo.aliases) {
-  const word=norm(alias);if(!word||!aliasSegments.some(segment=>(' '+segment+' ').includes(' '+word+' ')))continue;
-  matches.push({photo,length:word.length,word,excluded:photo.exclusions?.some(term=>(' '+preparation+' ').includes(' '+norm(term)+' '))});
+ for(const {photo,word,exclusions} of compiled) {
+  if(!aliasSegments.some(segment=>(' '+segment+' ').includes(' '+word+' ')))continue;
+  matches.push({photo,length:word.length,word,excluded:exclusions.some(term=>(' '+preparation+' ').includes(' '+term+' '))});
  }
  matches.sort((a,b)=>b.length-a.length);
  if(!matches.length)return null;

@@ -42,3 +42,11 @@ test('malformed snapshots, invalid revisions and oversized bodies cannot be stor
     assert.equal((await invoke(req(),{})).status,503);
   } finally {DB.close();}
 });
+test('cloud roundtrips breakfast and legacy dinner together without changing account isolation',async()=>{
+ const DB=sqliteD1();try {
+  const data={...emptyStore(),plan:{'2026-10-27':'rice','2026-10-27:breakfast':'eggs'},planServings:{'2026-10-27:breakfast':3}};
+  const result=await invoke(req('PUT',{revision:0,data}),{DB});assert.equal(result.status,200);
+  const restored=await(await invoke(req(),{DB})).json();assert.deepEqual(restored.data.plan,data.plan);assert.deepEqual(restored.data.planServings,data.planServings);
+  assert.equal((await(await invoke(req('GET',undefined,'account-b'),{DB})).json()).data,null);
+ }finally{DB.close();}
+});

@@ -179,3 +179,16 @@ test('explicit minced beef aliases allow the matching ground form and preserve c
  assert.equal(ingredientPhoto('Minced Beef',p)?.id,'beef-ground');
  assert.equal(ingredientPhoto('whole minced beef',p),null);assert.equal(ingredientPhoto('minced turmeric',p),null);
 });
+test('measured English paprika spoon quantities select ground paprika without guessing unqualified peppers',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(ingredientPhoto('1 tsp paprika',p)?.id,'paprika-ground');
+ assert.equal(ingredientPhoto('2 tablespoons paprika',p)?.id,'paprika-ground');
+ for(const line of ['Paprika','1 paprika','1 tsp smoked paprika','1 tsp paprika or chilli','1 tsp paprika paste'])assert.equal(ingredientPhoto(line,p),null,line);
+});
+test('compiled photo matching agrees on all catalogue rows and preserves credits',async()=>{
+ const photos=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ assert.equal(typeof photos.createIngredientPhotoMatcher,'function');
+ const match=photos.createIngredientPhotoMatcher(p),recipes=JSON.parse(await(await import('node:fs/promises')).readFile('data/selected-recipes.json','utf8')).recipes;
+ for(const line of new Set(recipes.flatMap(x=>x.ingredients)))assert.deepEqual(match(line),photos.ingredientPhoto(line,p),line);
+ assert.equal(match('garlic')?.creator,'Ivar Leidus');
+});

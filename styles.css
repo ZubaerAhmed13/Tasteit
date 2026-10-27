@@ -601,3 +601,5 @@ h3 { font-size: 24px }
 @media(max-width:760px){.page-grid{grid-template-columns:minmax(0,1fr)}.page-grid>.panel{min-width:0}}
 
 .preparation-checklist{margin:24px 0}.preparation-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.6;overflow-wrap:anywhere}.preparation-item input{width:24px;height:24px;flex:0 0 24px;accent-color:var(--forest)}.preparation-item:has(input:checked) span{text-decoration:line-through;color:var(--muted)}
+
+.use-soon-panel{margin:24px 0}.use-soon-panel .dialog-actions{margin-top:14px}

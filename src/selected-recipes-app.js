@@ -1,6 +1,6 @@
 import {recipeRatingMarkup} from './recipe-presentation.js';
 import {SOURCES,validateRecipe,filterRecipes,safeHttps,validateWorldFavourites,recipePage,RECIPE_COURSES} from './selected-sources.js';
-import {ingredientPhoto} from './ingredient-photos.js';
+import {cachedIngredientPhoto} from './ingredient-photos.js';
 import {ingredientReference} from './ingredient-reference.js';
 import {loadStore,readStoreStrict,persistStore,localStoreStatus,STORAGE_KEY} from './model.js';
 import {collectedMeal,toggleCollectedFlag} from './selected-kitchen.js';
@@ -67,7 +67,7 @@ function render() {
 }
 function photoCoverage(rows){
  const filters=appliedFilters||readFilters(),current=rows||recipePage(filterRecipes(recipes,{...filters,recipeIds:filters.collection?(worldFavourites?.recipeIds||[]):null}),pageNumber).records;
- const total=current.reduce((n,r)=>n+r.ingredients.length,0),matched=current.reduce((n,r)=>n+r.ingredients.filter(i=>ingredientPhoto(i,photos)).length,0);
+ const total=current.reduce((n,r)=>n+r.ingredients.length,0),matched=current.reduce((n,r)=>n+r.ingredients.filter(i=>cachedIngredientPhoto(i,photos)).length,0);
  const node=document.getElementById('selected-photo-coverage');if(node)node.textContent=matched+' of '+total+' ingredient rows on this page have a verified reference photograph. Missing or ambiguous ingredients keep an explicit photo gap.';
 }
 function resolveCuration(){

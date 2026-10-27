@@ -12,7 +12,7 @@ try {
  browser=await({chromium,firefox,webkit}[process.env.TASTEIT_BROWSER||'chromium']).launch({headless:true});
  const page=await browser.newPage({viewport:{width:375,height:812}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route(/https:\/\//,r=>r.abort());
- const store={...emptyStore(),saved:{[rice.idMeal]:{meal:rice,usual:true,baseServings:2},[eggs.idMeal]:{meal:eggs,wanted:true,baseServings:2}},plan:{[day]:rice.idMeal}};
+ const store={...emptyStore(),pantry:[{id:'dated-rice',name:'Rice',quantity:'1',unit:'g',expiry:day}],saved:{[rice.idMeal]:{meal:rice,usual:true,baseServings:2},[eggs.idMeal]:{meal:eggs,wanted:true,baseServings:2}},plan:{[day]:rice.idMeal}};
  await page.addInitScript(s=>{if(!localStorage.getItem('tasteit.local.v1'))localStorage.setItem('tasteit.local.v1',JSON.stringify(s));},store);
  await page.goto(base+'?view=plan');
  const breakfast=page.locator('[data-plan-day="'+day+':breakfast"]'),dinner=page.locator('[data-plan-day="'+day+'"]');
@@ -28,6 +28,7 @@ try {
  await page.locator('[data-plan-open="'+day+':breakfast"]').click();await page.locator('#dialog-title').filter({hasText:'Test eggs'}).waitFor();
  await page.keyboard.press('Escape');
  await page.setViewportSize({width:320,height:900});assert.deepEqual(await page.evaluate(()=>({fits:document.documentElement.scrollWidth<=innerWidth,overflow:[...document.querySelectorAll('#app *')].filter(n=>n.getBoundingClientRect().right>innerWidth+1).slice(0,6).map(n=>({tag:n.tagName,cls:n.className,text:n.textContent.slice(0,80),right:n.getBoundingClientRect().right}))})),{fits:true,overflow:[]});
+ await page.goto(base);await page.locator('[data-action=use-soon]').filter({hasText:'Rice'}).click();await page.locator('[data-recipe-id="personal-rice"]').waitFor();assert.equal(new URL(page.url()).searchParams.get('q'),'Rice');
  await page.goto(base+'?recipe=selected-recipetineats-chicken-curry');
  await page.locator('#dialog-title').filter({hasText:'Chicken Curry'}).waitFor();
  await page.locator('[data-planning-metadata]').filter({hasText:'prep 8 min'}).waitFor();

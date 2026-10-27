@@ -166,3 +166,10 @@ test('planner exposes independent breakfast and legacy dinner controls with expl
  assert.match(markup,/Shopping for the coming seven days/);
  assert.match(markup,/data-action="plan-next"/);
 });
+test('home exposes dated ingredient ideas while retaining usual and want-to-try shelves',async()=>{
+ const {nextSevenDates}=await import('../src/model.js');
+ const state=emptyStore();state.pantry=[{id:'rice',name:'Rice',quantity:'1',unit:'kg',expiry:nextSevenDates()[0].key}];
+ const app=await appWithStore(state,true),markup=app.home();
+ assert.match(markup,/data-action="use-soon"/);assert.match(markup,/Dated today/);
+ assert.match(markup,/id="home-usual"/);assert.match(markup,/id="home-wanted"/);
+});
