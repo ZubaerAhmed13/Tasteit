@@ -27,6 +27,21 @@ try {
  await page.locator('[data-action=plan-today]').click();assert.equal(await breakfast.inputValue(),eggs.idMeal);
  await page.locator('[data-plan-open="'+day+':breakfast"]').click();await page.locator('#dialog-title').filter({hasText:'Test eggs'}).waitFor();
  await page.keyboard.press('Escape');
+ await page.setViewportSize({width:320,height:900});assert.deepEqual(await page.evaluate(()=>({fits:document.documentElement.scrollWidth<=innerWidth,overflow:[...document.querySelectorAll('#app *')].filter(n=>n.getBoundingClientRect().right>innerWidth+1).slice(0,6).map(n=>({tag:n.tagName,cls:n.className,text:n.textContent.slice(0,80),right:n.getBoundingClientRect().right}))})),{fits:true,overflow:[]});
+ await page.goto(base+'?recipe=selected-recipetineats-chicken-curry');
+ await page.locator('#dialog-title').filter({hasText:'Chicken Curry'}).waitFor();
+ await page.locator('[data-planning-metadata]').filter({hasText:'prep 8 min'}).waitFor();
+ assert.equal(await page.locator('#base-servings-input').inputValue(),'');
+ await page.locator('[data-action=start-cooking]').click();
+ await page.locator('[data-preparation-index="0"]').check();
+ await page.locator('[data-action=timer-start]').click();
+ const endsAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')).cookingSessions['selected-recipetineats-chicken-curry'].endsAt);
+ assert.ok(endsAt>Date.now());assert.ok((await page.locator('[data-action=step-next]').count())===0);
+ assert.equal(await page.getByRole('link',{name:'Open original cooking method'}).getAttribute('href'),'https://www.recipetineats.com/chicken-curry/');
+ await page.keyboard.press('Escape');await page.reload();await page.locator('.recipe-card').first().waitFor();
+ await page.goto(base+'?recipe=selected-recipetineats-chicken-curry');await page.locator('[data-action=start-cooking]').click();
+ assert.equal(await page.locator('[data-preparation-index="0"]').isChecked(),true);
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')).cookingSessions['selected-recipetineats-chicken-curry'].endsAt),endsAt);
  await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  assert.deepEqual(errors,[]);console.log('PASS everyday cooking: legacy dinner, independent breakfast/portions, reload, week navigation, shopping and 320px reflow');
 } finally {await browser?.close();await new Promise(r=>server.close(r));}

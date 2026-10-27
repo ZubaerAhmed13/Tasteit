@@ -597,3 +597,7 @@ h3 { font-size: 24px }
 .plan-slot select{max-width:100%;min-width:0;width:100%}.plan-week-controls{margin:15px 0;flex-wrap:wrap}
 .recipe-plan-form{flex-wrap:wrap}.recipe-plan-form .field{min-width:0;flex:1 1 140px}
 @media(max-width:480px){.plan-slot{grid-template-columns:1fr;gap:3px}.plan-slot>label{padding-top:0}.plan-serving-control{flex-wrap:wrap}.plan-week-controls .btn{flex:1 1 120px}}
+
+@media(max-width:760px){.page-grid{grid-template-columns:minmax(0,1fr)}.page-grid>.panel{min-width:0}}
+
+.preparation-checklist{margin:24px 0}.preparation-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.6;overflow-wrap:anywhere}.preparation-item input{width:24px;height:24px;flex:0 0 24px;accent-color:var(--forest)}.preparation-item:has(input:checked) span{text-decoration:line-through;color:var(--muted)}

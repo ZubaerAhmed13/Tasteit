@@ -6,7 +6,7 @@ import { parseBulkPantry, applyBulkPantry } from './pantry-bulk.js';
 import { dateStatus, expiringBatches, recipeUseSoon, rankByKitchen } from './pantry-batches.js';
 import { validServings, scaledIngredients, scaledRecipeForComparison, setRecipeServings, resolvePlanServings } from './servings.js';
 import { kitchenIngredientChoices, initialKitchenSelection, reconcileKitchenSelection, searchPantryRows, kitchenMatchDetails, localKitchenRecipes, combineKitchenRecipes, filterKitchenRecipes, MAX_KITCHEN_SEARCH } from './kitchen-discovery.js';
-import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer } from './cooking.js';
+import { recipeSteps, safeCookingSession, timerStatus, moveCookingStep, setCookingTimer, startCookingTimer, pauseCookingTimer, resetCookingTimer, setIngredientChecked } from './cooking.js';
 import { addShoppingExtra, removeShoppingExtra, toggleShoppingExtra, toggleRecipeChecked, shoppingChecklist, shoppingPlainText, shoppingKey } from './shopping.js';
 import { countryDirectory, catalogueFromProvider, catalogueCell, exportCatalogueIndex, hydrateCatalogueIndex, CATALOGUE_TARGET } from './world-catalogue.js';
 import { editorialReview, savedEditorialReview, researchReviewSummary, researchLeadResults, exportEditorialReviewCsv } from './editorial.js';
@@ -20,6 +20,7 @@ import { createCloudSync,SYNC_KEY,SYNC_META_KEY } from './cloud-sync.js';
 import { offlineRecipes,installOffline } from './offline.js';
 import { collectedMeal,collectedRecipe } from './selected-kitchen.js';
 import {recipeRatingMarkup} from './recipe-presentation.js';
+import {recipePlanningMetadata} from './recipe-metadata.js';
 import {planRecipe} from './recipe-planning.js';
 import {MEAL_SLOTS,slotLabel,planKey,planForDates} from './meal-plan.js';
 import {discoveryOptions} from './discovery-options.js';
@@ -33,6 +34,7 @@ const toastRoot = document.getElementById('toast');
 const store = loadStore();
 let recoveryViewRaw=null;
 let ingredientPhotos=[];
+let planningMetadata=[];
 let cloudSync=null,syncState={status:'off',enabled:false},offlineState={status:'preparing'},applyingCloud=false,applyingUpdate=false;
 
 let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
@@ -149,6 +151,19 @@ async function loadIngredientReferences() {
   // Update only reference cells: late photography must not erase a form or focus.
   for(const cell of overlayRoot.querySelectorAll('[data-ingredient-photo]'))
     cell.innerHTML=ingredientReference(cell.dataset.ingredientPhoto,ingredientPhotos);
+}
+function planningMetadataMarkup(meal) {
+ const row=recipePlanningMetadata(meal,planningMetadata);
+ return row?'<p class="panel-note">Publisher: prep '+(row.prepMinutes===null?'unknown':row.prepMinutes+' min')+' · cook '+(row.cookMinutes===null?'unknown':row.cookMinutes+' min')+' · total '+(row.totalMinutes===null?'unknown':row.totalMinutes+' min')+' · '+escapeHtml(row.yieldText||'Yield unknown')+' · checked '+row.checkedAt+'. Serving changes still require your confirmation.</p>':'<p class="panel-note">Publisher time and yield not yet checked. No quantities or portions are assumed.</p>';
+}
+async function loadPlanningMetadata() {
+ try {
+  const response=await fetch('./data/recipe-planning-metadata.json',{signal:AbortSignal.timeout(8000)});
+  if(!response.ok)throw Error('Unavailable');
+  const data=await response.json();planningMetadata=Array.isArray(data.recipes)?data.recipes:[];
+ }catch{planningMetadata=[];}
+ const cell=overlayRoot.querySelector('[data-planning-metadata]');
+ if(cell&&selectedMeal)cell.innerHTML=planningMetadataMarkup(selectedMeal);
 }
 function findMeal(id) {
   return activeMeals.find(x => x.idMeal === id) || worldMeals.find(x=>x.idMeal===id) || store.saved[id]?.meal || (selectedMeal?.idMeal === id ? selectedMeal : null);
@@ -1188,7 +1203,9 @@ function renderDialog() {
       cookingStockPanel() + '<div class="field wide dialog-actions"><button type="submit" class="btn">Save cooking experience ✓</button>' +
       '<button type="button" class="btn secondary" data-action="cancel-cook-log">Back to recipe</button></div></form></div>';
   } else if (stepIndex >= 0) {
-    const total = parts.length;
+    const total = Math.max(1,parts.length);
+    const linked=Boolean(collectedRecipe(meal));
+    const preparation='<section class="preparation-checklist" aria-label="Ingredient preparation checklist"><h3>Gather your ingredients</h3><p class="panel-note">Check ingredients as you prepare. This does not change pantry stock.</p>'+ingredientItems.map((item,index)=>'<label class="preparation-item"><input type="checkbox" data-preparation-index="'+index+'"'+(currentSession.checkedIngredients?.includes(index)?' checked':'')+'> <span>'+escapeHtml(item.measure?item.measure+' · '+item.name:item.name)+'</span></label>').join('')+'</section>';
     const timerControls = '<section class="cooking-timer" aria-label="Manual cooking timer">' +
       '<div class="cooking-timer-header"><div><strong>Cooking timer</strong><p>Set your own time. Never inferred from recipe directions.</p></div>' +
       '<div class="clock" data-cooking-clock>' + timeInfo.text + '</div></div>' +
@@ -1200,15 +1217,15 @@ function renderDialog() {
       '<p class="panel-note" data-timer-state aria-live="polite">' + (timeInfo.complete ? 'Time is up — check your food.' : timeInfo.running ? 'Timer running' : 'Timer stopped') + '</p>' +
       '<p class="panel-note">The countdown uses clock time, including when the tab is in the background. An alert is only shown while Tasteit is open. Do not rely on it for food safety.</p></section>';
     contents = '<div class="dialog-content cooking-mode"><div class="eyebrow">COOKING MODE · ' + escapeHtml(meal.strMeal) + '</div>' +
-      '<div class="cook-heading"><h3>Step ' + (stepIndex + 1) + ' of ' + total + '</h3><span>' +
+      (linked?'<h3 tabindex="-1" class="cook-step">Preparation &amp; timer</h3><p class="panel-note">Follow the publisher for cooking directions. Your checklist and timer are saved here.</p><a class="btn secondary" href="'+externalUrl(meal.strSource)+'" target="_blank" rel="noopener noreferrer">Open original cooking method ↗</a>':'<div class="cook-heading"><h3>Step ' + (stepIndex + 1) + ' of ' + total + '</h3><span>' +
       Math.round(100*(stepIndex+1)/Math.max(1,total)) + '% through the recipe</span></div>' +
       '<div class="progress-bar"><span style="width:' + (100 * (stepIndex+1)/Math.max(1,total)) + '%"></span></div>' +
-      '<p class="cook-step" tabindex="-1">' + escapeHtml(parts[stepIndex] || '') + '</p>' + timerControls +
-      '<div class="dialog-actions"><button type="button" class="btn secondary" data-action="step-back"' + (stepIndex === 0 ? ' disabled' : '') + '>← Previous</button>' +
+      '<p class="cook-step" tabindex="-1">' + escapeHtml(parts[stepIndex] || '') + '</p>') + preparation + timerControls +
+      '<div class="dialog-actions">'+(linked?'':'<button type="button" class="btn secondary" data-action="step-back"' + (stepIndex === 0 ? ' disabled' : '') + '>← Previous</button>') +
       (stepIndex < total - 1 ? '<button type="button" class="btn" data-action="step-next">Next step →</button>' :
       '<button type="button" class="btn" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">Finish cooking ✓</button>') +
       '<button type="button" class="btn ghost" data-action="exit-cooking">View full recipe</button></div>' +
-      '<p class="panel-note">Your step is saved on this device. Closing the recipe does not erase it.</p></div>';
+      '<p class="panel-note">Your progress is saved on this device. Closing the recipe does not erase it.</p></div>';
   } else {
     const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + measuredScore.availability.map((x,i) => {
       const enough = x.status === 'enough';
@@ -1247,9 +1264,9 @@ function renderDialog() {
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
-      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><div class="field"><label for="recipe-plan-slot">Meal</label><select id="recipe-plan-slot" name="slot">'+MEAL_SLOTS.map(slot=>'<option value="'+slot+'"'+(slot==='dinner'?' selected':'')+'>'+slotLabel(slot)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
+      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><div class="field"><label for="recipe-plan-slot">Meal</label><select id="recipe-plan-slot" name="slot">'+MEAL_SLOTS.map(slot=>'<option value="'+slot+'"'+(slot==='dinner'?' selected':'')+'>'+slotLabel(slot)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + '<div data-planning-metadata>'+planningMetadataMarkup(meal)+'</div>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (collectedRecipe(meal)?'<p class="panel-note">Cooking methods stay with the original author. Ingredient amounts above are shown as written; they are not automatically parsed or scaled.</p><a class="btn secondary" href="'+externalUrl(meal.strSource)+'" target="_blank" rel="noopener noreferrer">Open original cooking method ↗</a>':parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
-      (parts.length ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →') + '</button>' +
+      (parts.length || collectedRecipe(meal) ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (collectedRecipe(meal)?(store.cookingSessions?.[meal.idMeal]?'Resume preparation &amp; timer →':'Prepare ingredients &amp; timer →'):(store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →')) + '</button>' +
       (store.cookingSessions?.[meal.idMeal] ? '<button type="button" class="btn secondary" data-action="restart-cooking">Start from the beginning</button>' : '') + '</div>' : '') +
       '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (collectedRecipe(meal) ? 'Recipe metadata and ingredient facts from your selected publisher. Reference photographs are separately credited; they identify ingredients, not exact brands or amounts.' : meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
   }
@@ -1640,7 +1657,7 @@ document.addEventListener('click', async event => {
     render(); notice('Ingredient batch removed.'); return;
   }
   if (action === 'start-cooking' || action === 'restart-cooking') {
-    if (!selectedMeal || !instructions(selectedMeal).length) return;
+    if (!selectedMeal || !instructions(selectedMeal).length&&!collectedRecipe(selectedMeal)) return;
     const next = action === 'restart-cooking' ? safeCookingSession(null,instructions(selectedMeal).length) : currentCookingSession();
     if (!updateCookingSession(next)) return;
     stepIndex = next.step; timerCompletionNotified = null;
@@ -2006,6 +2023,14 @@ document.addEventListener('change', async event => {
     finally { event.target.value = ''; }
     return;
   }
+  const preparationInput=event.target.closest('[data-preparation-index]');
+  if(preparationInput&&selectedMeal){
+    try {
+      const next=setIngredientChecked(currentCookingSession(),Number(preparationInput.dataset.preparationIndex),ingredientsOf(selectedMeal).length);
+      if(!updateCookingSession(next))preparationInput.checked=!preparationInput.checked;
+    }catch(error){preparationInput.checked=!preparationInput.checked;notice(error.message);}
+    return;
+  }
   const servingInput = event.target.closest('[data-plan-servings]');
   if (servingInput) {
     const day = servingInput.dataset.planServings;
@@ -2089,6 +2114,7 @@ window.addEventListener('storage', event => {
 
 // Start application.
 void loadIngredientReferences();
+void loadPlanningMetadata();
 cloudSync=createCloudSync({readLocal:()=>readStoreStrict(),readMeta:()=>JSON.parse(localStorage.getItem(SYNC_META_KEY)||'null'),
   writeMeta:data=>{try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(data));return true;}catch{return false;}},
   readConsent:()=>localStorage.getItem(SYNC_KEY),

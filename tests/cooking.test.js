@@ -58,3 +58,18 @@ test('backups preserve cooking progress, reject malformed sessions and support o
   const corrupt={...store,cookingSessions:{rice:{...session,remainingSeconds:-1}}};
   assert.throws(()=>parseBackup(exportBackup(corrupt)),/invalid cooking sessions/);
 });
+
+test('preparation ingredient checks survive timer changes, backup and resume without changing old sessions',async()=>{
+ const {setIngredientChecked}=await import('../src/cooking.js');
+ assert.equal(typeof setIngredientChecked,'function','preparation checklist state is available');
+ let session=setIngredientChecked({},1,3);assert.deepEqual(session.checkedIngredients,[1]);
+ session=startCookingTimer(setCookingTimer(session,5,1),1,1000);
+ assert.deepEqual(session.checkedIngredients,[1]);
+ const restored=parseBackup(exportBackup({...emptyStore(),cookingSessions:{linked:session}})).cookingSessions.linked;
+ assert.deepEqual(safeCookingSession(restored,1).checkedIngredients,[1]);
+ assert.deepEqual(setIngredientChecked(restored,1,3).checkedIngredients,[]);
+ assert.throws(()=>setIngredientChecked(restored,3,3));
+ assert.equal(validCookingSessions({linked:{...session,checkedIngredients:[1,1]}}),false);
+ assert.equal(validCookingSessions({linked:{...session,checkedIngredients:[-1]}}),false);
+ assert.equal('checkedIngredients' in safeCookingSession({},1),false);
+});
