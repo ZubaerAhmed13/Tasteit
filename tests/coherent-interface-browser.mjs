@@ -37,7 +37,9 @@ try{
  await page.locator('.recipe-card .recipe-title').first().click();await page.locator('[role=dialog]').waitFor();const returning=await page.locator('#dialog-title').innerText(),returnScroll=await page.evaluate(()=>scrollY);await page.goBack();await page.locator('[role=dialog]').waitFor({state:'hidden'});
  await page.waitForFunction(title=>document.activeElement?.textContent===title,returning).catch(async error=>{throw new Error(error.message+'; return diagnostics='+JSON.stringify(await page.evaluate(()=>({href:location.href,state:history.state,focus:document.activeElement?.outerHTML,scroll:scrollY}))));});assert.ok(page.url().includes('page=2'));assert.ok(Math.abs(await page.evaluate(()=>scrollY)-returnScroll)<2);
  // Mobile disclosure, readable credits, stable failed image and zoomed layout.
- await page.locator('#discovery-filter-panel').evaluate(n=>n.open=true);await page.locator('#discover-course').focus();assert.equal(await page.locator('#discover-course').evaluate(n=>n===document.activeElement),true);
+ if(!await page.locator('#discovery-filter-panel').evaluate(n=>n.open))await page.locator('#discovery-filter-panel > summary').click();
+ await page.locator('#discover-course').waitFor({state:'visible'});await page.locator('#discover-course').focus();
+ assert.equal(await page.locator('#discover-course').evaluate(n=>n===document.activeElement),true,JSON.stringify(await page.evaluate(()=>({open:document.querySelector('#discovery-filter-panel')?.open,focus:document.activeElement?.outerHTML,course:document.querySelector('#discover-course')?.getBoundingClientRect().toJSON()}))));
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.locator('.recipe-card .recipe-photo').first().click();await page.locator('[role=dialog]').waitFor();
  const reference=page.locator('.ingredient-reference').first();await reference.waitFor();assert.ok(Number.parseFloat(await reference.locator('figcaption').evaluate(n=>getComputedStyle(n).fontSize))>=12);assert.ok(await reference.locator('.ingredient-photo-link').getAttribute('href'));
