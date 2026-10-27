@@ -22,7 +22,7 @@ async function appWithStore(state, persists) {
     FormData:class {constructor(target){this.fields=target.fields||{};}get(key){return this.fields[key]??null;}entries(){return Object.entries(this.fields)[Symbol.iterator]();}[Symbol.iterator](){return this.entries();}},
     notices,meal};
   vm.createContext(sandbox);
-  vm.runInContext(source+'\nrender=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,store,cloudMarkup:cloudControls,paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
+  vm.runInContext(source+'\nrender=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,store,cloudMarkup:cloudControls,paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
   return {...sandbox.audit,notices,meal,click:async(action,id,tag,personal=false)=>{
     const target={dataset:{action,id,tag},closest:selector=>selector==='[data-action]'?target:selector==='[data-personal-recipe]' && personal?target:null};
     await handlers.click({target});
@@ -157,4 +157,12 @@ test('home keeps usual dishes and want-to-try shelves available while discovery 
  assert.match(html,/My regular curry/);assert.match(html,/Next dessert/);
  assert.doesNotMatch(html.match(/id="home-usual"[\s\S]*?<\/section>/)?.[0]||'',/Next dessert|Only a favourite/);
  assert.doesNotMatch(html.match(/id="home-wanted"[\s\S]*?<\/section>/)?.[0]||'',/My regular curry|Only a favourite/);
+});
+
+test('planner exposes independent breakfast and legacy dinner controls with explicit shopping scope',async()=>{
+ const app=await appWithStore(emptyStore(),true),markup=app.planMarkup();
+ assert.match(markup,/data-plan-day="[0-9-]+:breakfast"/);
+ assert.match(markup,/data-plan-day="[0-9-]+"/);
+ assert.match(markup,/Shopping for the coming seven days/);
+ assert.match(markup,/data-action="plan-next"/);
 });

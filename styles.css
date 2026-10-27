@@ -588,3 +588,12 @@ h3 { font-size: 24px }
 @media(max-width:1000px){.header-inner{gap:15px}.nav-button{padding:11px 12px}.home-collection .recipe-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.site-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.nav-button{font-size:13px;min-height:44px;padding:12px 3px}.more-tools summary{font-size:12px}.header-inner{justify-content:space-between}.more-tools{margin-left:auto}.discovery-filter-panel{padding:10px 14px}.discovery-filter-panel .discovery-filters{grid-template-columns:1fr}.main-pagination{gap:10px}.main-pagination span{order:-1;width:100%;text-align:center}.source-line{font-size:12px}.hero-copy{min-height:280px}.home-collection h2{font-size:26px}.recipe-body{padding:14px}.card-bottom{align-items:start;flex-wrap:wrap}.ingredient-list li{grid-template-columns:100px minmax(0,1fr)}.ingredient-list .ingredient-reference{width:100px}.dialog-content{padding:20px 20px 30px}.recipe-plan-form .btn{flex:1}.site-footer .footer-inner{overflow-wrap:anywhere}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Four meal slots keep a single readable column on small screens. */
+.plan-day{padding:20px 0;border-bottom:1px solid var(--border,#ddd)}
+.plan-day h4{font-size:18px;margin:0 0 14px}.plan-day .day-date{display:inline;font-size:14px}
+.plan-slot{display:grid;grid-template-columns:85px minmax(0,1fr);gap:12px;margin:12px 0;align-items:start}
+.plan-slot>label{padding-top:12px;font-size:13px;font-weight:600}.plan-slot .day-recipe-controls{min-width:0}
+.plan-slot select{max-width:100%;min-width:0;width:100%}.plan-week-controls{margin:15px 0;flex-wrap:wrap}
+.recipe-plan-form{flex-wrap:wrap}.recipe-plan-form .field{min-width:0;flex:1 1 140px}
+@media(max-width:480px){.plan-slot{grid-template-columns:1fr;gap:3px}.plan-slot>label{padding-top:0}.plan-serving-control{flex-wrap:wrap}.plan-week-controls .btn{flex:1 1 120px}}
