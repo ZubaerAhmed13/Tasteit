@@ -471,3 +471,20 @@ Release 1 source. No owner-signed-in hosted or physical-device walkthrough is cl
 All 25 checked live Release 2 paths and tested application provenance match.
 No owner-signed-in hosted walkthrough or physical-device/zoom/screen-reader
 conformance claim is inferred from automated acceptance.
+
+## Release 3 — Everyday cooking and measured quality (27 October 2026)
+
+- [x] Four meal slots, legacy Dinner compatibility, independent portions and week navigation; direct planned recipe opens carry slot portions.
+- [x] All-slot coming-week shopping and atomic reviewed purchases/cooking retained; v2 export/v1 import and real SQLite sync roundtrip verified.
+- [x] Publisher preparation checklist and manual timer resume, including confirmed portions; source methods remain at publishers. Unknown quantities stay unknown.
+- [x] Home usual/wanted shelves retained; dated stock ideas search approved/saved recipes. Three checked source time/yield records; unknown elsewhere.
+- [x] Photo resolver matches 8,160/14,737 source rows with 172 credited references; 6,577 explicit gaps. Full-catalogue cached/uncached outputs identical; controlled CPU timing only.
+- [x] 281 Node tests and CI 40464185834: 26 browser-suite executions across Chromium, Firefox and WebKit. One fresh final review; both Important findings fixed RED→GREEN; no deferred findings.
+- [x] Tested application `d09079dd26f7e388f0af7595ff8490c28653741c` and CI merge `65a9326885f49f663d0080141b8e3b5e52aada9f` share tree `80076decd8937477fcd497c3498e4120fea16ad9`.
+- [x] Owner-private version 13 published from native source `cfe80cec0e24880ecc9d731483f6842a009202e5`; Worker/archive parity, Site identity, DB/r2 and three migration files verified. PR1 stays draft/unmerged.
+
+[Release notes and rulings](releases/2026-10-27-everyday-cooking.md) ·
+[Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40464185834).
+Physical-phone alarm behavior, screen readers, physical magnification, signed-in hosted walkthrough and field performance remain unverified.
+
+All 29 checked live Release 3 paths and tested application provenance match.
