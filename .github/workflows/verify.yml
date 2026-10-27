@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: "22"
       - name: Check syntax and unit tests
-        run: npm install --package-lock=false && npm run verify && npm run build:site
+        run: npm ci && npm run verify && npm run build:site && npm run build:vercel
 
   browser:
     name: Browser acceptance (${{ matrix.browser }})
@@ -39,7 +39,7 @@ jobs:
       - name: Install browser test runtime
         run: |
           # 1.56 has an upstream WebKit reload crash (microsoft/playwright#37766).
-          npm install --no-save --package-lock=false playwright@1.64.1
+          npm ci
           npx playwright install --with-deps ${{ matrix.browser }}
       - name: Run headless browser acceptance
         env:
@@ -52,6 +52,7 @@ jobs:
           node tests/kitchen-browser.mjs
           node tests/personalisation-browser.mjs
           node tests/continuity-browser.mjs
+          node tests/vercel-browser.mjs
           node tests/selected-sources-browser.mjs
           # Independent fresh sessions guard the Firefox focus/click regression.
           # Every execution must pass; these are stability checks, not retries.

@@ -3,7 +3,7 @@ const CACHE='tasteit-shell-__TASTEIT_BUILD__';
 const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest',
   './src/recipe-presentation.js','./src/recipe-metadata.js','./src/meal-plan.js','./src/recipe-planning.js','./src/discovery-options.js','./src/recipe-discovery.js','./src/api.js','./src/app.js','./src/cloud-sync.js','./src/cooking.js','./src/editorial.js',
   './src/kitchen-discovery.js','./src/kitchen-flow.js','./src/model.js','./src/navigation.js',
-  './src/offline.js','./src/organise.js','./src/pantry-batches.js','./src/pantry-bulk.js',
+  './src/offline.js','./src/host-auth.js','./src/organise.js','./src/pantry-batches.js','./src/pantry-bulk.js',
   './src/personalisation.js','./src/quantities.js','./src/research-priority.js','./src/research-report.js',
   './src/rights-review.js','./src/servings.js','./src/shopping.js','./src/source-media.js',
   './src/source-overlap.js','./src/world-catalogue.js','./src/selected-kitchen.js',

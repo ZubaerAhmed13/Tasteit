@@ -3,7 +3,7 @@ import {parseBackup} from '../src/model.js';
 const MAX_BYTES=2_000_000;
 const json=(data,status=200)=>Response.json(data,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff'}});
 const validRevision=n=>Number.isSafeInteger(n)&&n>=0&&n<Number.MAX_SAFE_INTEGER;
-async function boundedJson(request) {
+export async function boundedJson(request) {
   if(Number(request.headers.get('content-length'))>MAX_BYTES)throw Object.assign(new Error('Cloud copy exceeds 2 MB.'),{status:413});
   const reader=request.body?.getReader();if(!reader)throw new Error('Missing request body.');
   const chunks=[];let length=0;

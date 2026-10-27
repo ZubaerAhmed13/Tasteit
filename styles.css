@@ -532,6 +532,11 @@ h3 { font-size: 24px }
 .continuity-panel h4 {margin:20px 0 8px}
 .continuity-panel .panel-note {margin:8px 0 14px}
 .continuity-panel .dialog-actions {flex-wrap:wrap;margin-top:14px}
+.sync-account {padding:0 0 18px;border-bottom:1px solid var(--border,#ddd)}
+.sync-account-form {display:grid;gap:12px;max-width:480px}
+.sync-account-form input {width:100%;min-height:44px}
+.sync-account-form .dialog-actions {margin-top:0}
+.account-status:focus {outline:2px solid var(--accent,#735c27);outline-offset:4px}
 .sync-conflict {padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--cream,#f8f7f3);margin:14px 0}
 .sync-conflict p {font-size:13px;line-height:1.6;margin:8px 0}
 .connection-status {position:fixed;bottom:20px;right:20px;max-width:360px;background:var(--forest);color:white;padding:13px 16px;border-radius:13px;z-index:75;font-size:13px;box-shadow:0 8px 24px #152b2030}

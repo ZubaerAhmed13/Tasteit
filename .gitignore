@@ -3,3 +3,7 @@ dist/
 .superpowers/
 .wrangler/
 *.log
+.vercel/
+.env
+.env.*
+!.env.example

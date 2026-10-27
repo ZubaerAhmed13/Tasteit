@@ -1,7 +1,7 @@
-# Tasteit Vercel migration — prepared, authorization blocked
+# Tasteit Vercel migration — implementation in progress
 
 27 October 2026. User request: host Tasteit on Vercel without compromising it.
-No Vercel deployment, replacement database or authentication resource has been created.
+Vercel workspace authorization completed. Dedicated Vercel project `prj_34N5Eu8WwM9IkGnPE8coJXdyWZkj` (`tasteit`) has been created with Vercel Authentication enabled for all deployments. No application deployment has been released yet.
 The existing owner-private Site version 13 and its database remain unchanged.
 PR #1 remains draft and unmerged.
 
@@ -19,16 +19,16 @@ frontend candidate files are checked byte-for-byte against that exporter. Server
 code, environment variables, development documents and private browser records
 are excluded. This is a frontend candidate, not a deployable full application.
 
-## Actual account block
+## Workspace authorization resolved
 
 The connected Vercel user can list projects. No Tasteit project exists in the
 returned project list. Its selected default workspace is
 `team_4VtWGFD5vMH5UwLvIRKK3syR`. Explicit workspace configuration and integration
-requests return HTTP 403, `forbidden`, with this recovery instruction:
+requests initially returned HTTP 403, `forbidden`, with this recovery instruction:
 `authorize_team_access`, then have the user open the single-use consent link,
 then retry the same request on the existing connection.
 
-Do not omit the workspace to work around the denial, switch accounts, change
+The user completed the authorization, and the original explicit-workspace requests now succeed. Do not omit the workspace, switch accounts, change
 sharing, use another credential, or publish an incomplete frontend. The consent
 link is temporary and must not be committed to the repository.
 
@@ -87,3 +87,5 @@ link is temporary and must not be committed to the repository.
 Vercel's current docs state that All Deployments protection covers production
 and generated deployment domains and is available on all plans. This must still
 be confirmed against the actual project's returned configuration after access.
+
+Dedicated Supabase backend: `kddgvhmnaflnkasgnivu` (Tasteit, Frankfurt), in the existing Primary account. Provisioning succeeded without a cost-confirmation request. Existing unrelated projects were not modified.

@@ -17,6 +17,7 @@ import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './rese
 import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
 import { emptyTasteProfile,createTasteProfile,recommendRecipes } from './personalisation.js';
 import { createCloudSync,SYNC_KEY,SYNC_META_KEY } from './cloud-sync.js';
+import {createHostAuth,accountMarkup} from './host-auth.js';
 import { offlineRecipes,installOffline } from './offline.js';
 import { collectedMeal,collectedRecipe } from './selected-kitchen.js';
 import {recipeRatingMarkup} from './recipe-presentation.js';
@@ -36,6 +37,7 @@ let recoveryViewRaw=null;
 let ingredientPhotos=[];
 let planningMetadata=[];
 let cloudSync=null,syncState={status:'off',enabled:false},offlineState={status:'preparing'},applyingCloud=false,applyingUpdate=false;
+let hostAuth=null,hostAuthState={supported:false,user:null,loading:false,message:''};
 
 let cuisines = ['All', 'Italian', 'Indian', 'Japanese', 'Mexican', 'Moroccan', 'Thai', 'Turkish', 'Chinese', 'British', 'American', 'Greek', 'French', 'Vietnamese'];
 let providerCuisines=cuisines.filter(x=>x!=='All');
@@ -670,9 +672,10 @@ function continuityPanel() {
   const offlineLabels={ready:'Ready offline',preparing:'Preparing offline access…',update:'An app update is ready',unsupported:'Offline caching is not supported in this browser',unavailable:'Offline preparation could not finish — reconnect and reload'};
   return '<section class="panel continuity-panel" aria-label="Offline access and cloud sync"><h3>Your kitchen, wherever you cook</h3><p id="offline-status" class="panel-note">'+escapeHtml(offlineLabels[offlineState.status]||offlineLabels.preparing)+'</p>'+
     '<p class="panel-note">Saved recipe details, your kitchen and local edits work offline after preparation. Photos and new recipes need a connection. You can add Tasteit to your home screen through your browser menu.</p>'+
-    '<h4>Optional cloud sync</h4><p class="panel-note">Enable to sync your cookbook, pantry, shopping list, meal plans, cooking journal and timers, leftovers, research notes and taste preferences with your private signed-in account. It works while Tasteit is open. Off keeps this browser’s data local; removing the cloud copy keeps this browser’s records.</p><div id="cloud-controls">'+cloudControls()+'</div></section>';
+    '<div id="host-account">'+accountMarkup(hostAuthState)+'</div><h4>Optional cloud sync</h4><p class="panel-note">Enable to sync your cookbook, pantry, shopping list, meal plans, cooking journal and timers, leftovers, research notes and taste preferences with your private signed-in account. It works while Tasteit is open. Off keeps this browser’s data local; removing the cloud copy keeps this browser’s records.</p><div id="cloud-controls">'+cloudControls()+'</div></section>';
 }
 function updateConnectionUI() {
+  const account=document.getElementById('host-account');if(account){const html=accountMarkup(hostAuthState);if(account.innerHTML!==html)account.innerHTML=html;}
   const root=document.getElementById('cloud-controls'),focused=document.activeElement?.id;
   if(root){const markup=cloudControls();if(root.innerHTML!==markup)root.innerHTML=markup;if(focused?.startsWith('sync-'))document.getElementById(focused)?.focus({preventScroll:true});}
   const offline=document.getElementById('offline-status');
@@ -1396,6 +1399,7 @@ document.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
   const action = button.dataset.action;
+  if(action==='account-sign-out') {if(hostAuth){const result=await hostAuth.submit('sign-out');if(result.succeeded)cloudSync?.disconnect();document.querySelector('.account-status')?.focus({preventScroll:true});}return;}
   if(['plan-previous','plan-next','plan-today'].includes(action)){planWeekOffset=action==='plan-today'?0:Math.max(-52,Math.min(52,planWeekOffset+(action==='plan-next'?1:-1)));render();appRoot.querySelector('[data-action="'+action+'"]')?.focus();return;}
   const id = button.dataset.id;
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
@@ -1765,6 +1769,11 @@ document.addEventListener('input', event => {
 });
 
 document.addEventListener('submit', event => {
+  if(event.target.id==='sync-account-form') {
+    event.preventDefault();const fields=Object.fromEntries(new FormData(event.target));
+    const action=event.submitter?.value==='sign-up'?'sign-up':'sign-in';
+    void hostAuth?.submit(action,fields).then(()=>document.querySelector('.account-status')?.focus({preventScroll:true}));return;
+  }
   if(event.target.id==='taste-form') {
     event.preventDefault();
     try {
@@ -2152,6 +2161,8 @@ cloudSync=createCloudSync({readLocal:()=>readStoreStrict(),readMeta:()=>JSON.par
     } finally {applyingCloud=false;}
   },onState:state=>{syncState=state;updateConnectionUI();}});
 syncState=cloudSync.state;
+hostAuth=createHostAuth({onState:state=>{hostAuthState=state;updateConnectionUI();}});
+void hostAuth.refresh();
 window.addEventListener('tasteit:local-change',()=>{if(!applyingCloud)cloudSync.changed();});
 window.addEventListener('online',()=>{updateConnectionUI();void cloudSync.sync();if(view==='discover'&&!selectedMeal&&!openingMealId)void discover('restore','',{history:false});});
 window.addEventListener('offline',()=>{updateConnectionUI();void cloudSync.sync();if(view==='discover'&&!selectedMeal&&!openingMealId)void discover('restore','',{history:false});});
