@@ -16,15 +16,15 @@ async function appWithStore(state, persists) {
   const notices=[];
   const handlers={};
   const sandbox={...bindings,loadStore:()=>state,persistStore:()=>persists,
-    document:{getElementById:()=>({querySelector:()=>null,focus:()=>{},scrollIntoView:()=>{}}),addEventListener:(name,handler)=>{handlers[name]=handler;}},
+    document:{body:{style:{}},getElementById:()=>({querySelector:()=>null,querySelectorAll:()=>[],contains:()=>false,focus:()=>{},scrollIntoView:()=>{}}),addEventListener:(name,handler)=>{handlers[name]=handler;}},
     window:{addEventListener:()=>{},location:{href:'https://tasteit.test/app/'},history:{state:{},pushState:()=>{},replaceState:()=>{}}},
     console,URL,AbortController,DOMException,structuredClone,setTimeout,clearTimeout,setInterval,clearInterval,
     FormData:class {constructor(target){this.fields=target.fields||{};}get(key){return this.fields[key]??null;}entries(){return Object.entries(this.fields)[Symbol.iterator]();}[Symbol.iterator](){return this.entries();}},
     notices,meal};
   vm.createContext(sandbox);
-  vm.runInContext(source+'\nrender=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,store,cloudMarkup:cloudControls,paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
-  return {...sandbox.audit,notices,meal,click:async(action,id,tag,personal=false)=>{
-    const target={dataset:{action,id,tag},closest:selector=>selector==='[data-action]'?target:selector==='[data-personal-recipe]' && personal?target:null};
+  vm.runInContext(source+'\nconst originalRenderDialog=renderDialog;syncCookingTimer=()=>{};render=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,targetServings:()=>detailTargetServings,previewCooking:target=>{selectedMeal=meal;detailTargetServings=target;stepIndex=0;originalRenderDialog();return overlayRoot.innerHTML;},store,cloudMarkup:cloudControls,paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
+  return {...sandbox.audit,notices,meal,click:async(action,id,tag,personal=false,planSlot='')=>{
+    const target={dataset:{action,id,tag,planOpen:planSlot},closest:selector=>selector==='[data-action]'?target:selector==='[data-personal-recipe]' && personal?target:null};
     await handlers.click({target});
   },submit:async(id,fields)=>handlers.submit({preventDefault:()=>{},target:{id,fields}})};
 }
@@ -172,4 +172,20 @@ test('home exposes dated ingredient ideas while retaining usual and want-to-try 
  const app=await appWithStore(state,true),markup=app.home();
  assert.match(markup,/data-action="use-soon"/);assert.match(markup,/Dated today/);
  assert.match(markup,/id="home-usual"/);assert.match(markup,/id="home-wanted"/);
+});
+
+test('preparation checklist uses confirmed scaled amounts and resumes the same portions',async()=>{
+ const state=emptyStore(),app=await appWithStore(state,true);
+ state.saved['unit-1']={meal:app.meal,wanted:true,baseServings:2};
+ assert.match(app.previewCooking(4),/2 cup · Rice/);
+ await app.click('start-cooking');assert.equal(state.cookingSessions['unit-1'].servings,4);
+ assert.match(app.previewCooking(null),/2 cup · Rice/);
+});
+
+test('opening two planned slots carries their independent portion targets and discovery keeps its default',async()=>{
+ const state=emptyStore(),app=await appWithStore(state,true);state.saved['unit-1']={meal:app.meal,baseServings:2,usual:true};
+ state.plan={'2026-10-27':'unit-1','2026-10-27:breakfast':'unit-1'};state.planServings={'2026-10-27':3,'2026-10-27:breakfast':4};
+ await app.click('open','unit-1',undefined,false,'2026-10-27:breakfast');assert.equal(app.targetServings(),4);
+ await app.click('open','unit-1',undefined,false,'2026-10-27');assert.equal(app.targetServings(),3);
+ await app.click('open','unit-1');assert.equal(app.targetServings(),2);
 });

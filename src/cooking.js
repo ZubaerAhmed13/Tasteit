@@ -24,6 +24,7 @@ export function safeCookingSession(session, stepCount) {
   const endsAt = typeof session?.endsAt === 'number' && Number.isSafeInteger(session.endsAt) &&
     session.endsAt > 0 && session.endsAt < 8640000000000000 ? session.endsAt : null;
   return { step, durationSeconds:duration, remainingSeconds:remaining, endsAt,
+    ...(Number.isInteger(session?.servings)&&session.servings>=1&&session.servings<=24?{servings:session.servings}:{}),
     ...(Array.isArray(session?.checkedIngredients)?{checkedIngredients:[...new Set(session.checkedIngredients.filter(n=>Number.isInteger(n)&&n>=0&&n<300))].slice(0,300)}:{}) };
 }
 
@@ -80,7 +81,8 @@ export function validCookingSessions(value) {
   return Object.entries(value).every(([id,session])=>{
     if (id.length>160 || !session || typeof session!=='object' || Array.isArray(session)) return false;
     const {step,durationSeconds,remainingSeconds,endsAt}=session;
-    return (session.checkedIngredients===undefined || Array.isArray(session.checkedIngredients)&&session.checkedIngredients.length<=300&&new Set(session.checkedIngredients).size===session.checkedIngredients.length&&session.checkedIngredients.every(n=>Number.isInteger(n)&&n>=0&&n<300)) &&
+    return (session.servings===undefined||Number.isInteger(session.servings)&&session.servings>=1&&session.servings<=24) &&
+      (session.checkedIngredients===undefined || Array.isArray(session.checkedIngredients)&&session.checkedIngredients.length<=300&&new Set(session.checkedIngredients).size===session.checkedIngredients.length&&session.checkedIngredients.every(n=>Number.isInteger(n)&&n>=0&&n<300)) &&
       Number.isSafeInteger(step) && step>=0 && step<=MAX_STEP_INDEX &&
       Number.isSafeInteger(durationSeconds) && durationSeconds>=60 && durationSeconds<=10800 &&
       Number.isSafeInteger(remainingSeconds) && remainingSeconds>=0 && remainingSeconds<=durationSeconds &&

@@ -73,3 +73,12 @@ test('preparation ingredient checks survive timer changes, backup and resume wit
  assert.equal(validCookingSessions({linked:{...session,checkedIngredients:[-1]}}),false);
  assert.equal('checkedIngredients' in safeCookingSession({},1),false);
 });
+test('confirmed preparation portions persist with timers and backup without inventing unknown portions',()=>{
+ const session={...safeCookingSession({},1),servings:4};
+ assert.equal(safeCookingSession(session,1).servings,4);
+ assert.equal(setCookingTimer(session,10,1).servings,4);
+ assert.equal(parseBackup(exportBackup({...emptyStore(),cookingSessions:{rice:session}})).cookingSessions.rice.servings,4);
+ assert.equal(validCookingSessions({rice:{...session,servings:0}}),false);
+ assert.equal(validCookingSessions({rice:{...session,servings:25}}),false);
+ assert.equal('servings' in safeCookingSession({},1),false);
+});

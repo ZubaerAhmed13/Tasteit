@@ -112,6 +112,7 @@ let showCookingLog = false;
 let cookingStockSnapshot = [];
 let purchaseDraft = null;
 let detailTargetServings = null;
+let detailServingChoice = false;
 let editingId = null;
 let newBatchName = null;
 let showRecipeForm = false;
@@ -1197,7 +1198,7 @@ function renderDialog() {
   const currentSession = currentCookingSession(meal);
   const timeInfo = timerStatus(currentSession);
   const originalServings = validServings(savedEntry(meal.idMeal).baseServings);
-  const targetServings = originalServings ? (validServings(detailTargetServings) || originalServings) : null;
+  const targetServings = originalServings ? (stepIndex>=0&&validServings(currentSession.servings) || validServings(detailTargetServings) || originalServings) : null;
   const prepared = scaledIngredients(meal,originalServings,targetServings);
   const measuredScore = analyseMeal(scaledRecipeForComparison(meal,originalServings,targetServings),store.pantry);
   let contents;
@@ -1214,7 +1215,7 @@ function renderDialog() {
   } else if (stepIndex >= 0) {
     const total = Math.max(1,parts.length);
     const linked=Boolean(collectedRecipe(meal));
-    const preparation='<section class="preparation-checklist" aria-label="Ingredient preparation checklist"><h3>Gather your ingredients</h3><p class="panel-note">Check ingredients as you prepare. This does not change pantry stock.</p>'+ingredientItems.map((item,index)=>'<label class="preparation-item"><input type="checkbox" data-preparation-index="'+index+'"'+(currentSession.checkedIngredients?.includes(index)?' checked':'')+'> <span>'+escapeHtml(item.measure?item.measure+' · '+item.name:item.name)+'</span></label>').join('')+'</section>';
+    const preparation='<section class="preparation-checklist" aria-label="Ingredient preparation checklist"><h3>Gather your ingredients</h3><p class="panel-note">'+(targetServings?'Preparing for '+targetServings+' servings. ':'')+'Check ingredients as you prepare. This does not change pantry stock.</p>'+prepared.map((item,index)=>'<label class="preparation-item"><input type="checkbox" data-preparation-index="'+index+'"'+(currentSession.checkedIngredients?.includes(index)?' checked':'')+'> <span>'+escapeHtml((item.value?item.value+(item.status==='review'?' · review scaling':'')+' · ':'')+item.name)+'</span></label>').join('')+'</section>';
     const timerControls = '<section class="cooking-timer" aria-label="Manual cooking timer">' +
       '<div class="cooking-timer-header"><div><strong>Cooking timer</strong><p>Set your own time. Never inferred from recipe directions.</p></div>' +
       '<div class="clock" data-cooking-clock>' + timeInfo.text + '</div></div>' +
@@ -1308,7 +1309,7 @@ function closeDialog({history=true}={}) {
   detailRequestNumber++;
   detailController?.abort();detailController=null;
   clearInterval(cookingTimerTicker);cookingTimerTicker=null;
-  selectedMeal=null;openingMealId='';stepIndex=-1;showCookingLog=false;detailTargetServings=null;cookingStockSnapshot=[];
+  selectedMeal=null;openingMealId='';stepIndex=-1;showCookingLog=false;detailTargetServings=null;detailServingChoice=false;cookingStockSnapshot=[];
   overlayRoot.innerHTML='';document.body.style.overflow='';
   if(wasOpen) {
     if(dialogReturnFocus?.isConnected)dialogReturnFocus.focus({preventScroll:true});
@@ -1329,7 +1330,7 @@ function recipeStatus(message,failed=false) {
   document.body.style.overflow='hidden';
   overlayRoot.querySelector('.dialog-close')?.focus();
 }
-async function openMeal(id,{history=true,meal:provided,trigger=null}={}) {
+async function openMeal(id,{history=true,meal:provided,trigger=null,planSlot=''}={}) {
   let possible=provided || findMeal(id);
   const request=++detailRequestNumber;
   detailController?.abort();
@@ -1355,7 +1356,9 @@ async function openMeal(id,{history=true,meal:provided,trigger=null}={}) {
       else notice('Could not save updated recipe details. Your saved recipe is unchanged.');
     }
     stepIndex=-1;showCookingLog=false;
-    detailTargetServings=validServings(store.saved[id]?.baseServings);
+    const plannedTarget=planSlot&&store.plan[planSlot]===id?resolvePlanServings(store.saved[id],store.planServings?.[planSlot]):null;
+    detailTargetServings=plannedTarget||validServings(store.saved[id]?.baseServings);
+    detailServingChoice=Boolean(plannedTarget);
     renderDialog();overlayRoot.querySelector('.dialog-close')?.focus();
   } catch(error) {
     if(request!==detailRequestNumber || currentController.signal.aborted)return;
@@ -1537,7 +1540,7 @@ document.addEventListener('click', async event => {
   if (action === 'world-cancel') { worldScanController?.abort(); return; }
   if (action === 'world-export') { downloadWorldIndex(); return; }
   if (action === 'world-retry-options') { await loadWorldOptions(); return; }
-  if (action === 'open') { await openMeal(id,{...(personalMeal?{meal:personalMeal}:{}),trigger:button}); return; }
+  if (action === 'open') { await openMeal(id,{...(personalMeal?{meal:personalMeal}:{}),trigger:button,planSlot:button.dataset.planOpen||''}); return; }
   if (action === 'retry-recipe') { await openMeal(id,{history:false}); return; }
   if (action === 'copy-recipe-link') {
     try { await navigator.clipboard.writeText(routeUrl(currentRoute(),window.location.href).href);notice('Recipe link copied.'); }
@@ -1669,7 +1672,12 @@ document.addEventListener('click', async event => {
   if (action === 'start-cooking' || action === 'restart-cooking') {
     if (!selectedMeal || !instructions(selectedMeal).length&&!collectedRecipe(selectedMeal)) return;
     const next = action === 'restart-cooking' ? safeCookingSession(null,instructions(selectedMeal).length) : currentCookingSession();
+    const base=validServings(savedEntry(selectedMeal.idMeal).baseServings);
+    const portions=base?(action!=='restart-cooking'&&!detailServingChoice&&validServings(next.servings)||validServings(detailTargetServings)||base):null;
+    if(portions)next.servings=portions;
+    else delete next.servings;
     if (!updateCookingSession(next)) return;
+    detailTargetServings=portions;
     stepIndex = next.step; timerCompletionNotified = null;
     renderDialog(); overlayRoot.querySelector('.cook-step')?.focus(); return;
   }
@@ -1704,6 +1712,7 @@ document.addEventListener('click', async event => {
     if (!original) return;
     const current = validServings(detailTargetServings) || original;
     detailTargetServings = Math.max(1,Math.min(24,current + (action === 'servings-plus' ? 1 : -1)));
+    detailServingChoice=true;
     renderDialog(); return;
   }
   if(action==='shopping-receive') {
@@ -1869,6 +1878,7 @@ document.addEventListener('submit', event => {
       store.saved=nextSaved;
       store.planServings=nextTargets;
       detailTargetServings=validServings(nextEntry.baseServings);
+      detailServingChoice=true;
       render(); notice(detailTargetServings ? 'Original serving count saved.' : 'Serving reference cleared.');
     } catch(error) { notice(error.message || 'Invalid serving count.'); }
     return;
