@@ -43,7 +43,7 @@ export async function handleSync(request,env) {
     if(body?.accountId!==accountId)return json({error:'The signed-in account changed. Reconnect before changing a cloud copy.'},409);
     if(!body || !validRevision(body.revision))throw new Error('Invalid cloud revision.');
     if(request.method==='PUT') {
-      const data=parseBackup(JSON.stringify({format:'tasteit-backup',version:1,data:body.data}));
+      const data=parseBackup(JSON.stringify({format:'tasteit-backup',version:2,data:body.data}));
       payload=JSON.stringify(data);
     }
   } catch(error){return json({error:error.status===413?error.message:'Invalid cloud copy or revision.'},error.status||400);}

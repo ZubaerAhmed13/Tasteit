@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'node:http';
+import {chromium,firefox,webkit} from 'playwright';
+import {applicationAssets} from '../scripts/build-site.mjs';
+import {createWorker} from '../server/worker.js';
+import {emptyStore,nextSevenDates} from '../src/model.js';
+const worker=createWorker(await applicationAssets());
+const server=createServer(async(req,res)=>{const response=await worker.fetch(new Request('http://127.0.0.1:'+server.address().port+req.url),{});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port+'/';let browser;
+const day=nextSevenDates()[0].key,rice={idMeal:'personal-rice',strMeal:'Test rice',strIngredient1:'Rice',strMeasure1:'100 g',strInstructions:'Boil the rice.',strPersonal:true},eggs={idMeal:'personal-eggs',strMeal:'Test eggs',strIngredient1:'Eggs',strMeasure1:'2',strInstructions:'Cook the eggs.',strPersonal:true};
+try {
+ browser=await({chromium,firefox,webkit}[process.env.TASTEIT_BROWSER||'chromium']).launch({headless:true});
+ const page=await browser.newPage({viewport:{width:375,height:812}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route(/https:\/\//,r=>r.abort());
+ const store={...emptyStore(),saved:{[rice.idMeal]:{meal:rice,usual:true,baseServings:2},[eggs.idMeal]:{meal:eggs,wanted:true,baseServings:2}},plan:{[day]:rice.idMeal}};
+ await page.addInitScript(s=>{if(!localStorage.getItem('tasteit.local.v1'))localStorage.setItem('tasteit.local.v1',JSON.stringify(s));},store);
+ await page.goto(base+'?view=plan');
+ const breakfast=page.locator('[data-plan-day="'+day+':breakfast"]'),dinner=page.locator('[data-plan-day="'+day+'"]');
+ await breakfast.selectOption(eggs.idMeal);assert.equal(await dinner.inputValue(),rice.idMeal);
+ await page.locator('[data-plan-servings="'+day+':breakfast"]').fill('4');await page.locator('[data-plan-servings="'+day+':breakfast"]').dispatchEvent('change');
+ assert.equal(await page.locator('[data-plan-servings="'+day+'"]').inputValue(),'2');
+ await page.reload();assert.equal(await breakfast.inputValue(),eggs.idMeal);assert.equal(await dinner.inputValue(),rice.idMeal);
+ assert.equal(await page.locator('[data-plan-servings="'+day+':breakfast"]').inputValue(),'4');
+ assert.ok((await page.locator('.shopping-checklist').innerText()).includes('4 pcs'));
+ await page.locator('[data-action=plan-next]').click();assert.equal(await breakfast.count(),0);
+ await page.locator('[data-plan-day$=":lunch"]').first().selectOption(rice.idMeal);
+ await page.locator('[data-action=plan-today]').click();assert.equal(await breakfast.inputValue(),eggs.idMeal);
+ await page.locator('[data-plan-open="'+day+':breakfast"]').click();await page.locator('#dialog-title').filter({hasText:'Test eggs'}).waitFor();
+ await page.keyboard.press('Escape');
+ await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ assert.deepEqual(errors,[]);console.log('PASS everyday cooking: legacy dinner, independent breakfast/portions, reload, week navigation, shopping and 320px reflow');
+} finally {await browser?.close();await new Promise(r=>server.close(r));}

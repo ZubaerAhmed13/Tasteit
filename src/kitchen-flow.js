@@ -2,6 +2,7 @@ import {normalizeIngredient,usablePantryItem,shoppingList,nextSevenDates} from '
 import {shoppingChecklist,shoppingFingerprint} from './shopping.js';
 import {parseMeasure,pantryMeasure} from './quantities.js';
 import {scaledIngredients} from './servings.js';
+import {planForDates} from './meal-plan.js';
 
 export const STOCK_UNITS=['pcs','g','kg','ml','l','tsp','tbsp','cups','packs'];
 export const STOCK_LOCATIONS=['Pantry','Fridge','Freezer','Other'];
@@ -38,8 +39,7 @@ export function receivePurchases(store,review,selections,receiptId,now=new Date(
   if(!/^[A-Za-z0-9-]{1,100}$/.test(receiptId))throw new Error('Invalid purchase receipt.');
   if(!selections.length)throw new Error('Select at least one food purchase to add.');
   if(new Set(selections.map(x=>x.key)).size!==selections.length)throw new Error('Duplicate purchase selection.');
-  const days=new Set(nextSevenDates(now).map(x=>x.key));
-  const week=Object.fromEntries(Object.entries(store.plan).filter(([day])=>days.has(day)));
+  const week=planForDates(store.plan,nextSevenDates(now));
   const checklist=shoppingChecklist(shoppingList(week,store.saved,store.pantry,store.planServings,now),store.shoppingExtras,store.shoppingChecked);
   const eligible=purchaseReview(checklist,store.shoppingStocked);
   const stocked={...store.shoppingStocked};

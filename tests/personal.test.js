@@ -50,7 +50,7 @@ test('exports and imports the full local cookbook', () => {
   const original = { pantry:[{id:'p',name:'Rice',quantity:'1',unit:'kg'}], saved:{'personal-1':{meal,usual:true}}, plan:{'2026-10-22':'personal-1'} };
   const backup = exportBackup(original,new Date('2026-10-22T16:00:00Z'));
   const data = JSON.parse(backup);
-  assert.equal(data.version,1);
+  assert.equal(data.version,2);
   assert.deepEqual(parseBackup(backup),original);
   assert.equal(parseBackup(exportBackup(emptyStore())).pantry.length,0);
 });

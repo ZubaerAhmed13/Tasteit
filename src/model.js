@@ -6,6 +6,7 @@ import { validEditorialReviews } from './editorial.js';
 import { validKitchenState } from './kitchen-flow.js';
 import { emptyTasteProfile,validTasteProfile } from './personalisation.js';
 import { collectedRecipe } from './selected-kitchen.js';
+import { validPlanKey } from './meal-plan.js';
 export const STORAGE_KEY = 'tasteit.local.v1';
 export const LAST_GOOD_KEY = 'tasteit.local.last-good.v1';
 export const RECOVERY_KEY = 'tasteit.local.recovery.v1';
@@ -225,7 +226,7 @@ const MAX_BACKUP_SIZE = 2_000_000;
 
 export function exportBackup(store, now = new Date()) {
   return JSON.stringify({
-    format: 'tasteit-backup', version: 1, exportedAt: now.toISOString(),
+    format: 'tasteit-backup', version: 2, exportedAt: now.toISOString(),
     data: { pantry: store.pantry, saved: store.saved, plan: store.plan,
       ...(store.planServings === undefined ? {} : { planServings:store.planServings }),
       ...(store.cookingSessions === undefined ? {} : { cookingSessions:store.cookingSessions }),
@@ -242,7 +243,7 @@ export function parseBackup(text) {
   if (typeof text !== 'string' || text.length > MAX_BACKUP_SIZE || new TextEncoder().encode(text).byteLength>MAX_BACKUP_SIZE) throw new Error('Backup must be a JSON file smaller than 2 MB.');
   let backup;
   try { backup = JSON.parse(text); } catch { throw new Error('This is not valid JSON.'); }
-  if (backup?.format !== 'tasteit-backup' || backup.version !== 1 || !backup.data) {
+  if (backup?.format !== 'tasteit-backup' || ![1,2].includes(backup.version) || !backup.data) {
     throw new Error('This is not a supported Tasteit backup.');
   }
   const { pantry, saved, plan, planServings, cookingSessions, shoppingChecked, shoppingExtras, editorialReviews, shoppingStocked, leftovers, tasteProfile } = backup.data;
@@ -257,14 +258,14 @@ export function parseBackup(text) {
   if (!validEditorialReviews(editorialReviews)) throw new Error('The backup contains invalid editorial research notes.');
   if (!validKitchenState(shoppingStocked,leftovers)) throw new Error('The backup contains invalid kitchen records.');
   if (!validTasteProfile(tasteProfile)) throw new Error('The backup contains invalid taste preferences.');
-  if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && validServings(n) === n))) {
+  if (planServings !== undefined && (!planServings || typeof planServings !== 'object' || Array.isArray(planServings) || !Object.entries(planServings).every(([day,n]) => validPlanKey(day) && (backup.version===2||day.length===10) && Boolean(plan[day]) && validServings(n) === n))) {
     throw new Error('The backup contains invalid meal serving counts.');
   }
   if (!pantry.every(item => item && typeof item.name === 'string' && item.name.length <= 150) ||
       !Object.entries(saved).every(([key, entry]) => key.length < 220 && entry && typeof entry === 'object' &&
         entry.meal && typeof entry.meal.strMeal === 'string' && entry.meal.strMeal.length <= 200 &&
         (entry.meal.selectedRecipe===undefined||Boolean(collectedRecipe(entry.meal))&&key===entry.meal.idMeal)) ||
-      !Object.entries(plan).every(([key, id]) => /^\d{4}-\d{2}-\d{2}$/.test(key) && typeof id === 'string')) {
+      !Object.entries(plan).every(([key, id]) => validPlanKey(key) && (backup.version===2||key.length===10) && typeof id === 'string')) {
     throw new Error('The backup contains invalid records.');
   }
   return { pantry, saved, plan, ...(planServings === undefined ? {} : { planServings }),

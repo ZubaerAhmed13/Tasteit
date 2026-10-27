@@ -45,6 +45,7 @@ jobs:
         env:
           TASTEIT_BROWSER: ${{ matrix.browser }}
         run: |
+          node tests/everyday-cooking-browser.mjs
           node tests/coherent-interface-browser.mjs
           node tests/browser-smoke.mjs
           node tests/discovery-browser.mjs
