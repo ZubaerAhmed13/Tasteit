@@ -1,6 +1,6 @@
 # Private Vercel Hosting Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Host the full current Tasteit privately on Vercel with verified auth and durable isolated sync.
 **Architecture:** Preserve applicationAssets; add Node request adapter, server-only Supabase cookie session, RLS/CAS repository and capability-detected account panel. Original Worker stays compatible.
@@ -25,22 +25,22 @@
 ### Task 1: Verified server auth and transactional snapshots
 **Files:** server/supabase-client.js, server/vercel-sync.js, server/vercel-auth.js, server/vercel-http.js, api/auth.js, api/sync.js, server/sync-api.js, package.json/package-lock.json, supabase/schema.sql, tests/vercel-api.test.js.
 **Interfaces:** createSession(request,env)->{client,finish(Response)}; handleVercelAuth(request,dependencies)->Response; handleVercelSync(request,dependencies)->Response; nodeHandler(handler)->Node handler. Existing boundedJson exported.
-- [ ] Add tests for forged/absent/unconfirmed identity, same-origin/content type/body/account validation, cookies/no-store and getUser errors; run to observe RED.
-- [ ] Implement pinned SDK cookie/session and Node transport, snapshot handlers retaining backup validation. Provision schema through execute_sql; direct writes denied, select RLS and private CAS RPC authenticated only.
-- [ ] Run targeted/full Node tests and real DB role/CAS probes; expected all pass. Commit.
+- [x] Add tests for forged/absent/unconfirmed identity, same-origin/content type/body/account validation, cookies/no-store and getUser errors; run to observe RED.
+- [x] Implement pinned SDK cookie/session and Node transport, snapshot handlers retaining backup validation. Provision schema through execute_sql; direct writes denied, select RLS and private CAS RPC authenticated only.
+- [x] Run targeted/full Node tests and real DB role/CAS probes; expected all pass. Commit.
 
 ### Task 2: Account UI and migration continuity
 **Files:** src/host-auth.js, src/app.js, styles.css, sw.js, tests/host-auth.test.js, tests/vercel-browser.mjs.
 **Interfaces:** createHostAuth({fetch,onState})->{state,refresh,submit}; accountMarkup(state)->HTML. Capability absent preserves old host UI; on sign-out explicitly disconnect cloud sync.
-- [ ] Add RED tests for account request/timeout/unknown capability, generic errors and no client token storage; browser account sign-in/out + local records/sync consent.
-- [ ] Implement conditional account form, same-origin fetch, meaningful status/focus and no automatic sync enable. Add new module to offline assets.
-- [ ] Run full Node and new/browser CI; expected all pass. Commit.
+- [x] Add RED tests for account request/timeout/unknown capability, generic errors and no client token storage; browser account sign-in/out + local records/sync consent.
+- [x] Implement conditional account form, same-origin fetch, meaningful status/focus and no automatic sync enable. Add new module to offline assets.
+- [x] Run full Node and new/browser CI; expected all pass. Commit.
 
 ### Task 3: Vercel package and full verification
 **Files:** scripts/build-vercel.mjs, vercel.json, .gitignore, .github/workflows/verify.yml, tests/vercel-build.test.js.
 **Interfaces:** build exports identical frontend asset bytes/provenance into dist/vercel, Vercel functions remain server-only; both builds work.
-- [ ] Add RED build/Node transport tests preserving modules/photos/provenance and excluding private/server source; wire Vercel browser suite into all three CI jobs.
-- [ ] Implement build config, pin lockfile/install and headers (private/no-cache, SW no-cache, noindex, nosniff). Configure server env through native encrypted tool values only.
-- [ ] Run npm run verify, both builds, full three-engine CI and live authenticated DB probes. Expected all pass. Commit.
-- [ ] One fresh final reviewer, one continuing Critical/Important RED→GREEN fix pass and full green suite. No re-review.
-- [ ] Deploy exact tested commit to protected staging/production, verify protected aliases and assets/provenance; document actual auth/confirmation limits and any required user setup. Keep old Site and draft PR. Commit evidence and remove only this plan workspace after completion.
+- [x] Add RED build/Node transport tests preserving modules/photos/provenance and excluding private/server source; wire Vercel browser suite into all three CI jobs.
+- [x] Implement build config, pin lockfile/install and headers (private/no-cache, SW no-cache, noindex, nosniff). Configure server env through native encrypted tool values only.
+- [x] Run npm run verify, both builds, full three-engine CI and live authenticated DB probes. Expected all pass. Commit.
+- [x] One fresh final reviewer, one continuing Critical/Important RED→GREEN fix pass and full green suite. No re-review.
+- [x] Deploy exact tested commit to protected staging/production, verify protected aliases and assets/provenance; document actual auth/confirmation limits and any required user setup. Keep old Site and draft PR. Commit evidence and remove only this plan workspace after completion.
