@@ -35,3 +35,12 @@ test('licensed snapshot failure retains original and saved records and retries p
  let fail=true,calls=0;const loader=discovery.createRecipeCollectionLoader(async url=>{calls++;if(url.includes('complete-recipes')){if(fail)throw Error('offline source');return {version:1,source:'wikibooks',recipes:[]};}return {recipes:[records[0]]};});
  assert.equal((await loader.load()).length,1);assert.ok(loader.completeError);const before=calls;fail=false;await loader.load();assert.ok(calls>before);assert.equal(loader.completeError,'');
 });
+
+test('partial retries retain each validated snapshot through alternating and simultaneous failures',async()=>{
+ const full=JSON.parse(await readFile('data/complete-recipes.json','utf8')).recipes[0];let broken=new Set(['complete-recipes']);
+ const loader=discovery.createRecipeCollectionLoader(async url=>{const name=url.includes('complete-recipes')?'complete-recipes':'selected-recipes';if(broken.has(name))throw Error('temporary outage');return name==='complete-recipes'?{version:1,source:'wikibooks',recipes:[full]}:{recipes:[records[0]]};});
+ assert.deepEqual((await loader.load()).map(r=>r.id),[records[0].id]);
+ broken=new Set(['selected-recipes']);assert.deepEqual((await loader.load()).map(r=>r.id),[records[0].id,full.id]);assert.ok(loader.originalError);assert.equal(loader.completeError,'');
+ broken=new Set(['selected-recipes','complete-recipes']);assert.deepEqual((await loader.load()).map(r=>r.id),[records[0].id,full.id]);assert.ok(loader.originalError&&loader.completeError);
+ broken.clear();assert.deepEqual((await loader.load()).map(r=>r.id),[records[0].id,full.id]);assert.equal(loader.originalError+loader.completeError,'');
+});

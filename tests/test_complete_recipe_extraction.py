@@ -25,6 +25,12 @@ class Extraction(unittest.TestCase):
  def test_oxford_comma_notes_are_preserved(self):
   html='<h2>Ingredients</h2><ul><li>1 egg</li></ul><h2>Procedure</h2><ol><li>Cook.</li></ol><h2>Notes, tips, and variations</h2><ul><li>Important preparation note.</li></ul>'
   self.assertEqual(module.extract_sections(html)[2],['Important preparation note.'])
+ def test_ingredients_cannot_depend_on_an_undefined_recipe_batch(self):
+  html='<h2>Ingredients</h2><ul><li>1 full order of <a href="/wiki/Cookbook:Hash_Browns">hash browns</a></li><li>1 tortilla</li></ul><h2>Procedure</h2><ol><li>Place one quarter of the hash browns in the tortilla.</li></ol>'
+  with self.assertRaisesRegex(ValueError,'depends on another recipe'):module.extract_sections(html)
+ def test_source_introduction_keeps_yield_and_preparation_context_without_navigation(self):
+  html='<div class="mw-parser-output"><p>Cookbook | Recipes | Ingredients</p><p>This recipe makes enough for 60 people.</p><p>This version omits soaking the beef to reduce salt.</p><h2>Ingredients</h2><ul><li>15 pounds beef</li></ul><h2>Procedure</h2><ol><li>Cook.</li></ol></div><p>Privacy policy</p>'
+  self.assertEqual(module.extract_sections(html)[2],['This recipe makes enough for 60 people.','This version omits soaking the beef to reduce salt.'])
  def test_missing_ambiguous_or_script_only_methods_are_rejected(self):
   for html in ['<h2>Ingredients</h2><ul><li>1 egg</li></ul>','<h2>Ingredients</h2><ul><li>1 egg</li></ul><h2>Method</h2><script>Invent cooking directions</script>','<h2>Ingredients</h2><ul><li>1 egg</li></ul><h2>Method</h2><ol><li>Cook</li></ol><h2>Procedure</h2><ol><li>Other method</li></ol>']:
    with self.assertRaises(ValueError):module.extract_sections(html)

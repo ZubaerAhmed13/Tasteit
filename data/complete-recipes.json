@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source": "wikibooks",
-  "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+  "checkedAt": "2026-10-29T03:35:15.219644+00:00",
   "licenseInfo": "https://en.wikibooks.org/wiki/Wikibooks:Copyrights",
   "recipes": [
     {
@@ -12,7 +12,7 @@
       "author": "Wikibooks contributors",
       "cuisine": "",
       "category": "Breakfast",
-      "categoryEvidenceAt": "2026-10-29T03:22:53.525051+00:00",
+      "categoryEvidenceAt": "2026-10-29T03:35:15.219644+00:00",
       "ingredients": [
         "3 eggs",
         "2–3 tbsp milk (optional)",
@@ -22,7 +22,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Crack eggs into a measuring cup.",
@@ -48,7 +48,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -59,7 +59,7 @@
       "author": "Wikibooks contributors",
       "cuisine": "",
       "category": "Breakfast",
-      "categoryEvidenceAt": "2026-10-29T03:22:53.525051+00:00",
+      "categoryEvidenceAt": "2026-10-29T03:35:15.219644+00:00",
       "ingredients": [
         "½ cup steel-cut oats, also called Irish oats",
         "1½ cup water",
@@ -69,7 +69,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Mix the steel-cut oats with a teaspoon of buckwheat flour in a bowl.",
@@ -80,6 +80,7 @@
           "Serve and top with your choice of toppings, such as chia seeds, walnuts, tablespoon of peanut butter, berries, cinnamon, or a dollop of Greek yogurt."
         ],
         "notes": [
+          "Scottish Porridge is a beloved traditional breakfast dish from Scotland. Traditionally, it doesn't use dairy and only consists of three ingredients - oats, salt and water. This recipe follows the golden ratio of one parts oats to three parts water and uses an overnight pre-soaking method for steel-cut oats. The soaking helps reduce cooking time and the oats are later simmered slowly. The end result is a creamy, satisfying porridge with a pleasant chewy texture. A variety of toppings can be added according to personal preferences, including berries, sliced banana, seeds, nuts, cinnamon, and a dollop of Greek yogurt.[1][2]",
           "Traditionalists uses whole-oat groats and mill them to make Scottish porridge. However store bought steel-cut oats are a reliable substitute for those who do not possess a mill. If you possess a mill and desire the authentic Scottish taste, you can swap steel-cut oats and use milled whole-oat groats instead.",
           "Pre-soaking is essential to achieve a soft, velvety texture as it helps break down starches in oats and soften its hearty outer hull.",
           "To reduce phytates in oats, you should add both an acidic medium and a phytase-rich ingredient to your soaking liquid, This can be achieved by adding a teaspoon of buckwheat flour and a teaspoon of apple cider vinegar.",
@@ -97,7 +98,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -108,7 +109,7 @@
       "author": "Wikibooks contributors",
       "cuisine": "",
       "category": "Other",
-      "categoryEvidenceAt": "2026-10-29T03:22:53.525051+00:00",
+      "categoryEvidenceAt": "2026-10-29T03:35:15.219644+00:00",
       "ingredients": [
         "2 ripe avocados",
         "2 tomatoes, chopped",
@@ -118,7 +119,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Gently slice avocado and remove pit.",
@@ -128,7 +129,9 @@
           "Add salt and stir.",
           "If desired, eat with chips, bread, or salad."
         ],
-        "notes": [],
+        "notes": [
+          "This recipe is the simplest of the group. It is very simple and more attuned to use as an additive. This recipe is a more traditional Mexican guacamole and does not include many of the features commonly associated with the dish by Americans used to the Tex-Mex Version."
+        ],
         "pageId": 456248,
         "revision": 4517630,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGuacamole+%28Chile-+and+Herb-Free%29&oldid=4517630",
@@ -136,7 +139,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -159,7 +162,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Put everything except the avocados into a medium-sized mixing bowl.",
@@ -167,7 +170,9 @@
           "Taste the mixture and add anything you think necessary (be aware that the flavors, especially the lime, will soften a little by the time it is served).",
           "Cover and refrigerate for at least an hour to allow the flavors to blend. When it is removed from the refrigerator, there may be some brown on the top – you can scrape that off, but it isn't harmful. Using a covering that is in full contact with the surface of the guacamole (for example, some plastic wrap that's pressed right down into the food) may help. Adding the avocado pit into the bowl is a useless superstition."
         ],
-        "notes": [],
+        "notes": [
+          "The ingredients and quantities of this recipe are tuned to the tastes of one contributor; you should experiment with it. Especially note that it has got rather a lot of lime, and you might want to add peppers, chilis or tabasco."
+        ],
         "pageId": 456250,
         "revision": 4517631,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGuacamole+%28Chile-Free%29&oldid=4517631",
@@ -175,7 +180,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -186,7 +191,7 @@
       "author": "Wikibooks contributors",
       "cuisine": "",
       "category": "Soup",
-      "categoryEvidenceAt": "2026-10-29T03:22:53.525051+00:00",
+      "categoryEvidenceAt": "2026-10-29T03:35:15.219644+00:00",
       "ingredients": [
         "1 onion",
         "1 turnip",
@@ -198,13 +203,15 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Boil the onion, turnip, potatoes, carrot, and celery in the water until the vegetables are cooked.",
           "Insert the bread into a bowl. Pour the soup over it."
         ],
         "notes": [
+          "Vegetable soup is a soup made from vegetables. Many different recipes and variations are possible.",
+          "This page incorporates text from the public domain cookbook Household Cyclopedia by Henry Hartshorne.",
           "Tomatoes also make a welcome addition to the soup."
         ],
         "pageId": 21191,
@@ -214,7 +221,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -225,7 +232,7 @@
       "author": "Wikibooks contributors",
       "cuisine": "",
       "category": "Other",
-      "categoryEvidenceAt": "2026-10-29T03:22:53.525051+00:00",
+      "categoryEvidenceAt": "2026-10-29T03:35:15.219644+00:00",
       "ingredients": [
         "Red tomatoes, chopped",
         "Cucumber, sliced into rounds",
@@ -240,7 +247,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Combine tomatoes, cucumbers, onions, peppers, and olives in a deep bowl.",
@@ -256,7 +263,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -267,7 +274,7 @@
       "author": "Wikibooks contributors",
       "cuisine": "",
       "category": "Other",
-      "categoryEvidenceAt": "2026-10-29T03:22:53.525051+00:00",
+      "categoryEvidenceAt": "2026-10-29T03:35:15.219644+00:00",
       "ingredients": [
         "3 cups whole wheat flour",
         "Salt to taste (about 1 teaspoon)",
@@ -276,7 +283,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Knead together the flour and water, starting with only a slight dribble of water and adding more as you go until the dough becomes smooth but not too sticky.",
@@ -288,6 +295,7 @@
           "If desired, brush with ghee."
         ],
         "notes": [
+          "The chapati, also known as a roti, is the staple flat bread of Northern India and Pakistan. It can be made from many types of grain, but is most commonly made with finely-ground whole wheat flour. Sometimes it is cooked in a little oil.",
           "Regional variations abound in the detail of preparing and cooking roti. In most Indian cooking, for example, the roti is finished by toasting it in the open flame of the cooker. The aim of this process is to encourage the roti to puff up. The hot air which builds inside because the water inside the roti begins to turn into steam and cooks the roti inside out. This may also be achieved under a grill, or by using a microwave (try 30 seconds on high power). Universally, however, the aim in rolling is to get the roti to a perfectly round shape (for aesthetics) and to create uniform thickness, which is vital for successful cooking.",
           "There are Caribbean-specific variations of roti, one of which uses boiled and ground yellow split peas in its preparation.",
           "Chapatis are usually eaten with cooked dal (lentil soup) or vegetable dishes like Indian curry. Pieces of the chapati are used to wrap and lift bites of the other dishes."
@@ -299,7 +307,49 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-99980",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_Curry_(Mediterranean-inspired)",
+      "title": "Chicken Curry (Mediterranean-inspired)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-23T08:25:13.984Z",
+      "ingredients": [
+        "2 tbsp olive oil",
+        "6 cloves of garlic, smashed",
+        "½ lemon, juiced",
+        "5 medium spicy long green chiles, slit in half length-wise",
+        "5 tbsp milk",
+        "2 tbsp garam masala",
+        "2 tbsp dried basil",
+        "Salt to taste",
+        "2 whole bone-in chicken thighs"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
+      "method": {
+        "steps": [
+          "Combine oil, garlic, lemon juice, chiles, milk, garam masala, dried basil, and salt to make a marinade.",
+          "Marinate the chicken in the marinade for about ½-1 hour.",
+          "Transfer chicken and marinade to a pot. Cover and cook over low heat until fully cooked and tender."
+        ],
+        "notes": [
+          "This is an Indian dish with Mediterranean influence."
+        ],
+        "pageId": 99980,
+        "revision": 4517526,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Curry+%28Mediterranean-inspired%29&oldid=4517526",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Curry+%28Mediterranean-inspired%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -318,7 +368,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Place oven rack to middle setting, and preheat to 350°F (175°C).",
@@ -340,7 +390,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -369,7 +419,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Cook bacon strips, cut into small pieces, and set aside for later.",
@@ -383,6 +433,7 @@
           "Serve"
         ],
         "notes": [
+          "The origins of potato salad can be traced to Germany before the turn of the 17th century, where it first became popular to use vinegar and spices on potatoes as a side dish. The salad has a bite to it and is served warm as often as not.",
           "Potatoes may be boiled whole in skins, cooled, and carefully peeled to leave the thin, yellow protein layer intact for improved nutritional value and flavour. Slice at room temperature or chilled.",
           "Chopping the potatoes into small pieces allow more surface to be coated and improves the flavour.",
           "You can omit salt and use a chicken-flavoured bouillon cube instead. Add chopped onion to bouillon and simmer for a few minutes to blend flavours.",
@@ -395,7 +446,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -417,7 +468,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Peel the potatoes and dice them into pieces about 2–3 cm/1 inch thick.",
@@ -428,6 +479,7 @@
           "Serve hot. Yields 4 servings."
         ],
         "notes": [
+          "This page incorporates text from the public domain cookbook Household Cyclopedia by Henry Hartshorne.",
           "You can use an electric hand mixer rather than a potato masher or ricer if you prefer, but if you do, be sure to keep it on LOW and do not overbeat the potatoes, or they will become gummy.",
           "Onion mashed potatoes: Prepare some boiled onions, rub them through a sieve, and mix them with potatoes."
         ],
@@ -438,7 +490,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -455,7 +507,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Wash and dry the potatoes.",
@@ -471,7 +523,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -494,7 +546,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Heat a small nonstick skillet over medium high heat until butter bubbles nicely when you swirl it around.",
@@ -509,7 +561,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -530,7 +582,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Peel and slice potatoes. The slices should be quite thin.",
@@ -548,6 +600,7 @@
           "Transfer to a large plate, cut into wedges, and serve with more tapas."
         ],
         "notes": [
+          "The Spanish omelet (tortilla) is one of the best-known Spanish dishes, and it would be very rare to find a tapas bar that does not offer the Spanish tortilla. This tapa is versatile, and other ingredients such as mushrooms, tomatoes, and peppers can be added to create variety. Spanish tortilla can be served warm or cold, and is often topped with mayonnaise or tomato sauce.",
           "Sliced tomatoes, fresh bread, and mayonnaise make this into a great meal."
         ],
         "pageId": 23021,
@@ -557,7 +610,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -584,7 +637,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
@@ -616,7 +669,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -645,7 +698,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
@@ -678,7 +731,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -701,7 +754,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Peel and chop the onion. Fry it in the oil until it turns translucent.",
@@ -712,6 +765,7 @@
           "Serve with bread."
         ],
         "notes": [
+          "Shakshuka is a popular Middle Eastern dish with many variations. It is vegetarian-friendly.",
           "Tuna and garlic",
           "Cheese on top",
           "Bread inside"
@@ -723,7 +777,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -748,7 +802,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Start by preheating oven to 180°C (350°F / gas mark 4).",
@@ -759,6 +813,7 @@
           "Pull out of the oven and allow to cool."
         ],
         "notes": [
+          "Peanut butter cookies are one of the most popular kinds of cookies. Add lemon zest for flavor.",
           "If low on brown sugar, combine the white sugar and 1 tablespoon of molasses together.",
           "To give a sparkly look, dip cookie in step 4 on a small saucer sprinkled with sugar.",
           "Smooth peanut butter works much better than chunky.",
@@ -772,7 +827,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -792,7 +847,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Preheat the oven to 140°C (275°F or Gas Mark 1).",
@@ -804,7 +859,9 @@
           "Leave them on a cooling rack to cool.",
           "Store in a cool place in an airtight container."
         ],
-        "notes": [],
+        "notes": [
+          "Shortbread is a type of cookie which is traditionally made from one part white sugar, two parts butter, and three parts plain white flour, although other ingredients like ground rice or cornstarch are sometimes added to alter the texture. Shortbread is so named because of its crumbly texture (from an old meaning of the word short). The cause of this texture is its high fat content, provided by the butter. The related word \"shortening\" refers to any fat that may be added to produce a short (crumbly) texture.[1]"
+        ],
         "pageId": 129695,
         "revision": 4515326,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AShortbread&oldid=4515326",
@@ -812,7 +869,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -842,7 +899,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Mix quickly the sugar and lemon rind in a food processor.",
@@ -854,7 +911,9 @@
           "Add raisins, and pulse the processor as to just mix them in and not shred them.",
           "Bake in a bundt pan for 55 minutes at approximately 320°F (160°C; gas mark 3) or until a knife inserted into the center comes out clean."
         ],
-        "notes": [],
+        "notes": [
+          "Apple bundt cake is very easy to make, requires no fancy frosting or filling, and is delicious for serving at breakfast, tea time or even as a birthday cake with a chocolate or fruit glaze covering."
+        ],
         "pageId": 20148,
         "revision": 4523468,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AApple+Bundt+Cake&oldid=4523468",
@@ -862,7 +921,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -886,7 +945,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Mix the ingredients and pour them into a 9-inch (20 cm) baking pan. They can also be carefully mixed in the pan.",
@@ -894,6 +953,7 @@
           "Serve hot, cold, with or without milk."
         ],
         "notes": [
+          "Baked oatmeal is eaten as a breakfast in its less-sweet variation or a snack. Although still being a breakfast food, the first variation presented here may taste more like a dessert to some.",
           "For another variation, add ½ cup (120 g) wheat flakes, ½ cup (120 g) granulated sugar plus 1 tablespoon molasses instead of brown sugar, 1 ½ cups (360 ml) soy milk instead of dairy milk, ½ cup (120 ml) vegetable oil instead of butter, and a third egg."
         ],
         "pageId": 39237,
@@ -903,7 +963,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -924,7 +984,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Preheat the oven to 200 °C (392 °F).",
@@ -944,7 +1004,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -965,7 +1025,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Preheat the oven to 220 °C (428 °F). Grease a baking pan.",
@@ -976,7 +1036,9 @@
           "Bake for 6 minutes until golden.",
           "Take the biscuits out of the oven and leave them to cool."
         ],
-        "notes": [],
+        "notes": [
+          "This recipe is adapted from the public domain cookbook Mrs. Beeton's Book of Household Management.[1]"
+        ],
         "pageId": 451967,
         "revision": 4535494,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABiscuits+III&oldid=4535494",
@@ -984,44 +1046,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
-      }
-    },
-    {
-      "id": "wikibooks-29046",
-      "source": "wikibooks",
-      "url": "https://en.wikibooks.org/wiki/Cookbook:Breakfast_Burrito",
-      "title": "Breakfast Burrito",
-      "author": "Wikibooks contributors",
-      "cuisine": "",
-      "category": "Breakfast",
-      "categoryEvidenceAt": "2026-10-23T08:25:13.984Z",
-      "ingredients": [
-        "8 eggs either scrambled, sunny-side up, or poached",
-        "4 large flour burrito skins",
-        "8 strips of cooked bacon or 1 lb (400 grams) cooked breakfast sausage",
-        "1 full order of hash browns",
-        "Hollandaise sauce, cheese, salt, and pepper to taste"
-      ],
-      "rating": null,
-      "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
-      "method": {
-        "steps": [
-          "Place one-quarter of the hash browns in a tortilla.",
-          "On top of this place 2 strips of bacon or one quarter of the breakfast sausage.",
-          "Add two eggs, cheese, salt, and pepper.",
-          "Roll up the tortilla to enclose everything. If you used poached or sunny-side up eggs you can squeeze the burritos to pop the egg yolks and then work the yolk around to form a sauce."
-        ],
-        "notes": [],
-        "pageId": 29046,
-        "revision": 4517381,
-        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABreakfast+Burrito&oldid=4517381",
-        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABreakfast+Burrito&action=history",
-        "license": "CC-BY-SA-4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-        "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1047,7 +1072,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Combine sausage and bacon. In another bowl, combine ricotta, eggs, butter, salt, pepper, and cornbread.",
@@ -1063,7 +1088,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1085,7 +1110,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "In a large bowl, combine the all-purpose flour and self-rising flour.",
@@ -1101,6 +1126,7 @@
           "Serve warm with your favorite toppings, such as honey, butter, or Somali tea."
         ],
         "notes": [
+          "Canjeero is a popular Somali pancake that is enjoyed as a staple breakfast dish. Made with simple ingredients, these spongy and slightly tangy pancakes are perfect for soaking up stews and sauces or simply enjoyed on their own.",
           "Canjeero is traditionally cooked on a large, flat griddle called a taawa. However, a non-stick frying pan works well too.",
           "The fermentation step is crucial to achieve the signature spongy texture and tangy flavor of canjeero. Make sure to allow enough time for the batter to ferment properly.",
           "You can customize the size of the pancakes to your preference. In Somali culture, smaller canjeero pancakes are often served for breakfast with a variety of accompaniments."
@@ -1112,7 +1138,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1135,7 +1161,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Brown the flour in the melted fat.",
@@ -1143,7 +1169,11 @@
           "Stir this together slowly to prevent lumping, and then add the beef.",
           "Cook for a few minutes, add the parsley and pepper, and serve over toast."
         ],
-        "notes": [],
+        "notes": [
+          "Chipped beef on toast is slivers of meat in a creamy sauce, served on toasted bread. In military slang it is commonly referred to as \"Shit On a Shingle\" (SOS). Chipped beef is a dried, smoked, and salted meat product, generally sold wadded up in jars or flat in plastic packets.",
+          "The 1910 edition of the Manual for Army Cooks provides the following recipe, for a quantity sufficient for 60 men.",
+          "This recipe omits the soaking of the beef to reduce the salt content. Later recipes were creamier."
+        ],
         "pageId": 23158,
         "revision": 4512070,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChipped+Beef+on+Toast&oldid=4512070",
@@ -1151,7 +1181,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1177,7 +1207,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Combine the butter and milk in a small saucepan.",
@@ -1207,7 +1237,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1236,7 +1266,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
@@ -1269,7 +1299,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1288,7 +1318,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Preheat a large metal or non-stick skillet over medium heat.",
@@ -1305,7 +1335,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1328,7 +1358,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Place all ingredients in a blender, and blend for 1 minute.",
@@ -1343,7 +1373,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1369,7 +1399,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Melt butter in a large skillet or on a griddle.",
@@ -1379,7 +1409,9 @@
           "Lightly brown on one side.",
           "Flip over and lightly brown other side."
         ],
-        "notes": [],
+        "notes": [
+          "The Denver omelet is a bit like the Spanish omelet, but with different non-egg ingredients."
+        ],
         "pageId": 28320,
         "revision": 4517799,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADenver+Omelet&oldid=4517799",
@@ -1387,7 +1419,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1409,7 +1441,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Mix together flour, baking powder, and sugar.",
@@ -1429,7 +1461,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1458,7 +1490,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Prepare noodles according to package directions and drain.",
@@ -1481,7 +1513,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1503,7 +1535,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Mix the wine, garlic, salt, and pepper together. Add the oysters and marinate 10 to 20 minutes.",
@@ -1511,7 +1543,9 @@
           "Cut each bacon slice in half and wrap each oyster with a piece of bacon, securing with a toothpick.",
           "Broil on both sides until the bacon is crisp. You may also cook them on an outdoor or rangetop grill."
         ],
-        "notes": [],
+        "notes": [
+          "Angels on horseback are oysters wrapped in bacon strips and broiled."
+        ],
         "pageId": 31181,
         "revision": 4523504,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AAngels+on+Horseback+%28Bacon-wrapped+Oysters%29&oldid=4523504",
@@ -1519,7 +1553,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1544,7 +1578,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "In a bowl, beat together the eggs, milk, basil, salt and pepper. Set aside.",
@@ -1558,6 +1592,7 @@
           "Serve immediately with crusty bread and fresh fruit for a light spring dinner."
         ],
         "notes": [
+          "Like the traditional Spanish omelet, frittata is a thick, hearty omelet filled with vegetables. A frittata may be filled with any variety of vegetables, cheeses, pastas, or meats. This recipe is for a simple vegetarian one.",
           "Try bitter greens like Swiss chard, ruby chard, or broccoli rabe.",
           "Bell peppers, mushrooms, potatoes, and zucchini are all delicious in a frittata.",
           "For a meat version, try adding cubed ham, chopped bacon or pancetta, or any variety of sausage.",
@@ -1573,7 +1608,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1594,14 +1629,16 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Brush both sides of chicken with olive oil. Sprinkle both sides liberally with kosher salt, freshly ground black pepper, and finely grated lemon zest.",
           "Place chicken on a 13x9-inch baking pan. Insert a probe thermometer into one of the chicken breasts and bake in the center of a 400°F (200°C) oven until internal temperature reaches 165°F (75°C).",
           "Remove to a plate and let rest 5 minutes. Serve warm."
         ],
-        "notes": [],
+        "notes": [
+          "This is a really easy chicken recipe for those people that don't have much experience in the kitchen."
+        ],
         "pageId": 203550,
         "revision": 4509908,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABaked+Chicken+Breasts&oldid=4509908",
@@ -1609,7 +1646,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1631,7 +1668,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Place the fish in the center of the baking pan.",
@@ -1649,7 +1686,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1671,7 +1708,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Heat oven to 350 °F (180 °C)",
@@ -1680,7 +1717,9 @@
           "Sprinkle remainder of caraway",
           "Cover and bake for one hour."
         ],
-        "notes": [],
+        "notes": [
+          "A relatively simple recipe for baked pork chops."
+        ],
         "pageId": 44138,
         "revision": 4509174,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABaked+Pork+Chops&oldid=4509174",
@@ -1688,7 +1727,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1715,7 +1754,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Cream the brown sugar and butter until fluffy. Beat in the egg and salt.",
@@ -1723,7 +1762,9 @@
           "Pour batter into greased 9x13-inch pan. Combine the ¼ cup sugar and cinnamon, then sprinkle on top of the batter.",
           "Bake at 375°F for 30–35 minutes."
         ],
-        "notes": [],
+        "notes": [
+          "Rhubarb may be an intimidatingly tart vegetable eaten on its own, but when its sharp flavor is tempered with the addition of butter and sugar, it makes excellent desserts such as the cake recipe below."
+        ],
         "pageId": 11675,
         "revision": 4494001,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARhubarb+Cake&oldid=4494001",
@@ -1731,7 +1772,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1756,7 +1797,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Put the rice in a strainer and rinse it until the water runs clear.",
@@ -1766,6 +1807,7 @@
           "Take the rice mixture off the heat and place it in a deep glass dish, sprinkle with cinnamon powder, and refrigerate."
         ],
         "notes": [
+          "Arroz con leche is a sweet dish of creamed rice.",
           "Soy milk, rice milk, or almond milk can be used instead of milk.",
           "Can be served with vanilla, chocolate, or Neapolitan ice cream, or with non-dairy ice creams."
         ],
@@ -1776,7 +1818,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1801,7 +1843,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "In a large saucepan, mix cocoa powder and sugar.",
@@ -1814,7 +1856,10 @@
           "Freeze in ice cream maker according to manufacturer's directions.",
           "Stir marshmallows evenly throughout frozen mixture before serving or ripening."
         ],
-        "notes": [],
+        "notes": [
+          "Rocky road is a popular ice cream flavor in the United States. Though there are variations on the flavor, it is traditionally composed of chocolate ice cream, nuts and marshmallows. The flavor is claimed to have been created in 1929 by William Dreyer when he cut up almond and marshmallows with his wife's sewing scissors and added them to his chocolate ice cream during the Great Depression. The company claims it was then so named \"to give folks something to smile about in the midst of the Great Depression.\"[1]",
+          "Alternately, Fenton's Creamery in Oakland, California, claims that William Dreyer based his recipe on a Rocky Road ice cream invented by his friend, Fenton's George Farren, who blended his Rocky Road candy bar into ice cream; however Dreyer substituted pecans for almonds.[2]"
+        ],
         "pageId": 97869,
         "revision": 4522781,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARocky+Road+Ice+Cream&oldid=4522781",
@@ -1822,7 +1867,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1846,7 +1891,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Rinse the rice under cold water until the water runs clear. Drain well.",
@@ -1859,6 +1904,7 @@
           "Before serving, garnish with chopped pistachios or almonds for added texture and flavor."
         ],
         "notes": [
+          "Roz bel laban is a classic Egyptian dessert loved for its creamy and comforting texture. Made with simple ingredients like rice, milk, sugar, and aromatic spices, it is a delightful treat that can be enjoyed warm or chilled. It is often served on special occasions and festive gatherings, bringing joy to those who indulge in its sweet flavors.",
           "Roz bel laban can be customized by adding additional ingredients such as raisins, saffron, or rose water for extra flavor."
         ],
         "pageId": 456923,
@@ -1868,7 +1914,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1894,7 +1940,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Combine the flour, baking powder, and salt.",
@@ -1908,6 +1954,7 @@
           "Immediately remove the cookies from the cookie sheet. If you delay, the cookies will very strongly adhere to the cookie sheet."
         ],
         "notes": [
+          "These saucepan fudge crackle cookies are true chocolate cookies. They are brownie-like or cake-like. They tend to have a dome-like surface that stands ½–¾-inch tall, and have a diameter of 2.5–5 inches. The surface is cracked.",
           "You can use butter instead of margarine, although this can overpower the taste of the chocolate.",
           "The insulated cookie sheet avoids burning parts of the cookie while failing to fully cook other parts.",
           "Hazelnuts and macadamia nuts go well in this recipe."
@@ -1919,7 +1966,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1944,7 +1991,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Wash the apples and peaches, and peel them if desired. Cut them into slices approximately ¼ inch (1 cm) thick.",
@@ -1956,6 +2003,9 @@
           "Enjoy!"
         ],
         "notes": [
+          "Scheiterhaufen (literally \"funeral pyre\" or \"stake\") is a type of traditional sweet dish in Austria and Southern Germany. It was mentioned for the first time in a Roman cookbook in the 1st century AD by Marcus Gravius Apicius. In 1691 it first appeared in a German cookbook under the name Güldene Schnitten (golden slices). The term Armer Ritter (poor knight) was first used in 1787 and had its breakthrough in the 19th century.",
+          "The name possibly refers to the way the slices of bread and fruit are layered to make this dish, which seems representative of the way in which ancient cultures used to pile up chunks of wood to make a funeral pyre. The name could also refer to the way the dish looks when served, since it tends to fall apart when put on a plate. Other names for Austrian and German variations are Rostiger Ritter, Fotzelschnitten, Semmelschnitten, Kartäuserklöße, Weckschnitten, Gebackener Weck, Pofesen, or Blinder Fisch.",
+          "The dish is similar to the English poor knights of Windsor in England, Russian grenki, Dutch wentelteefje, American French toast, French pain perdu, Portuguese rabanadas, and Spanish torrijas.",
           "This recipe is rather a guideline; you can alter it according to your taste and wishes. Generally, there is not only one recipe for Scheiterhaufen, as people in former times were forced to use what they had available.",
           "You can take any kind of white bread you like, stale or fresh. You can use any kind of white bread that you have on-hand, but for an extra soft Scheiterhaufen, something like the white bread used for toast yields the best result. One variation is to roast the bread in a pan with a bit of butter before layering it (in this case you would have to pour the milk-egg-rum mixture on top of your layers).",
           "You can use other kinds of fruit to suit your taste, but the traditional Austrian Scheiterhaufen recipe uses only apples. Plums are also a good choice, but frankly, you can use any fruit of the season. The selection above is a summer variation.",
@@ -1968,7 +2018,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -1990,7 +2040,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Cook potatoes until very soft (at least an hour). Peel and mash with a fork.",
@@ -2002,6 +2052,7 @@
           "Serve with bread crumbs fried in butter."
         ],
         "notes": [
+          "Silvash gombotz (Hungarian spelling: Szilvás gombóc) is a traditional dessert recipe for plum dumplings from Hungary. During the freezing cold winters, warm filling desserts like these are very popular.",
           "When filled with apricot, the dumplings are called \"barackos gombóc\" or \"Baratzkosh Gombotz\"."
         ],
         "pageId": 6496,
@@ -2011,7 +2062,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -2034,14 +2085,16 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Roast the eggplant. This can be done in a variety of ways, but the flesh should be fully cooked and the skin should be burned and falling off easily. An effective method is to prick the eggplant and place it a few inches under a broiler, turning it as the exposed skin blackens, about every 3-4 minutes. Place a pan underneath to catch the juices, and discard them.",
           "Scrape off the eggplant skin. It's alright if you miss a few burned bits.",
           "Finely chop or blend the eggplant flesh with the rest of the ingredients. The consistency should be smooth. Reserve a bit of the olive oil, and drizzle that over the top. Sprinkle with some paprika or cayenne."
         ],
-        "notes": [],
+        "notes": [
+          "Baba ganoush is a common Middle Eastern and Mediterranean dip with a creamy, somewhat smoky flavor. It is usually eaten with pita bread although naan or a crispy flatbread also work well."
+        ],
         "pageId": 28381,
         "revision": 4629606,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABaba+Ganoush&oldid=4629606",
@@ -2049,7 +2102,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -2074,7 +2127,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Combine eggs with seasoning. Dip potatoes into egg mixture then dredge in cornflakes. Let rest 2–3 minutes.",
@@ -2089,7 +2142,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -2112,14 +2165,16 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Blend all the ingredients together in a blender. The mix should become thick and heavy. If not, add more corn.",
           "Shape the mix into small pancakes approximately ½ inch (1.5 cm) thick and about 5 inches (13 cm) in diameter. Let them cook on medium heat for about 1 minute on each side, or until small bubbles form on the top.",
           "Cachapas should be served hot and may be accompanied with cheese (feta cheese is one option, Mexican white cheese \"Cotija\", Venezuelan or Colombian \"Queso Blanco\" ,\"Queso de Mano\" or \"Queso Guayanes\" where available)."
         ],
-        "notes": [],
+        "notes": [
+          "Cachapas are traditionally made with fresh corn, and are a summer favorite, but this easy recipe uses canned cream corn, pancake mix, and whatever cheese you have on hand. Try this simple appetizer for a taste of Venezuela whenever you like."
+        ],
         "pageId": 66139,
         "revision": 4519107,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACachapa+%28Venezuelan+Corn+Pancakes%29&oldid=4519107",
@@ -2127,7 +2182,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -2156,7 +2211,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Strip the filaments from the celery sticks and blanch in lightly salted water for five minutes. Drain and cut the celery into bite-size pieces, sauté them in a little oil, and set aside.",
@@ -2166,6 +2221,7 @@
           "Serve the caponata cold with a garnish of fresh basil. Caponata keeps for several days in the refrigerator."
         ],
         "notes": [
+          "Caponata is a Sicilian eggplant dish consisting of cooked vegetables with chopped up fried eggplant, celery, sweetened vinegar, and capers with sweet sauce.",
           "You can serve this on toast as an appetizer, as a side dish, or as a main dish for a light meal."
         ],
         "pageId": 196407,
@@ -2175,7 +2231,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     },
     {
@@ -2205,7 +2261,7 @@
       ],
       "rating": null,
       "photoUrl": null,
-      "checkedAt": "2026-10-29T03:22:53.525051+00:00",
+      "checkedAt": "2026-10-29T03:35:15.219644+00:00",
       "method": {
         "steps": [
           "Add all of the ingredients except the chicken to a non-metallic mixing bowl, and mix well.",
@@ -2215,6 +2271,7 @@
           "Serve with naan, with rice or use in a Chicken Tikka Masala."
         ],
         "notes": [
+          "Chicken tikka is a chicken dish originating in the Punjab region of the Indian Subcontinent made by baking chicken which has been marinated in spices and yoghurt. It should not be confused with Chicken Tikka Masala (of which it is an ingredient). It is traditionally cooked on skewers in a tandoor and is usually boneless. It is tasty when served with yellow rice and a spicy salad.",
           "Mustard seed oil is considered unfit for human consumption in many parts of the world and is therefore not readily available. A poor alternative can be made by crackling 1 tsp of mustard seeds in approximately 2 tbs of very hot vegetable or olive oil. Allow to cool then use in place of mustard seed oil.",
           "It is possible to make a tikka with almost any meat, the most commonly used other than chicken being lamb and mutton.",
           "Tikka can be served either as main meal or as an appetiser.",
@@ -2228,7 +2285,7 @@
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
-        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained."
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
       }
     }
   ]

@@ -1208,6 +1208,7 @@ function renderDialog() {
   const ingredientItems = ingredientsOf(meal);
   const parts = instructions(meal);
   const fullMethod=completeMethod(collectedRecipe(meal));
+  const sourceQuantityNote='Ingredient amounts are source quantities and do not scale automatically. Adjust them manually for your selected portions.';
   const currentSession = currentCookingSession(meal);
   const timeInfo = timerStatus(currentSession);
   const originalServings = validServings(savedEntry(meal.idMeal).baseServings);
@@ -1228,7 +1229,7 @@ function renderDialog() {
   } else if (stepIndex >= 0) {
     const total = Math.max(1,parts.length);
     const linked=Boolean(collectedRecipe(meal))&&!fullMethod;
-    const preparation='<section class="preparation-checklist" aria-label="Ingredient preparation checklist"><h3>Gather your ingredients</h3><p class="panel-note">'+(targetServings?'Preparing for '+targetServings+' servings. ':'')+'Check ingredients as you prepare. This does not change pantry stock.</p>'+prepared.map((item,index)=>'<label class="preparation-item"><input type="checkbox" data-preparation-index="'+index+'"'+(currentSession.checkedIngredients?.includes(index)?' checked':'')+'> <span>'+escapeHtml((item.value?item.value+(item.status==='review'?' · review scaling':'')+' · ':'')+item.name)+'</span></label>').join('')+'</section>';
+    const preparation='<section class="preparation-checklist" aria-label="Ingredient preparation checklist"><h3>Gather your ingredients</h3><p class="panel-note">'+(fullMethod?(targetServings?'Selected portions: '+targetServings+'. ':'')+sourceQuantityNote+' ':(targetServings?'Preparing for '+targetServings+' servings. ':''))+'Check ingredients as you prepare. This does not change pantry stock.</p>'+prepared.map((item,index)=>'<label class="preparation-item"><input type="checkbox" data-preparation-index="'+index+'"'+(currentSession.checkedIngredients?.includes(index)?' checked':'')+'> <span>'+escapeHtml((item.value?item.value+(item.status==='review'?' · review scaling':'')+' · ':'')+item.name)+'</span></label>').join('')+'</section>';
     const timerControls = '<section class="cooking-timer" aria-label="Manual cooking timer">' +
       '<div class="cooking-timer-header"><div><strong>Cooking timer</strong><p>Set your own time. Never inferred from recipe directions.</p></div>' +
       '<div class="clock" data-cooking-clock>' + timeInfo.text + '</div></div>' +
@@ -1267,7 +1268,7 @@ function renderDialog() {
         '<strong data-target-servings>' + targetServings + '</strong>' +
         '<button class="btn secondary small" type="button" data-action="servings-plus"' + (targetServings >= 24 ? ' disabled' : '') + ' aria-label="Increase servings">＋</button></div>' :
         '<p class="panel-note">Until the original count is confirmed, amounts remain exactly as written.</p>') +
-      '<p class="panel-note">Only clear ingredient measurements can be scaled; seasoning, fractional whole items and instructions still need manual judgement. No ingredient changes are applied to your pantry.</p></section>';
+      '<p class="panel-note">'+(collectedRecipe(meal)?sourceQuantityNote:'Only clear ingredient measurements can be scaled; seasoning, fractional whole items and instructions still need manual judgement.')+' No ingredient changes are applied to your pantry.</p></section>';
     const recipeTags = tagsOf(savedEntry(meal.idMeal));
     const tagEditor = '<section class="recipe-tags" aria-label="My recipe labels"><div class="tag-heading"><strong>My labels</strong>' +
       '<span class="panel-note">Organise this recipe your way</span></div>' +

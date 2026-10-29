@@ -55,6 +55,15 @@ def extract_sections(content):
   return result
  if any(n.tag in ('h3','h4','table') for section in ingredients+methods for n in section):raise ValueError('Multi-component or alternative-method page requires separate editorial work')
  ing=items(ingredients[0]);steps=[];notes=[]
+ if any(re.search(r'\b(?:full\s+)?(?:order|batch|recipe)s?\s+of\b',line,re.I) for line in ing):raise ValueError('Ingredient depends on another recipe batch')
+ intro_end=next(i for i,n,_ in headings if re.fullmatch('Ingredients?',clean(n.text()),re.I))
+ for n in nodes[:intro_end]:
+  if n.tag!='p' or not clean(n.text()) or clean(n.text()).startswith('Cookbook |'):continue
+  parent=n.parent;navigation=False
+  while parent and parent!=body:
+   if parent.tag in ('table','nav') or re.search('navbox|infobox|noprint|metadata',parent.attrs.get('class','')):navigation=True;break
+   parent=parent.parent
+  if not navigation:notes.append(clean(n.text()))
  for n in methods[0]:
   if n.tag not in ('li','p'):continue
   parent=n.parent;inside=False
@@ -71,7 +80,7 @@ def extract_sections(content):
  if any(re.search(r'(?:follow|see|use) (?:the )?(?:recipe|instructions) (?:for|at|above|below)|as (?:described|directed) (?:in|at)|see.*(?:recipe|subrecipe)',x,re.I) for x in steps):raise ValueError('Method depends on another recipe')
  return ing,steps,notes
 
-FAVOURITES=['Whole Wheat Pancakes','French Toast','Basic Scrambled Eggs','Basic Omelet','Banana Bread I','Blueberry Pancakes','Scottish Porridge','Upma','Hummus','Guacamole','Guacamole (Chile-Free)','Tomato Soup','Lentil Soup','Vegetable Soup','Greek Salad','Tabouli','Falafel','Chapati','Fried Rice','Chicken Curry','Chicken Biryani','Dal','Spaghetti Bolognese','Macaroni and Cheese','Pizza','Chocolate Chip Cookies II','Brownies','Chocolate Cake','Rice Pudding','Apple Crumble','Scones','Garlic Bread','Potato Salad','Mashed Potatoes','Roasted Potatoes','Vegetable Curry','Chili Con Carne','Ratatouille','Pasta Salad','Oatmeal Cookies','Fruit Salad','Cheese Omelette','Spanish Omelet','Almond Pancakes','Banana Nutmeg Pancakes','Chicken Fried Rice','Shakshuka II','Minestrone','Carrot Soup','Peanut Butter Cookies','Shortbread']
+FAVOURITES=['Whole Wheat Pancakes','French Toast','Basic Scrambled Eggs','Basic Omelet','Banana Bread I','Blueberry Pancakes','Scottish Porridge','Upma','Hummus','Guacamole','Guacamole (Chile-Free)','Tomato Soup','Lentil Soup','Vegetable Soup','Greek Salad','Tabouli','Falafel','Chapati','Fried Rice','Chicken Curry','Chicken Curry (Mediterranean-inspired)','Chicken Biryani','Dal','Spaghetti Bolognese','Macaroni and Cheese','Pizza','Chocolate Chip Cookies II','Brownies','Chocolate Cake','Rice Pudding','Apple Crumble','Scones','Garlic Bread','Potato Salad','Mashed Potatoes','Roasted Potatoes','Vegetable Curry','Chili Con Carne','Ratatouille','Pasta Salad','Oatmeal Cookies','Fruit Salad','Cheese Omelette','Spanish Omelet','Almond Pancakes','Banana Nutmeg Pancakes','Chicken Fried Rice','Shakshuka II','Minestrone','Carrot Soup','Peanut Butter Cookies','Shortbread']
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--limit',type=int,default=50);parser.add_argument('--cached-only',action='store_true');parser.add_argument('--cache',default='.superpowers/sdd/2026-10-28-complete-recipes/sources');args=parser.parse_args()
  if args.limit<1 or args.limit>50:raise ValueError('Bounded release limit1–50')
@@ -112,7 +121,7 @@ def main():
    if page_id in (21781, 21794, 33413, 86404, 32973, 217149, 29475, 62605, 200040, 178934, 200854, 94105, 22934):raise ValueError('Editorial exclusion: inconsistent measurement or alternative methods')
    ing,steps,notes=extract_sections(p['text']['*']);ing=[primary_amount(x) for x in ing];title=p['title'];canonical='https://en.wikibooks.org/wiki/'+urllib.parse.quote(title.replace(' ','_'),safe=':()');revision=p['revid']
    course=next((label for cat,label in [('Breakfast recipes','Breakfast'),('Main course recipes','Main'),('Dessert recipes','Dessert'),('Appetizer recipes','Appetiser'),('Salad recipes','Salad'),('Soup recipes','Soup'),('Side dish recipes','Side')] if cat in cats),'Other')
-   record=dict(id='wikibooks-'+str(page_id),source='wikibooks',url=canonical,title=title.removeprefix('Cookbook:'),author='Wikibooks contributors',cuisine='',category=course,categoryEvidenceAt=checked if fresh_cats else category_snapshot['collectedAt'],ingredients=ing,rating=None,photoUrl=None,checkedAt=checked,method=dict(steps=steps,notes=notes,pageId=page_id,revision=revision,revisionUrl='https://en.wikibooks.org/w/index.php?'+urllib.parse.urlencode(dict(title=title,oldid=revision)),historyUrl='https://en.wikibooks.org/w/index.php?'+urllib.parse.urlencode(dict(title=title,action='history')),license='CC-BY-SA-4.0',licenseUrl='https://creativecommons.org/licenses/by-sa/4.0/',attribution='Wikibooks contributors',changes='Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained.'))
+   record=dict(id='wikibooks-'+str(page_id),source='wikibooks',url=canonical,title=title.removeprefix('Cookbook:'),author='Wikibooks contributors',cuisine='',category=course,categoryEvidenceAt=checked if fresh_cats else category_snapshot['collectedAt'],ingredients=ing,rating=None,photoUrl=None,checkedAt=checked,method=dict(steps=steps,notes=notes,pageId=page_id,revision=revision,revisionUrl='https://en.wikibooks.org/w/index.php?'+urllib.parse.urlencode(dict(title=title,oldid=revision)),historyUrl='https://en.wikibooks.org/w/index.php?'+urllib.parse.urlencode(dict(title=title,action='history')),license='CC-BY-SA-4.0',licenseUrl='https://creativecommons.org/licenses/by-sa/4.0/',attribution='Wikibooks contributors',changes='Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes.'))
    accepted.append(record);attempts.append(dict(id=page_id,status='accepted',revision=revision,sourceHash=hashlib.sha256(p['text']['*'].encode()).hexdigest()));print('Accepted',len(accepted),record['title'],len(ing),len(steps),flush=True)
   except Exception as e:attempts.append(dict(id=page_id,status='excluded',reason=str(e)));print('Excluded',row['title'],str(e),flush=True)
   (cache/'attempts.json').write_text(json.dumps(attempts,indent=2))

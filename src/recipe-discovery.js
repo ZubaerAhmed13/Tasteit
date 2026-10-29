@@ -23,7 +23,7 @@ export function searchRecipeCollection(records,saved={},input={}) {
  });
 }
 export function createRecipeCollectionLoader(request=collectionJson) {
- let records=null,pending=null,completeError='',originalError='';
+ let records=null,pending=null,completeError='',originalError='';const snapshots=[null,null];
  return {get completeError(){return completeError;},get originalError(){return originalError;},load({retry=false}={}){
   if(pending)return pending;if(records&&!retry&&!completeError&&!originalError)return Promise.resolve(records);
   pending=(async()=>{
@@ -31,11 +31,12 @@ export function createRecipeCollectionLoader(request=collectionJson) {
     const data=await request('./data/'+name+'.json');if(!Array.isArray(data?.recipes)||data.recipes.length>(i?500:2500)||i&&(data.version!==1||data.source!=='wikibooks'))throw Error('Invalid recipe collection');
     const rows=data.recipes.map(validateRecipe);if(new Set(rows.map(r=>r.id)).size!==rows.length||i&&rows.some(r=>r.source!=='wikibooks'||!r.method))throw Error('Invalid licensed collection');return rows;
    }));
-   originalError=loads[0].status==='rejected'?'The publisher catalogue is unavailable. Complete and saved recipes remain available. Retry to reconnect.':'';
-   completeError=loads[1].status==='rejected'?'Complete recipes are unavailable right now. Your existing collection and saved recipes are unchanged. Retry to reconnect.':'';
-   const original=loads[0].status==='fulfilled'?loads[0].value:[],complete=loads[1].status==='fulfilled'?loads[1].value:[];
+   originalError=loads[0].status==='rejected'?'The publisher catalogue could not be refreshed. Previously loaded and saved recipes remain available. Retry to reconnect.':'';
+   completeError=loads[1].status==='rejected'?'Complete recipes could not be refreshed. Your available collection and saved recipes are unchanged. Retry to reconnect.':'';
+   for(let i=0;i<loads.length;i++)if(loads[i].status==='fulfilled')snapshots[i]=loads[i].value;
+   const [original,complete]=snapshots.map(rows=>rows||[]);
    if(complete.some(r=>original.some(o=>o.id===r.id))){completeError='The complete collection could not be verified. Your existing collection is unchanged.';return original;}
-   if(!original.length&&!complete.length&&loads.some(r=>r.status==='rejected'))throw Error('Recipe collections unavailable');
+   if(snapshots.every(rows=>rows===null)&&loads.some(r=>r.status==='rejected'))throw Error('Recipe collections unavailable');
    return [...original,...complete];
   })().then(value=>{records=value;return value;}).finally(()=>{pending=null;});
   return pending;
