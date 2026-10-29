@@ -26,7 +26,7 @@ import {planRecipe} from './recipe-planning.js';
 import {MEAL_SLOTS,slotLabel,planKey,planForDates} from './meal-plan.js';
 import {discoveryOptions} from './discovery-options.js';
 import {createRecipeCollectionLoader,searchRecipeCollection,recipeCuisineOptions} from './recipe-discovery.js';
-import { validateRecipe,SOURCES,RECIPE_COURSES,recipePage } from './selected-sources.js';
+import { validateRecipe,SOURCES,RECIPE_COURSES,recipePage,completeMethod } from './selected-sources.js';
 import { ingredientReference } from './ingredient-reference.js';
 
 const appRoot = document.getElementById('app');
@@ -466,7 +466,7 @@ async function discover(mode='featured', value='', {history=true}={}) {
     } else if(discoveryChoice.scope!=='provider') {
       let available=[];
       if(discoveryChoice.scope!=='saved') {
-        try {available=await collectionLoader.load();}
+        try {available=await collectionLoader.load();warning=[collectionLoader.originalError,collectionLoader.completeError].filter(Boolean).join(' ');}
         catch {warning='The collected recipe catalogue is unavailable. Showing matching recipes saved in this browser. Retry to reconnect.';}
       }
       if(thisRequest!==requestNumber||signal.aborted)return;
@@ -516,7 +516,7 @@ function card(meal, kitchenExplanation = false, personalReasons = null) {
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(mealCategory) + '</span></div>' +
-    reason + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : collectedRecipe(meal) ? escapeHtml(SOURCES.find(s=>s.id===meal.selectedRecipe.source)?.name||'Original publisher') : 'PHOTO · THEMEALDB') + '</span>' +
+    reason + (collectedRecipe(meal)?'<p class="recipe-availability">'+(completeMethod(collectedRecipe(meal))?'Full recipe · steps included':'Ingredients · method at source')+'</p>':'') + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom"><span class="source-line">' + (isPersonal ? 'YOUR RECIPE' : collectedRecipe(meal) ? escapeHtml(SOURCES.find(s=>s.id===meal.selectedRecipe.source)?.name||'Original publisher') : 'PHOTO · THEMEALDB') + '</span>' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div>' +
     (personalReasons?'<div class="personal-reasons"><span class="eyebrow">WHY THIS DISH</span><ul>'+personalReasons.map(reason=>'<li>'+escapeHtml(reason)+'</li>').join('')+'</ul><button type="button" class="btn ghost small" data-action="taste-hide" data-id="'+id+'" aria-label="Not for me: '+escapeHtml(meal.strMeal)+'">Not for me</button></div>':'')+'</article>';
 }
@@ -629,6 +629,7 @@ function discoverPage() {
     '<p class="lead">Discover food from different cultures, collect your favourite meals, and find inspiration in the ingredients you already own.</p>' +
     '<form id="search-form" class="search-bar" role="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="recipe-search" name="query" aria-label="Search recipe names" maxlength="100" placeholder="Search a recipe or ingredient…" value="' + escapeHtml(queryDraft ?? searchTerm) + '"><button class="btn" type="submit">Find recipes ↗</button></form>' +
     '</div><div class="hero-visual">' + heroPhoto + (spotlight ? '<div class="photo-tag"><span class="spark">✳ ON THE MENU</span><b>' + escapeHtml(spotlight.strMeal) + '</b><span>Photograph: '+escapeHtml(collectedRecipe(spotlight)?SOURCES.find(s=>s.id===spotlight.selectedRecipe.source)?.name:'TheMealDB contributors')+'</span></div>' : '') + '</div></section>' +
+    (showPersonal?'<section class="complete-recipe-callout" aria-label="Complete recipes"><div><h2>Cook inside Tasteit</h2><p>Full ingredients, numbered cooking steps and cooking mode. Save a recipe to use it offline.</p></div><button type="button" class="btn" data-action="complete-recipes">Browse complete recipes →</button></section>':'')+
     (showPersonal?'<nav class="meal-shortcuts" aria-label="Explore meal types">'+[['breakfast','Breakfast'],['main','Main dishes'],['dessert','Sweets'],['appetiser','Snacks']].map(([id,label])=>'<button class="chip" data-action="meal-shortcut" data-course="'+id+'">'+label+'</button>').join('')+'</nav>':'')+
     '<div class="feature-strip">' +
     '<button type="button" class="feature-card" data-nav="pantry"><span class="feature-icon" aria-hidden="true">🥕</span><div><b>My kitchen</b><span>' + store.pantry.length + ' ingredients in stock</span></div></button>' +
@@ -1150,6 +1151,13 @@ function render({preserveDialog=false}={}) {
 }
 
 function instructions(meal) { return recipeSteps(meal); }
+function recipeMethodNotes(method) {
+ return method?.notes.length?'<section class="recipe-method-notes"><h4>Recipe notes</h4><ul>'+method.notes.map(note=>'<li>'+escapeHtml(note)+'</li>').join('')+'</ul></section>':'';
+}
+function recipeTextCredit(meal) {
+ const method=completeMethod(collectedRecipe(meal));if(!method)return '';
+ return '<aside class="recipe-text-credit" aria-label="Recipe text licence"><strong>Wikibooks contributors · CC BY-SA 4.0</strong><p><a href="'+escapeHtml(method.revisionUrl)+'" target="_blank" rel="noopener noreferrer">Source revision '+method.revision+'</a> · <a href="'+escapeHtml(method.historyUrl)+'" target="_blank" rel="noopener noreferrer">Contributors &amp; history</a> · <a href="'+method.licenseUrl+'" target="_blank" rel="noopener noreferrer">Text licence</a></p><p>'+escapeHtml(method.changes)+' Reuse this recipe text under the same licence with attribution. Ingredient photographs have separate credits.</p></aside>';
+}
 
 function currentCookingSession(meal = selectedMeal) {
   return safeCookingSession(store.cookingSessions?.[meal?.idMeal],Math.max(1,instructions(meal).length));
@@ -1199,6 +1207,7 @@ function renderDialog() {
   const meal = selectedMeal;
   const ingredientItems = ingredientsOf(meal);
   const parts = instructions(meal);
+  const fullMethod=completeMethod(collectedRecipe(meal));
   const currentSession = currentCookingSession(meal);
   const timeInfo = timerStatus(currentSession);
   const originalServings = validServings(savedEntry(meal.idMeal).baseServings);
@@ -1218,7 +1227,7 @@ function renderDialog() {
       '<button type="button" class="btn secondary" data-action="cancel-cook-log">Back to recipe</button></div></form></div>';
   } else if (stepIndex >= 0) {
     const total = Math.max(1,parts.length);
-    const linked=Boolean(collectedRecipe(meal));
+    const linked=Boolean(collectedRecipe(meal))&&!fullMethod;
     const preparation='<section class="preparation-checklist" aria-label="Ingredient preparation checklist"><h3>Gather your ingredients</h3><p class="panel-note">'+(targetServings?'Preparing for '+targetServings+' servings. ':'')+'Check ingredients as you prepare. This does not change pantry stock.</p>'+prepared.map((item,index)=>'<label class="preparation-item"><input type="checkbox" data-preparation-index="'+index+'"'+(currentSession.checkedIngredients?.includes(index)?' checked':'')+'> <span>'+escapeHtml((item.value?item.value+(item.status==='review'?' · review scaling':'')+' · ':'')+item.name)+'</span></label>').join('')+'</section>';
     const timerControls = '<section class="cooking-timer" aria-label="Manual cooking timer">' +
       '<div class="cooking-timer-header"><div><strong>Cooking timer</strong><p>Set your own time. Never inferred from recipe directions.</p></div>' +
@@ -1234,7 +1243,7 @@ function renderDialog() {
       (linked?'<h3 tabindex="-1" class="cook-step">Preparation &amp; timer</h3><p class="panel-note">Follow the publisher for cooking directions. Your checklist and timer are saved here.</p><a class="btn secondary" href="'+externalUrl(meal.strSource)+'" target="_blank" rel="noopener noreferrer">Open original cooking method ↗</a>':'<div class="cook-heading"><h3>Step ' + (stepIndex + 1) + ' of ' + total + '</h3><span>' +
       Math.round(100*(stepIndex+1)/Math.max(1,total)) + '% through the recipe</span></div>' +
       '<div class="progress-bar"><span style="width:' + (100 * (stepIndex+1)/Math.max(1,total)) + '%"></span></div>' +
-      '<p class="cook-step" tabindex="-1">' + escapeHtml(parts[stepIndex] || '') + '</p>') + preparation + timerControls +
+      '<p class="cook-step" tabindex="-1">' + escapeHtml(parts[stepIndex] || '') + '</p>') + recipeMethodNotes(fullMethod) + recipeTextCredit(meal) + preparation + timerControls +
       '<div class="dialog-actions">'+(linked?'':'<button type="button" class="btn secondary" data-action="step-back"' + (stepIndex === 0 ? ' disabled' : '') + '>← Previous</button>') +
       (stepIndex < total - 1 ? '<button type="button" class="btn" data-action="step-next">Next step →</button>' :
       '<button type="button" class="btn" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">Finish cooking ✓</button>') +
@@ -1279,10 +1288,11 @@ function renderDialog() {
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
       '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><div class="field"><label for="recipe-plan-slot">Meal</label><select id="recipe-plan-slot" name="slot">'+MEAL_SLOTS.map(slot=>'<option value="'+slot+'"'+(slot==='dinner'?' selected':'')+'>'+slotLabel(slot)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + '<div data-planning-metadata>'+planningMetadataMarkup(meal)+'</div>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
-      '</section><section><h3>How to make it</h3>' + (collectedRecipe(meal)?'<p class="panel-note">Cooking methods stay with the original author. Ingredient amounts above are shown as written; they are not automatically parsed or scaled.</p><a class="btn secondary" href="'+externalUrl(meal.strSource)+'" target="_blank" rel="noopener noreferrer">Open original cooking method ↗</a>':parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
-      (parts.length || collectedRecipe(meal) ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (collectedRecipe(meal)?(store.cookingSessions?.[meal.idMeal]?'Resume preparation &amp; timer →':'Prepare ingredients &amp; timer →'):(store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →')) + '</button>' +
+      '</section><section><h3>How to make it</h3>' + (collectedRecipe(meal)&&!fullMethod?'<p class="panel-note">Cooking methods stay with the original author. Ingredient amounts above are shown as written; they are not automatically parsed or scaled.</p><a class="btn secondary" href="'+externalUrl(meal.strSource)+'" target="_blank" rel="noopener noreferrer">Open original cooking method ↗</a>':parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
+      (fullMethod?recipeMethodNotes(fullMethod)+recipeTextCredit(meal)+(store.saved[meal.idMeal]?'<p class="panel-note">Saved in this browser for offline cooking. Open Tasteit online once to prepare offline access.</p>':'<p class="panel-note">Save this full recipe to keep its ingredients, steps and credits available offline.</p><button type="button" class="btn secondary" data-action="wanted" data-id="'+escapeHtml(meal.idMeal)+'">Save recipe for offline</button>'):'') +
+      (parts.length || collectedRecipe(meal) ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (collectedRecipe(meal)&&!fullMethod?(store.cookingSessions?.[meal.idMeal]?'Resume preparation &amp; timer →':'Prepare ingredients &amp; timer →'):(store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →')) + '</button>' +
       (store.cookingSessions?.[meal.idMeal] ? '<button type="button" class="btn secondary" data-action="restart-cooking">Start from the beginning</button>' : '') + '</div>' : '') +
-      '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (collectedRecipe(meal) ? 'Recipe metadata and ingredient facts from your selected publisher. Reference photographs are separately credited; they identify ingredients, not exact brands or amounts.' : meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
+      '</section></div>' + journalHtml + '<div style="margin-top:27px" class="note">' + (fullMethod ? 'Recipe text from Wikibooks contributors under CC BY-SA 4.0. Reference photographs have separate credits.' : collectedRecipe(meal) ? 'Recipe metadata and ingredient facts from your selected publisher. Reference photographs are separately credited; they identify ingredients, not exact brands or amounts.' : meal.strPersonal ? 'This is your own saved recipe. Check cooking temperatures, allergens and food safety before eating.' : 'Community-contributed recipe and photography via TheMealDB. Regional categories are source labels, not certification of one definitive traditional method. Check allergens, temperatures and food safety independently.') + '</div></div>';
   }
   const original=collectedRecipe(meal);
   const publisher=original&&SOURCES.find(s=>s.id===original.source);
@@ -1297,7 +1307,7 @@ function renderDialog() {
     '<div class="dialog-intro"><div class="eyebrow">' + escapeHtml(meal.strArea || 'World cuisine') + ' · ' + escapeHtml(meal.strCategory || 'Home cooking') + '</div><h2 id="dialog-title">' + escapeHtml(meal.strMeal) + '</h2>' +
     '<p class="lead">Save your favourites and make your next meal yours.</p><div class="dialog-actions">' + sourceLink + videoLink +
     (meal.strPersonal ? '' : original ? '<a class="btn secondary small" href="'+source+'" target="_blank" rel="noopener noreferrer">Recipe: '+escapeHtml(publisher.name)+' ↗</a>' : '<button class="btn secondary small" type="button" data-action="copy-recipe-link">Copy recipe link ↗</button><a class="btn secondary small" href="https://www.themealdb.com/" target="_blank" rel="noopener noreferrer">Recipe data: TheMealDB ↗</a>') +
-    '</div><p class="panel-note">' + (original ? escapeHtml(publisher.name)+' · Original publisher photograph. '+(originalRating?escapeHtml(originalRating.value)+' / '+escapeHtml(originalRating.best)+' · '+escapeHtml(originalRating.count??'Count not collected')+' '+escapeHtml(originalRating.countType||''):'Rating not collected') : meal.strPersonal ? (externalUrl(meal.strSource) ? 'Your personal adaptation · Original publisher linked. No third-party photo copied.' : 'Personal recipe written by you.') : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
+    '</div><p class="panel-note">' + (original ? escapeHtml(publisher.name)+(original.photoUrl?' · Original publisher photograph. ':' · No dish photograph supplied. ')+(originalRating?escapeHtml(originalRating.value)+' / '+escapeHtml(originalRating.best)+' · '+escapeHtml(originalRating.count??'Count not collected')+' '+escapeHtml(originalRating.countType||''):'Rating not collected') : meal.strPersonal ? (externalUrl(meal.strSource) ? 'Your personal adaptation · Original publisher linked. No third-party photo copied.' : 'Personal recipe written by you.') : 'Community-provided data and photography via TheMealDB. Cuisine, category and regional authenticity have not been independently verified.') + '</p></div></div>' + contents + '</section></div>';
   document.body.style.overflow = 'hidden';
   syncCookingTimer();
   if(showCookingLog)restoreFields(overlayRoot.querySelector('#cooking-log-form'),journalFields);
@@ -1400,6 +1410,7 @@ document.addEventListener('click', async event => {
   const button = event.target.closest('[data-action]');
   if (!button) return;
   const action = button.dataset.action;
+  if(action==='complete-recipes'){void discover('filters',{query:'',area:'',category:'',letter:'',scope:'collection',source:'wikibooks',course:'',sort:'title',ratedOnly:false});return;}
   if(action==='account-sign-out') {cloudSync?.disconnect();if(hostAuth){await hostAuth.submit('sign-out');document.querySelector('.account-status')?.focus({preventScroll:true});}return;}
   if(['plan-previous','plan-next','plan-today'].includes(action)){planWeekOffset=action==='plan-today'?0:Math.max(-52,Math.min(52,planWeekOffset+(action==='plan-next'?1:-1)));render();appRoot.querySelector('[data-action="'+action+'"]')?.focus();return;}
   const id = button.dataset.id;

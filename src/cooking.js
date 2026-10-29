@@ -1,9 +1,12 @@
+import {collectedRecipe} from './selected-kitchen.js';
+import {completeMethod} from './selected-sources.js';
 // Focused cooking session logic. A countdown is a voluntary user-entered timer,
 // never inferred from community recipe directions or used as a safety guarantee.
 const MAX_TIMER_MINUTES = 180;
 const MAX_STEP_INDEX = 999;
 
 export function recipeSteps(meal) {
+  const method=completeMethod(collectedRecipe(meal));if(method)return [...method.steps];
   const raw = String(meal?.strInstructions || '').trim();
   if (!raw) return [];
   const lines = raw.split(/\r?\n+/).map(x => x.trim()).filter(Boolean);

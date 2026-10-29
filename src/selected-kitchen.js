@@ -1,10 +1,10 @@
-import {validateRecipe} from './selected-sources.js';
+import {validateRecipe,completeMethod} from './selected-sources.js';
 
-// Keep publisher metadata in the existing cookbook envelope. Methods stay at source.
+// Preserve publisher metadata and separately licensed methods in the cookbook envelope.
 export function collectedMeal(record) {
  validateRecipe(record);
  return {idMeal:'selected-'+record.id,strMeal:record.title,strArea:record.cuisine,
-  strCategory:record.category,strInstructions:'',strSource:record.url,
+  strCategory:record.category,strInstructions:completeMethod(record)?.steps.join('\n\n')||'',strSource:record.url,
   strMealThumb:record.photoUrl||'',selectedRecipe:JSON.parse(JSON.stringify(record))};
 }
 export function collectedRecipe(meal) {

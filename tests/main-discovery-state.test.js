@@ -3,7 +3,7 @@ const records=JSON.parse(await readFile(new URL('../data/selected-recipes.json',
 async function controller({load=async()=>({recipes:records}),online=true}={}) {
  let source=await readFile(new URL('../src/app.js',import.meta.url),'utf8'),providerCalls=0;const bindings={};
  for(const m of source.matchAll(/^import \{[^\n]+\} from '([^']+)';$/gm))Object.assign(bindings,await import(new URL('../src/'+m[1].slice(2),import.meta.url)));
- const helpers=await import('../src/recipe-discovery.js');bindings.createRecipeCollectionLoader=()=>helpers.createRecipeCollectionLoader(load);bindings.discoverMeals=async()=>{providerCalls++;return {meals:[]};};
+ const helpers=await import('../src/recipe-discovery.js');bindings.createRecipeCollectionLoader=()=>helpers.createRecipeCollectionLoader(url=>url.includes('complete-recipes')?Promise.resolve({version:1,source:'wikibooks',recipes:[]}):load(url));bindings.discoverMeals=async()=>{providerCalls++;return {meals:[]};};
  source=source.replace(/^import .*;\n/gm,'').split('// Start application.')[0];
  const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',hidden:false,dataset:{},elements:[],focus(){},querySelector:()=>null,querySelectorAll:()=>[]});return nodes.get(id);};
  const location={href:'https://tasteit.test/'},history={state:{},replaceState(state,_title,url){history.state=state;location.href=String(url);},pushState(state,_title,url){history.state=state;location.href=String(url);}};

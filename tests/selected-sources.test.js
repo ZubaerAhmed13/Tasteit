@@ -19,8 +19,8 @@ test('recipe pages bound rendering while keeping total counts and clamping stale
  assert.equal(recipePage(rows,999).records.length,7);assert.equal(recipePage(rows,-1).page,1);
  assert.equal(recipePage([],8).total,0);assert.equal(recipePage([],8).start,0);
 });
-test('only the 16 selected publishers pass exact HTTPS source validation',async()=>{
- const {SOURCES,approvedSource}=await api();assert.equal(SOURCES.length,16);
+test('the sixteen original publishers and approved licensed cookbook pass exact HTTPS source validation',async()=>{
+ const {SOURCES,approvedSource}=await api();assert.equal(SOURCES.length,17);
  assert.equal(approvedSource(url).id,'recipetineats');
  for(const bad of ['http://www.recipetineats.com/x','https://recipetineats.com.evil.test/x','https://evil.recipetineats.com/x','https://user:secret@recipetineats.com/x','https://recipetineats.com:444/x','https://themealdb.com/x','https://en.wikibooks.org/x'])assert.equal(approvedSource(bad),null,bad);
 });

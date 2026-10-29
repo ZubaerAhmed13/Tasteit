@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+import {record as completeRecord} from './helpers/complete-recipe.js';
+import {collectedMeal} from '../src/selected-kitchen.js';
 import {emptyStore} from '../src/model.js';
 import {createCloudSync,syncFingerprint} from '../src/cloud-sync.js';
 
@@ -23,7 +25,7 @@ async function appWithStore(state, persists) {
     FormData:class {constructor(target){this.fields=target.fields||{};}get(key){return this.fields[key]??null;}entries(){return Object.entries(this.fields)[Symbol.iterator]();}[Symbol.iterator](){return this.entries();}},
     notices,meal};
   vm.createContext(sandbox);
-  vm.runInContext(source+'\nconst originalRenderDialog=renderDialog;syncCookingTimer=()=>{};render=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,targetServings:()=>detailTargetServings,previewCooking:target=>{selectedMeal=meal;detailTargetServings=target;stepIndex=0;originalRenderDialog();return overlayRoot.innerHTML;},store,cloudMarkup:cloudControls,paintAccount:(root,state)=>{hostAuthState=state;const previous=document.getElementById;document.getElementById=id=>id==="host-account"?root:null;updateConnectionUI();document.getElementById=previous;},setAccountBoundary:(auth,sync)=>{hostAuth=auth;cloudSync=sync;document.querySelector=()=>null;},paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
+  vm.runInContext(source+'\nconst originalRenderDialog=renderDialog;syncCookingTimer=()=>{};render=()=>{};renderDialog=()=>{};recipeStatus=()=>{}; notice=m=>notices.push(m); activeMeals=[meal]; globalThis.audit={markRecipe,home:discoverPage,planMarkup:planPage,targetServings:()=>detailTargetServings,previewLicensed:(chosen,step)=>{selectedMeal=chosen;stepIndex=step;originalRenderDialog();return overlayRoot.innerHTML;},previewCooking:target=>{selectedMeal=meal;detailTargetServings=target;stepIndex=0;originalRenderDialog();return overlayRoot.innerHTML;},store,cloudMarkup:cloudControls,paintAccount:(root,state)=>{hostAuthState=state;const previous=document.getElementById;document.getElementById=id=>id==="host-account"?root:null;updateConnectionUI();document.getElementById=previous;},setAccountBoundary:(auth,sync)=>{hostAuth=auth;cloudSync=sync;document.querySelector=()=>null;},paintSync:root=>{const previous=document.getElementById;document.getElementById=id=>id==="cloud-controls"?root:null;updateConnectionUI();document.getElementById=previous;},select:()=>{selectedMeal=meal;},candidates:rows=>{activeMeals=rows;},prepareSuggestions:()=>{loading=false;discoverPage();},selected:()=>selectedMeal};',sandbox);
   return {...sandbox.audit,notices,meal,click:async(action,id,tag,personal=false,planSlot='')=>{
     const target={dataset:{action,id,tag,planOpen:planSlot},closest:selector=>selector==='[data-action]'?target:selector==='[data-personal-recipe]' && personal?target:null};
     await handlers.click({target});
@@ -219,4 +221,19 @@ test('sign-out preserves local records when delayed cloud reads or writes outliv
   finishAuth({succeeded:authSuccess});await signOut;
   assert.equal(state.pantry[0].name,'Local rice',heldMethod+' response must not apply after sign-out');assert.equal(sync.state.enabled,false);assert.equal(consent,null);
  }
+});
+
+test('full recipe details and cooking mode show numbered logical steps and retained text licence',async()=>{
+ const app=await appWithStore(emptyStore(),true),meal=collectedMeal(completeRecord);
+ const details=app.previewLicensed(meal,-1);assert.match(details,/instruction-list/);assert.match(details,/Mix the ingredients. Keep the batter slightly lumpy./);assert.match(details,/CC BY-SA 4.0/);assert.match(details,/Use a hot pan./);assert.match(details,/Save.*offline/);
+ const cooking=app.previewLicensed(meal,0);assert.match(cooking,/Step 1 of 2/);assert.match(cooking,/CC BY-SA 4.0/);assert.match(cooking,/Next step/);assert.ok(!cooking.includes('Follow the publisher for cooking directions'));assert.match(app.home(),/complete-recipes/);
+});
+
+test('guided cooking keeps full recipe notes available beside the source steps',async()=>{
+ const app=await appWithStore(emptyStore(),true);const html=app.previewLicensed(collectedMeal(completeRecord),0);
+ assert.match(html,/Recipe notes/);assert.ok(html.includes(completeRecord.method.notes[0]));
+});
+
+test('full recipes without a dish photo do not claim an original publisher photograph',async()=>{
+ const app=await appWithStore(emptyStore(),true);assert.ok(!app.previewLicensed(collectedMeal(completeRecord),-1).includes('Original publisher photograph'));
 });

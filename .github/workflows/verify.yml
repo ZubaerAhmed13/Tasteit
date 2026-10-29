@@ -53,6 +53,7 @@ jobs:
           node tests/personalisation-browser.mjs
           node tests/continuity-browser.mjs
           node tests/vercel-browser.mjs
+          node tests/complete-recipes-browser.mjs
           node tests/selected-sources-browser.mjs
           # Independent fresh sessions guard the Firefox focus/click regression.
           # Every execution must pass; these are stability checks, not retries.

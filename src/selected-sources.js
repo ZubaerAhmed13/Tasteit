@@ -8,14 +8,17 @@ export const SOURCES=Object.freeze([
  ['nyt','NYT Cooking','cooking.nytimes.com'],['chefkoch','Chefkoch','chefkoch.de'],
  ['justonecookbook','Just One Cookbook','justonecookbook.com'],['maangchi','Maangchi','maangchi.com'],
  ['woksoflife','The Woks of Life','thewoksoflife.com'],['swasthi',"Swasthi’s Recipes",'indianhealthyrecipes.com'],
- ['supercook','SuperCook','supercook.com'],['samsungfood','Samsung Food','samsungfood.com','app.samsungfood.com']
+ ['supercook','SuperCook','supercook.com'],['samsungfood','Samsung Food','samsungfood.com','app.samsungfood.com'],
+ ['wikibooks','Wikibooks Cookbook','en.wikibooks.org']
 ].map(([id,name,...hosts])=>Object.freeze({id,name,hosts:Object.freeze(hosts)})));
 export function safeHttps(input) {
  try{const url=new URL(input);return url.protocol==='https:'&&!url.username&&!url.password&&!url.port?url:null;}catch{return null;}
 }
 export function approvedSource(input) {
  const url=safeHttps(input);if(!url)return null;
- const host=url.hostname.replace(/^www\./,'');return SOURCES.find(x=>x.hosts.includes(host))||null;
+ const host=url.hostname.replace(/^www\./,''),source=SOURCES.find(x=>x.hosts.includes(host))||null;
+ if(source?.id==='wikibooks'){try{if(!decodeURIComponent(url.pathname).startsWith('/wiki/Cookbook:'))return null;}catch{return null;}}
+ return source;
 }
 const plain=(value,max=400)=>String(value??'').replace(/<[^>]*>/g,'').replaceAll('&amp;','&').replaceAll('&#39;',"'").replaceAll('&quot;','"').trim().slice(0,max);
 const types=node=>[].concat(node?.['@type']||[]).map(x=>String(x).replace(/^https?:\/\/schema.org\//,''));
@@ -140,8 +143,20 @@ export function validateRecipe(record) {
   const r=record.rating;if(!r||!Number.isFinite(r.value)||!Number.isFinite(r.best)||r.value<(r.worst??1)||r.value>r.best||r.best<=(r.worst??1)||r.count!==null&&(!Number.isSafeInteger(r.count)||r.count<1)||!['ratings','reviews',null].includes(r.countType)||(r.count===null)!==(r.countType===null))throw new Error('Invalid source rating.');
  }
  if(record.photoUrl&&!safeHttps(record.photoUrl))throw new Error('Invalid publisher photo URL.');
+ if(record.source==='wikibooks'||record.method!==undefined)validateCompleteMethod(record);
  return record;
 }
+function validateCompleteMethod(record) {
+ const m=record.method,page=safeHttps(record.url);
+ const title=page&&decodeURIComponent(page.pathname.slice('/wiki/'.length)).replaceAll('_',' ');
+ const lines=(xs,max)=>Array.isArray(xs)&&xs.length<=max&&xs.every(x=>typeof x==='string'&&x.trim()&&x.length<=3000&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(x));
+ if(record.source!=='wikibooks'||!page||page.hostname!=='en.wikibooks.org'||page.search||page.hash||!page.pathname.startsWith('/wiki/Cookbook')||!title?.startsWith('Cookbook:')||!m||!lines(m.steps,150)||!m.steps.length||!lines(m.notes,50)||[...m.steps,...m.notes].join('').length>60000||!Number.isSafeInteger(m.pageId)||m.pageId<1||record.id!=='wikibooks-'+m.pageId||!Number.isSafeInteger(m.revision)||m.revision<1||m.license!=='CC-BY-SA-4.0'||m.licenseUrl!=='https://creativecommons.org/licenses/by-sa/4.0/'||m.attribution!=='Wikibooks contributors'||typeof m.changes!=='string'||!m.changes.trim()||m.changes.length>1000)throw Error('Invalid licensed recipe method.');
+ for(const [key,param,value]of [['revisionUrl','oldid',String(m.revision)],['historyUrl','action','history']]){
+  const url=safeHttps(m[key]);if(!url||url.hostname!=='en.wikibooks.org'||url.pathname!=='/w/index.php'||url.hash||url.searchParams.size!==2||url.searchParams.getAll('title').length!==1||url.searchParams.getAll(param).length!==1||url.searchParams.get('title')?.replaceAll('_',' ')!==title||url.searchParams.get(param)!==value||[...url.searchParams.keys()].some(k=>!['title',param].includes(k)))throw Error('Invalid licensed recipe attribution.');
+ }
+ return m;
+}
+export function completeMethod(record) {if(!record?.method)return null;validateRecipe(record);return record.method;}
 export function validateWorldFavourites(data,records) {
  const byId=new Map(records.map(r=>[r.id,r]));
  if(!data||data.id!=='world-favourites-100'||typeof data.title!=='string'||!data.title||data.title.length>100||typeof data.summary!=='string'||!data.summary||data.summary.length>1000||!Number.isFinite(Date.parse(data.checkedAt))||!Array.isArray(data.recipeIds)||data.recipeIds.length!==100||new Set(data.recipeIds).size!==100)throw new Error('Invalid world favourites curation.');
