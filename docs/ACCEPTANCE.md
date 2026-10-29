@@ -9,7 +9,10 @@ The current release is a private testing preview. PR #1 remains draft and unmerg
 GitHub Actions runs unit and API tests plus Playwright browser acceptance in headless Chromium, Firefox and WebKit using deterministic API fixtures. These engines are **not** a substitute for physical iOS Safari/Android device testing.
 
 - [x] Browse, search, open recipe, check ingredients and guided instructions
-- [x] Build world country/category directory, source scan, deduplication, a 30-candidate target and visible shortfall, without inventing reviews or rehosting recipe text
+- [x] Add 50 separately identified CC BY-SA 4.0 Wikibooks recipes with complete ingredients, logical numbered steps, source notes and pinned revision/history/licence credits; preserve the original 1,108 publisher records byte for byte
+- [x] Discover complete recipes from Home; save ingredients, method and attribution for offline cooking, resume steps/checklist/timers, finish into the journal and retain the licensed text in backups
+- [x] Retain the publisher catalogue and saved recipes when the licensed collection cannot load, with a retryable warning
+- [x] Build world country/category directory, source scan, deduplication, a 30-candidate target and visible shortfall, without inventing reviews or rehosting restricted publisher text
 - [x] Produce country/category coverage snapshots with source IDs and titles, and export CSV gaps in GitHub Actions (feature branch only)
 - [x] Gather and preserve 3,799 source-linked Wikibooks research titles, searchable in Tasteit but not classified into countries, courses or top-ranked dishes without editorial evidence
 - [x] Offer source-tag searches, private evidence-backed shortlist notes, explicit country/category research assignments, exportable CSV and backup restore; never promote these to verified best-30 without independent editorial review
@@ -312,7 +315,7 @@ open.
 - [x] All 229 Node tests, syntax checks and Worker build pass locally. No new runtime dependency or database migration. The offline shell includes all four additional imported modules.
 - [x] Fresh final review findings reproduced and corrected: compact restorable 1,008-recipe backups, validated next-state writes, explicitly reviewed short pantry names for long original source lines, and committed filter state separated from drafts. Four regressions verified RED→GREEN.
 - [x] Detailed three-engine browser checks, including cross-page saves, home/reload, actual image decoding, additional credits, drafts/focus, real source-line purchases/backup restoration, failure fallbacks and mobile layout. All 20 PASS results inspected: six suites each in Chromium and WebKit; eight Firefox executions including three independent continuity runs.
-- [x] Published exact tested native package as private preview version 9 on 26 October 2026. All 48 source assets and provenance match the prepared Worker. The archive preserves Site identity, DB binding and all three migration files. All 19 checked live release paths and provenance match the tested application source. Audience remains one owner, zero groups and zero external visitors; PR1 stays draft and unmerged.
+- [x] Published exact tested native package as private preview version 9 on 26 October 2026. All 48 source assets and provenance match the prepared Worker. The archive preserves Site identity, DB binding and all three migration files. All 19 checked live release paths and provenance match the tested application source. Audience remains one owner, zero groups and zero external visitors; PR #1 stays draft and unmerged.
 
 Verified application source: `4ce206ee9df4f47f85543c9a450a746a2dbd7028`.
 [Final CI run 40228614990](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40228614990)
@@ -347,7 +350,7 @@ standalone sauce/stock/condiment records and balancing four publishers and cours
 - [x] New data-integrity acceptance observed RED against the 1,008-record baseline and GREEN after expansion. All 230 Node tests, syntax checks and Worker build pass locally. No runtime dependency, application-JavaScript, persistence or database migration change.
 - [x] Independent final review found zero Critical, Important or Minor issues. Its audit reproduced all 100 original HTML hashes and exact extractions against the current strict parser, preserved all 1,008 git-base records, and found no category/rating/canonical-URL or same-publisher title/photo/ingredient duplicates. Three ordinary sampled publisher dish-image requests returned image/jpeg successfully; this does not guarantee every external image remains available.
 - [x] Detailed final three-engine browser logs inspected: six suites in Chromium and WebKit; eight Firefox executions including three independent continuity runs. All 20 PASS results include full Breakfast pagination and visibility of every new recipe ID. The CI merge commit and candidate have identical source trees.
-- [x] Exact-source native package published as private preview version 10. All 48 source assets and source provenance match the prepared Worker. The archive preserves Site identity, DB/r2 bindings and all three migration files. All 19 checked live release paths and provenance match the tested source. Audience remains one owner, zero groups and zero external visitors; PR1 stays draft and unmerged.
+- [x] Exact-source native package published as private preview version 10. All 48 source assets and source provenance match the prepared Worker. The archive preserves Site identity, DB/r2 bindings and all three migration files. All 19 checked live release paths and provenance match the tested source. Audience remains one owner, zero groups and zero external visitors; PR #1 stays draft and unmerged.
 
 Verified application source: `72de55d4969a7fec56df275acd8c8fbd2a24d6ca`.
 [Final CI run 40302717364](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40302717364)
@@ -432,7 +435,7 @@ public-release rights limits remain unchanged.
 [Release notes and rulings](releases/2026-10-26-trust-continuity.md) ·
 [Final CI run 40353743082](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40353743082).
 CI merge `b8b33de3eef5fd664d8aa1febaecefbc5898403e` equals the candidate's tree
-`aecdd12fabe0969a782770fe9734b3a44d9e8e6b`. PR1 remains draft and unmerged.
+`aecdd12fabe0969a782770fe9734b3a44d9e8e6b`. PR #1 remains draft and unmerged.
 
 All 21 checked live release paths and application provenance match the tested
 Release 1 source. No owner-signed-in hosted or physical-device walkthrough is claimed.
@@ -462,7 +465,7 @@ Release 1 source. No owner-signed-in hosted or physical-device walkthrough is cl
   match the prepared Worker; archive matches Site ID, DB/r2 and three migration files.
 - [x] Published private version12, native source
   `a621ca409fc83a8b70da230be9b869695b4ea594`. Audience remains one owner, zero groups,
-  zero external visitors. PR1 remains draft and unmerged. No recipe/photo-registry,
+  zero external visitors. PR #1 remains draft and unmerged. No recipe/photo-registry,
   dependency, backup-format, database or account-boundary change.
 
 [Release notes and rulings](releases/2026-10-26-coherent-interface.md) ·
@@ -481,10 +484,23 @@ conformance claim is inferred from automated acceptance.
 - [x] Photo resolver matches 8,160/14,737 source rows with 172 credited references; 6,577 explicit gaps. Full-catalogue cached/uncached outputs identical; controlled CPU timing only.
 - [x] 281 Node tests and CI 40464185834: 26 browser-suite executions across Chromium, Firefox and WebKit. One fresh final review; both Important findings fixed RED→GREEN; no deferred findings.
 - [x] Tested application `d09079dd26f7e388f0af7595ff8490c28653741c` and CI merge `65a9326885f49f663d0080141b8e3b5e52aada9f` share tree `80076decd8937477fcd497c3498e4120fea16ad9`.
-- [x] Owner-private version 13 published from native source `cfe80cec0e24880ecc9d731483f6842a009202e5`; Worker/archive parity, Site identity, DB/r2 and three migration files verified. PR1 stays draft/unmerged.
+- [x] Owner-private version 13 published from native source `cfe80cec0e24880ecc9d731483f6842a009202e5`; Worker/archive parity, Site identity, DB/r2 and three migration files verified. PR #1 stays draft/unmerged.
 
 [Release notes and rulings](releases/2026-10-27-everyday-cooking.md) ·
 [Final CI](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40464185834).
 Physical-phone alarm behavior, screen readers, physical magnification, signed-in hosted walkthrough and field performance remain unverified.
 
 All 29 checked live Release 3 paths and tested application provenance match.
+
+
+## Complete recipes — protected Vercel release, 29 October 2026
+
+- [x] 50 complete licensed recipe texts added separately; original 1,108 records, IDs, genuine ratings and credited ingredient references preserved. Total curated catalogue 1,158.
+- [x] In-app logical numbered steps and notes, guided cooking/checklist/manual timer, source-quantity adjustment disclosure, saved offline reload/resume/finish and backup licence retention.
+- [x] Last validated original/complete snapshots survive alternating and both-failed refreshes with retryable warnings; undefined ingredient-level recipe batches rejected; source introductory yield/context retained.
+- [x] 312/312 Node tests, 10 Python extraction cases and 32 browser-suite executions pass in [CI 40813325463](https://github.com/ZubaerAhmed13/Tasteit/actions/runs/40813325463). Both builds pass. One fresh final reviewer; all 3 Important findings and the regraded batch-context finding fixed in one continuing RED→GREEN pass.
+- [x] Tested source `3974208c6be9327698ba3116bcb42c1dc269976b` and CI merge `a85c8a4add1f1598767b3e7bfdea56403b928232` have identical tree `8b476978a678ad072ec7550ad44c5de4054e6e4a`.
+- [x] Existing [Tasteit Vercel address](https://tasteit-zeta.vercel.app) serves READY deployment `dpl_97wjf2tT8m7C9U592agKs8exE8Pd` from that exact source. All 59 live assets/source digest match; all 4 aliases/deployment hosts protect root, old/new recipe data and account API. Server/config paths are not exposed; temporary verification share link revoked. No data migration, QA users or emails.
+- [x] PR #1 remains draft/unmerged; original owner-private Site 13 is unchanged.
+
+[Release evidence, decisions and deferred minor](releases/2026-10-28-complete-recipes.md). Older publisher recipes still link to their source methods. Source amounts need manual adjustment; photos/new discovery need a connection. Apply **Reload to update** if shown, then use Home → **Browse complete recipes**, save a recipe, and wait for **Ready offline**. Physical phones and culinary quality remain unverified; the separate Supabase confirmation URL owner step remains pending.

@@ -2,7 +2,13 @@
 
 **A personal recipe universe** — explore cooking traditions, save dishes you want to try, keep track of what's in your kitchen, and plan meals using what you have.
 
-> **Status:** Private testing preview; PR #1 remains draft and unmerged. Personal data stays in this browser by default. Optional account sync uses the private Site backend. Discovery uses TheMealDB’s developer/test API.
+> **Status:** Private testing preview; PR #1 remains draft and unmerged. Personal data stays in this browser by default. The existing Vercel deployment retains access protection and uses server-verified Supabase sessions with optional isolated sync. The original Site flow remains supported. Discovery includes the curated collection and optional TheMealDB developer/test API.
+
+## Complete recipes
+
+The main catalogue now includes **50 complete CC BY-SA 4.0 Wikibooks recipes** alongside the unchanged **1,108 publisher records**. Home → **Browse complete recipes** opens ingredients, numbered logical steps, notes and guided cooking with manual timers and saved progress. Source quantities require manual adjustment for selected portions. Save a full recipe and wait for **Ready offline** before disconnecting; its text and credits remain available without a publisher request. Older publisher records keep their original source methods.
+
+[Text credits](docs/recipes/complete-recipes-license.md) · [Verified release and decisions](docs/releases/2026-10-28-complete-recipes.md)
 
 ## Run it
 
