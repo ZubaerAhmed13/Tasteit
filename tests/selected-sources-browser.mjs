@@ -31,7 +31,7 @@ try{
  assert.equal(breakfastIds.length,breakfastTotal);assert.equal(new Set(breakfastIds).size,breakfastTotal);for(const recipe of breakfastBatch.recipes)assert.ok(breakfastIds.includes(recipe.id),'new breakfast is browsable: '+recipe.id);
  await page.locator('#selected-course').selectOption('');
  assert.equal(await page.locator('#selected-source option').count(),18);
- assert.equal(await page.locator('#selected-source option[value=wikibooks]').textContent(),'Wikibooks Cookbook');
+ assert.match(await page.locator('#selected-source option[value=wikibooks]').textContent(),/^Wikibooks Cookbook \(\d+\)$/);
  await page.locator('#selected-source').selectOption('recipetineats');await page.locator('#selected-query').fill('Easy Chicken Curry');await page.locator('#selected-filters button[type=submit]').click();
  assert.equal(await page.locator('.selected-card').count(),1);assert.ok((await page.locator('.source-rating').innerText()).includes('4.9'));
  assert.equal(await page.locator('.selected-card a.btn').first().getAttribute('href'),'https://www.recipetineats.com/chicken-curry/');
