@@ -3721,6 +3721,30 @@
       "verified": true,
       "checkedAt": "2026-10-31",
       "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "sesame-oil-toasted",
+      "label": "Toasted sesame oil",
+      "aliases": [
+        "toasted sesame oil",
+        "roasted sesame oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Sesam%C3%B6l-1.jpg/250px-Sesam%C3%B6l-1.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Sesam%C3%B6l-1.jpg",
+      "creator": "Rainer Zenz",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "form": "toasted",
+      "exclusions": [
+        "toasted sesame seeds",
+        "roasted sesame seeds",
+        "sesame paste",
+        "sesame butter"
+      ],
+      "description": "Oil made from roasted sesame seeds in a glass bottle.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
     }
   ]
 }
