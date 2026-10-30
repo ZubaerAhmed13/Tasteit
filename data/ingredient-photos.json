@@ -3423,6 +3423,125 @@
         "fermented tofu",
         "fried tofu"
       ]
+    },
+    {
+      "id": "paneer-fresh",
+      "label": "Fresh paneer cheese",
+      "aliases": [
+        "paneer",
+        "paneer cheese",
+        "fresh paneer",
+        "panir"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Panir_Paneer_Indian_cheese_fresh.jpg/250px-Panir_Paneer_Indian_cheese_fresh.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Panir_Paneer_Indian_cheese_fresh.jpg",
+      "creator": "Sonja Pauen (Stanhopea)",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "exclusions": [
+        "paneer tikka",
+        "paneer curry",
+        "paneer masala",
+        "palak paneer",
+        "matar paneer"
+      ],
+      "description": "Fresh Indian paneer cheese, not a prepared paneer dish.",
+      "verified": true,
+      "checkedAt": "2026-10-30",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "cocoa-powder",
+      "label": "Cocoa powder",
+      "aliases": [
+        "cocoa powder",
+        "unsweetened cocoa powder",
+        "cacao powder"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Cocoa_powder.jpg/250px-Cocoa_powder.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Cocoa_powder.jpg",
+      "creator": "blair",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "exclusions": [
+        "hot chocolate",
+        "cocoa drink"
+      ],
+      "description": "A bowl of dry cocoa powder.",
+      "verified": true,
+      "checkedAt": "2026-10-30",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "honey",
+      "label": "Honey",
+      "aliases": [
+        "honey",
+        "pure honey"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Honey_from_jar.jpg/250px-Honey_from_jar.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Honey_from_jar.jpg",
+      "creator": "ProjectManhattan",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "exclusions": [
+        "honey mustard",
+        "honey garlic sauce",
+        "honey glaze"
+      ],
+      "description": "Honey poured from a jar.",
+      "verified": true,
+      "checkedAt": "2026-10-30",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "shrimp-raw",
+      "label": "Raw shrimp",
+      "aliases": [
+        "shrimp",
+        "raw shrimp",
+        "prawns",
+        "raw prawns"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Raw_shrimp.jpg/250px-Raw_shrimp.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Raw_shrimp.jpg",
+      "creator": "Fumikas Sagisavas",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "exclusions": [
+        "shrimp paste",
+        "shrimp powder",
+        "dried shrimp",
+        "cooked shrimp",
+        "fried shrimp",
+        "shrimp stock"
+      ],
+      "description": "Raw shrimp before preparation.",
+      "verified": true,
+      "checkedAt": "2026-10-30",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "lentils-red-dry",
+      "label": "Red lentils",
+      "aliases": [
+        "red lentils",
+        "dry red lentils",
+        "dried red lentils"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Red_Lentils.jpg/250px-Red_Lentils.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Red_Lentils.jpg",
+      "creator": "Selimee",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "exclusions": [
+        "cooked red lentils",
+        "red lentil soup"
+      ],
+      "description": "Dry red lentils.",
+      "verified": true,
+      "checkedAt": "2026-10-30",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
     }
   ]
 }
