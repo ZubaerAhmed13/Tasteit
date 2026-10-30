@@ -67,7 +67,7 @@ try{
   assert.equal(await page.locator('.selected-card').count(),1);await page.locator('.selected-ingredients summary').click();
   const row=page.locator('.selected-ingredients li').filter({hasText:ingredient});assert.equal(await row.count(),1);
   assert.equal(await row.locator('.ingredient-reference figcaption').count(),0);
-  assert.ok(await row.locator('.ingredient-reference img').count()>0);
+  assert.ok(await row.locator('.ingredient-reference').count()>0,'reference slot remains present even when external Wikimedia image delivery is blocked');
   for(const url of urls)assert.ok(await creditsPage.locator('#photo-credits-list a').evaluateAll((links,url)=>links.some(x=>x.href===url),url),'separate source credit: '+url);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  }
