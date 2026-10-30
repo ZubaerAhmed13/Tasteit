@@ -17,7 +17,7 @@ export function toggleCollectedFlag(store,record,field) {
  if(!['wanted','usual'].includes(field))throw new Error('Unknown recipe collection.');
  const meal=collectedMeal(record),id=meal.idMeal,saved={...store.saved};
  const entry={...saved[id],meal,[field]:!saved[id]?.[field]};
- if(entry.wanted||entry.usual||entry.favourite||entry.cookedCount>0||entry.tags?.length||entry.baseServings||Object.values(store.plan||{}).includes(id))saved[id]=entry;
+ if(entry.wanted||entry.usual||entry.favourite||entry.cookedCount>0||entry.tags?.length||entry.baseServings||entry.ownMethod||Object.values(store.plan||{}).includes(id))saved[id]=entry;
  else delete saved[id];
  return {...store,saved};
 }
