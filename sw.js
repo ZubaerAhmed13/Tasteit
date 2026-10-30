@@ -1,5 +1,7 @@
 // The build replaces this token with the application-asset digest.
 const CACHE='tasteit-shell-__TASTEIT_BUILD__';
+const PHOTO_CACHE='tasteit-ingredient-thumbnails-v1';
+const MAX_SAVED_PHOTOS=160;
 const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest',
   './src/recipe-presentation.js','./src/recipe-metadata.js','./src/meal-plan.js','./src/recipe-planning.js','./src/discovery-options.js','./src/recipe-discovery.js','./src/api.js','./src/app.js','./src/cloud-sync.js','./src/cooking.js','./src/editorial.js',
   './src/kitchen-discovery.js','./src/kitchen-flow.js','./src/model.js','./src/navigation.js',
@@ -80,8 +82,34 @@ async function navigation(request) {
     return new Response('Tasteit is not ready offline. Reconnect once to load the app.',{status:503,headers:{'content-type':'text/plain'}});
   } finally {clearTimeout(timer);}
 }
+// Only Wikimedia Commons thumbnails viewed inside TasteIt enter the bounded
+// offline cache. They are not preloaded, and failed images are never cached.
+async function viewedThumbnail(request) {
+  const cache=await caches.open(PHOTO_CACHE);
+  const stored=await cache.match(request);
+  try {
+    const response=await fetch(request);
+    if((response.ok||response.type==='opaque')&&!response.redirected) {
+      try {
+        await cache.put(request,response.clone());
+        const keys=await cache.keys();
+        for(const stale of keys.slice(0,Math.max(0,keys.length-MAX_SAVED_PHOTOS)))await cache.delete(stale);
+      } catch { /* Low storage cannot block the recipe picture. */ }
+    }
+    return response;
+  } catch {
+    return stored||Response.error();
+  }
+}
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url),scope=new URL(root);
+  if(request.method==='GET'&&request.destination==='image'&&
+    url.origin==='https://thumb.wikimedia.org'&&
+    /^\\/wikipedia\\/commons\\/thumb\\//.test(url.pathname)&&
+    /\\/250px-[^/]+\\.(?:jpe?g|png|webp)$/i.test(url.pathname)&&
+    url.href.length<500) {
+    event.respondWith(viewedThumbnail(request));return;
+  }
   if(request.method!=='GET'||url.origin!==scope.origin)return;
   if(request.mode==='navigate' && [scope.pathname,scope.pathname+'index.html'].includes(url.pathname)) {
     event.respondWith(navigation(request));return;
