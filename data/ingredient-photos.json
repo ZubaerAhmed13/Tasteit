@@ -3542,6 +3542,134 @@
       "verified": true,
       "checkedAt": "2026-10-30",
       "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "cooking-oil-general",
+      "label": "Cooking oil",
+      "aliases": [
+        "oil",
+        "cooking oil",
+        "neutral oil"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Cooking_oil.jpg/250px-Cooking_oil.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Cooking_oil.jpg",
+      "creator": "Corn cheese",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "form": "liquid",
+      "exclusions": [
+        "essential oil",
+        "mineral oil",
+        "baby oil",
+        "engine oil",
+        "fish oil",
+        "sesame oil",
+        "olive oil",
+        "coconut oil",
+        "mustard oil",
+        "chili oil",
+        "chilli oil",
+        "garlic oil"
+      ],
+      "description": "Generic cooking oil in a bottle; not a specific flavoured or non-food oil.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "curry-leaves-fresh",
+      "label": "Fresh curry leaves",
+      "aliases": [
+        "curry leaves",
+        "fresh curry leaves",
+        "curry leaf"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Fresh_curry_leaves.jpg/250px-Fresh_curry_leaves.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Fresh_curry_leaves.jpg",
+      "creator": "Nithyashree Balasupramaniyan",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "form": "fresh",
+      "exclusions": [
+        "curry leaf powder",
+        "dried curry leaves"
+      ],
+      "description": "Leaves of the fresh curry-leaf plant.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "dijon-mustard",
+      "label": "Dijon mustard",
+      "aliases": [
+        "dijon mustard",
+        "dijon-style mustard"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Dijon_mustard.jpg/250px-Dijon_mustard.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Dijon_mustard.jpg",
+      "creator": "Jon Pallbo",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Dijon_mustard.jpg",
+      "form": "prepared",
+      "exclusions": [
+        "mustard seeds",
+        "mustard powder",
+        "dry mustard"
+      ],
+      "description": "A jar of prepared Dijon mustard.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "thyme-dried",
+      "label": "Dried thyme",
+      "aliases": [
+        "dried thyme",
+        "dried thyme leaves",
+        "dried thyme herb"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Spice_thyme.jpg/250px-Spice_thyme.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Spice_thyme.jpg",
+      "creator": "Daniel78",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "form": "dried",
+      "exclusions": [
+        "fresh thyme",
+        "thyme sprigs",
+        "thyme oil"
+      ],
+      "description": "Dried thyme leaves photographed as a loose herb.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "cinnamon-ground",
+      "label": "Ground cinnamon",
+      "aliases": [
+        "ground cinnamon",
+        "cinnamon powder",
+        "powdered cinnamon"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Ground_Cinnamon_Powder_and_a_Cinnamon_Stick.jpg/250px-Ground_Cinnamon_Powder_and_a_Cinnamon_Stick.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ground_Cinnamon_Powder_and_a_Cinnamon_Stick.jpg",
+      "creator": "formulatehealth",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "form": "ground",
+      "exclusions": [
+        "cinnamon sticks",
+        "cinnamon bark",
+        "whole cinnamon",
+        "cinnamon leaf"
+      ],
+      "description": "Powdered cinnamon on a spoon alongside cinnamon sticks.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
     }
   ]
 }
