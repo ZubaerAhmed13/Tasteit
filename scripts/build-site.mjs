@@ -8,7 +8,7 @@ const root=process.cwd();
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8',
   '.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.txt':'text/plain; charset=utf-8'};
 export async function applicationAssets(directory=root) {
-  const names=['index.html','selected-recipes.html','selected-recipes.css','styles.css','favicon.svg','robots.txt','app.webmanifest','sw.js'];
+  const names=['index.html','selected-recipes.html','photo-credits.html','selected-recipes.css','styles.css','favicon.svg','robots.txt','app.webmanifest','sw.js'];
   for(const dir of ['src','data'])for(const name of await readdir(path.join(directory,dir)))
     if(/\.(js|json|csv)$/.test(name))names.push(dir+'/'+name);
   const assets={};for(const name of names.sort())assets['/'+name]={body:await readFile(path.join(directory,name),'utf8'),type:types[path.extname(name)]||'text/plain; charset=utf-8'};
