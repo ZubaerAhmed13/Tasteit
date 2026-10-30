@@ -1,0 +1,64 @@
+name: Expand licensed complete recipe collection
+on:
+  workflow_dispatch:
+    inputs:
+      target_total:
+        description: 'Target total complete licensed recipes (50–150)'
+        required: true
+        default: '100'
+        type: choice
+        options: ['100','150']
+  push:
+    branches:
+      - feat/recipe-kitchen-foundation
+    paths:
+      - scripts/collect-complete-recipes.py
+      - .github/workflows/expand-complete-recipes.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tasteit-complete-expansion
+  cancel-in-progress: false
+
+jobs:
+  licensed-expansion:
+    if: github.ref == 'refs/heads/feat/recipe-kitchen-foundation'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Collect reviewed Wikibooks content, preserving all existing complete recipes
+        env:
+          TARGET_TOTAL: ${{ inputs.target_total || '100' }}
+        run: |
+          python3 scripts/collect-complete-recipes.py --append --limit "$TARGET_TOTAL" --min-new 10 --cache /tmp/tasteit-licensed-sources
+      - name: Verify original publisher catalogue, licensed recipes, app and build
+        run: |
+          npm ci
+          npm run verify
+          npm run build:site
+          npm run build:vercel
+      - name: Commit only validated data and credits to the draft feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/complete-recipes.json docs/recipes/complete-recipes-license.md
+          if ! git diff --cached --quiet; then
+            git commit -m "data: append validated CC BY-SA complete recipes with pinned revisions"
+            git push origin HEAD:refs/heads/feat/recipe-kitchen-foundation
+          fi
+      - name: Upload source verification attempts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tasteit-complete-recipe-verification
+          path: /tmp/tasteit-licensed-sources/attempts.json
+          retention-days: 30
+          if-no-files-found: warn
