@@ -192,3 +192,11 @@ test('compiled photo matching agrees on all catalogue rows and preserves credits
  for(const line of new Set(recipes.flatMap(x=>x.ingredients)))assert.deepEqual(match(line),photos.ingredientPhoto(line,p),line);
  assert.equal(match('garlic')?.creator,'Ivar Leidus');
 });
+
+test('newly verified everyday photos match their exact ingredient forms and never a different dish',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const [line,id] of [['200 g paneer','paneer-fresh'],['2 tbsp cocoa powder','cocoa-powder'],['1 tbsp honey','honey'],['200 g raw shrimp','shrimp-raw'],['1 cup red lentils','lentils-red-dry']]){
+  const hit=ingredientPhoto(line,p);assert.equal(hit?.id,id,line);assert.equal(hit.verified,true);
+ }
+ for(const line of ['paneer tikka','cooked shrimp','honey mustard','red lentil soup','hot chocolate'])assert.equal(ingredientPhoto(line,p),null,'No unrelated food photo: '+line);
+});
