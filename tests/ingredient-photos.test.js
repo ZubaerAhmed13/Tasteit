@@ -210,12 +210,16 @@ test('high-frequency cooking photo additions are specific and never substitute a
   ['2 tbsp Dijon mustard','dijon-mustard'],
   ['1 tsp dried thyme','thyme-dried'],
   ['2 tsp ground cinnamon','cinnamon-ground'],
-  ['1/2 tbsp cinnamon powder','cinnamon-ground']
+  ['1/2 tbsp cinnamon powder','cinnamon-ground'],
+  ['2 fresh shiitake mushrooms','shiitake-fresh'],
+  ['1 tsp lemon zest','lemon-zest'],
+  ['Zest of 1 lemon','lemon-zest']
  ])assert.equal(ingredientPhoto(line,p)?.id,id,line);
  for(const [line,id] of [
   ['3 tbsp olive oil','olive-oil'],
   ['1 tablespoon sesame oil','sesame-oil'],
-  ['1 cinnamon stick','cinnamon']
+  ['1 cinnamon stick','cinnamon'],
+  ['4 dried shiitake mushrooms','shiitake-dried']
  ])assert.equal(ingredientPhoto(line,p)?.id,id,'a specific photo must win: '+line);
  for(const line of ['1 tsp essential oil','1 tbsp toasted sesame oil','1 tbsp dry mustard','curry leaf powder','fresh thyme']) {
   const found=ingredientPhoto(line,p);
