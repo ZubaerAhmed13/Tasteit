@@ -148,6 +148,6 @@ def main():
  for recipe in accepted:
   method=recipe['method']
   entries.append('- **'+safe_title(recipe['title'])+'** — [source revision '+str(method['revision'])+']('+method['revisionUrl']+'); [contributors/history]('+method['historyUrl']+'); [CC BY-SA 4.0]('+method['licenseUrl']+').')
- docs.write_text(introduction+'\\n\\n## Per-recipe sources\\n\\n'+'\\n'.join(entries)+'\\n')
+ docs.write_text(introduction+'\n\n## Per-recipe sources\n\n'+'\n'.join(entries)+'\n')
  print('Collected',len(accepted),'complete CC BY-SA4.0 recipe texts (added',new_count,'); existing recipes preserved, no ratings/photos invented.')
 if __name__=='__main__':main()
