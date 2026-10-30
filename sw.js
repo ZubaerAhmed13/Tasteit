@@ -105,8 +105,8 @@ self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url),scope=new URL(root);
   if(request.method==='GET'&&request.destination==='image'&&
     url.origin==='https://thumb.wikimedia.org'&&
-    /^\\/wikipedia\\/commons\\/thumb\\//.test(url.pathname)&&
-    /\\/250px-[^/]+\\.(?:jpe?g|png|webp)$/i.test(url.pathname)&&
+    url.pathname.startsWith('/wikipedia/commons/thumb/')&&
+    (name=>name.startsWith('250px-')&&['.jpg','.jpeg','.png','.webp'].some(ext=>name.toLowerCase().endsWith(ext)))(url.pathname.split('/').at(-1)||'')&&
     url.href.length<500) {
     event.respondWith(viewedThumbnail(request));return;
   }
