@@ -36,9 +36,10 @@ try{
  assert.equal(await page.locator('.selected-card').count(),1);assert.ok((await page.locator('.source-rating').innerText()).includes('4.9'));
  assert.equal(await page.locator('.selected-card a.btn').first().getAttribute('href'),'https://www.recipetineats.com/chicken-curry/');
  await page.locator('.selected-ingredients summary').click();assert.equal(await page.locator('.selected-ingredients li').count(),11);
- assert.ok(await page.locator('.ingredient-reference figcaption a').count()>0,'real reference photo credits are present');
+ assert.ok(await page.locator('.ingredient-reference img').count()>0,'real ingredient reference photos are present');
+ assert.equal(await page.locator('.ingredient-reference figcaption').count(),0,'no caption or source beneath photos');
  assert.ok(await page.locator('.ingredient-photo-missing').count()>0,'unknown/broken images have a visible fallback');
- const photoLinks=await page.locator('.ingredient-reference figcaption a').evaluateAll(links=>links.map(x=>x.href));assert.ok(photoLinks.every(u=>u.startsWith('https://commons.wikimedia.org/')||u.startsWith('https://creativecommons.org/')));
+ assert.ok(await page.locator('footer a[href="./photo-credits.html"]').count()>0,'photo creators and licences are accessible on a separate page');
  await page.locator('#selected-source').selectOption('allrecipes');await page.locator('#selected-query').fill('');await page.locator('#selected-filters button[type=submit]').click();await page.locator('#selected-reset').waitFor();
  await page.locator('#selected-reset').click();assert.equal(await page.locator('.selected-card').count(),initial);
  await page.locator('#selected-rated').uncheck();await page.locator('#selected-filters button[type=submit]').click();assert.ok((await page.locator('#selected-status').innerText()).startsWith(catalogue.recipes.length+' of '+catalogue.recipes.length));
@@ -53,7 +54,9 @@ try{
  const unavailable=await browser.newPage();await unavailable.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());await unavailable.route('**/data/world-favourites-100.json',route=>route.abort());await unavailable.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html?collection=world-favourites-100');await unavailable.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.equal(await unavailable.locator('.selected-card').count(),24);assert.ok(!(await unavailable.locator('#selected-status').innerText()).startsWith('100 of '));assert.ok((await unavailable.locator('#selected-collection-note').innerText()).includes('unavailable'));
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  const submitBox=await page.locator('#selected-filters button[type=submit]').boundingBox();assert.ok(submitBox.height>=44,'Find recipes touch target: '+JSON.stringify(submitBox));
- // Source-specific credit instructions must be visible beside each reference.
+ // Source-specific credit instructions must be retained on the separate attribution page, never beneath a thumbnail.
+ const creditsPage=await browser.newPage();await creditsPage.goto('http://127.0.0.1:'+server.address().port+'/photo-credits.html');
+ await creditsPage.waitForFunction(()=>document.querySelector('#photo-credits-status')?.textContent.includes('verified ingredient-photo'));
  for(const [id,ingredient,urls]of [
   ['woksoflife-wonton-soup-recipe','wonton wrappers',['https://www.hungryhuy.com/','https://www.hungryhuy.com/wonton-soup-recipe/']],
   ['woksoflife-pad-thai','garlic chives',['https://www.aziatische-ingredienten.nl/']],
@@ -63,10 +66,12 @@ try{
   await page.locator('#selected-collection').selectOption('');await page.locator('#selected-source').selectOption(recipe.source);await page.locator('#selected-query').fill(recipe.title);await page.locator('#selected-filters button[type=submit]').click();
   assert.equal(await page.locator('.selected-card').count(),1);await page.locator('.selected-ingredients summary').click();
   const row=page.locator('.selected-ingredients li').filter({hasText:ingredient});assert.equal(await row.count(),1);
-  const credits=await row.locator('.ingredient-reference figcaption a').evaluateAll(links=>links.map(a=>a.href));
-  for(const url of urls)assert.ok(credits.includes(url),'adjacent source credit: '+url);
+  assert.equal(await row.locator('.ingredient-reference figcaption').count(),0);
+  assert.ok(await row.locator('.ingredient-reference img').count()>0);
+  for(const url of urls)assert.ok(await creditsPage.locator('#photo-credits-list a').evaluateAll((links,url)=>links.some(x=>x.href===url),url),'separate source credit: '+url);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  }
+ await creditsPage.close();
  // A real selected-source save must appear on home and open without a provider lookup.
  const kitchenRecipe=catalogue.recipes.find(r=>r.source==='recipetineats'&&r.ingredients.length>20);assert.ok(kitchenRecipe);
  await page.locator('#selected-collection').selectOption('');await page.locator('#selected-source').selectOption(kitchenRecipe.source);await page.locator('#selected-query').fill(kitchenRecipe.title);await page.locator('#selected-filters button[type=submit]').click();
@@ -109,7 +114,7 @@ try{
  await legacy.route(/https:\/\/(?!127\.0\.0\.1)/,route=>route.abort());let screenshotLookup=false;
  await legacy.route('**/lookup.php?i=10042',route=>{screenshotLookup=true;return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({meals:[screenshotMeal]})});});
  await legacy.goto('http://127.0.0.1:'+server.address().port+'/?recipe=10042');await legacy.locator('[role=dialog] .ingredient-list').waitFor().catch(async error=>{throw new Error(error.message+'; intercepted='+screenshotLookup+'; dialog='+(await legacy.locator('#overlay-root').innerText()));});assert.equal(screenshotLookup,true);
- const screenshotBeef=legacy.locator('[data-ingredient-photo="Minced Beef"]'),screenshotOil=legacy.locator('[data-ingredient-photo="Sesame Seed Oil"]');await screenshotBeef.locator('.ingredient-reference').waitFor();assert.ok((await screenshotBeef.innerText()).includes('Raw ground beef'));assert.ok((await screenshotOil.innerText()).includes('Sesame oil'));assert.ok(!(await screenshotOil.innerText()).includes('Sesame seeds'));
+ const screenshotBeef=legacy.locator('[data-ingredient-photo="Minced Beef"]'),screenshotOil=legacy.locator('[data-ingredient-photo="Sesame Seed Oil"]');await screenshotBeef.locator('.ingredient-reference').waitFor();assert.match(await screenshotBeef.locator('img').getAttribute('alt'),/Raw ground beef/i);assert.match(await screenshotOil.locator('img').getAttribute('alt'),/Sesame oil/i);assert.doesNotMatch(await screenshotOil.locator('img').getAttribute('alt'),/Sesame seeds/i);
  const noPhotos=await browser.newPage();await noPhotos.route('**/data/ingredient-photos.json',route=>route.abort());await noPhotos.goto('http://127.0.0.1:'+server.address().port+'/selected-recipes.html');await noPhotos.waitForFunction(()=>document.querySelector('#selected-status')?.textContent.includes('collected recipes'));assert.ok(await noPhotos.locator('.selected-card').count()>0,'recipe collection survives an unavailable photo registry');
 
  // Release 1: primary catalogue is usable while both optional requests are pending.
