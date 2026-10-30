@@ -200,3 +200,25 @@ test('newly verified everyday photos match their exact ingredient forms and neve
  }
  for(const line of ['paneer tikka','cooked shrimp','honey mustard','red lentil soup','hot chocolate'])assert.equal(ingredientPhoto(line,p),null,'No unrelated food photo: '+line);
 });
+
+test('high-frequency cooking photo additions are specific and never substitute a different preparation',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const [line,id] of [
+  ['1 tablespoon oil','cooking-oil-general'],
+  ['1 tsp neutral oil','cooking-oil-general'],
+  ['1 sprig curry leaves','curry-leaves-fresh'],
+  ['2 tbsp Dijon mustard','dijon-mustard'],
+  ['1 tsp dried thyme','thyme-dried'],
+  ['2 tsp ground cinnamon','cinnamon-ground'],
+  ['1/2 tbsp cinnamon powder','cinnamon-ground']
+ ])assert.equal(ingredientPhoto(line,p)?.id,id,line);
+ for(const [line,id] of [
+  ['3 tbsp olive oil','olive-oil'],
+  ['1 tablespoon sesame oil','sesame-oil'],
+  ['1 cinnamon stick','cinnamon']
+ ])assert.equal(ingredientPhoto(line,p)?.id,id,'a specific photo must win: '+line);
+ for(const line of ['1 tsp essential oil','1 tbsp toasted sesame oil','1 tbsp dry mustard','curry leaf powder','fresh thyme']) {
+  const found=ingredientPhoto(line,p);
+  assert.ok(found?.id!=='cooking-oil-general'&&found?.id!=='curry-leaves-fresh'&&found?.id!=='dijon-mustard'&&found?.id!=='thyme-dried'&&found?.id!=='cinnamon-ground','wrong form must not be shown: '+line);
+ }
+});
