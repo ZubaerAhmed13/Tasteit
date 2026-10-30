@@ -82,9 +82,15 @@ def extract_sections(content):
 
 FAVOURITES=['Whole Wheat Pancakes','French Toast','Basic Scrambled Eggs','Basic Omelet','Banana Bread I','Blueberry Pancakes','Scottish Porridge','Upma','Hummus','Guacamole','Guacamole (Chile-Free)','Tomato Soup','Lentil Soup','Vegetable Soup','Greek Salad','Tabouli','Falafel','Chapati','Fried Rice','Chicken Curry','Chicken Curry (Mediterranean-inspired)','Chicken Biryani','Dal','Spaghetti Bolognese','Macaroni and Cheese','Pizza','Chocolate Chip Cookies II','Brownies','Chocolate Cake','Rice Pudding','Apple Crumble','Scones','Garlic Bread','Potato Salad','Mashed Potatoes','Roasted Potatoes','Vegetable Curry','Chili Con Carne','Ratatouille','Pasta Salad','Oatmeal Cookies','Fruit Salad','Cheese Omelette','Spanish Omelet','Almond Pancakes','Banana Nutmeg Pancakes','Chicken Fried Rice','Shakshuka II','Minestrone','Carrot Soup','Peanut Butter Cookies','Shortbread']
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--limit',type=int,default=50);parser.add_argument('--cached-only',action='store_true');parser.add_argument('--cache',default='.superpowers/sdd/2026-10-28-complete-recipes/sources');args=parser.parse_args()
- if args.limit<1 or args.limit>50:raise ValueError('Bounded release limit1–50')
+ parser=argparse.ArgumentParser();parser.add_argument('--limit',type=int,default=50);parser.add_argument('--append',action='store_true');parser.add_argument('--min-new',type=int,default=10);parser.add_argument('--cached-only',action='store_true');parser.add_argument('--cache',default='.superpowers/sdd/2026-10-28-complete-recipes/sources');args=parser.parse_args()
+ if args.limit<1 or args.limit>150:raise ValueError('Bounded total recipe limit 1–150')
+ if args.min_new<1 or args.min_new>50:raise ValueError('Expected at least one and at most fifty new recipes')
  root=pathlib.Path('.');cache=pathlib.Path(args.cache);cache.mkdir(parents=True,exist_ok=True)
+ current=json.loads((root/'data/complete-recipes.json').read_text()) if args.append else None
+ original=current.get('recipes',[]) if current else []
+ if args.append and (current.get('source')!='wikibooks' or current.get('version')!=1 or len(original)<50 or len(original)>=args.limit or len({r['id'] for r in original})!=len(original)):
+  raise ValueError('Existing licensed collection is not eligible for safe additive expansion')
+ existing_ids={r['id'] for r in original}
  queue=json.loads((root/'data/wikibooks-research-queue.json').read_text())['recipes'];category_snapshot=json.loads((root/'data/wikibooks-category-evidence.json').read_text());categories={r['sourcePageId']:r['categoryLabels'] for r in category_snapshot['recipes']}
  eligible=[r for r in queue if not any(re.search('incomplete|disambiguation|foodista|obsolete|stub|needs? (?:revision|review)',c,re.I) for c in categories.get(r['sourcePageId'],[]))]
  candidates=[]
@@ -93,8 +99,10 @@ def main():
   if matches:candidates.append(matches[0])
  for course in ['Breakfast recipes','Main course recipes','Dessert recipes','Appetizer recipes','Salad recipes','Soup recipes']:
   candidates.extend(r for r in eligible if course in categories.get(r['sourcePageId'],[]) and 'Easy recipes' in categories.get(r['sourcePageId'],[]) and len(r['title'])<65)
- candidates=list({r['sourcePageId']:r for r in candidates}.values());candidates=candidates if args.cached_only else candidates[:180]
- checked=datetime.datetime.now(datetime.timezone.utc).isoformat();accepted=[];attempts=[]
+ candidates=list({r['sourcePageId']:r for r in candidates}.values())
+ candidates=[r for r in candidates if 'wikibooks-'+str(r['sourcePageId']) not in existing_ids]
+ candidates=candidates if args.cached_only else candidates[:350]
+ checked=datetime.datetime.now(datetime.timezone.utc).isoformat();accepted=list(original);attempts=[]
  # Single publisher, one request in flight; stop on rate/access restrictions.
  blocked=threading.Event()
  def cached_source(row):
@@ -127,7 +135,9 @@ def main():
   (cache/'attempts.json').write_text(json.dumps(attempts,indent=2))
   if len(accepted)>=args.limit:break
  executor.shutdown(wait=True,cancel_futures=True)
- if len(accepted)!=args.limit:raise ValueError('Insufficient complete recipes; do not publish partial collection')
+ new_count=len(accepted)-len(original)
+ if new_count<args.min_new or len(accepted)>args.limit:raise ValueError(f'Only {new_count} additional complete recipes were verified; keep the existing collection unchanged')
+ if len({r['id'] for r in accepted})!=len(accepted) or accepted[:len(original)]!=original:raise ValueError('Original recipe data changed during append')
  (root/'data/complete-recipes.json').write_text(json.dumps(dict(version=1,source='wikibooks',checkedAt=checked,licenseInfo='https://en.wikibooks.org/wiki/Wikibooks:Copyrights',recipes=accepted),ensure_ascii=False,indent=2)+'\n')
- print('Collected',len(accepted),'complete CC BY-SA4.0 recipe texts; no ratings/photos invented.')
+ print('Collected',len(accepted),'complete CC BY-SA4.0 recipe texts (added',new_count,'); existing recipes preserved, no ratings/photos invented.')
 if __name__=='__main__':main()
