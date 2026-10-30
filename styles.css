@@ -630,3 +630,11 @@ h3 { font-size: 24px }
 .photo-credits-list a{text-underline-offset:3px}
 .photo-credit-changes{color:var(--muted);font-size:13px}
 @media(max-width:700px){.ingredient-reference,.ingredient-photo-link,.ingredient-photo-missing{width:80px}.ingredient-photo-link,.ingredient-photo-missing{height:80px;min-height:80px}.photo-credits-list{columns:1}.photo-credits-page{padding:30px 18px 85px}}
+
+/* Optional user-authored cooking instructions for publisher-linked recipes. */
+.own-method-editor{margin:24px 0 0;padding:18px;border:1px solid var(--line);border-radius:14px;background:#f7f8f4}
+.own-method-editor h4{margin:0 0 8px;font-size:17px}
+.own-method-editor label{display:block;font-weight:700;margin:12px 0 8px}
+.own-method-editor textarea{display:block;width:100%;min-height:148px;padding:12px 14px;border:1px solid #ced8cc;border-radius:10px;background:white;color:var(--ink);font:inherit;line-height:1.6;resize:vertical}
+.own-method-editor textarea:focus-visible{outline:3px solid #9bbdb1;outline-offset:2px}
+.own-method-editor .dialog-actions{margin-top:12px}
