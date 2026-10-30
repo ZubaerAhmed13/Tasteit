@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {createHash} from 'node:crypto';
-import * as sources from '../src/selected-sources.js';import {collectedMeal} from '../src/selected-kitchen.js';import {recipeSteps} from '../src/cooking.js';import {emptyStore,exportBackup,parseBackup} from '../src/model.js';
+import * as sources from '../src/selected-sources.js';import {collectedMeal,toggleCollectedFlag} from '../src/selected-kitchen.js';import {recipeSteps} from '../src/cooking.js';import {emptyStore,exportBackup,parseBackup} from '../src/model.js';
 import {method,record} from './helpers/complete-recipe.js';
 test('licensed method retains logical source steps and attribution through saving and backup',()=>{
  assert.equal(typeof sources.completeMethod,'function');sources.validateRecipe(record);assert.deepEqual(sources.completeMethod(record),method);
@@ -24,6 +24,7 @@ test('personal method on an existing publisher recipe is backed up without repla
  const store=emptyStore();store.saved[meal.idMeal]={meal,wanted:true,ownMethod:custom};
  const restored=parseBackup(exportBackup(store));
  assert.equal(restored.saved[meal.idMeal].ownMethod,custom);
+ const removed=toggleCollectedFlag(store,original,'wanted');assert.equal(removed.saved[meal.idMeal].ownMethod,custom,'removing the Want to try flag cannot delete user-authored cooking steps');
  assert.equal(sources.completeMethod(original),null);
  assert.equal(restored.saved[meal.idMeal].meal.selectedRecipe.url,original.url);
  const broken=JSON.parse(exportBackup(store));
