@@ -1,5 +1,5 @@
 """Bounded, revision-pinned Wikibooks Cookbook text collector (standard library)."""
-import argparse, threading, urllib.error, concurrent.futures, datetime, hashlib, html, json, pathlib, re, urllib.parse, urllib.request
+import argparse, threading, time, urllib.error, concurrent.futures, datetime, hashlib, html, json, pathlib, re, urllib.parse, urllib.request
 from html.parser import HTMLParser
 
 class Node:
@@ -112,11 +112,22 @@ def main():
   if blocked.is_set():raise ValueError('Source access restricted; no further requests')
   url='https://en.wikibooks.org/w/api.php?'+urllib.parse.urlencode(dict(action='parse',pageid=row['sourcePageId'],prop='text|revid|categories|displaytitle',format='json'))
   request=urllib.request.Request(url,headers={'User-Agent':'Tasteit/1.0 (licensed Cookbook text; revision attribution retained)'})
-  try:
-   with urllib.request.urlopen(request,timeout=30) as response:raw=json.load(response)
-  except urllib.error.HTTPError as error:
-   if error.code in (403,429):blocked.set()
-   raise
+  # Respect Wikimedia's API limits. Never launch an uncontrolled request burst.
+  for attempt in range(3):
+   time.sleep(1.6)
+   try:
+    with urllib.request.urlopen(request,timeout=30) as response:raw=json.load(response)
+    break
+   except urllib.error.HTTPError as error:
+    if error.code==429 and attempt<2:
+     # A 429 is a request to slow down, not a missing recipe.
+     delay=30*(attempt+1)
+     try:delay=max(delay,min(120,int(error.headers.get('Retry-After','0'))))
+     except (ValueError,TypeError):pass
+     time.sleep(delay)
+     continue
+    if error.code in (403,429):blocked.set()
+    raise
   temp=f.with_suffix('.tmp');temp.write_text(json.dumps(raw,ensure_ascii=False));temp.replace(f);return raw
  executor=concurrent.futures.ThreadPoolExecutor(max_workers=1)
  futures={r['sourcePageId']:executor.submit(cached_source,r) for r in candidates}
