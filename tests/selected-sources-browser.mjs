@@ -97,6 +97,20 @@ try{
  await actualPhoto.dispatchEvent('error');assert.ok(await page.locator('.ingredient-list .ingredient-photo-missing').filter({hasText:'Photo unavailable'}).count()>0);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.reload();await page.locator('[role=dialog]').waitFor();assert.equal(await page.locator('.ingredient-list li').count(),kitchenRecipe.ingredients.length);assert.deepEqual(providerLookups,[]);
+ // The publisher method is still linked, but personal steps can be authored and cooked offline.
+ const ownSteps=['Wash and prepare the ingredients.','Cook my preferred way until done safely.','Serve while fresh.'];
+ await page.locator('#own-method-input').fill(ownSteps.join('\\n').replaceAll('\\n','\n'));
+ await page.locator('#own-method-form button[type=submit]').click();
+ assert.deepEqual(await page.locator('.instruction-list > li').allTextContents(),ownSteps);
+ await page.locator('[data-action=start-cooking]').click();
+ assert.ok((await page.locator('.cook-step').innerText()).includes(ownSteps[0]));
+ await page.locator('[data-action=step-next]').click();
+ assert.ok((await page.locator('.cook-step').innerText()).includes(ownSteps[1]));
+ await page.locator('[data-action=exit-cooking]').click();
+ assert.ok((await page.locator('#own-method-input').inputValue()).includes(ownSteps[2]));
+ await page.reload();await page.locator('[role=dialog] .instruction-list').waitFor();
+ assert.deepEqual(await page.locator('.instruction-list > li').allTextContents(),ownSteps);
+ assert.deepEqual(providerLookups,[]);
  await page.locator('.dialog-close').click();await page.locator('#home-usual [data-action=home-collection]').click();await page.getByRole('heading',{name:'My personal cookbook.'}).waitFor();assert.ok((await page.locator('#app').innerText()).includes(kitchenRecipe.title));
  // Receive the actual long Maangchi rice-cake line under a reviewed pantry name.
  const riceCakeRecipe=catalogue.recipes.find(r=>r.id==='maangchi-recipe-tteokbokki'),riceCakeId='selected-'+riceCakeRecipe.id;
