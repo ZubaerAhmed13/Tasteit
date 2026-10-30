@@ -139,5 +139,15 @@ def main():
  if new_count<args.min_new or len(accepted)>args.limit:raise ValueError(f'Only {new_count} additional complete recipes were verified; keep the existing collection unchanged')
  if len({r['id'] for r in accepted})!=len(accepted) or accepted[:len(original)]!=original:raise ValueError('Original recipe data changed during append')
  (root/'data/complete-recipes.json').write_text(json.dumps(dict(version=1,source='wikibooks',checkedAt=checked,licenseInfo='https://en.wikibooks.org/wiki/Wikibooks:Copyrights',recipes=accepted),ensure_ascii=False,indent=2)+'\n')
+ # Keep the separate attribution index synchronized with every added revision.
+ docs=root/'docs/recipes/complete-recipes-license.md'
+ introduction=docs.read_text().split('## Per-recipe sources',1)[0].rstrip()
+ def safe_title(value):
+  return str(value).replace('\\','\\\\').replace('[','\\[').replace(']','\\]').replace('|','\\|')
+ entries=[]
+ for recipe in accepted:
+  method=recipe['method']
+  entries.append('- **'+safe_title(recipe['title'])+'** — [source revision '+str(method['revision'])+']('+method['revisionUrl']+'); [contributors/history]('+method['historyUrl']+'); [CC BY-SA 4.0]('+method['licenseUrl']+').')
+ docs.write_text(introduction+'\\n\\n## Per-recipe sources\\n\\n'+'\\n'.join(entries)+'\\n')
  print('Collected',len(accepted),'complete CC BY-SA4.0 recipe texts (added',new_count,'); existing recipes preserved, no ratings/photos invented.')
 if __name__=='__main__':main()
