@@ -615,3 +615,18 @@ h3 { font-size: 24px }
 .recipe-text-credit {margin:20px 0;padding:16px;border:1px solid var(--border,#d8dbd0);border-radius:12px;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
 .recipe-text-credit p {margin:6px 0}.recipe-text-credit a {text-decoration:underline}.recipe-method-notes li {margin:10px 0;line-height:1.7}
 @media(max-width:600px){.complete-recipe-callout {align-items:stretch;flex-direction:column}.complete-recipe-callout .btn {white-space:normal}}
+
+/* Ingredient photography: clean photo-only tiles without captions. */
+.ingredient-reference{display:block;width:96px;max-width:100%;margin:0}
+.ingredient-photo-link{display:block;width:96px;max-width:100%;height:96px;border-radius:13px;overflow:hidden;background:#f6f7f4}
+.ingredient-reference img{display:block;width:100%;height:100%;object-fit:cover;border-radius:13px;background:#f6f7f4}
+.ingredient-photo-link:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.ingredient-photo-missing{width:96px;max-width:100%;min-height:96px;font-size:12px}
+.photo-credits-page{max-width:960px;margin:0 auto;padding:48px 26px 90px}
+.photo-credits-page h1{font-size:clamp(32px,5vw,50px);line-height:1.1}
+.photo-credits-page .lead{max-width:75ch}
+.photo-credits-list{padding-left:26px;line-height:1.8;columns:2;column-gap:40px}
+.photo-credits-list li{break-inside:avoid;padding:7px 0;overflow-wrap:anywhere}
+.photo-credits-list a{text-underline-offset:3px}
+.photo-credit-changes{color:var(--muted);font-size:13px}
+@media(max-width:700px){.ingredient-reference,.ingredient-photo-link,.ingredient-photo-missing{width:80px}.ingredient-photo-link,.ingredient-photo-missing{height:80px;min-height:80px}.photo-credits-list{columns:1}.photo-credits-page{padding:30px 18px 85px}}
