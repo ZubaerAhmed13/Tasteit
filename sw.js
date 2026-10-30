@@ -2,7 +2,7 @@
 const CACHE='tasteit-shell-__TASTEIT_BUILD__';
 const PHOTO_CACHE='tasteit-ingredient-thumbnails-v1';
 const MAX_SAVED_PHOTOS=160;
-const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest',
+const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest','./photo-credits.html','./data/ingredient-photos.json',
   './src/recipe-presentation.js','./src/recipe-metadata.js','./src/meal-plan.js','./src/recipe-planning.js','./src/discovery-options.js','./src/recipe-discovery.js','./src/api.js','./src/app.js','./src/cloud-sync.js','./src/cooking.js','./src/editorial.js',
   './src/kitchen-discovery.js','./src/kitchen-flow.js','./src/model.js','./src/navigation.js',
   './src/offline.js','./src/host-auth.js','./src/organise.js','./src/pantry-batches.js','./src/pantry-bulk.js',
@@ -29,7 +29,7 @@ async function isApp(response) {
 }
 async function valid(url,response) {
   return response.ok && !response.redirected && (url===root?await isApp(response):
-    !!(response.headers.get('content-type')||'').match(url.endsWith('.js')?/javascript/:url.endsWith('.css')?/text\/css/:url.endsWith('.svg')?/image\/svg/:/json/));
+    !!(url.endsWith('.html')?await isApp(response):!!(response.headers.get('content-type')||'').match(url.endsWith('.js')?/javascript/:url.endsWith('.css')?/text\/css/:url.endsWith('.svg')?/image\/svg/:/json/)));
 }
 async function ready() {
   const stamp=await epoch(),cache=await caches.open(CACHE);
