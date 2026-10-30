@@ -212,6 +212,8 @@ test('high-frequency cooking photo additions are specific and never substitute a
   ['2 tsp ground cinnamon','cinnamon-ground'],
   ['1/2 tbsp cinnamon powder','cinnamon-ground'],
   ['2 fresh shiitake mushrooms','shiitake-fresh'],
+  ['1 tsp toasted sesame oil','sesame-oil-toasted'],
+  ['1 tsp roasted sesame oil','sesame-oil-toasted'],
   ['1 tsp lemon zest','lemon-zest'],
   ['Zest of 1 lemon','lemon-zest']
  ])assert.equal(ingredientPhoto(line,p)?.id,id,line);
