@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source": "wikibooks",
-  "checkedAt": "2026-10-29T03:35:15.219644+00:00",
+  "checkedAt": "2026-10-30T22:56:44.624670+00:00",
   "licenseInfo": "https://en.wikibooks.org/wiki/Wikibooks:Copyrights",
   "recipes": [
     {
@@ -2282,6 +2282,2326 @@
         "revision": 4615207,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Tikka&oldid=4615207",
         "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Tikka&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-132716",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Egg_Pie",
+      "title": "Egg Pie",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 strips bacon",
+        "24 soda crackers (2-inch squares)",
+        "6 large eggs",
+        "1 cup milk",
+        "⅛ teaspoon salt",
+        "1 dash of pepper",
+        "½ cup cheddar cheese, cut into small pieces.",
+        "Cooking spray",
+        "Jam or jelly (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F (~175°C).",
+          "Cut bacon into small pieces and sauté until brown.",
+          "Crush crackers.",
+          "Beat eggs in bowl.",
+          "Add crackers, milk, salt, and pepper, then cheese to the eggs.",
+          "Spray casserole dish with cooking spray.",
+          "Pour mixture into casserole dish, and add bacon.",
+          "Bake in preheated oven until a knife comes out clean when pie is tested.",
+          "Cut in wedges and serve with jam."
+        ],
+        "notes": [
+          "This is a good dish for breakfast, brunch, or late-night snack dish.",
+          "You can dice, shred, or just cut up the cheese; the smaller the pieces, the more evenly it will mix."
+        ],
+        "pageId": 132716,
+        "revision": 4524731,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEgg+Pie&oldid=4524731",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEgg+Pie&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-252230",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Fall_Chanterelle_Mushroom_Frittata",
+      "title": "Fall Chanterelle Mushroom Frittata",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "6 egg whites",
+        "2 egg yolks",
+        "½ cup milk",
+        "½ cup chopped and roasted chanterelles",
+        "½ cup low-fat cheddar cheese",
+        "1 tsp lemon juice",
+        "1 tsp black pepper"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F (175°C).",
+          "Combine the whites and yolks in a medium bowl.",
+          "Add milk, lemon juice, salt, and pepper.",
+          "Whisk the egg mixture until slightly frothy (the more whisking, the fluffier the eggs will be).",
+          "Pour the eggs into a pan or muffin tin sprayed with nonstick canola cooking spray. Add chanterelles and cheese.",
+          "Bake for 15–20 minutes. Poke with fork or knife to see if middle is cooked.",
+          "Serve and enjoy."
+        ],
+        "notes": [
+          "More vegetables can be added to the mix."
+        ],
+        "pageId": 252230,
+        "revision": 4522463,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFall+Chanterelle+Mushroom+Frittata&oldid=4522463",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFall+Chanterelle+Mushroom+Frittata&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-11958",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Fried_Eggs",
+      "title": "Fried Eggs",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 teaspoons butter or olive oil",
+        "2–3 large eggs, depending on appetite",
+        "Salt to taste",
+        "Pepper to taste (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Melt the butter in the pan over low to medium heat.",
+          "Crack open the eggs into the pan and let fry until the yolks begin to harden at the edges (indicated by a lightening in the yolk color).",
+          "Using the spatula, flip the eggs over and allow to cook 10 seconds for over-easy, 30 seconds for over-medium, or up to 1 minute for over-hard.",
+          "Add salt and pepper to taste, and serve."
+        ],
+        "notes": [
+          "Fried eggs, a popular breakfast dish in the United States, Canada, and Western Europe, take about 5 minutes to prepare. They are often served with toast or with other fried dishes.",
+          "Sunny side-up fried eggIt often considered a cardinal sin to allow the yolk of an egg to break (although some prefer fried eggs with broken yolks). If the cook ensures that the eggs are fresh the yolks will be more 'pert', and less liable to break.",
+          "For sunny side-up eggs, do not flip the eggs -- see Cookbook:Fried Eggs (Olive Oil-basted). Use a slightly lower heat, and cover the pan with a lid for some of the cooking period. An ideal sunny side-up has a runny yolk, but the white should be cooked.",
+          "Uncooked egg white (often called jelly) is normally unwanted and less-preferred than a partially cooked yolk, so err on the side of overcooking rather than undercooking the eggs.",
+          "For a richer taste, try sprinkling the egg with grated Parmesan or freshly-chopped basil and chives.",
+          "When frying eggs for sandwiches, rolls or wraps, it is often a good idea to break the yolks. This increases the coverage of yolk so that every bite gets some yolk, and it prevents uncooked yolk dripping out."
+        ],
+        "pageId": 11958,
+        "revision": 4629097,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFried+Eggs&oldid=4629097",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFried+Eggs&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112836",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Ginger_Pancakes",
+      "title": "Ginger Pancakes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup all-purpose bleached flour",
+        "2 teaspoons sugar",
+        "½ teaspoon salt",
+        "½ teaspoon baking powder",
+        "¼ teaspoon baking soda",
+        "1 teaspoon ground ginger",
+        "¾ cup buttermilk",
+        "¼ cup milk",
+        "1 large egg",
+        "2 tablespoon unsalted butter, melted",
+        "1 teaspoon vanilla extract",
+        "Vegetable oil for brushing griddle",
+        "½ cup finely-chopped crystallized ginger"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
+          "Mix flour, sugar, salt, baking powder, and baking soda in medium bowl.",
+          "Whisk ground ginger into dry ingredients.",
+          "Microwave buttermilk and milk in a 2-cup Pyrex measuring cup for 20–30 seconds until it is room temperature. Whisk in egg, butter, and vanilla.",
+          "Add wet ingredients to dry ingredients and whisk until just mixed.",
+          "Return batter to measuring cup, stirring in a teaspoon or two of water, if necessary, to make a thick, but pourable batter.",
+          "Increase heat to medium and generously brush skillet or griddle with oil.",
+          "When oil starts to spider, but before it starts to smoke, pour in dollops of batter, about ¼ cup at a time. Work in batches, if necessary, to avoid overcrowding.",
+          "Sprinkle 1 tablespoon crystallized ginger over the uncooked side of each pancake as it cooks.",
+          "When pancake bottoms are golden brown and tops start to bubble (2–3 minutes), flip pancakes.",
+          "Cook until pancakes are golden brown on remaining side.",
+          "Repeat cooking with remaining batter, brushing skillet or griddle with oil between batches.",
+          "Serve hot."
+        ],
+        "notes": [
+          "Use bleached flour to make a more tender pancake.",
+          "If using salted butter, reduce salt to ¼ teaspoon.",
+          "Pancake batter should pour, not glug! On the other hand, runny batter makes thin, oddly shaped pancakes that frequently collide on the griddle. Stir in a touch more flour into thin batter. For batter that's too thick, whisk in water, a teaspoon at a time.",
+          "The temperature of the pan or griddle is important: too hot and the pancakes are dark and raw; too cool and they're blond and hard. For tender, golden brown pancakes, heat the pan or griddle on low while you make the batter. Then increase the heat to medium and generously brush the pan or griddle with oil. It's ready when the oil starts to shimmer and, in any skillet or griddle other than non-stick, sends out tendrils that resemble and octopus or spider. But if the pan starts to smoke, set it down off the burner until the smoking subsides and the oil cools a bit.",
+          "This recipe easily doubles for a crowd."
+        ],
+        "pageId": 112836,
+        "revision": 4522790,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGinger+Pancakes&oldid=4522790",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGinger+Pancakes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112837",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Gingerbread_Pancakes_I",
+      "title": "Gingerbread Pancakes I",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup all-purpose bleached flour",
+        "½ teaspoon salt",
+        "½ teaspoon baking powder",
+        "¼ teaspoon baking soda",
+        "½ teaspoon ground cinnamon",
+        "1½ teaspoons ground ginger",
+        "⅛ teaspoon ground cloves",
+        "¾ cup buttermilk",
+        "¼ cup milk",
+        "1 large egg",
+        "2 tablespoons unsalted butter, melted",
+        "1 teaspoon vanilla extract",
+        "4 teaspoons molasses",
+        "Vegetable oil for brushing griddle"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
+          "Mix flour, salt, baking powder, and baking soda in medium bowl.",
+          "Whisk ground cinnamon, ground ginger, and ground cloves into the dry ingredients.",
+          "Combine buttermilk and milk, and bring to room temperature by microwaving or heating gently on the stove.",
+          "Whisk egg, butter, vanilla, and molasses into the milk mixture.",
+          "Add wet ingredients to dry ingredients and whisk until just mixed.",
+          "Return batter to measuring cup, stirring in a teaspoon or two of water, if necessary, to make a thick, but pourable batter.",
+          "Increase heat to medium and generously brush skillet or griddle with oil.",
+          "When oil starts to spider, but before it starts to smoke, pour batter, about ¼ cup at a time.",
+          "Work in batches, if necessary, to avoid overcrowding.",
+          "When pancake bottoms are golden brown and tops start to bubble (2–3 minutes), flip pancakes.",
+          "Cook until pancakes are golden brown on remaining side.",
+          "Repeat, brushing skillet or griddle with oil.",
+          "Serve hot."
+        ],
+        "notes": [
+          "Use bleached all-purpose flour to make a tender pancake.",
+          "If using salted butter, reduce salt to ¼ teaspoon.",
+          "You can substitute a tablespoon of lemon juice (or vinegar) in milk for the buttermilk.",
+          "Pancake batter should be thin enough to pour, not glug. On the other hand, runny batter makes thin, oddly shaped pancakes that frequently collide on the griddle. Stir in a touch more flour into thin batter. For batter that's too thick, whisk in water, a teaspoon at a time.",
+          "The temperature of the pan or griddle is important: too hot and the pancakes are dark and raw; too cool and they're blond and hard. For tender, golden brown pancakes, heat the pan or griddle on low while you make the batter. Then increase the heat to medium and generously brush the pan or griddle with oil. It's ready when the oil starts to shimmer and, in any skillet or griddle other than non-stick, sends out tendrils that resemble and octopus or spider. But if the pan starts to smoke, set it down off the burner until the smoking subsides and the oil cools a bit.",
+          "This recipe easily doubles for a crowd."
+        ],
+        "pageId": 112837,
+        "revision": 4523356,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGingerbread+Pancakes+I&oldid=4523356",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGingerbread+Pancakes+I&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-455660",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Gingerbread_Pancakes_II",
+      "title": "Gingerbread Pancakes II",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "3 cups complete pancake mix",
+        "1 cup brewed coffee, cooled to room temperature",
+        "1 cup water",
+        "¼ cup molasses",
+        "½ teaspoon cinnamon",
+        "¼ teaspoon ginger",
+        "¼ teaspoon grated nutmeg",
+        "Cooking spray"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In a mixing bowl, combine pancake mix, coffee, water, molasses, cinnamon, ginger, and nutmeg.",
+          "Stir until combined.",
+          "The batter will be thin; for thicker pancakes, add more mix, 1 tablespoon at a time.",
+          "Coat a nonstick frying pan with cooking spray and place over medium heat. If using an electric skillet, heat to 375°F.",
+          "Pour ¼ cup of batter into hot pan; cook 2 minutes or until bubbles appear and edges look dry; flip pancakes and cook 1 or 2 minutes more.",
+          "Serve with butter and syrup, if desired."
+        ],
+        "notes": [
+          "An excellent sauce could be made by mixing some whipped cream with some coffee creamer and syrup."
+        ],
+        "pageId": 455660,
+        "revision": 4599156,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGingerbread+Pancakes+II&oldid=4599156",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGingerbread+Pancakes+II&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-20769",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Grand_Union_Bacon",
+      "title": "Grand Union Bacon",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 egg",
+        "3 drops Tabasco sauce",
+        "Bacon strips (very thin and lean)",
+        "Very fine cracker crumbs or dust",
+        "Butter"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Beat the egg with the Tabasco sauce.",
+          "Dip bacon in the egg mixture, and roll in cracker dust.",
+          "Add butter to a frying pan over medium heat. When pan is well heated, add the bacon. Fry until golden brown.",
+          "Flip bacon over, cook the other side, and serve on a napkin."
+        ],
+        "notes": [],
+        "pageId": 20769,
+        "revision": 4530177,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrand+Union+Bacon&oldid=4530177",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrand+Union+Bacon&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-457119",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Gullisuwa_(Nigerian_Milk_Balls)",
+      "title": "Gullisuwa (Nigerian Milk Balls)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "½ cup powdered milk",
+        "¼ cup white granulated sugar",
+        "2 tablespoons cornstarch",
+        "Vanilla powder",
+        "Water",
+        "Vegetable oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Combine powdered milk, sugar, cornstarch, and vanilla powder in a bowl. Mix thoroughly.",
+          "Mix in enough water to form a dough.",
+          "Grease your hands with vegetable oil, and roll the dough into small balls.",
+          "Deep fry the dough in a pan of hot vegetable oil until browned all over.",
+          "Use spoon to remove the fritters from the oil and drain in a sieve.",
+          "Serve fresh."
+        ],
+        "notes": [
+          "Gullisuwa is a type of fritter commonly eaten in the northern part of Nigeria during festive periods and weddings, and as street food.",
+          "Different variety of gullisuwa can be made by adding chilli pepper, cashew nuts, and coconut."
+        ],
+        "pageId": 457119,
+        "revision": 4540972,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGullisuwa+%28Nigerian+Milk+Balls%29&oldid=4540972",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGullisuwa+%28Nigerian+Milk+Balls%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-11375",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Hominy_Grits",
+      "title": "Hominy Grits",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "5 cups water",
+        "1 cup hominy grits",
+        "1 tablespoon butter",
+        "1 tablespoon honey, brown sugar, or maple syrup (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Bring water to a rapid boil in a saucepan.",
+          "Gradually stir in the hominy grits.",
+          "Reduce heat to low.",
+          "Stir in the butter.",
+          "Cook for 20 minutes, or until the water is absorbed.",
+          "If desired, sweeten with honey, brown sugar, maple syrup, or jelly.",
+          "Serve while hot."
+        ],
+        "notes": [
+          "Recipe from Effigy Mounds National Monument.",
+          "Grits can also be flavored with cheese, sunny-side up egg, or small bits of ham or sausage."
+        ],
+        "pageId": 11375,
+        "revision": 4504744,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHominy+Grits&oldid=4504744",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHominy+Grits&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-193648",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Indian_Omelet",
+      "title": "Indian Omelet",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "4 large eggs",
+        "1 cup finely-chopped onion",
+        "½ cup chopped tomatoes",
+        "½ teaspoon salt",
+        "¼ teaspoon pepper",
+        "½ teaspoon cumin seeds",
+        "Finely-chopped coriander leaves, to taste",
+        "Finely-chopped hot green chiles, to taste",
+        "Red chile powder, to taste",
+        "Oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In a small bowl, whisk the eggs lightly. Add in all the other ingredients and mix properly.",
+          "Set a skillet on stove, and smear its surface with a thin coat of oil.",
+          "Pour the contents of the bowl into the skillet.",
+          "Lightly brown on one side.",
+          "Turn over and lightly brown other side."
+        ],
+        "notes": [
+          "The Indian omelet is called so since it has various Indian spices and vegetables added to it."
+        ],
+        "pageId": 193648,
+        "revision": 4517802,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AIndian+Omelet&oldid=4517802",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AIndian+Omelet&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112839",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Lemon_Blueberry_Pancakes",
+      "title": "Lemon Blueberry Pancakes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup all-purpose bleached flour",
+        "2 teaspoons granulated sugar",
+        "½ teaspoon salt",
+        "½ teaspoon baking powder",
+        "¼ teaspoon baking soda",
+        "1 teaspoon finely-grated lemon zest",
+        "¾ cup buttermilk",
+        "¼ cup milk",
+        "1 large egg",
+        "2 tablespoons unsalted butter, melted",
+        "1 teaspoon vanilla extract",
+        "Vegetable oil for brushing griddle",
+        "1 cup frozen blueberries"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
+          "Mix flour, sugar, salt, baking powder, and baking soda in medium bowl.",
+          "Whisk lemon zest into dry ingredients.",
+          "Microwave buttermilk and milk in a 2-cup Pyrex measuring cup to room temperature (20–30 seconds).",
+          "Whisk in egg, butter, and vanilla.",
+          "Add wet ingredients to dry ingredients and whisk until just mixed.",
+          "Return batter to measuring cup, stirring in a teaspoon or two of water if necessary, to make a thick, but pourable batter.",
+          "Increase heat to medium and generously brush skillet or griddle with oil.",
+          "When oil starts to spider, but before it starts to smoke, pour in batter about ¼ cup at a time to make pancakes. Work in batches, if necessary, to avoid overcrowding.",
+          "Sprinkle about 2 tablespoons frozen blueberries over the uncooked side of each pancake as it cooks.",
+          "When pancake bottoms are golden brown and tops start to bubble (2–3 minutes) flip pancakes.",
+          "Cook until pancakes are golden brown on remaining side.",
+          "Repeat, brushing skillet or griddle with oil between pancakes.",
+          "Serve hot."
+        ],
+        "notes": [
+          "Use bleached flour to make a tender pancake.",
+          "If using salted butter, reduce salt to ¼ teaspoon.",
+          "Pancake batter should pour, not glug! On the other hand, runny batter makes thin, oddly shaped pancakes that frequently collide on the griddle. Stir in a touch more flour into thin batter. For batter that's too thick, whisk in water a teaspoon at a time.",
+          "The temperature of the pan or griddle is important: too hot and the pancakes are dark and raw; too cool and they're blond and hard. For tender, golden brown pancakes, heat the pan or griddle on low while you make the batter. Then increase the heat to medium and generously brush the pan or griddle with oil. It's ready when the oil starts to shimmer and, in any skillet or griddle other than non-stick, sends out tendrils that resemble and octopus or spider. But if the pan starts to smoke, set it down off the burner until the smoking subsides and the oil cools a bit.",
+          "This recipe easily doubles for a crowd."
+        ],
+        "pageId": 112839,
+        "revision": 4522772,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALemon+Blueberry+Pancakes&oldid=4522772",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALemon+Blueberry+Pancakes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112840",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Lemon_Poppy_Seed_Pancakes",
+      "title": "Lemon Poppy Seed Pancakes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup all-purpose bleached flour",
+        "2 teaspoons sugar",
+        "½ teaspoon salt",
+        "½ teaspoon baking powder",
+        "¼ teaspoon baking soda",
+        "1 teaspoon finely-grated lemon zest",
+        "1 teaspoon poppy seeds",
+        "¾ cup buttermilk",
+        "¼ cup milk",
+        "1 large egg",
+        "2 tablespoons unsalted butter, melted",
+        "1 teaspoon vanilla extract",
+        "Vegetable oil for brushing griddle"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
+          "Mix flour, sugar, salt, baking powder, and baking soda in medium bowl.",
+          "Whisk lemon zest and poppy seeds into dry ingredients.",
+          "Microwave buttermilk and milk in a 2-cup Pyrex measuring cup to room temperature, 20 to 30 seconds.",
+          "Whisk in egg, butter, and vanilla.",
+          "Add wet ingredients to dry ingredients and whisk until just mixed.",
+          "Return batter to measuring cup, stirring in a teaspoon or two of water, if necessary, to make a thick, but pourable batter.",
+          "Increase heat to medium and generously brush skillet or griddle with oil.",
+          "When oil starts to spider, but before it starts to smoke, pour batter, about ¼ cup at a time. Work in batches, if necessary, to avoid overcrowding.",
+          "When pancake bottoms are golden brown and tops start to bubble, 2 to 3 minutes, flip pancakes.",
+          "Cook until pancakes are golden brown on remaining side.",
+          "Repeat, brushing skillet or griddle with oil.",
+          "Serve hot."
+        ],
+        "notes": [
+          "Use all-purpose flour (which is softer than unbleached), not unbleached flour to make a tender pancake.",
+          "If using salted butter, reduce salt to ¼ teaspoon.",
+          "I usually substitute a tablespoon of lemon juice (or vinegar) in milk for the buttermilk.",
+          "Pancake batter should pour, not glug! On the other hand, runny batter makes thin, oddly shaped pancakes that frequently collide on the griddle. Stir in a touch more flour into thin batter. For batter that's too thick, whisk in water, a teaspoon at a time.",
+          "The temperature of the pan or griddle is important: too hot and the pancakes are dark and raw; too cool and they're blond and hard. For tender, golden brown pancakes, heat the pan or griddle on low while you make the batter. Then increase the heat to medium and generously brush the pan or griddle with oil. It's ready when the oil starts to shimmer and, in any skillet or griddle other than non-stick, sends out tendrils that resemble and octopus or spider. But if the pan starts to smoke, set it down off the burner until the smoking subsides and the oil cools a bit.",
+          "This recipe easily doubles for a crowd."
+        ],
+        "pageId": 112840,
+        "revision": 4523365,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALemon+Poppy+Seed+Pancakes&oldid=4523365",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALemon+Poppy+Seed+Pancakes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112811",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Light_Fluffy_Pancakes",
+      "title": "Light Fluffy Pancakes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup all-purpose bleached flour",
+        "2 teaspoons sugar",
+        "½ teaspoon salt",
+        "½ teaspoon baking powder",
+        "¼ teaspoon baking soda",
+        "¾ cup buttermilk",
+        "¼ cup milk",
+        "1 large egg",
+        "2 tablespoon unsalted butter, melted",
+        "1 teaspoon vanilla extract",
+        "Vegetable oil for brushing griddle"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
+          "Mix flour, sugar, salt, baking powder, and baking soda in medium bowl.",
+          "Microwave buttermilk and milk in a 2-cup Pyrex measuring cup until room temperature (20–30 seconds).",
+          "Whisk in egg, butter, and vanilla.",
+          "Add wet ingredients to dry ingredients and whisk until just mixed.",
+          "Return batter to measuring cup, stirring in 1–2 teaspoons water if necessary to make a thick but pourable batter.",
+          "Increase heat to medium and generously brush skillet or griddle with oil.",
+          "When oil starts to spider, but before it starts to smoke, ladle in batter about ¼ cup at a time to make pancakes. Work in batches, if necessary, to avoid overcrowding.",
+          "When pancake bottoms are golden brown and tops start to bubble (2–3 minutes), flip pancakes.",
+          "Cook until pancakes are golden brown on remaining side.",
+          "Repeat, brushing skillet or griddle with oil between batches of pancakes.",
+          "Serve hot."
+        ],
+        "notes": [
+          "Use bleached flour to make a tender pancake.",
+          "If using salted butter, reduce salt to ¼ teaspoon.",
+          "Pancake batter should pour, not glug! On the other hand, runny batter makes thin, oddly-shaped pancakes that frequently collide on the griddle. Stir in a touch more flour into thin batter. For batter that's too thick, whisk in water a teaspoon at a time.",
+          "The temperature of the pan or griddle is important: too hot and the pancakes are dark and raw; too cool and they're blond and hard. For tender, golden brown pancakes, heat the pan or griddle on low while you make the batter. Then increase the heat to medium and generously brush the pan or griddle with oil. It's ready when the oil starts to shimmer and, in any skillet or griddle other than non-stick, sends out tendrils that resemble an octopus or spider. But if the pan starts to smoke, set it down off the burner until the smoking subsides and the oil cools a bit.",
+          "This recipe easily doubles for a crowd."
+        ],
+        "pageId": 112811,
+        "revision": 4522787,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALight+Fluffy+Pancakes&oldid=4522787",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALight+Fluffy+Pancakes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-96882",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Machacado_con_Huevo_(Eggs_with_Shredded_Beef)",
+      "title": "Machacado con Huevo (Eggs with Shredded Beef)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 tablespoon butter or margarine",
+        "6 large eggs, lightly beaten",
+        "2 cups shredded beef filling",
+        "10 ea. 8-inch soft taco-size flour tortillas, warmed",
+        "1 can (16 ounces) refried beans, warmed",
+        "2 cups shredded cheddar or Monterey Jack Cheese",
+        "Salsa for accompaniment"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat butter in large skillet over medium-high heat.",
+          "Add eggs; cook, stirring frequently, for 2–3 minutes or until eggs just begin to set.",
+          "Stir in shredded beef filling. Cook, stirring occasionally, for 2 to 3 minutes or until eggs are cooked and beef is heated through.",
+          "Serve eggs with tortillas, beans, cheese, and salsa."
+        ],
+        "notes": [
+          "Machacado con huevo is a dish which consists of shredded dry beef that is scrambled with eggs. Its name means \"shredded with eggs\" in Spanish. The shredded dry beef, carne seca, is said to have originated in the town of Ciénega de Flores, about an hour north of Monterrey, Mexico. The early settlers in the area air-cured beef so that it would be preserved. This particular dish was made famous by Tía Lencha, a local woman who prepared it and eventually sold it in a restaurant. Today there is a commercially available Tia Lencha dried beef in most supermarkets in Mexico.",
+          "The basic machacado con huevo is made with eggs and dried beef. Chopped tomatoes, onions and jalapeños or serrano chile peppers can be added, or salsa can be cooked into it, to create another version.",
+          "Machacado con huevo often comes as a \"taco\" presentation.",
+          "Machacado con huevo can be served in a big bowl, and with some soft tortillas at hand can be prepared in your plate, can be served in the table as tacos, or can be eaten without using tortillas at all.",
+          "Queso fundido con chorizo (melted cheese with chorizo) is also something that can be found at the table when eating machacado con huevo. It is usually served at the table in a pan, and added to the taco."
+        ],
+        "pageId": 96882,
+        "revision": 4515177,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMachacado+con+Huevo+%28Eggs+with+Shredded+Beef%29&oldid=4515177",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMachacado+con+Huevo+%28Eggs+with+Shredded+Beef%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-457552",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Mbulawu_(Malawian_Fermented_Millet_Porridge)",
+      "title": "Mbulawu (Malawian Fermented Millet Porridge)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup millet flour",
+        "3 cups water",
+        "Salt, to taste",
+        "1 tablespoon vegetable oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In a saucepan, bring the water to a boil.",
+          "Gradually add the millet flour to the boiling water, stirring continuously to prevent lumps from forming.",
+          "Reduce the heat to low and let the mixture simmer for about 10 minutes, stirring occasionally.",
+          "Add a pinch of salt to taste and continue stirring.",
+          "Remove the saucepan from the heat and allow the porridge to cool down to room temperature.",
+          "Once the porridge has cooled, cover it with a clean cloth and leave it to ferment overnight or for at least 8 hours. This fermentation process enhances the flavor and nutritional profile of the porridge.",
+          "The next morning, heat the vegetable oil in a separate pan.",
+          "Pour the fermented millet porridge into the pan and heat it over medium heat, stirring continuously until it reaches the desired consistency. You can add more water if you prefer a thinner consistency.",
+          "Serve warm in a bowl."
+        ],
+        "notes": [
+          "Mbulawu is a traditional Malawian fermented millet porridge. It is a nutritious and comforting breakfast option that is enjoyed by many in Malawi.",
+          "You can adjust the amount of millet flour and water to achieve your preferred consistency for the porridge.",
+          "For added sweetness, you can serve mbulawu with honey, sugar, or fruit toppings.",
+          "Mbulawu can also be made with other grains like sorghum or corn."
+        ],
+        "pageId": 457552,
+        "revision": 4517856,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMbulawu+%28Malawian+Fermented+Millet+Porridge%29&oldid=4517856",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMbulawu+%28Malawian+Fermented+Millet+Porridge%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-456581",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Milk_Toast_II",
+      "title": "Milk Toast II",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 pint scalded milk",
+        "½ teaspoon salt",
+        "2 tablespoons butter",
+        "4 tablespoons cold water",
+        "2 ½ tablespoons bread flour",
+        "6 slices dry toast"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Gradually add cold water to flour to make a smooth, thin paste.",
+          "Add paste to milk, stirring constantly until thickened.",
+          "Cover, and cook 20 minutes; then, add salt and butter in small pieces.",
+          "Dip slices of toast separately in sauce; when soft, remove to serving dish. Pour remaining sauce over all."
+        ],
+        "notes": [
+          "Milk toast is a breakfast food consisting of toasted bread dipped in milk. Milk toast was a popular food throughout the late 19th century and early 20th century, especially for young children and for the ailing, for whom the food was thought to be soothing and easy to digest. Although not as popular today, milk toast is still considered a comfort food.",
+          "This recipe comes from the 1918 edition of The Boston Cooking-School Cook Book by Fannie Farmer, a famous home-cooking author and instructor of the early 20th century.",
+          "Although both above recipes call for salt, milk toast may also be made sweet by the omission of salt and pepper and the addition, instead, of sugar. Other optional ingredients for sweet versions include cinnamon, honey or a touch of vanilla, but piquant and exotic ingredients should be avoided, as the primary purpose of milk toast is to provide a food soothing to the palate and to the digestion.",
+          "Corn starch may be substituted for flour."
+        ],
+        "pageId": 456581,
+        "revision": 4511012,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMilk+Toast+II&oldid=4511012",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMilk+Toast+II&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-17844",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Oat_Porridge",
+      "title": "Oat Porridge",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "½ cup rolled oats or other grain",
+        "¾ cup water",
+        "¾ cup milk"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Mix oats and water, then bring to the boil, covered with a lid.",
+          "Once bubbling, stir and reduce temperature to the lowest possible to maintain simmering. Replace lid and watch carefully to prevent boiling over.",
+          "Stir every minute or so. After five minutes, remove lid, stir thoroughly and add milk.",
+          "Mix through, and keep stirring until fully mixed.",
+          "Serve and add raisins, sugar, brown sugar, maple syrup, a pinch of salt, honey or inverted sugar syrup to taste."
+        ],
+        "notes": [
+          "Porridge (also known in American English as hot cereal), is a simple dish made by boiling grain (often rolled oats) in water or milk. Porridge made from Irish oats, also called steel-cut oats, takes longer to cook—typically 15–20 minutes.",
+          "Soak whole grains over night and change water. Soaking softens the grains and reduces cooking time, although whole oats still require 45–60 minutes simmering. Rinsing also reduces starch and pesticide residue. Steel cut oats should simmer for 20–30 minutes, or to the desired texture. Let the water boil out for a chewier, rice-like flavor with whole oats or leave some water in as is common with rolled oats and instant oats.",
+          "Porridge can be made using water, milk, or a mixing of the two depending on taste. Other ingredients may include butter, dates, bananas, apples, and cinnamon. Add apples and cinnamon during the cooking process to infuse the flavor. If you want to avoid milk products, it is also possible to use soy milk instead of cow's milk. Corn oil also works well with honey and figs, out of the vegetable oils. Honey itself combines well with apples and cinnamon while raisins, dates, and bananas are popular with dairy ingredients. Winter squash can be added to finer grains like wheat and millet.",
+          "3 tbsp (90 ml) of milk powder or non-dairy milk powder can replace liquid milk by increasing water to 1½ cups (360 ml)",
+          "Porridge was traditionally cooked over a wooden fire and in a cast iron pot which prevents burning and doesn't interfere with the flavor. In modern times, any pot will do as long as it is thick enough to distribute the heat.",
+          "Instant oats are the easiest and fastest to cook as they only need boiling water and as this may be also done with a microwave oven."
+        ],
+        "pageId": 17844,
+        "revision": 4606890,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOat+Porridge&oldid=4606890",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOat+Porridge&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-21736",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Oatmeal_Banana_Waffle",
+      "title": "Oatmeal Banana Waffle",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 cups oatmeal",
+        "2 cups water",
+        "½ banana",
+        "2 tablespoons powdered milk",
+        "2 tablespoons olive oil",
+        "½ teaspoon salt"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Turn waffle iron on high.",
+          "Put all ingredients in a blender and blend on high until the contents are smooth. Let the mixture sit for 10–15 minutes.",
+          "Spray the waffle iron with non-stick cooking spray.",
+          "Pour some of the batter onto the waffle iron. Cook for about 10 minutes. Repeat until you are out of batter."
+        ],
+        "notes": [],
+        "pageId": 21736,
+        "revision": 4535481,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOatmeal+Banana+Waffle&oldid=4535481",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOatmeal+Banana+Waffle&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112841",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Orange_Cardamom_Pancakes",
+      "title": "Orange Cardamom Pancakes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup all-purpose bleached flour",
+        "2 teaspoons sugar",
+        "½ teaspoon salt",
+        "½ teaspoon baking powder",
+        "¼ teaspoon baking soda",
+        "1 teaspoon finely grated orange zest",
+        "¼ teaspoon ground cardamom",
+        "¾ cup buttermilk",
+        "¼ cup milk",
+        "1 large egg",
+        "2 tablespoons unsalted butter, melted",
+        "1 teaspoon vanilla extract",
+        "Vegetable oil for brushing griddle"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat a large non-stick skillet or griddle over low heat while preparing ingredients.",
+          "Mix flour, sugar, salt, baking powder, and baking soda in medium bowl.",
+          "Whisk orange zest and ground cardamom into dry ingredients.",
+          "Microwave buttermilk and milk in a 2-cup Pyrex measuring cup to room temperature, 20–30 seconds.",
+          "Whisk in egg, butter, and vanilla.",
+          "Add wet ingredients to dry ingredients and whisk until just mixed.",
+          "Return batter to measuring cup, stirring in a teaspoon or two of water, if necessary, to make a thick, but pourable batter.",
+          "Increase heat to medium and generously brush skillet or griddle with oil.",
+          "When oil starts to spider, but before it starts to smoke, pour batter, about ¼ cup at a time.",
+          "Work in batches, if necessary, to avoid overcrowding.",
+          "When pancake bottoms are golden brown and tops start to bubble (2 to 3 minutes), flip pancakes.",
+          "Cook until pancakes are golden brown on remaining side.",
+          "Repeat, brushing skillet or griddle with oil.",
+          "Serve hot."
+        ],
+        "notes": [
+          "Use bleached flour (which is softer than unbleached) to make a tender pancake.",
+          "If using salted butter, reduce salt to ¼ teaspoon.",
+          "You can substitute 1 tablespoon of lemon juice (or vinegar) in milk for the buttermilk.",
+          "Pancake batter should pour, not glug! On the other hand, runny batter makes thin, oddly shaped pancakes that frequently collide on the griddle. Stir in a touch more flour into thin batter. For batter that's too thick, whisk in water, a teaspoon at a time.",
+          "The temperature of the pan or griddle is important: too hot and the pancakes are dark and raw; too cool and they're blond and hard. For tender, golden brown pancakes, heat the pan or griddle on low while you make the batter. Then increase the heat to medium and generously brush the pan or griddle with oil. It's ready when the oil starts to shimmer and, in any skillet or griddle other than non-stick, sends out tendrils that resemble an octopus or spider. But if the pan starts to smoke, set it down off the burner until the smoking subsides and the oil cools a bit.",
+          "This recipe easily doubles for a crowd."
+        ],
+        "pageId": 112841,
+        "revision": 4523406,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOrange+Cardamom+Pancakes&oldid=4523406",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOrange+Cardamom+Pancakes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-204705",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Orange_French_Toast",
+      "title": "Orange French Toast",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "6 eggs, lightly beaten",
+        "¾ cup orange juice",
+        "½ cup half-and-half cream",
+        "2 tablespoons sugar",
+        "1 teaspoon vanilla extract",
+        "½ teaspoon grated orange peel",
+        "8 thick slices cinnamon bread",
+        "¼ cup butter, melted"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In a shallow bowl, combine the eggs, orange juice, half-and-half, sugar, vanilla, and orange peel.",
+          "Dip both sides of bread into egg mixture; let soak for 5 minutes.",
+          "Place in a greased 15 × 10 × 1 in (38 × 25 × 2.5 cm) baking pan.",
+          "Cover and refrigerate overnight.",
+          "Uncover, and drizzle with butter.",
+          "Bake at 325 °F (163 °C) for 35–40 minutes or until browned."
+        ],
+        "notes": [
+          "Orange french toast puts a twist on cinnamon bread."
+        ],
+        "pageId": 204705,
+        "revision": 4513391,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOrange+French+Toast&oldid=4513391",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOrange+French+Toast&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-64363",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Oven_Pancakes_(Vegan)",
+      "title": "Oven Pancakes (Vegan)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup flour",
+        "2 teaspoons baking powder",
+        "½ teaspoon baking soda",
+        "½ teaspoon salt",
+        "2 tablespoon white granulated sugar",
+        "1 cup soy milk",
+        "2 tablespoons vegetable oil",
+        "2 teaspoons vanilla",
+        "1 tablespoon apple cider vinegar"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 230 °C (446 °F) and oil an 8-inch oven-safe skillet.",
+          "Combine flour, baking powder, baking soda, salt, and sugar.",
+          "Add the soy milk, vegetable oil, and vanilla; stir well.",
+          "Stir in the apple cider vinegar, mix well, and pour immediately into the skillet.",
+          "Bake at 230 °C (446 °F) for 18 to 20 minutes, and serve."
+        ],
+        "notes": [
+          "When a toothpick is inserted into the completed product, it should come out clean."
+        ],
+        "pageId": 64363,
+        "revision": 4519151,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOven+Pancakes+%28Vegan%29&oldid=4519151",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AOven+Pancakes+%28Vegan%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-105063",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Pancakes_(North_American)",
+      "title": "Pancakes (North American)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "120 g wheat flour (white, whole grain or 1:1 mix of white and whole grain)",
+        "1 ½ tsp baking powder",
+        "1 pinch salt",
+        "250 ml milk (substitute buttermilk or 1:1 mix of milk and buttermilk)",
+        "1 egg, separated",
+        "1 tbsp white sugar (optional; this will add a sweetness to your pancakes and is recommended if you are not using any sauces, syrups or ingredient such as bananas or blueberries that will add natural sugars to the mix)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In a large bowl, mix dry ingredients together until well-blended.",
+          "Add milk and mix well until smooth.",
+          "Separate the egg, placing the whites in a medium bowl and the yolks in the batter. Mix batter well.",
+          "Whip whites until stiff and then fold into batter gently (skip this step for heavier pancakes or if 1 cup buttermilk is substituted for milk).",
+          "Pour ladles of the mixture into a non-stick pan, one at a time.",
+          "Cook until the edges are dry and bubbles appear on surface. Flip, then cook until golden."
+        ],
+        "notes": [
+          "North American pancakes are a type of pancake prepared from a batter that is baked on a hot griddle or frying pan. They exist in several variations in many different local cuisines.",
+          "Serve with butter, maple syrup, fruit, chocolate spread, melted chocolate, jam, or cheese.",
+          "Many variations of this recipe use a whole beaten egg instead of the yolk and whipped whites. In these variations, all wet ingredients are mixed together with the dry ingredients to make the batter before moving on to the cooking.",
+          "Use buttermilk or yogurt instead of milk, or wholegrain flours instead of white. This will change the consistency of the final product—whole grain flours generally lead to a denser heavier pancake, so try mixing white and wheat in various proportions as suggested above to get the feel you want.",
+          "Try adding sliced fruit such as banana and apple, or broken crispy bacon to the batter after pouring into the skillet and before flipping."
+        ],
+        "pageId": 105063,
+        "revision": 4671208,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APancakes+%28North+American%29&oldid=4671208",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APancakes+%28North+American%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-25534",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Pancakes_(Vegan)",
+      "title": "Pancakes (Vegan)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup flour",
+        "2 teaspoons baking powder",
+        "2 teaspoons white granulated sugar",
+        "1 teaspoon salt",
+        "1 cup soy milk",
+        "vegetable oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Mix all dry ingredients: flour, baking powder, sugar, and salt.",
+          "Mix soy milk into the dry ingredients.",
+          "Heat a griddle until water sprinkled on it quickly evaporates. Spread a thin film of oil on the griddle.",
+          "Pour pancake batter on griddle to form 4- to 5-inch circles. Bubbles should start forming.",
+          "When the underside is light brown, flip the pancake.",
+          "When the other side is light brown, serve."
+        ],
+        "notes": [
+          "Don't over-mix! Over-mixing will produce gluten; this will inhibit rising and make the pancakes rubbery.",
+          "Optionally, you can serve your pancakes with syrup or jam.",
+          "Substituting rice milk for soy milk may make the pancakes fall apart more easily.",
+          "Banana pancakes: add one well mashed banana to the batter.",
+          "Chocolate pancakes: add ½ cup chocolate chips to the batter.",
+          "Walnut pancakes: add ½ cup roughly chopped walnuts to the batter.",
+          "Cranberry pancakes: add ½ cup dried cranberries to the batter.",
+          "Banana pancakes: add one well mashed banana to the batter.",
+          "Chocolate pancakes: add ½ cup chocolate chips to the batter.",
+          "Walnut pancakes: add ½ cup roughly chopped walnuts to the batter.",
+          "Cranberry pancakes: add ½ cup dried cranberries to the batter."
+        ],
+        "pageId": 25534,
+        "revision": 4530551,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APancakes+%28Vegan%29&oldid=4530551",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APancakes+%28Vegan%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-80271",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Pikelet_(Australian_Mini_Pancakes)",
+      "title": "Pikelet (Australian Mini Pancakes)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "125 g strong bread flour",
+        "125 g plain flour",
+        "1½ teaspoons bicarbonate of soda",
+        "8 g fresh yeast",
+        "75 ml lukewarm whole milk",
+        "½ teaspoon salt",
+        "250 ml lukewarm water"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Sift the flours into a large mixing bowl, adding half a teaspoon of the bicarbonate of soda and the salt.",
+          "Crumble the yeast into a small bowl and slowly add the water until you have a brown paste.",
+          "Pour the liquid yeast into the mixing bowl.",
+          "Mix it about a bit until you have a very thick batter. You can use a wooden spoon, but you get much better results if you get stuck in and use your hands.",
+          "Cover the bowl with a warm and damp cloth and leave in a warm place for 2 hours.",
+          "Return to the now frothy batter (if it is not then you have done something wrong). Dissolve the rest of the bicarbonate of soda in the lukewarm milk and slowly add it to the batter.",
+          "Heat a lightly greased griddle or ordinary frying pan until very hot. Now, using one spoonful at a time, cook the mixture for about 2 minutes on each side. The indication to turn should be when the bubbles that will form dry out."
+        ],
+        "notes": [
+          "Pikelets are small, thick pancakes, and are standards of the New Zealand kitchen. They are also made in Australia."
+        ],
+        "pageId": 80271,
+        "revision": 4522725,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APikelet+%28Australian+Mini+Pancakes%29&oldid=4522725",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APikelet+%28Australian+Mini+Pancakes%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-164718",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Pizza-Flavored_Omelet",
+      "title": "Pizza-Flavored Omelet",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "¼ cup tomato sauce",
+        "Salt, pepper, and other seasonings to taste (see tips below)",
+        "Cooking spray",
+        "2 eggs",
+        "2 tablespoons chopped green bell peppers",
+        "2 tablespoons chopped mushrooms",
+        "¼ cup shredded mozzarella cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Mix spices and tomato sauce and allow to meld flavors while preparing the rest of the recipe.",
+          "Beat eggs well.",
+          "Heat a small skillet over low heat, sprayed with cooking spray.",
+          "Pour beaten eggs into skillet, then cover skillet.",
+          "Cook for 3 minutes. Eggs should be almost set.",
+          "Carefully flip omelet over. Cook another minute.",
+          "Combine mushrooms and peppers and cook 30 seconds in microwave oven.",
+          "Spread tomato-spice mix over omelet. Sprinkle cheese over tomato sauce. Top cheese with hot mushrooms and peppers.",
+          "Cover skillet. Cook another 2 minutes. Cheese should be melted."
+        ],
+        "notes": [
+          "Basil, crushed red pepper, and oregano work well."
+        ],
+        "pageId": 164718,
+        "revision": 4605249,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APizza-Flavored+Omelet&oldid=4605249",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APizza-Flavored+Omelet&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-18904",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Portobello_Eggs",
+      "title": "Portobello Eggs",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "4–5 large portobello mushrooms",
+        "3 eggs",
+        "Salt",
+        "Pepper",
+        "Olive oil",
+        "Shredded Parmesan cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F.",
+          "Wipe mushrooms clean with a damp cloth, then remove stems and discard. Brush the outsides with olive oil.",
+          "Beat eggs with salt and pepper.",
+          "Set mushrooms on a cookie sheet and fill each with egg.",
+          "Top with Parmesan cheese and bake until eggs are fully cooked (about 10 minutes)."
+        ],
+        "notes": [],
+        "pageId": 18904,
+        "revision": 4610398,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APortobello+Eggs&oldid=4610398",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APortobello+Eggs&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-14984",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Potato_Pancakes",
+      "title": "Potato Pancakes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "4 large potatoes",
+        "1 medium onion",
+        "1 egg, beaten",
+        "2 tablespoons Matzo meal, corn meal, or flour",
+        "Salt to taste",
+        "2 tablespoons vegetable oil",
+        "Applesauce and/or sour cream"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Peel and grate potatoes and onion.",
+          "Mix potato and onion with egg, matzo meal, and salt.",
+          "Heat oil in a 10-inch pan over medium heat until it is quite hot. Drop 1–2 tablespoons of the potato mixture onto the pan per pancake. Turn once to allow both sides to fry.",
+          "Serve with applesauce and/or sour cream as a topping."
+        ],
+        "notes": [],
+        "pageId": 14984,
+        "revision": 4666221,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APotato+Pancakes&oldid=4666221",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APotato+Pancakes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-139555",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Pumpkin_Bread_III",
+      "title": "Pumpkin Bread III",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1½ cups white granulated sugar",
+        "1 cup oil",
+        "3 eggs, beaten",
+        "1 can (15 ounces) pumpkin purée",
+        "3 cups flour",
+        "¾ teaspoon baking powder",
+        "1 teaspoon baking soda",
+        "1 teaspoon cinnamon",
+        "½ teaspoon cloves",
+        "½ teaspoon ground nutmeg",
+        "¾ teaspoon salt",
+        "½ cup chopped nuts",
+        "Cooking spray"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F.",
+          "Beat sugar and oil using electric hand mixer.",
+          "Add eggs and pumpkin and beat lightly.",
+          "Add flour, then baking powder, baking soda, cinnamon, cloves, nutmeg, salt, and nuts if desired. Mix well.",
+          "Pour into two baking pans sprayed lightly with cooking spray.",
+          "Bake until toothpick comes out clean from the center, about 40–45 minutes.",
+          "Cool and serve."
+        ],
+        "notes": [
+          "See also: Pumpkin Bread and Pumpkin Bread II.",
+          "Chopped walnuts are particularly good in this bread, but other nuts will do.",
+          "If cooking in a Dutch oven, preheat with about 14 charcoal briquettes, with about 10 or 11 on top and 3 or 4 on the bottom. If you're cooking outdoors, you'll have to use a hand mixer or a strong arm with the spoon.",
+          "If your bread sticks to the greased pan, try coating the greased pan with a thin layer of flour or a piece of parchment paper.",
+          "If you want to use fresh cooked pumpkin instead of canned pumpkin, follow these directions: Cut the a small cooking/pie pumpkin into small section (that will fit into the pot you will use to cook them). Bring water to a boil in a large pot (enough water so the none of the pumpkin slices will be sitting on the bottom of the pot). Add pumpkin slices to the boiling water, cook for about 15 minutes or until pumpkin is soft. Remove pumpkin slices from water. Using a knife or spoon, peel/cut away the skin. The pumpkin can be used right away for cooking, or can be refrigerated/frozen until needed."
+        ],
+        "pageId": 139555,
+        "revision": 4517192,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APumpkin+Bread+III&oldid=4517192",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APumpkin+Bread+III&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-169581",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Racuszki_(Polish_Pancakes)",
+      "title": "Racuszki (Polish Pancakes)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 L sour milk or cultured buttermilk",
+        "1 cup white flour",
+        "1½ tsp baking soda",
+        "1 pinch salt",
+        "2 eggs",
+        "1 kg apples (optional), sliced",
+        "½ tsp ground cinnamon (optional)",
+        "½ cup raisins (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In large bowl, mix the baking soda, salt, and flour together well.",
+          "Add sour milk and eggs, and mix until smooth.",
+          "Pour small ladlefuls of the mixture into a non-stick pan, one at a time OR dip slices of peeled apples in batter and put them in the pan.",
+          "Cook until the edges are dry. Turn; cook until golden."
+        ],
+        "notes": [
+          "Racuszki are pancakes made from batter fried on a hot griddle or a pan. They are a traditional Polish dish, but they exist in several variations in many different local cuisines, such as Danish [1]. Usually the form varies from small pancakes or something akin to donuts, and the filling can change as well (e.g. apple and cinnamon, raisins, etc.).",
+          "Serve with sugar, butter, maple syrup, melted chocolate, or jam. Sugar is traditional, and some people eat them without toppings.",
+          "Racuszki do not store well.",
+          "Use yogurt or cultured buttermilk if you do not have sour milk, but do not replace it with normal milk.",
+          "Cooking apples are preferred, if using."
+        ],
+        "pageId": 169581,
+        "revision": 4525528,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARacuszki+%28Polish+Pancakes%29&oldid=4525528",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARacuszki+%28Polish+Pancakes%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-21780",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Raisin_Oatmeal_Muffins",
+      "title": "Raisin Oatmeal Muffins",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 cup whole wheat flour",
+        "1 cup rolled oats (traditional slow type)",
+        "⅓ cup white granulated sugar",
+        "2 teaspoons baking powder",
+        "1 egg",
+        "¾ cup milk",
+        "¼ cup oil",
+        "½–1 cup raisins",
+        "Butter for the pan"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Pre-heat an oven to 375°F (190°C).",
+          "Butter a muffin pan or cupcake pan.",
+          "Place the dry ingredients in one bowl, and the wet ingredients in a different bowl.",
+          "Mix the ingredients in each bowl, then combine the mixtures to make a batter.",
+          "Spoon batter into the pan.",
+          "Bake for 20 minutes, or until brown with crispy edges.",
+          "Immediately flip the muffins upside-down using a butter knife. Leave them in the hot pan to prevent condensation from ruining the surface.",
+          "Muffins are best served hot!"
+        ],
+        "notes": [
+          "These muffins make a good breakfast for a family. They go well with milk.",
+          "Follow the above recipe with the following ingredient adjustments: 140 grams (4.9 oz) whole wheat flour 120 grams (4.2 oz) rolled oats 75 grams (2.6 oz) sugar 40–80 grams (1.4–2.8 oz) raisins"
+        ],
+        "pageId": 21780,
+        "revision": 4515911,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARaisin+Oatmeal+Muffins&oldid=4515911",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARaisin+Oatmeal+Muffins&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-173704",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Rosti_(Swiss_Potato_Patties)",
+      "title": "Rosti (Swiss Potato Patties)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 potato (either washed or peeled)",
+        "1 tbsp vegetable oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Grate the potato into a dish, and squeeze out the excess moisture, discarding the liquid.",
+          "Split the mixture into two even piles.",
+          "Pour the oil into a frying pan and heat moderately.",
+          "Place the two piles separately onto the pan, pushing down on top of them with a spatula in order to ensure that the piles stay intact.",
+          "Fry until the underside is golden brown, then carefully flip and cook the other side.",
+          "Add salt and pepper to taste, and serve."
+        ],
+        "notes": [
+          "Rösti is a potato dish from Switzerland. It was originally a common breakfast eaten by farmers in the canton of Bern, but today is eaten all over Switzerland. Many Swiss people consider rösti a national dish. Today it is more commonly served to accompany other dishes, rather than for breakfast.",
+          "There are many variations of rösti.",
+          "Various rösti use eggs, bacon, onion, or cheese. These can be mixed in with the potato before you start to fry the rösti.",
+          "Generally, any dry ingredients you use should be grated or diced before being added to the mix.",
+          "The outside of the rosti should be crisp. To achieve this the potato should be as dry as possible before it is fried."
+        ],
+        "pageId": 173704,
+        "revision": 4503543,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARosti+%28Swiss+Potato+Patties%29&oldid=4503543",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARosti+%28Swiss+Potato+Patties%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-109475",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Sausage-Egg_Breakfast_Dish",
+      "title": "Sausage-Egg Breakfast Dish",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 package (16 ounces) of sage-flavored sausage",
+        "Pinch of pepper",
+        "6 eggs",
+        "1½ cups milk",
+        "4 cups cubed stale bread",
+        "4 ounces shredded cheddar cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Brown sausage and sprinkle with pepper.",
+          "Drain off excess fat, and let sausage cool.",
+          "Beat eggs and add milk.",
+          "Fold in cubes of stale bread, cheese, and cooled sausage.",
+          "Pour into and 8 by 8-inch baking dish coated with cooking spray.",
+          "Refrigerate for at least an hour (or freeze for later).",
+          "Preheat oven to 325°F. Bake for 1 hour.",
+          "Cool and cut into squares."
+        ],
+        "notes": [],
+        "pageId": 109475,
+        "revision": 4525172,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASausage-Egg+Breakfast+Dish&oldid=4525172",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASausage-Egg+Breakfast+Dish&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-48705",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Shirred_Egg",
+      "title": "Shirred Egg",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "Butter",
+        "Eggs",
+        "Salt and pepper",
+        "Cream (optional)",
+        "Cheese (optional)",
+        "Bread crumbs (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Butter a shirred egg dish (a small casserole or custard dish).",
+          "Put the dish on a low heat to melt the butter, or just add 2–3 tsp cream.",
+          "Break an egg in the dish over the cream and season with salt and pepper.",
+          "Optionally, sprinkle with shredded cheese and/or bread crumbs.",
+          "Bake in the oven at 375°F long enough to set the whites of the eggs. Alternatively, cook by placing the dish directly on low heat.",
+          "Serve in the same dish."
+        ],
+        "notes": [],
+        "pageId": 48705,
+        "revision": 4513553,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AShirred+Egg&oldid=4513553",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AShirred+Egg&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-113264",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Shrimp_and_Cheese_Grits",
+      "title": "Shrimp and Cheese Grits",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "3–4 strips thickened smoked bacon, diced",
+        "1 pound large shrimp",
+        "6 servings of grits",
+        "1 cup shredded sharp cheddar cheese",
+        "¼ cup butter",
+        "½ large sweet onion, cut into thin strips",
+        "½ yellow bell pepper, cut into strips",
+        "½ red bell pepper, cut into strips",
+        "2–3 cloves garlic, minced",
+        "¼–½ teaspoon hot sauce, or to taste (optional)",
+        "juice of one lime"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Fry bacon until crisp, remove and set aside.",
+          "Sauté onions, garlic, and peppers in bacon grease, add lime juice and hot sauce and set aside.",
+          "Prepare grits per the directions on box. Add cheese and butter when done cooking to allow for them to melt, then set aside.",
+          "Stir when done melting.",
+          "Sauté the shrimp until they turn pink, about 2–3 minutes.",
+          "Place the grits and cheese in large serving container and place the shrimp down the center of the container."
+        ],
+        "notes": [
+          "If served on individual dish/platter, serve sliced limes on the side.",
+          "In preparing the grits, you may want to use condensed milk instead of water to make the grits for an extra creamy texture!",
+          "As an alternative, add garden peas to grits and serve with steamed bell peppers, zucchini, yellow squash, and mushrooms on the side. Adds a great taste texture with the peas!",
+          "If you are planning to use unpeeled shrimp, plan an extra 20 minutes to peel the shrimp!"
+        ],
+        "pageId": 113264,
+        "revision": 4525178,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AShrimp+and+Cheese+Grits&oldid=4525178",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AShrimp+and+Cheese+Grits&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-41221",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Slinger",
+      "title": "Slinger",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 eggs",
+        "1 hamburger patty",
+        "Hash browns",
+        "Cheese (grated works best)",
+        "Chili",
+        "Onion"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Cook the eggs in any manner you wish.",
+          "Cook the hamburger patty.",
+          "Cook the chili.",
+          "Dice the onion.",
+          "Place the hashbrowns and patty on a plate then put the eggs upon the patty and top it all with the chili, cheese, and onion"
+        ],
+        "notes": [
+          "The \"Slinger\" is a breakfast item originating from St. Louis Missouri."
+        ],
+        "pageId": 41221,
+        "revision": 4518560,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASlinger&oldid=4518560",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASlinger&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-77448",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Soji_(Indian_Wheat_Pudding)",
+      "title": "Soji (Indian Wheat Pudding)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "½ cup cashew nuts, broken",
+        "½ cup raisins",
+        "4 pods cardamom",
+        "3 tbsp cream of wheat",
+        "3 tsp sugar",
+        "1 pinch salt",
+        "1 tbsp butter",
+        "1 cup milk"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Wash the cashews and raisins and keep them ready.",
+          "Crush the cardamom pods to remove the contents and discard the husks. Pound the contents of the pods into a black powder, and mix with the cream of wheat.",
+          "Add the sugar and salt to the cream of wheat and mix thoroughly.",
+          "Melt the butter in a saucepan and gently fry the cream of wheat in it.",
+          "Add the cashews and raisins to the saucepan and continue to fry until the cream of wheat is light brown.",
+          "Add the milk to the saucepan and stir. The mixture will thicken and you will need to keep stirring to prevent it sticking to the bottom of the saucepan and burning.",
+          "When the mixture solidifies, turn off the heat and take the saucepan off the heat.",
+          "Serve hot."
+        ],
+        "notes": [],
+        "pageId": 77448,
+        "revision": 4522807,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASoji+%28Indian+Wheat+Pudding%29&oldid=4522807",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASoji+%28Indian+Wheat+Pudding%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-8458",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Southwestern_Scramble",
+      "title": "Southwestern Scramble",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "8 eggs",
+        "2 tbsp milk",
+        "Butter, margarine, or cooking spray, for frying pan",
+        "1 medium red onion, chopped",
+        "1 medium green chile pepper, such as jalapeño, seeded and chopped",
+        "1 green bell pepper, seeded and sliced",
+        "Salt, to taste",
+        "Black pepper, to taste",
+        "Serve with hot sauce, such as Tabasco sauce"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Crack the eggs into a large mixing bowl, add the milk, and beat until well combined.",
+          "Place a large frying pan over medium heat, add the butter, margarine, or cooking spray, and allow to melt. Add the onions, chili, and bell pepper, and sauté for 2–4 minutes.",
+          "Add the eggs to the pan, and allow to cook for 30 seconds to 1 minute, until they just begin to set.",
+          "Turn the heat up to high, and begin scrambling the eggs by scraping the bottom of the pan with a spatula and folding the cooked egg into the egg mixture.",
+          "When the eggs are still moist, but mostly cooked, remove from the fire and plate.",
+          "Serve while still hot."
+        ],
+        "notes": [
+          "A Southwestern Scramble is a scrambled eggs recipe with many spicy ingredients, such as onions and chilis. For a complete breakfast, serve with sliced, fried wiejska (Polish sausage), toast, and orange juice.",
+          "To adjust the spiciness, use more or fewer chili peppers, or use types varying levels of heat.",
+          "The chilis are seeded because of the intense heat in the seeds, where the majority of the spicy capsaicin is. The seeds can be left in, but the scramble will be much hotter.",
+          "Be sure to scrape the entire bottom of the pan, as well as the sides. Otherwise, those areas where the egg is not scraped will burn.",
+          "Carryover heat will continue to cook the eggs, so they should be removed from the fire while still slightly underdone, or they will be overcooked."
+        ],
+        "pageId": 8458,
+        "revision": 4523445,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASouthwestern+Scramble&oldid=4523445",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASouthwestern+Scramble&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-209338",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Stuffed_French_Toast",
+      "title": "Stuffed French Toast",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "4 slices (⅔ inch thick) stale brioche bread",
+        "1 egg, beaten",
+        "2 tbsp cream cheese",
+        "1 pinch salt",
+        "2 tbsp unsalted butter, divided",
+        "¼ cup heavy cream",
+        "¼ cup granulated sugar",
+        "2 tsp pure vanilla extract"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Spread cream cheese on half the bread. Press into sort of a sandwich and set aside.",
+          "Combine egg, vanilla, cream, sugar, and salt in a pie pan. Add bread \"sandwiches\" to mixture and coat both sides.",
+          "Melt 1 tbsp butter in a small nonstick skillet heated between medium and medium high. Add 1 \"sandwich\" to pan and cook until golden brown on both sides.",
+          "Remove from pan. Melt remaining butter and repeat.",
+          "Serve immediately with maple syrup, powdered sugar, whipped cream, or fresh fruit."
+        ],
+        "notes": [],
+        "pageId": 209338,
+        "revision": 4514788,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AStuffed+French+Toast&oldid=4514788",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AStuffed+French+Toast&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-100004",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Svelekake_(Norwegian_Yogurt_Pancakes)",
+      "title": "Svelekake (Norwegian Yogurt Pancakes)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "4 eggs",
+        "½ cup white granulated sugar",
+        "2½ cups flour",
+        "1 litre kefir or yogurt",
+        "1 teaspoon baking powder",
+        "1 teaspoon baking soda",
+        "⅛ teaspoon horn salt (ammonium bicarbonate)",
+        "Vanilla"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Mix all ingredients gently (do not use mixer).",
+          "Let batter stand ½ hour.",
+          "Fry on hot griddle.",
+          "Serve with butter, brunost (brown/goat cheese), or Nugatti Crisp (caramel/hazelnut dessert spread)."
+        ],
+        "notes": [],
+        "pageId": 100004,
+        "revision": 4519163,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASvelekake+%28Norwegian+Yogurt+Pancakes%29&oldid=4519163",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASvelekake+%28Norwegian+Yogurt+Pancakes%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-37643",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Tofu_Scramble_I",
+      "title": "Tofu Scramble I",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "Olive or vegetable oil (or veggie butter)",
+        "⅓ block soft tofu, drained for 15 minutes",
+        "½ small onion, diced",
+        "1 clove garlic, minced",
+        "1 sun-dried tomato, diced",
+        "1 small handful fresh flat-leaf spinach",
+        "2 dashes red pepper flakes",
+        "2 dashes ground turmeric or curry powder",
+        "1 pinch flavored salt",
+        "Salt",
+        "Pepper",
+        "1–3 ea. flour tortillas, or vegan bread (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat about 1–2 tablespoons (15–30 g) oil in a saucepan. Add onion, garlic, and sun-dried tomato to pan, then cook until soft and golden.",
+          "While that is cooking, mash tofu until it gets an even scrambled texture, and add seasonings as specified or to taste. Mix it all in until evenly distributed.",
+          "When onion mix is cooked, add tofu and spinach. Heat through until spinach is soft and wilted looking.",
+          "Serve with tortillas like a breakfast burrito or in bread like a breakfast sandwich."
+        ],
+        "notes": [],
+        "pageId": 37643,
+        "revision": 4528720,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATofu+Scramble+I&oldid=4528720",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATofu+Scramble+I&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-462084",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Tofu_Scramble_II",
+      "title": "Tofu Scramble II",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "Oil",
+        "2 strips Smart vegetarian bacon or other breakfast meat substitute",
+        "½ large block of firm tofu",
+        "1 green onion, chopped",
+        "2 small cloves garlic, minced",
+        "A couple dashes of ground turmeric",
+        "1 splash of liquid aminos",
+        "Pinch of nutritional yeast flakes"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat the oil in a pan on medium-high heat. Add the bacon and cook, but don't cook it too long. Once it's done, chop it into small pieces.",
+          "Press as much water from the tofu as possible, then use a cheese grater to grate the tofu into semi-small chunks. You could probably mash it a bit with a fork instead, but grating is a lot quicker.",
+          "Add the onion, garlic, bacon, turmeric, and liquid aminos to the tofu. Stir gently until you are satisfied that everything is well mixed.",
+          "Put it in the hot pan (it should sizzle a bit), and sprinkle the nutritional yeast flakes over the top.",
+          "Keep stirring occasionally for about 10 minutes or until you've got the desired look of scrambled \"eggs.\""
+        ],
+        "notes": [
+          "Try serving with hash browns."
+        ],
+        "pageId": 462084,
+        "revision": 4513709,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATofu+Scramble+II&oldid=4513709",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATofu+Scramble+II&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-97029",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Tortilla_Espa%C3%B1ola",
+      "title": "Tortilla Española",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 tbsp minced garlic",
+        "About ¼ cup + 2 tbsp vegetable or olive oil",
+        "6 medium potatoes",
+        "1 white onion",
+        "6 eggs"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat the garlic and a small amount of oil in a 10-inch frying pan until garlic is browned.",
+          "Add the rest of the oil and heat to about 375°F (200°C).",
+          "Cube or slice the potatoes and coarsely chop the onion; add to hot oil and fry until brown.",
+          "Strain the potatoes, onions, and garlic and reserve about 2 tablespoons oil.",
+          "Beat eggs in a separate bowl.",
+          "Add potatoes, onions, and garlic to beaten eggs and allow to sit for about 15 minutes.",
+          "Put reserved tablespoons of oil in original 10-inch frying pan and place over low-medium heat.",
+          "Add egg/potato/onion/garlic mixture to frying pan; fry, lifting up edges of tortilla española to allow uncooked egg to run underneath and cook.",
+          "Serve after cooked as a pizza with your choice of toppings: salsa, sour cream, shredded cheese, chives, etc., are all very good choices."
+        ],
+        "notes": [
+          "A tortilla española (or Spanish omelette) is a mixture of fried potatoes and onions set in eggs, fried to make a dish somewhat akin to a quiche which may be eaten like a pizza.",
+          "The following recipe makes a 10-inch (25 cm) omelette that will feed from one to four persons."
+        ],
+        "pageId": 97029,
+        "revision": 4517812,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATortilla+Espa%C3%B1ola&oldid=4517812",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATortilla+Espa%C3%B1ola&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-105012",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Waffles",
+      "title": "Waffles",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 tablespoon white granulated sugar",
+        "1 tablespoon baking powder",
+        "1½ cups milk",
+        "½ cup vegetable oil",
+        "1 teaspoon salt",
+        "2 eggs, separated",
+        "1¾ cups flour"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Lightly brush grids of waffle iron with oil, close waffle iron, and preheat according to manufacturer's directions.",
+          "In small bowl, beat egg whites until stiff (but not dry) and set aside.",
+          "In large bowl, beat egg yolks until thick and lemon-colored.",
+          "Continue beating, adding milk and oil.",
+          "Add dry ingredients, beat until smooth, and fold in egg whites.",
+          "Pour 1 cup (240 ml) of batter on heated grid, close unit and cook according to manufacturer's directions."
+        ],
+        "notes": [
+          "Spread ¾ cup (180 ml) batter, then quickly cover surface of batter with thinly sliced apples. Close cover and cook as usual."
+        ],
+        "pageId": 105012,
+        "revision": 4519091,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWaffles&oldid=4519091",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWaffles&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-164154",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Whole_Wheat_Irish_Soda_Bread",
+      "title": "Whole Wheat Irish Soda Bread",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 cups whole-wheat",
+        "2 cups flour",
+        "1 teaspoon baking soda",
+        "1 teaspoon salt",
+        "2 cups buttermilk"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 325°F (165°C / gasmark 3).",
+          "Use cooking spray or grease and then lightly flour a 9x5x3-inch baking pan.",
+          "Combine flour, baking soda, and salt in a large mixing bowl.",
+          "Form a cavity in the middle.",
+          "Pour in the buttermilk.",
+          "Mix until just moistened. Too much mixing will make it tough.",
+          "Gently shape the dough to fit pan.",
+          "Cut the top at least three times with a knife.",
+          "Bake for 65–70 minutes, or until a toothpick inserted in the bread comes out clean.",
+          "Cool on a wire rack.",
+          "Wrap in tea-towel or foil several hours or overnight for best flavor."
+        ],
+        "notes": [
+          "If you're in a hurry, bake at 375°F for 35–40 minutes.",
+          "Buttermilk could be substituted with a tablespoon of lemon juice or vinegar in milk.",
+          "\"Baker's Secret\" is a brand of cooking spray that includes the flour."
+        ],
+        "pageId": 164154,
+        "revision": 4512592,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWhole+Wheat+Irish+Soda+Bread&oldid=4512592",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWhole+Wheat+Irish+Soda+Bread&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-95499",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Whole_Wheat_Waffles",
+      "title": "Whole Wheat Waffles",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1¼ cups whole wheat flour",
+        "1 cup wheat germ",
+        "2 tablespoons white granulated sugar",
+        "1 tablespoon baking powder",
+        "1 tablespoon nutmeg",
+        "1 teaspoon salt",
+        "2 cups milk",
+        "½ cup vegetable oil",
+        "2 eggs"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Heat waffle iron according to the manufacturer's directions.",
+          "Combine dry ingredients and mix well.",
+          "Add milk, vegetable oil, and eggs, and mix until smooth.",
+          "Pour 1 cup of batter onto the oiled waffle iron, and cook according to the manufacturer's directions."
+        ],
+        "notes": [
+          "Waffles are generally served with butter melted on top, then sweet syrup.",
+          "Fruit may be spread on top."
+        ],
+        "pageId": 95499,
+        "revision": 4524009,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWhole+Wheat+Waffles&oldid=4524009",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWhole+Wheat+Waffles&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-457553",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Zitumbuwa_(Malawian_Banana_Pancakes)",
+      "title": "Zitumbuwa (Malawian Banana Pancakes)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Breakfast",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 ripe bananas, mashed",
+        "1 cup all-purpose flour",
+        "1 tablespoon sugar",
+        "1 teaspoon baking powder",
+        "¼ teaspoon salt",
+        "¾ cup milk",
+        "1 large egg",
+        "1 teaspoon vanilla extract",
+        "1 tablespoon vegetable oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "In a mixing bowl, combine the mashed bananas, all-purpose flour, sugar, baking powder, and salt. Mix well.",
+          "In a separate bowl, whisk together the milk, egg, and vanilla extract.",
+          "Gradually pour the wet ingredients into the banana-flour mixture, stirring until a smooth batter forms.",
+          "Heat the vegetable oil in a frying pan or griddle over medium heat.",
+          "Pour a small amount of the pancake batter onto the hot pan, forming a circle.",
+          "Cook the pancake for about 2 minutes or until bubbles form on the surface. Then, flip the pancake and cook for an additional 1–2 minutes on the other side until it is golden brown and cooked through.",
+          "Repeat the process with the remaining batter, adding more oil to the pan as needed to prevent sticking.",
+          "Serve warm, and enjoy them plain or with your favorite toppings, such as honey, syrup, or fresh fruit."
+        ],
+        "notes": [
+          "Zitumbuwa are Malawian banana pancakes that are loved by both kids and adults. These fluffy and flavorful pancakes make for a delicious breakfast or snack option.",
+          "For extra banana flavor, you can add a few slices of banana on top of each pancake before flipping.",
+          "You can use whole wheat flour or a combination of all-purpose and whole wheat flour in this recipe.",
+          "Zitumbuwa can be enjoyed with a variety of toppings, such as peanut butter or chocolate spread.",
+          "Zitumbuwa provide a delightful combination of natural sweetness from bananas and a soft, fluffy texture from the pancake batter."
+        ],
+        "pageId": 457553,
+        "revision": 4522833,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AZitumbuwa+%28Malawian+Banana+Pancakes%29&oldid=4522833",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AZitumbuwa+%28Malawian+Banana+Pancakes%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-53869",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Bean-Semolina_Burger",
+      "title": "Bean-Semolina Burger",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "Cooked mashed white or kidney beans",
+        "Semolina flour",
+        "Breading mix",
+        "Salt",
+        "Pepper",
+        "Cumin (optional)",
+        "Oregano (optional)",
+        "Savory (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Combine about equal volumes of the mashed beans and semolina. Mix in just enough water to get a moldable dough.",
+          "Combine the breading mix, salt, pepper, and spices.",
+          "Shape the bean mixture into patties.",
+          "Dip both sides of the patties in the breading mix in order to coat completely. Shake off any excess breading.",
+          "Push the patties carefully on a spatula and fry them on both sides in a hot, oiled pan. If you use too much oil the patties will be soaked in fat, if you use too little, the breading mix will not be fried. It's probably best to add a little bit of oil and then shuffle the patties around in the pan. The patties very quickly become robust enough so you can easily pick them up and turn them with a spatula to see if the other side had enough oil.",
+          "Serve hot."
+        ],
+        "notes": [],
+        "pageId": 53869,
+        "revision": 4515473,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABean-Semolina+Burger&oldid=4515473",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABean-Semolina+Burger&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-13248",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Beer_Marinated_Shrimp",
+      "title": "Beer Marinated Shrimp",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "2 pounds peeled raw shrimp",
+        "1 onion, sliced",
+        "3 cloves garlic, minced",
+        "12 ounces of beer",
+        "Tabasco sauce",
+        "Salt",
+        "Pepper",
+        "Butter"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Combine onion, garlic, shrimp, and beer in a plastic or glass bowl.",
+          "Add as much Tabasco as you'd like (start with 1 tbsp) and some salt and pepper to taste.",
+          "Cover and marinate overnight.",
+          "Remove shrimp from marinade, and discard marinade.",
+          "Melt some butter in a pan and sauté shrimp until pink and done. Don't overcook the shrimp or they'll be rubbery. You can also grill the shrimp."
+        ],
+        "notes": [
+          "This is an excellent shrimp dish that must be marinated overnight, so if you need dinner half an hour from now this isn't for you."
+        ],
+        "pageId": 13248,
+        "revision": 4634665,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABeer+Marinated+Shrimp&oldid=4634665",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABeer+Marinated+Shrimp&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-128855",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Beer-can_Chicken",
+      "title": "Beer-can Chicken",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 recipe spice rub (or use your own recipe)",
+        "2 bay leaves, crumbled",
+        "1 can (12 ounces / ~355 ml) of beer",
+        "3–4 pound chicken (dressed)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Poke holes all over chicken to let fat run out during cooking.",
+          "Rub chicken thoroughly with spice rub: inside and out, and then under skin as far as you can reach",
+          "Set aside chicken.",
+          "Remove upper racks from oven.",
+          "Preheat oven to 350°F (180°C).",
+          "When oven preheated, take a healthy drink of the beer, leaving about 9–10 ounces.",
+          "Crumble bay leaves into beer, in beer can.",
+          "Insert beer can firmly into chicken cavity.",
+          "Place chicken upright in shallow heatproof pan.",
+          "Bake chicken upright for 1–1.5 hours until thickest part is 165°F (73°C).",
+          "When removing chicken from oven, keep upright.",
+          "Rest chicken upright 15 minutes before removing beer can."
+        ],
+        "notes": [
+          "A disposable drip pan will save you a lot of cleanup (and a lot of flares on the outdoor grill).",
+          "This is really best on a charcoal grill, on medium heat."
+        ],
+        "pageId": 128855,
+        "revision": 4523903,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABeer-can+Chicken&oldid=4523903",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABeer-can+Chicken&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-151339",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Bison_Meatballs_Baked_in_Hoisin_Sauce_(Marvin)",
+      "title": "Bison Meatballs Baked in Hoisin Sauce (Marvin)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T22:56:44.624670+00:00",
+      "ingredients": [
+        "1 large red onion",
+        "2 garlic cloves, minced",
+        "¼ teaspoon cumin seeds",
+        "¼ teaspoon coriander seeds",
+        "3 peppercorns",
+        "2 whole cloves",
+        "¼ teaspoon sea salt",
+        "1 lb ground bison meat",
+        "½ cup cooked rice",
+        "10 large basil leaves, julienned",
+        "1 teaspoon canola oil",
+        "½ teaspoon fish sauce",
+        "Hoisin sauce"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 425°F (220°C).",
+          "Oil the bottom of a 9x12-inch Pyrex baking dish.",
+          "Thinly slice the onion to create long thin slices.",
+          "Microwave the onion slices and garlic on high for 5 minutes.",
+          "Grind the cumin, coriander, peppercorns, cloves, and salt together using a mortar and pestle.",
+          "Roughly mix the softened onions and garlic, bison, rice, spice grind, fish sauce, and basil.",
+          "Shape the meat mixture into tapered cylinders (similar to small sweet potatoes) and place into the baking dish. The Marvins should be about 1¼ inch diameter in the middle and 5 inches long.",
+          "Coat the Marvins with hoisin sauce.",
+          "Bake for 20–25 minutes in the preheated oven."
+        ],
+        "notes": [
+          "Marvins are a quick and tasty variation on the meatball.",
+          "Roll up in a warmed mooshi pancake with fresh cilantro or serve with a coconut milk-based curry sauce and rice."
+        ],
+        "pageId": 151339,
+        "revision": 4523910,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABison+Meatballs+Baked+in+Hoisin+Sauce+%28Marvin%29&oldid=4523910",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABison+Meatballs+Baked+in+Hoisin+Sauce+%28Marvin%29&action=history",
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
