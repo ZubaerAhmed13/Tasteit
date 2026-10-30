@@ -24,7 +24,10 @@ async function worker({stores=new Map(),network={mode:'online'},version='first',
       if(url===base){if(network.mode==='login')return new Response('<title>Sign in required</title>',{headers:{'content-type':'text/html'}});
         if(network.mode==='redirect')return new Response('',{status:302,headers:{location:'/signin-with-chatgpt'}});
         return new Response(app,{headers:{'content-type':'text/html'}});}
-      return new Response('asset',{headers:{'content-type':url.endsWith('.css')?'text/css':url.endsWith('.svg')?'image/svg+xml':url.endsWith('.webmanifest')?'application/manifest+json':'text/javascript'}});
+      // Mirror the real content types for every shell resource, including the
+      // separate photo-credits page and the immutable ingredient photo index.
+      if(url.endsWith('.html'))return new Response(app,{headers:{'content-type':'text/html'}});
+      return new Response(url.endsWith('.json')?'{}':'asset',{headers:{'content-type':url.endsWith('.css')?'text/css':url.endsWith('.svg')?'image/svg+xml':url.endsWith('.webmanifest')?'application/manifest+json':url.endsWith('.json')?'application/json':'text/javascript'}});
     }};
   vm.runInNewContext((await readFile('sw.js','utf8')).replace('__TASTEIT_BUILD__',version),sandbox);
   const installation=()=>{let pending;handlers.install({waitUntil:p=>{pending=p;}});return pending;};
