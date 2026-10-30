@@ -17,3 +17,16 @@ test('licensed release only appends complete recipes without changing the origin
  const ids=new Set(old.map(r=>r.id));for(const r of data.recipes){sources.validateRecipe(r);assert.ok(!ids.has(r.id));ids.add(r.id);assert.ok(sources.completeMethod(r).steps.length);assert.equal(r.rating,null);assert.equal(r.photoUrl,null);assert.ok(recipeSteps(collectedMeal(r)).length);}
 });
 test('collector preserves source section boundaries, preheating, notes and primary quantities',async()=>{const {execFileSync}=await import('node:child_process');const output=execFileSync('python3',['-m','unittest','discover','-s','tests','-p','test_complete_recipe_extraction.py'],{encoding:'utf8',stdio:'pipe'});assert.equal(typeof output,'string');});
+
+test('personal method on an existing publisher recipe is backed up without replacing its original method',async()=>{
+ const original=JSON.parse(await readFile('data/selected-recipes.json','utf8')).recipes[0],meal=collectedMeal(original);
+ const custom='Prepare the ingredients.\nCook gently.\nServe when safe.';
+ const store=emptyStore();store.saved[meal.idMeal]={meal,wanted:true,ownMethod:custom};
+ const restored=parseBackup(exportBackup(store));
+ assert.equal(restored.saved[meal.idMeal].ownMethod,custom);
+ assert.equal(sources.completeMethod(original),null);
+ assert.equal(restored.saved[meal.idMeal].meal.selectedRecipe.url,original.url);
+ const broken=JSON.parse(exportBackup(store));
+ broken.data.saved[meal.idMeal].ownMethod='x'.repeat(12001);
+ assert.throws(()=>parseBackup(JSON.stringify(broken)),/invalid records/i);
+});
