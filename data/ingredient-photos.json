@@ -3670,6 +3670,57 @@
       "verified": true,
       "checkedAt": "2026-10-31",
       "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "shiitake-fresh",
+      "label": "Fresh shiitake mushrooms",
+      "aliases": [
+        "shiitake mushrooms",
+        "fresh shiitake mushrooms",
+        "shiitake mushroom"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Fresh_shiitake_mushrooms.jpg/250px-Fresh_shiitake_mushrooms.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Fresh_shiitake_mushrooms.jpg",
+      "creator": "Fumikas Sagisavas",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "form": "fresh",
+      "exclusions": [
+        "dried shiitake mushrooms",
+        "cooked shiitake mushrooms",
+        "shiitake powder"
+      ],
+      "description": "Fresh shiitake mushroom caps.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "lemon-zest",
+      "label": "Lemon zest",
+      "aliases": [
+        "lemon zest",
+        "grated lemon zest",
+        "zest of 1 lemon",
+        "zest of lemon"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Lemon_zest.jpg/250px-Lemon_zest.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Lemon_zest.jpg",
+      "creator": "Rebecca Siegel",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "form": "zest",
+      "exclusions": [
+        "candied lemon peel",
+        "lemon juice",
+        "lemon peel strips",
+        "lime zest",
+        "orange zest"
+      ],
+      "description": "Freshly grated lemon zest collected in a bowl.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Wikimedia-generated thumbnail; no other changes."
     }
   ]
 }
