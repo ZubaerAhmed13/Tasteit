@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source": "wikibooks",
-  "checkedAt": "2026-10-30T22:56:44.624670+00:00",
+  "checkedAt": "2026-10-30T23:32:21.805180+00:00",
   "licenseInfo": "https://en.wikibooks.org/wiki/Wikibooks:Copyrights",
   "recipes": [
     {
@@ -4602,6 +4602,2249 @@
         "revision": 4523910,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABison+Meatballs+Baked+in+Hoisin+Sauce+%28Marvin%29&oldid=4523910",
         "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABison+Meatballs+Baked+in+Hoisin+Sauce+%28Marvin%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-259514",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Booyah_(Chicken_Vegetable_Stew)",
+      "title": "Booyah (Chicken Vegetable Stew)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 large roasting chicken",
+        "2 cups green beans",
+        "3 cups diced carrot",
+        "2 cups peas",
+        "1 cup diced cabbage",
+        "4 stalks celery",
+        "2 cups tomato sauce (or 1 quart whole tomatoes)",
+        "1 large onion, diced",
+        "2 cups peeled and diced potatoes (optional)",
+        "Salt to taste"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Place chicken in a large pot and cover with water. Simmer until chicken is well done.",
+          "Remove chicken from broth and skim off fat.",
+          "Add remaining ingredients to broth.",
+          "Remove chicken meat from bones and skin. Cut meat into small pieces and add to broth. Add salt and water to taste.",
+          "Cover and let simmer for at least 3 hours. It tastes best when cooked all day."
+        ],
+        "notes": [
+          "Booyah is a stew created in Northeastern Wisconsin by Walloon-Belgian immigrants (particularly in the Green Bay area). The name is believed to be derived from the French word bouillir, meaning \"to boil.\" The stew is sometimes created in giant steel kettles and stirred with boat paddles at things like church picnics, or other gatherings in areas with a high Walloon-Belgian population. On large scales like this, it usually takes a day or two to cook.",
+          "This is the recipe transcribed by a third generation member of the original generation that emigrated from Belgium in the early 1900's (transcribed here, again, by a fourth generation member)."
+        ],
+        "pageId": 259514,
+        "revision": 4535154,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABooyah+%28Chicken+Vegetable+Stew%29&oldid=4535154",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABooyah+%28Chicken+Vegetable+Stew%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-277298",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Burmese_Pork_Curry",
+      "title": "Burmese Pork Curry",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "8 dried red chillis",
+        "2.5 cm fresh root ginger, crushed",
+        "Lemongrass stalks, finely chopped",
+        "15 ml fresh galangal, chopped",
+        "15 ml shrimp paste",
+        "30 ml fine brown sugar",
+        "675 g pork, diced into chunks",
+        "600 ml water",
+        "10 ml ground turmeric",
+        "5 ml dark soy sauce",
+        "200 g French (green) beans",
+        "5 ml brown sugar",
+        "45 ml tamarind juice or 5 ml tamarind pulp concentrate",
+        "15 ml minced garlic",
+        "4 shallots, finely chopped",
+        "15 ml fish sauce",
+        "Fresh red chillis, to garnish"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Soak the dried chilli in warm water for 20 minutes.",
+          "Crush the ginger, chilli, lemongrass, and galangal in a mortar and pestle until they form a coarse paste.",
+          "Add the shrimp paste and fine sugar, and continue grinding to a dark grainy paste.",
+          "Place the pork in a wok or large frying pan over medium heat, and stir in the curry paste until the meat is well coated.",
+          "Cook the pork over a low heat, stirring occasionally, until the meat changes colour and renders some of its fat, and the curry has started to release its aroma.",
+          "Stir in the turmeric, water, and soy sauce, then simmer gently, uncovered, for 40 minutes until the meat is tender.",
+          "Steam the beans separately for about 10 minutes.",
+          "Stir the sugar, tamarind, garlic, shallots, and fish sauce into the meat until the sugar and tamarind are dissolved.",
+          "Garnish with the fresh chillis and steamed beans, and serve immediately."
+        ],
+        "notes": [
+          "Burmese pork curry is a light, flavoursome pork dish.",
+          "The pork can have some of its fat trimmed, but should have some remaining to render into the sauce as it cooks.",
+          "Instead of galangal, additional root ginger can be used."
+        ],
+        "pageId": 277298,
+        "revision": 4535155,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABurmese+Pork+Curry&oldid=4535155",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ABurmese+Pork+Curry&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-127983",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Calzone",
+      "title": "Calzone",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 cup ricotta cheese",
+        "1 cup shredded mozzarella cheese",
+        "4 ounces any topping (such as ham, bacon, salami, pepperoni, and/or sausage) (optional)",
+        "2 teaspoons oregano",
+        "1 package store-bought pizza dough"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 400°F (200°C).",
+          "Combine ricotta, mozzarella, toppings, and oregano.",
+          "Roll the pizza dough between 2 pieces of waxed paper.",
+          "Spoon the cheese mixture into the center of the dough.",
+          "Moisten edges of dough slightly. Fold the dough over, and seal edges by pressing with a fork.",
+          "Bake until golden brown, about 10 or 12 minutes.",
+          "Serve with marinara sauce."
+        ],
+        "notes": [
+          "Calzone is a popular Italian form of pizza. The word means sock because the resulting pizza looks similar to a sock."
+        ],
+        "pageId": 127983,
+        "revision": 4605278,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACalzone&oldid=4605278",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACalzone&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-110180",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Char_Sui_(Asian_Barbecued_Pork)",
+      "title": "Char Sui (Asian Barbecued Pork)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "3 katis (1.8–2 kg / 4 lbs) of pork (sam-chang-bak)",
+        "5 tablespoons char-siu sauce",
+        "5 tablespoons sugar",
+        "Pepper",
+        "A few drops of tenderizer"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Sprinkle the tenderizer on the meat, then mix the rest of the ingredients together with the meat.",
+          "Barbecue the meat until done."
+        ],
+        "notes": [
+          "BBQ sam-chang-bak is a very simple barbecue seasoning recipe for pork meat."
+        ],
+        "pageId": 110180,
+        "revision": 4504851,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChar+Sui+%28Asian+Barbecued+Pork%29&oldid=4504851",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChar+Sui+%28Asian+Barbecued+Pork%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-178937",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Cheese_Dumplings",
+      "title": "Cheese Dumplings",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "250 g white crustless bread, finely diced",
+        "250 ml milk",
+        "2–3 eggs",
+        "250 g grated cheese (e.g. Pinzgauer beer cheese, Tyrolean grey cheese )",
+        "50 g butter",
+        "1 onion, thinly-sliced",
+        "1 pinch each of salt, pepper, parsley, and caraway seeds",
+        "Flour"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Mix the eggs with the milk.",
+          "Soak the white bread in the egg mixture. Knead and then let it rest.",
+          "Brown the onions with the butter in a pan.",
+          "Add the cooked onions, salt, pepper, parsley, caraway seeds, and grated cheese to the white bread. Add the flour and let the mixture rest for a further 10 minutes.",
+          "Form dumplings that are approximately the size of a golf ball, then press them flat (about 2–3 cm / 0.8–1.2 inch thick). Forming them is easiest when your hands are slightly wet.",
+          "Heat some butter or oil in a pan, and put in the pressed cheese dumplings. Cook them on one side and then the other until golden brown.",
+          "Place the dumplings on a paper towel to absorb the excess fat.",
+          "Serve the dumplings in a beef broth, with sauerkraut or a green salad. Enjoy!"
+        ],
+        "notes": [
+          "Cheese dumplings (kaspressknödel) are a typical Austrian dish, originally eaten by farmers throughout Austria. Bread, potatoes, and flour were used for the dough. In addition eggs, butter, left-over meats, bacon, or fruits from the garden were used to fill them. Tyroleans, south Tyroleans, and Bavarians all claim that cheese dumplings come from their respective regions. Today cheese dumplings are served and eaten throughout Austria, and they are a favourite at ski huts.",
+          "As well as using left-overs, another advantage of cheese dumplings is that they are easy to prepare. Not many ingredients are needed and these can be varied. Cheese dumplings can be served in a soup, with sauerkraut, or with a salad.",
+          "When making these dumplings, the kind of cheese used is of particular importance. It should be a strong cheese with a lot of flavour. In Austria they are predominately made using either Pinzgauer beer cheese or grey cheese from Tirol. You can experiment with whichever cheese you like."
+        ],
+        "pageId": 178937,
+        "revision": 4522783,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACheese+Dumplings&oldid=4522783",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACheese+Dumplings&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-127663",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Cheese-Stuffed_Crust_Pizza",
+      "title": "Cheese-Stuffed Crust Pizza",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "Cooking spray",
+        "Corn meal",
+        "1 can refrigerated pizza crust",
+        "7 ea. 1-inch (2.5 cm) pieces of string cheese",
+        "½ cup pizza sauce",
+        "24 slices pepperoni",
+        "1 cup cooked Italian sausage, crumbled",
+        "2 cups Italian blend shredded cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 425°F (220C)",
+          "Spray 12-inch (30 cm) pizza pan with cooking spray. Sprinkle lightly with cornmeal, if desired.",
+          "Starting in the center, press pizza dough in pan beyond the sides of the pan by an inch.",
+          "Fold the hanging edge of the dough back toward the middle, placing the sticks of string cheese in the pouch, all the way around the circle.",
+          "Pinch the dough to seal in the cheese.",
+          "Bake the crust 8 or 10 minutes, or until the edges are light golden and the dough has started to set.",
+          "Remove from oven and spread the sauce over the crust with the back of a spoon.",
+          "Scatter on the sauce the pepperoni, sausage, and shredded Italian cheese.",
+          "Replace in oven and bake until crust is deeply golden brown and the (topping) cheese is melted.",
+          "Cut into 6–8 slices."
+        ],
+        "notes": [],
+        "pageId": 127663,
+        "revision": 4517832,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACheese-Stuffed+Crust+Pizza&oldid=4517832",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACheese-Stuffed+Crust+Pizza&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-214394",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_and_Black-eyed_Pea_Stew",
+      "title": "Chicken and Black-eyed Pea Stew",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 cup of dry black-eyed peas (or about 2 cups canned)",
+        "2–3 tbsp vegetable oil or chicken fat",
+        "2 medium (~2 cups) chopped white or red onions",
+        "2 ea. (~2 cups) chopped carrots",
+        "1 stalk (~½–1 cup) chopped celery including the leaves",
+        "6 cloves garlic, minced",
+        "1–2 tbsp minced ginger",
+        "½ tsp salt",
+        "1 tsp black pepper, preferably freshly-crushed peppercorns",
+        "1 cup uncooked long-grained rice, preferably brown rice",
+        "2 cups chicken stock, canned tomato liquid, water, or vegetable stock",
+        "2 cups canned tomatoes (crushed or diced), or 1 pound diced fresh tomatoes.",
+        "1 pound bone-in chicken meat (e.g. two chicken legs)",
+        "2 medium to hot chile peppers (optional)",
+        "2 tsp curry powder stirred into the juice of ½ lemon"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "If using dry black-eyed peas, wash them, then cook for 20 minutes or until al dente. When done, drain.",
+          "Meanwhile, sauté onions, carrots, and celery in oil for 5 minutes.",
+          "Add garlic, ginger, salt, and pepper, and sauté for 2 more minutes.",
+          "Stir rice into vegetable mix.",
+          "Add stock and tomatoes, then bring to a boil.",
+          "Add the cooked black-eyed peas.",
+          "Add meat, cook a further 5 minutes, turn heat to low, and let simmer for 30–40 minutes. The stew is ready when the rice is soft.",
+          "Add chili peppers and curry-lemon paste, then cook for 10 more minutes. Serve hot."
+        ],
+        "notes": [
+          "This dish is a spicy chicken black-eyed pea stew or curry. It is a meal on its own.",
+          "This dish works well as a vegetarian dish. Just omit the chicken, and increase the amount of black-eye peas by 50%."
+        ],
+        "pageId": 214394,
+        "revision": 4518586,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+and+Black-eyed+Pea+Stew&oldid=4518586",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+and+Black-eyed+Pea+Stew&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-23261",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_Parmesan",
+      "title": "Chicken Parmesan",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "6 chicken breast halves, flattened to ½-inch thickness",
+        "½ cup all purpose flour",
+        "2 eggs",
+        "1½ cups Italian seasoned bread crumbs",
+        "½ cup grated Parmesan cheese, divided",
+        "½ tsp salt",
+        "½ tsp black pepper, freshly-ground if possible",
+        "Olive oil",
+        "1 jar (16 oz) spaghetti sauce (or make it fresh)",
+        "1 package sliced mozzarella cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat the oven to 350°F (175°C).",
+          "Mix the breadcrumbs, salt, black pepper, and half the Parmesan cheese in a mixing bowl.",
+          "Beat the eggs in a small bowl.",
+          "On the stove, heat olive oil in a large frying pan over medium-high heat",
+          "Take each chicken breast and dip it into the flour, then into the eggs, then into the breadcrumb mixture. Make sure to coat it thoroughly.",
+          "Pan fry the chicken breasts lightly in the olive oil until brown on both sides. You do not need to cook them through, just brown them. Once brown, the breadcrumbs should stick to the outside.",
+          "Pour half a jar of pasta sauce into a shallow baking dish, then lay the chicken out in the pan. Pour the rest of the sauce on top.",
+          "Sprinkle the remaining grated Parmesan cheese over the chicken.",
+          "Place the dish in the oven and bake for 30 minutes at 350°F (175°C).",
+          "Remove and add a slice of mozzarella cheese to each chicken breast.",
+          "Return to the oven for 10 more minutes to melt the mozzarella.",
+          "Serve with pasta."
+        ],
+        "notes": [
+          "Chicken Parmesan is a classic Italian dish, which is wonderful served over pasta or on a sandwich. This is a fairly simple recipe made mostly with ingredients already on hand."
+        ],
+        "pageId": 23261,
+        "revision": 4605274,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Parmesan&oldid=4605274",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Parmesan&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-24663",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_Parmigiana",
+      "title": "Chicken Parmigiana",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 chicken breasts",
+        "1 teaspoon of salt",
+        "1 teaspoon of garlic powder",
+        "½ a teaspoon of dried oregano",
+        "¼ teaspoon of dried basil",
+        "¼ teaspoon of finely-crushed black pepper",
+        "½ a cup of all-purpose flour",
+        "½ a cup of tomato puree",
+        "¼ cup of chicken stock",
+        "½ a cup of canola oil (see below if you wish to use olive oil)",
+        "½ a cup of shredded mozzarella cheese",
+        "¼ a cup of grated parmigiano cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a heavy skillet (preferably cast iron), heat the oil on medium heat.",
+          "While the oil is heating, use a tenderizing mallet (or the ball of your hand) to pound the chicken breasts to about ½ inch thick. This step is important to ensure the chicken is tender and more importantly to ensure the chicken cooks thoroughly.",
+          "Season the chicken breasts with salt and garlic powder.",
+          "Dredge the breasts in flour and shake off any excess.",
+          "Place both breasts in the heated oil for 3 minutes, then flip and fry for an additional 2 minutes.",
+          "Remove the breasts and place on a rack or paper towel.",
+          "Preheat a broiler.",
+          "In a large oven-safe saucepan, heat the tomato puree and chicken stock until it begins to simmer.",
+          "Add the oregano, basil, and pepper to saucepan and mix",
+          "Place cooked chicken breasts in pan and flip a number of times to coat with sauce.",
+          "Add mozzarella and parmigiana cheese to the tops of the breasts.",
+          "Broil for 30–60 seconds. It will burn very quickly, so check it frequently.",
+          "Remove from oven and serve."
+        ],
+        "notes": [
+          "Chicken parmigiana is a popular Italian-American dish served in a variety of ways. The same basic recipe works for a number of dishes. The components usually consists of a breaded, tenderized piece of meat (or slice of eggplant), a simple marinara sauce, and cheese (usually mozzarella). A thicker pasta, such as linguini, a toasted loaf of Italian bread, and a light red wine such as Chianti complement this dish well.",
+          "This recipe is typical of the parmigiana recipes from New York and New Jersey.",
+          "Use thin-sliced chicken cutlets (available at most supermarkets) to avoid the BIG mess and time of pounding.",
+          "If pasta is to be served with this meal, it should be timed so that the parmigiana is done right when the pasta is. The pasta should be removed directly from the pot and placed into the pan. The remaining sauce can then be used with the pasta.",
+          "This recipe works best with breasts that come from slightly older chickens (such as broiler or fryer chickens). These chickens have a stronger taste but are generally tougher. The tenderizing step takes care of the toughness of the older birds though.",
+          "If you do not live in area where fresh tomatoes are grown, canned tomatoes are usually superior to the low-cost ones you will find in the supermarket.",
+          "For veal parmigiana, follow the same steps except do not tenderize. Veal is already tender enough. The veal can also be cooked for 2 minutes on each side.",
+          "Omit the tenderizing step for eggplant parmigiana.",
+          "If you want to use fresh garlic instead of powder, add it to the sauce instead of adding it to the chicken breast.",
+          "You can also try using other types of Italian cheeses such as provolone cheese or fontina cheese to add more of a \"tasty kick\" compared to a mild cheese like mozzarella",
+          "You may wish to use olive oil. When frying with olive oil, be sure to use a cheap solvent-extracted grade! The fancy grades can not tolerate heat. They have smoke points as low as 200°F (93°C), making for both a fire hazard and a source of smoke. Save the cold-pressed extra-virgin olive oil for a salad."
+        ],
+        "pageId": 24663,
+        "revision": 4605273,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Parmigiana&oldid=4605273",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Parmigiana&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-45164",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_Riggies",
+      "title": "Chicken Riggies",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 stick margarine (not butter), melted",
+        "1 onion, minced",
+        "2–5 cloves garlic, minced",
+        "1 jar (20 oz) sweet peppers, sliced and seeded",
+        "3 sliced hot cherry peppers (jarred ones with oil)",
+        "1 cup grated Parmesan cheese",
+        "2 lb boneless chicken breast, cubed",
+        "1 can chicken broth",
+        "1 can (15 oz) tomato sauce",
+        "½ pint cream",
+        "1 small can sliced black olives",
+        "1–1½ lb rigatoni pasta, cooked"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Sauté onion, peppers, and garlic in the margarine slowly over low/medium heat until the onions are clear.",
+          "Add the Parmesan, chicken breast, chicken stock, tomato sauce, cream, and olives. Simmer for about an hour.",
+          "Serve over the cooked pasta."
+        ],
+        "notes": [
+          "Chicken Riggies (recipe by P.A. Johnson) is a Utica, NY classic. It is well known throughout the greater Mohawk Valley and once a year there is a festival in honor of this dish called Riggiefest, held to benefit the YWCA of the Mohawk Valley. Here is a recipe based from a Mohawk Valley native: http://miocibo.com/2008/12/21/chicken-riggies/.",
+          "It is important to use jarred peppers—the flavor of fresh peppers completely changes the recipe."
+        ],
+        "pageId": 45164,
+        "revision": 4514948,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Riggies&oldid=4514948",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Riggies&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-110447",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_Tagine_with_Lemon_and_Olives",
+      "title": "Chicken Tagine with Lemon and Olives",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 tablespoons lemon juice",
+        "1 pound boneless, skinless chicken breasts, cut in three pieces",
+        "¼ cup all-purpose flour",
+        "½ teaspoon salt",
+        "¼ teaspoon freshly ground black pepper",
+        "⅛ teaspoon ground red pepper",
+        "¼ teaspoon ground turmeric",
+        "2 teaspoons olive oil",
+        "1 medium yellow onion, chopped",
+        "2 teaspoons grated fresh ginger",
+        "2 garlic cloves, minced",
+        "½ cup fat-free low-sodium chicken broth",
+        "¼ cup pitted green olives",
+        "2 teaspoons grated lemon zest",
+        "3-inch cinnamon stick",
+        "2 tablespoons chopped fresh cilantro"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a large zip-close plastic bag, combine the juice and chicken. Seal and marinate in the refrigerator 30 minutes.",
+          "Remove chicken from bag and discard marinade. Pat chicken dry with paper towels.",
+          "In a shallow bowl, combine the flour, salt, and black and red peppers, and turmeric.",
+          "Dredge the chicken through the flour mixture, lightly coating both sides, and set aside.",
+          "In a large, deep nonstick skillet, heat the oil over medium-high heat.",
+          "Add the chicken and cook for 3 minutes per side, or until lightly browned.",
+          "Remove the chicken from the pan and set aside.",
+          "Add the onion, ginger, and garlic to pan. Fry until tender.",
+          "Return the chicken to the pan. Add the broth, olives, lemon zest, and cinnamon stick.",
+          "Bring to a boil, then cover, reduce heat, and simmer 1 hour or until chicken is tender.",
+          "To serve, discard the cinnamon stick and stir in cilantro."
+        ],
+        "notes": [],
+        "pageId": 110447,
+        "revision": 4523938,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Tagine+with+Lemon+and+Olives&oldid=4523938",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+Tagine+with+Lemon+and+Olives&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-110964",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken_with_Orange%2C_Spinach_and_Cherry_Tomatoes",
+      "title": "Chicken with Orange, Spinach and Cherry Tomatoes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "4 tbsp minced fresh dill",
+        "4 tsp grated orange peel",
+        "3 tsp minced garlic",
+        "¾ tsp salt",
+        "4 cup cherry tomatoes, halved",
+        "1 tbsp olive oil",
+        "4 skinless boneless chicken breast halves, thinly sliced crosswise",
+        "4 cups firmly packed torn fresh spinach leaves (about 8 ounces)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 400°F.",
+          "Place large baking sheet in oven to heat.",
+          "Mix dill, orange peel, garlic and salt in medium bowl. Season with pepper.",
+          "Combine tomatoes, oil and 1 teaspoon dill mixture in small bowl.",
+          "Add chicken to remaining dill mixture in medium bowl and toss to coat.",
+          "Cut 4 sheets of foil each about 20 inches long.",
+          "Arrange 1 cup spinach on 1 sheet of foil.",
+          "Place a quarter of the sliced chicken mixture atop spinach.",
+          "Spoon a quarter of the tomato mixture atop chicken.",
+          "Fold foil over, enclosing contents completely and crimping edges tightly to seal.",
+          "Repeat with remaining 3 foil sheets, forming 4 packets total.",
+          "Arrange foil packets in single layer on heated baking sheet.",
+          "Bake until chicken is just cooked through, about 15 minutes.",
+          "Transfer to plates; let stand 5 minutes."
+        ],
+        "notes": [
+          "A simple recipe that combines vegetable and fruit with chicken. The recipe utilizes baking in foil, which is a great low-fat cooking method that produces wonderfully tender and juicy chicken.",
+          "Serve with rice."
+        ],
+        "pageId": 110964,
+        "revision": 4523941,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+with+Orange%2C+Spinach+and+Cherry+Tomatoes&oldid=4523941",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken+with+Orange%2C+Spinach+and+Cherry+Tomatoes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-30393",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chicken-fried_Steak",
+      "title": "Chicken-fried Steak",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "White flour as needed plus 3 tbsp",
+        "2 tbsp freshly-ground black pepper",
+        "1 tbsp kosher salt",
+        "2 eggs, beaten",
+        "1 cup whole milk, combined with ¼ cup heavy cream",
+        "3 ea. beef steaks, ½ inch thick",
+        "3 tbsp bacon drippings, divided",
+        "2 tbsp smoked paprika",
+        "⅓ cup chicken broth"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Pour 2 tbsp drippings into a 12-inch cast-iron skillet. Preheat the pan over medium high heat. Wet hand, drip 1 drop of water in pan to test the heat. If it sizzles, it's hot enough.",
+          "Trim each steak.",
+          "Beat eggs with seasonings, then dip steaks into eggs.",
+          "Thoroughly dredge steak in flour on both sides.",
+          "When the pan is hot enough, put steaks in pan in a triangle formation. Fry until golden brown, about 4 minutes per side.",
+          "Remove steak(s) from pan and place in a 200°F oven.",
+          "Pour remaining drippings into pan and lower heat to medium. Add flour and cook, whisking, until light blonde color is achieved.",
+          "Add chicken broth to pan, and whisk to deglaze pan. Add cream mixture and bring to a boil. Reduce heat to low and cook until gravy coats back of spoon. Don't let the gravy get too thick.",
+          "Drizzle gravy over steaks and serve."
+        ],
+        "notes": [
+          "Chicken Fried Steak is a hearty food dish in the southern USA. The dish is commonly served with mashed potatoes smothered in chicken fried steak gravy.",
+          "It is, simply, a cut of steak (usually cheap round steak) pounded until tender, breaded like you would bread chicken, and fried in oil. Milk, salt, flour and pepper are added to the grease drippings and used to make a thick gravy, which is generously poured over the steak and, usually, mashed potatoes. Many people think the gravy makes the steak!"
+        ],
+        "pageId": 30393,
+        "revision": 4516424,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken-fried+Steak&oldid=4516424",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChicken-fried+Steak&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-199311",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chipotle_BBQ_Ribs",
+      "title": "Chipotle BBQ Ribs",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 slab pork spareribs",
+        "2 cups Chipotle BBQ Sauce",
+        "6 tbsp Chipotle BBQ Rub",
+        "¼ cup molasses",
+        "Hickory chunks"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Season ribs with BBQ rub. Refrigerate for at least 1 hour.",
+          "Combine BBQ sauce with molasses.",
+          "Place hickory chunks into a 325–350°F smoker or in a charcoal grill set for indirect heat at 325–350°F.",
+          "Place ribs into smoker or grill and cook for 3–4 hours, brushing with molasses mixture often.",
+          "Brush ribs with remaining sauce and place on a medium-high grill and sear until well-browned.",
+          "Let sit for 15 minutes; serve."
+        ],
+        "notes": [
+          "Smoky but sweet."
+        ],
+        "pageId": 199311,
+        "revision": 4599151,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChipotle+BBQ+Ribs&oldid=4599151",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChipotle+BBQ+Ribs&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-19267",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Choucroute_(Sauerkraut_with_Meat_and_Potatoes)",
+      "title": "Choucroute (Sauerkraut with Meat and Potatoes)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 or so tablespoons of duck fat",
+        "1 medium onion, finely chopped",
+        "2–3 small potatoes",
+        "5 juniper berries",
+        "1 clove",
+        "1–2 garlic cloves",
+        "1 or so tablespoons of coriander seed",
+        "½ tablespoon black mustard seed",
+        "2 strips of bacon (or the same amount of salted pork belly), sliced into rough squares",
+        "1 pound of sauerkraut",
+        "4 pork sausages",
+        "3 smoked pork slices, bone in",
+        "1 cup or so of white wine (dry)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a pot large enough to in the end hold everything, melt the duck fat over medium heat.",
+          "When hot, add the onions and sauté until translucent (about 5 minutes or so).",
+          "Then, add the sauerkraut, white wine, juniper berries, clove, coriander seed, mustard seed, and garlic.",
+          "Add the smoked pork and bacon.",
+          "Cover, and then simmer for about 2 hours.",
+          "In other pot, simmer the peeled potatoes and your sausages—don't boil, or your sausages will split open.",
+          "Simmer until potatoes are done (and by then the sausage will be, too).",
+          "Serve in a heap—sauerkraut at the bottom, various pig and potato parts on top."
+        ],
+        "notes": [
+          "Choucroute garnie is a dish of Sauerkraut with sausages, salt pork, and potatoes. Being a little picky about your ingredients (especially the sauerkraut) with this recipe makes all the difference."
+        ],
+        "pageId": 19267,
+        "revision": 4615191,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChoucroute+%28Sauerkraut+with+Meat+and+Potatoes%29&oldid=4615191",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChoucroute+%28Sauerkraut+with+Meat+and+Potatoes%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-102282",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Chraime_(Sephardic_Fish_and_Vegetable_Casserole)",
+      "title": "Chraime (Sephardic Fish and Vegetable Casserole)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 large baking potatoes",
+        "2 medium red bell peppers, cored, seeded, and cut into ½-inch thick wedges",
+        "5 garlic cloves, peeled and smashed",
+        "1 small jalapeño or other hot chili pepper, quartered and seeded",
+        "Salt, to taste",
+        "1¼–1½ pounds of white fish fillets (e.g. sole, halibut, or cod)",
+        "1 tablespoon sweet paprika",
+        "3 ripe tomatoes, coarsely chopped",
+        "1 cup chopped fresh cilantro or parsley",
+        "1 cup water",
+        "⅓ cup olive oil",
+        "Coarse salt, to taste"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a large flame-proof casserole or Dutch oven, set the potato slices on the bottom. Scatter the bell peppers, garlic, and jalapeño pepper on the potatoes. Sprinkle with salt. Place the fish on top and sprinkle it with paprika and salt. Add the tomatoes and cilantro or parsley.",
+          "Pour the water in at the edges. Sprinkle the top with oil and sprinkle generously with salt.",
+          "Set the pan over high heat, cover, and bring the mixture to a boil. Reduce the heat slightly and simmer for 25–30 minutes or until the vegetables are tender and the fish is cooked through. Check the pan after 20 minutes; if there seems to be too much liquid, uncover the pan for the remaining cooking time.",
+          "Serve hot or warm with challah."
+        ],
+        "notes": [
+          "Chraime is a popular Sephardic Jewish fish and vegetable casserole often eaten as the first course at Rosh Hashanah. It can also be eaten as an entrée, and is normally served with challah."
+        ],
+        "pageId": 102282,
+        "revision": 4517395,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChraime+%28Sephardic+Fish+and+Vegetable+Casserole%29&oldid=4517395",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AChraime+%28Sephardic+Fish+and+Vegetable+Casserole%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-252231",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Coconut_Crusted_Baked_Cod",
+      "title": "Coconut Crusted Baked Cod",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "½ cup coconut milk",
+        "1 Tbsp reduced-sodium soy sauce",
+        "1 Tbsp sesame oil",
+        "1 Tbsp crushed red pepper flakes",
+        "1 Tbsp ginger, minced",
+        "1 Tbsp black pepper",
+        "5 ea. (15 ounces) cod fillets",
+        "1 Tbsp chopped mint",
+        "1 Tbsp coconut flakes, lightly toasted"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a bowl, combine coconut milk, soy sauce, sesame oil, pepper flakes, ginger, and pepper.",
+          "Marinate cod in this mixture for 15 minutes.",
+          "Place fillets on an oiled baking pan.",
+          "Bake at 350°F for 15 minutes or until flaky.",
+          "Garnish with coconut flakes and fresh mint."
+        ],
+        "notes": [
+          "Almost any type of white fish can be substituted for the cod."
+        ],
+        "pageId": 252231,
+        "revision": 4531775,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACoconut+Crusted+Baked+Cod&oldid=4531775",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACoconut+Crusted+Baked+Cod&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-126420",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Corn_Bread_Fish",
+      "title": "Corn Bread Fish",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "4 boneless, skinless fish fillets (about 6 ounces each, 1–1¼ inches at thickest), such as tilapia, catfish or trout (see notes)",
+        "Salt to taste",
+        "Pepper to taste",
+        "⅓ cup bottled Italian dressing",
+        "1 large corn muffin, or ⅔ cup coarse crumbs",
+        "1 lemon, or 3 tablespoons lemon juice"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat the oven to 400°F (204°C).",
+          "Spray a glass baking dish with cooking-oil spray.",
+          "Season each fish piece with salt and pepper, and place in the dish.",
+          "Pour the dressing evenly over the fish.",
+          "Crumble the corn muffin, and sprinkle the crumbs over the fish.",
+          "Place the dish in the preheated oven, and bake until the dressing is bubbling at the edges, the crumbs lightly brown, and the thickest part of the fillets are opaque and flake easily with a fork (about 15 to 20 minutes).",
+          "While fish is baking, cut the lemon into 4 parts and set aside.",
+          "When the fish is done, remove it from the oven, squeeze the juice from the lemon quarters over the fish, and serve immediately."
+        ],
+        "notes": [
+          "If the only available fillets are large, cut two of them in half to make four servings.",
+          "When placing the fish in the baking dish, the thick parts should not be layered."
+        ],
+        "pageId": 126420,
+        "revision": 4523986,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACorn+Bread+Fish&oldid=4523986",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACorn+Bread+Fish&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-106261",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Corn_Dogs",
+      "title": "Corn Dogs",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "⅔ cup corn meal",
+        "⅓ cup flour",
+        "1 teaspoon salt",
+        "½ cup milk",
+        "1 egg, beaten",
+        "2 tablespoon vegetable oil",
+        "8–10 hot dogs"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat deep fat fryer to 375°F (190°C).",
+          "Combine corn meal, flour, and salt. Add milk, egg, and oil; mix well.",
+          "Insert a wooden skewer into one end of each hot dog.",
+          "Coat with flour, then coat with corn meal mixture.",
+          "Fry a few at a time in deep hot oil until golden brown."
+        ],
+        "notes": [
+          "Serve with mustard, like at a fair."
+        ],
+        "pageId": 106261,
+        "revision": 4523343,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACorn+Dogs&oldid=4523343",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACorn+Dogs&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-209472",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Crispy_Salmon",
+      "title": "Crispy Salmon",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "4 ea. (24 ounces) skinless wild salmon fillets, pin bones removed",
+        "1 cup panko breadcrumbs",
+        "Olive oil",
+        "1 cup all-purpose flour",
+        "1 tbsp salt",
+        "1 tbsp freshly-ground black pepper",
+        "Freshly-squeezed lemon juice"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Combine flour, salt, and pepper in a pie pan, place panko in another pan, and place lemon juice in a large bowl.",
+          "Using wet-hand dry-hand, dredge salmon into flour then into lemon, then into panko. Coat with olive oil and place on a sheet pan.",
+          "Bake in the center of a 375°F oven for 27 minutes or until slightly underdone.",
+          "Remove from oven, and heat up the broiler. Place salmon under broiler and cook until deeply browned.",
+          "Serve immediately."
+        ],
+        "notes": [],
+        "pageId": 209472,
+        "revision": 4513497,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACrispy+Salmon&oldid=4513497",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACrispy+Salmon&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-205351",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Crispy_Santa_Fe_Chicken",
+      "title": "Crispy Santa Fe Chicken",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "4 ea. (28–32 ounces) boneless skinless chicken breasts",
+        "½ cup crushed garlic-flavored croûtons",
+        "¼ cup unsalted butter, melted",
+        "½ tsp freshly-ground cumin",
+        "1 tbsp chili powder",
+        "1 tbsp salt",
+        "1 tbsp cayenne pepper",
+        "1 tbsp freshly-ground black pepper",
+        "¾ cup grated Monterrey Jack cheese",
+        "Olive oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 425°F.",
+          "Combine butter, seasonings, and salt in a pie plate or a large wide dish.",
+          "Dip chicken into egg mixture then dredge into croûton crumbs. Let rest 2–3 minutes.",
+          "Coat chicken pieces on olive oil then place on a greased baking pan.",
+          "Insert a probe thermometer into one of the pieces, and bake in the oven until internal temperature reaches 165°F.",
+          "Sprinkle chicken pieces evenly with cheese and bake until cheese is melted. Serve warm."
+        ],
+        "notes": [
+          "A lot of crispy baked chicken recipes use things like breadcrumbs or cracker crumbs. Here, the croûtons add a little flavor."
+        ],
+        "pageId": 205351,
+        "revision": 4515022,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACrispy+Santa+Fe+Chicken&oldid=4515022",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ACrispy+Santa+Fe+Chicken&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-205013",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Drunken_Shrimp",
+      "title": "Drunken Shrimp",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "48 jumbo peeled, deveined shrimp",
+        "12 oz beer (recommended: Budweiser)",
+        "1 tbsp salt",
+        "1 tbsp freshly-ground black pepper",
+        "¼ cup unsalted butter, divided"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Melt butter in a large pot over medium heat. Add shrimp and cook until slightly undercooked. Quickly place shrimp in ice water and drain. Set aside.",
+          "Season shrimp with salt and pepper. Deglaze pot with beer and add shrimp. Bring to a simmer over medium low heat.",
+          "Once beer simmers, lower heat to low and cook 5 minutes.",
+          "Stir in butter 1 tbsp at a time and serve warm."
+        ],
+        "notes": [],
+        "pageId": 205013,
+        "revision": 4508326,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADrunken+Shrimp&oldid=4508326",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADrunken+Shrimp&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-201790",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Dry-Aged_Prime_Rib",
+      "title": "Dry-Aged Prime Rib",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 prime grade standing rib roast (4 bone)",
+        "Prime Rib Seasoning, as needed",
+        "Canola oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Place roast in a paper towel-lined perforated box with a lid. Cover and refrigerate for 3 days, changing towels halfway.",
+          "If any leathery spots appear, trim them off. Rub roast all over with canola oil. Shake on prime rib seasoning liberally, and pat down lightly.",
+          "Insert an oven-safe probe thermometer into the roast. Bake at 200°F until internal temperature reaches 118°F.",
+          "Remove from oven and raise oven to 500°F. Insert roast back in, and bake until internal temperature reaches 135°F.",
+          "Remove, let rest 10 minutes, and serve."
+        ],
+        "notes": [],
+        "pageId": 201790,
+        "revision": 4498150,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADry-Aged+Prime+Rib&oldid=4498150",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADry-Aged+Prime+Rib&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-209878",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Dynamite_Shrimp",
+      "title": "Dynamite Shrimp",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "3 tbsp salt",
+        "3 tbsp freshly-ground black pepper",
+        "1 tbsp Cajun seasoning",
+        "1 tbsp cayenne pepper",
+        "2 ½ pounds peeled and deveined jumbo shrimp",
+        "Freshly-squeezed lemon juice",
+        "All-purpose flour",
+        "Cornmeal",
+        "2 quarts neutral oil, for frying"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Combine salt, pepper, Cajun seasoning, and cayenne. Set aside.",
+          "Dredge each shrimp in flour, dip in lemon juice, and then dip into cornmeal. Let sit 2–3 minutes.",
+          "Heat oil to 375°F. Add shrimp in batches, and cook about 2 minutes or until golden brown and cooked through. Drain on a wire rack.",
+          "Once all shrimp has been fried, toss with seasoning mixture. Serve immediately."
+        ],
+        "notes": [],
+        "pageId": 209878,
+        "revision": 4513121,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADynamite+Shrimp&oldid=4513121",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADynamite+Shrimp&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-135205",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Easy_Onion_Chicken",
+      "title": "Easy Onion Chicken",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1–1½ cups canned French-fried onions",
+        "1 egg, beaten",
+        "4 ea. (1–1½ pounds) boneless, skinless chicken breasts"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 400°F.",
+          "Crush French-fried onions.",
+          "Place beaten egg in medium wide bowl.",
+          "Cut chicken breasts into halves.",
+          "Dip chicken breasts in beaten egg.",
+          "Roll or dredge chicken breasts in onions.",
+          "Place on sprayed baking pan.",
+          "Bake 20–25 minutes until chicken is done."
+        ],
+        "notes": [
+          "An easy way to crush the onions is in a freezer strength plastic zip-closure bag, with a rolling pin. You can then just use the bag to coat the chicken breasts."
+        ],
+        "pageId": 135205,
+        "revision": 4524729,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEasy+Onion+Chicken&oldid=4524729",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEasy+Onion+Chicken&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-12402",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Egg_Casserole",
+      "title": "Egg Casserole",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "8 slices of bread",
+        "7–8 eggs",
+        "2 cups milk",
+        "1 stick butter, melted",
+        "2 cups diced ham",
+        "½ tsp salt",
+        "1 tablespoon prepared mustard",
+        "2 cups grated Velveeta cheese",
+        "1 dash each of red pepper, paprika, and garlic powder"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Put bread in a greased 9 x 13-inch pan.",
+          "Mix melted butter, milk, seasonings, and beaten eggs.",
+          "Pour mixture over bread.",
+          "Sprinkle with diced ham and top with grated cheese.",
+          "Refrigerate overnight.",
+          "Bake for 1 hour at 350°F."
+        ],
+        "notes": [
+          "Egg casserole is great at any time of the day and is good to serve when family gets together or in other large groups."
+        ],
+        "pageId": 12402,
+        "revision": 4613425,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEgg+Casserole&oldid=4613425",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEgg+Casserole&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-306075",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Ertesuppe_(Pea_Soup)",
+      "title": "Ertesuppe (Pea Soup)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "16 oz split yellow Swedish peas",
+        "12 cup water",
+        "2–3 lb smoked pork butt",
+        "1 large yellow onion, peeled and chopped",
+        "1 teaspoon black pepper",
+        "1 teaspoon salt",
+        "¼ teaspoon thyme"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Soak the dry peas overnight in about 4 cups of cold water.",
+          "Add 8 cups of water to the peas and soaking water. Simmer the peas in a pot until soft.",
+          "In a separate pot, boil the smoked butt for 40 minutes per pound.",
+          "Cut the smoked butt into small cubes, and add to the softened pea stock.",
+          "Add the onion and half the salt and pepper. Adjust to taste, and mix in the thyme.",
+          "Cook for at least 5 minutes together, adding water from the meat if the stock is too thick. Cook longer if it is too thin."
+        ],
+        "notes": [
+          "Ertesuppe (pea soup) is a soup using dry yellow Swedish split peas and the butt portion of ham.",
+          "Serve immediately, or chill and reheat for the next day. Serve as dinner course, or with bread for a simple meal."
+        ],
+        "pageId": 306075,
+        "revision": 4524739,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AErtesuppe+%28Pea+Soup%29&oldid=4524739",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AErtesuppe+%28Pea+Soup%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-205006",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Firecracker_Grilled_Shrimp",
+      "title": "Firecracker Grilled Shrimp",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "36 peeled and deveined shrimp (21/25 count)",
+        "½ recipe Firecracker Marinade"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Pour marinade into a gallon size zip-top bag. Add shrimp and toss to coat. Refrigerate for at least 30 minutes.",
+          "Drain shrimp and discard remaining marinade. Thread 4 shrimp onto each skewer.",
+          "Preheat your charcoal grill using a chimney starter, not lighter fluid to medium high. Reapply the grate and add shrimp. Cook, turning often, until shrimp is pink and slightly charred.",
+          "Remove shrimp from skewers and discard skewers. Serve warm."
+        ],
+        "notes": [],
+        "pageId": 205006,
+        "revision": 4508328,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFirecracker+Grilled+Shrimp&oldid=4508328",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFirecracker+Grilled+Shrimp&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-127733",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Fisherman%27s_Casserole",
+      "title": "Fisherman's Casserole",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 package (8 ounces) macaroni",
+        "½ pound grated cheddar cheese",
+        "⅔ cup milk",
+        "½ teaspoon dry mustard",
+        "½ cup chopped onion",
+        "1 can (10¾ ounces) cream of celery soup",
+        "1 teaspoon salt",
+        "1 can (14¾ ounces) salmon",
+        "1 bag (8 ounces) frozen peas",
+        "1 cup bread crumbs",
+        "2 tablespoons butter, melted"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F (175°C).",
+          "Cook macaroni according to package directions; drain.",
+          "In a large bowl, combine cheese, macaroni, milk, dry mustard, onion, soup, and salt.",
+          "Add salmon and frozen peas.",
+          "Place in a greased 9 x 13-inch pan.",
+          "Cover mixture with bread crumbs; drizzle with melted butter.",
+          "Bake for 45 minutes."
+        ],
+        "notes": [],
+        "pageId": 127733,
+        "revision": 4615179,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFisherman%27s+Casserole&oldid=4615179",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFisherman%27s+Casserole&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-28229",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Frikadeller_(Danish_Meatballs)",
+      "title": "Frikadeller (Danish Meatballs)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "250 grams (about 0.5 lb) ground veal",
+        "250 grams ground pork",
+        "1 large egg",
+        "1 onion, finely chopped",
+        "20% by volume (about ¾ cup) of bread crumbs",
+        "Pepper to taste",
+        "Salt to taste",
+        "Minced garlic (optional)",
+        "Ground parsley to taste",
+        "Butter"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Mix all ingredients except butter together.",
+          "Shape mixture into small patties.",
+          "Fry in hot skillet with lots of butter."
+        ],
+        "notes": [
+          "Frikadeller are as Danish as the Dannebrog. This is standard Danish fare, made of ground pork and veal and traditionally served with boiled potatoes, gravy and rødkål (braised red cabbage). Originally, this dish was made so that the meat would feed more people, and thus, the possibilities as to what can be added are numerous.",
+          "These can be frozen and reheated.",
+          "You can substitute bread crumbs with wheat germ and/or oat bran.",
+          "Any ingredient will work. Many people add a quantity of milk also, and the mixture is then thickened again with more flour, bread crumbs and/or oat bran."
+        ],
+        "pageId": 28229,
+        "revision": 4513507,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFrikadeller+%28Danish+Meatballs%29&oldid=4513507",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFrikadeller+%28Danish+Meatballs%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-140660",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Froga_(Maltese_Omelet)",
+      "title": "Froga (Maltese Omelet)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 medium potatoes, peeled",
+        "1 bunch of spring onions, chopped",
+        "100 g cooked lean beef or 200 g corned beef (optional), chopped very small and fine",
+        "Cheddar cheese, grated",
+        "1 handful of parsley, chopped fine",
+        "Salt",
+        "Pepper",
+        "6 eggs"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Boil potatoes, then mash them.",
+          "Place the mashed potatoes in a bowl and add the spring onions, beef, cheese, the parsley, salt, and pepper. Mix together, then add the eggs and mix everything together.",
+          "Heat some oil in a frying pan. Add 3 large spoonfuls of the mixture to the frying pan, and flatten them out to around 1 cm thick. Cook until golden brown.",
+          "Serve hot with salad and fresh buttered bread."
+        ],
+        "notes": [],
+        "pageId": 140660,
+        "revision": 4517803,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFroga+%28Maltese+Omelet%29&oldid=4517803",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFroga+%28Maltese+Omelet%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-417249",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Glorified_Mac_and_Cheese",
+      "title": "Glorified Mac and Cheese",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "250 g macaroni",
+        "30 g flour",
+        "45 g butter",
+        "240 ml milk",
+        "Salt to taste",
+        "Pepper to taste",
+        "140 g shredded cheese (e.g. cheddar, emmental, gruyère or whatever you like)",
+        "2 hot dogs, sliced",
+        "140 g frozen green vegetables (e.g. spinach, kale, broccoli, peas, or whatever you like)",
+        "2 fresh tomatoes, sliced",
+        "Grated Parmesan cheese",
+        "Paprika"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 180°C (350°F) and grease a casserole or baking dish.",
+          "On the stovetop, bring 2 liters (2 quarts) of salted water to a boil; add the macaroni and cook for 9 minutes or until al dente.",
+          "While the macaroni is cooking, start making the roux. Mix the flour and butter in a saucepan and heat over low heat, stirring until blended and bubbling.",
+          "Add the milk, salt and pepper and stir until thickened. Reduce heat to the lowest setting and add the cheese, sliced hotdogs, and frozen vegetables.",
+          "When the macaroni is done, drain and put in the greased dish. Pour the sauce over the noodles and stir till combined.",
+          "Arrange the tomato slices on top, then sprinkle grated parmesan and paprika over the tomato slices.",
+          "Bake for 40 minutes."
+        ],
+        "notes": [
+          "This recipe is based on a macaroni and cheese recipe, with additions of meat and vegetables to promote it from a side dish to a main course.",
+          "Instead of the hot dogs, you can use any other meat you like: ground beef (browned in a skillet first), bite-sized pieces of cooked chicken, canned tuna, and so on. For a vegetarian version, try diced tofu, textured vegetable protein (soy meat), chickpeas, brown lentils, etc."
+        ],
+        "pageId": 417249,
+        "revision": 4522770,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGlorified+Mac+and+Cheese&oldid=4522770",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGlorified+Mac+and+Cheese&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-202941",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Grilled_Cornish_Hens",
+      "title": "Grilled Cornish Hens",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 tbsp salt",
+        "1 tbsp freshly-ground black pepper",
+        "1 ½ tbsp cayenne pepper",
+        "1 ½ tbsp smoked paprika",
+        "2 tbsp lemon pepper",
+        "2 tsp dried rosemary",
+        "1 tbsp garlic powder",
+        "2 spatchcocked Cornish/Rock Game Hens",
+        "Bacon fat, melted"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Combine all seasonings.",
+          "Brush hens with bacon fat. Massage seasoning mixture into hens. Refrigerate for at least 1 hour.",
+          "Preheat a charcoal grill using a chimney.",
+          "Place hens on the grill. Grill them, turning constantly, until internal temperature of both the thigh and breast reach 165°F.",
+          "Remove hens from grill and let rest 10 minutes. Serve."
+        ],
+        "notes": [
+          "Do not use a solvent with the charcoal grill. It gives the food a chemical taste even if you follow the directions."
+        ],
+        "pageId": 202941,
+        "revision": 4506689,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Cornish+Hens&oldid=4506689",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Cornish+Hens&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-199769",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Grilled_Pork_Loin",
+      "title": "Grilled Pork Loin",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 Tbsp Dijon mustard",
+        "2 Tbsp cider vinegar",
+        "1 boneless pork loin roast",
+        "3 Tbsp Barbecue Rub"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Combine mustard and vinegar, and rub all over pork.",
+          "Coat pork evenly with the Barbecue Rub.",
+          "Grill on a preheated grill, turning often until internal temperature reaches 145°F (63˚C).",
+          "Remove and let rest for 10 minutes. Serve."
+        ],
+        "notes": [],
+        "pageId": 199769,
+        "revision": 4613363,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Pork+Loin&oldid=4613363",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Pork+Loin&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-24138",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Grilled_Portobello_Mushrooms",
+      "title": "Grilled Portobello Mushrooms",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 large portobello mushroom per person",
+        "Olive oil",
+        "Salt (as desired)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Remove stems from the mushrooms, then wash and dry them.",
+          "Brush with olive oil.",
+          "Grill for about 10 minutes, alternating sides, until both sides are grill-marked."
+        ],
+        "notes": [
+          "Portobello mushrooms are large mushrooms that can be prepared as a vegetarian entrée. They can substitute for hamburger patties, or be eaten alone.",
+          "When cooking on a barbecue, mixing the oil with a water based liquid (e.g. balsamic vinegar) will cause the fire to flare more and give the food more flavour; baste them as they cook.",
+          "Adding other flavours such as garlic and chilli works well. If you are in a hurry, just use vinaigrette dressing."
+        ],
+        "pageId": 24138,
+        "revision": 4610377,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Portobello+Mushrooms&oldid=4610377",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Portobello+Mushrooms&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-204716",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Grilled_Prime_Rib",
+      "title": "Grilled Prime Rib",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 ea. 4-bone standing beef rib roast",
+        "Prime Rib Seasoning",
+        "Olive oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Brush roast with olive oil. Season all sides liberally with the prime rib seasoning.",
+          "Place roast on a medium grill. Cook, turning often, until internal temperature reaches 135°F for medium rare, 145°F for medium, and 160°F for well/toast.",
+          "Remove and cover with aluminum foil. Let rest 10 minutes before serving."
+        ],
+        "notes": [],
+        "pageId": 204716,
+        "revision": 4498149,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Prime+Rib&oldid=4498149",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Prime+Rib&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-187741",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Grilled_Steak",
+      "title": "Grilled Steak",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 sirloin-cut beef steaks",
+        "1 pinch salt or seasoning salt",
+        "1 pinch garlic powder",
+        "1 pinch marjoram",
+        "1 pinch coriander",
+        "1 pinch thyme",
+        "1 pinch savory",
+        "1 pinch basil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "If steaks are frozen, thaw for about an hour before cooking.",
+          "Heat the grill to appropriate setting for barbecue (lower heat is better).",
+          "Sprinkle everything but the garlic powder and coriander on the steaks while grill is heating. Lightly shake on the garlic and coriander.",
+          "Grill the blank side of steak first for about 7–10 minutes, then flip and repeat.",
+          "Cook to desired doneness—for medium cook for about another 5 minutes after the first 14, depending on your heat setting. The internal temperature should be at least 145°F, followed by a 3 minute rest before serving."
+        ],
+        "notes": [],
+        "pageId": 187741,
+        "revision": 4507510,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Steak&oldid=4507510",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGrilled+Steak&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-243030",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Honey_Garlic_Chicken",
+      "title": "Honey Garlic Chicken",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 chicken breasts",
+        "Olive oil",
+        "Honey",
+        "¼–½ clove of garlic, minced"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Chop chicken into small pieces.",
+          "Coat frying pan with a thin layer of olive oil.",
+          "Add chicken pieces to frying pan.",
+          "Cover the chicken with honey and add garlic.",
+          "Cook over medium heat until the mixture thickens and darkens and the chicken is cooked. Don't let it go on too long or the sauce can burn."
+        ],
+        "notes": [],
+        "pageId": 243030,
+        "revision": 4505210,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHoney+Garlic+Chicken&oldid=4505210",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHoney+Garlic+Chicken&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-49653",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Honey_Mustard_Salmon",
+      "title": "Honey Mustard Salmon",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 salmon fillet (whatever size you like)",
+        "3 parts honey",
+        "2 parts coarse-grained mustard"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F/180°C.",
+          "Wash and pat dry the salmon fillet. Remove the pin bones (if there are any), and cut salmon into portions if desired.",
+          "Mix honey and mustard, and adjust mixture to taste.",
+          "Spread mixture generously over and under the salmon.",
+          "Cook in oven on top rack for about 15–18 minutes (depending on how you like your salmon cooked).",
+          "Finish under broiler for 2–3 minutes, but remove before glaze starts to char."
+        ],
+        "notes": [
+          "This is a simple recipe that takes no more than 40 minutes from fridge to table."
+        ],
+        "pageId": 49653,
+        "revision": 4613365,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHoney+Mustard+Salmon&oldid=4613365",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHoney+Mustard+Salmon&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112277",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Honey-Peppered_Salmon",
+      "title": "Honey-Peppered Salmon",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "¼ cup olive oil",
+        "1 tablespoon honey",
+        "2 tablespoons Dijon mustard",
+        "3 cloves garlic, minced",
+        "2 teaspoon cayenne",
+        "½ teaspoon ground coriander",
+        "2 tablespoons fresh lemon juice",
+        "salt, to taste",
+        "4 (6-ounce) (170 g) center-cut salmon fillets"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a shallow dish, combine oil, honey, mustard, garlic, cayenne, coriander, lemon juice, and salt. Mix well.",
+          "Add salmon and let marinate at room temperature for 30 minutes.",
+          "Preheat oven to 350°F (175˚C).",
+          "Grease a baking dish.",
+          "Remove salmon from marinade and place in the prepared dish.",
+          "Bake for 10–12 minutes or until desired \"doneness\"."
+        ],
+        "notes": [],
+        "pageId": 112277,
+        "revision": 4613398,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHoney-Peppered+Salmon&oldid=4613398",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHoney-Peppered+Salmon&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-207274",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Italian_Poached_Salmon",
+      "title": "Italian Poached Salmon",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "4 ea. (24 ounces) salmon filets, pin bones removed",
+        "¾ cup red wine",
+        "¼ cup tomato paste",
+        "1 tbsp capers, finely chopped",
+        "Salt",
+        "Freshly-ground black pepper",
+        "Flour",
+        "2 tbsp olive oil",
+        "1 tbsp minced garlic",
+        "1 tsp fresh rosemary",
+        "2 tsp fresh thyme",
+        "1 tbsp lemon pepper"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Combine wine, tomato paste, and capers. Set aside.",
+          "In a skillet large enough to hold all the salmon, heat 1 tbsp oil over medium high heat. Add garlic and cook until golden.",
+          "Add wine mixture to garlic. Reduce temperature to 145°F, then keep at 145°F.",
+          "Rub salmon with remaining oil. Press seasonings into meat, then dredge all sides in flour. Set aside.",
+          "Heat a nonstick skillet over high heat. Add 2 filets, skin side up, and cook until browned on all sides. Repeat with remaining salmon.",
+          "Move to 145°F wine mixture, then cook until fish is pink throughout and flakes easily when tested with a fork. Serve immediately."
+        ],
+        "notes": [],
+        "pageId": 207274,
+        "revision": 4508149,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AItalian+Poached+Salmon&oldid=4508149",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AItalian+Poached+Salmon&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-25427",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Jambalaya_I",
+      "title": "Jambalaya I",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 bay leaf",
+        "½ teaspoon savory",
+        "½ teaspoon salt",
+        "1 teaspoon dried basil",
+        "1 teaspoon thyme",
+        "1½ teaspoons cumin",
+        "⅓ cup chopped celery",
+        "½ tablespoon butter",
+        "14.5 ounces canned tomatoes, diced or torn apart",
+        "⅔ cup long-grain rice",
+        "1½ cups chicken broth",
+        "2 cups cooked and chopped turkey or chicken",
+        "1 small can of sliced mushrooms (optional), drained"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Mix the salt, savory, basil, thyme, and cumin together, then grind them to a powder.",
+          "Prepare the canned tomatoes: tear them up, remove the stem ends, remove the seeds, etc. Keep the juice.",
+          "Heat a wide pan with a lid. Lightly fry the celery in the butter. Soften the celery but do not brown it.",
+          "Add everything to the pan. You can add the basil, meat, and mushrooms later if you prefer.",
+          "Bring to a boil, then cover and simmer for about 20 minutes. The rice will absorb the liquid.",
+          "Discard the bay leaf."
+        ],
+        "notes": [
+          "Jambalaya, one of Louisiana's most famous dishes, is rooted in Spanish and French cuisine and is the New World version of paella.",
+          "Jambalaya originated in the French Quarter of New Orleans. It was the accidental result of Spaniards attempting to make paella in the New World where saffron was not readily available due to import costs. Consequently, tomatoes became the substitute for saffron.[1]",
+          "As time went on, French influence became strong in New Orleans, and spices from the Caribbean changed this New World paella into a unique dish. In modern Louisiana, the dish has evolved into many variations but primarily there are two types of Jambalaya: Creole and Cajun.",
+          "Creole Jambalaya, also called red Jambalaya, is found primarily in and around New Orleans and is made with tomatoes which make it red.[2] Cajun Jambalaya, which has no tomatoes, originated in Louisiana's rural, low-lying swamp country. It has a distinct smokey flavor and brown color, the result of browning the meat in a cast iron pot.[3] Both versions can contain virtually any kind of meat and/or seafood but crayfish (called crawfish in Louisiana) is a popular inclusion.",
+          "This famous dish is surprisingly simple to prepare and works well as an everyday meal. The below Creole Jambalaya recipe includes poultry and canned tomatoes."
+        ],
+        "pageId": 25427,
+        "revision": 4610544,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AJambalaya+I&oldid=4610544",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AJambalaya+I&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-257890",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Kabab_Barg_(Persian_Grilled_Meat)",
+      "title": "Kabab Barg (Persian Grilled Meat)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "Olive oil",
+        "3 onions",
+        "Garlic",
+        "½ teaspoon saffron",
+        "Salt",
+        "Black pepper",
+        "1 kg lamb, cut into 1 x 5 cm pieces"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Combine the olive oil, onions, garlic, saffron, salt, and pepper to make the marinade.",
+          "Toss the lamb pieces with the marinade. Cover, and marinate overnight in the refrigerator.",
+          "Thread the lamb onto metal skewers.",
+          "Brush the lamb with the marinade. Grill for 5–10 minutes on each side over an open fire."
+        ],
+        "notes": [
+          "This kebab is prepared by marinating meat overnight and grilling it over an open fire. It is usually served with polo (white rice) or naan."
+        ],
+        "pageId": 257890,
+        "revision": 4516302,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKabab+Barg+%28Persian+Grilled+Meat%29&oldid=4516302",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKabab+Barg+%28Persian+Grilled+Meat%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-483723",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Kachumbari",
+      "title": "Kachumbari",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "4 large ripe tomatoes, diced",
+        "1 large red onion, thinly sliced",
+        "1 cucumber (optional), peeled and diced",
+        "1–2 fresh green chiles (optional), finely chopped",
+        "2 tablespoons chopped fresh coriander (cilantro)",
+        "Juice of 1 lemon or lime",
+        "½ tablespoons salt",
+        "¼ tablespoons black pepper (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Gently toss together all the ingredients in a mixing bowl until well-distributed.",
+          "Allow the salad to rest for 5–10 minutes.",
+          "Taste the salad and adjust the seasoning as needed.",
+          "Serve fresh."
+        ],
+        "notes": [
+          "Kachumbari is a fresh East African salad made from tomatoes, onions, and chile peppers, often served as a side dish with grilled meats, rice dishes, bread, or stews. The dish is similar to pico de gallo and Indian kachumber, although regional ingredients and preparation methods vary.",
+          "If desired, additional ingredients such as avocado, mango, or bell pepper can be added.",
+          "The quantity of chiles can be adjusted to taste, depending on spice preference. Fresh lemon or lime juice gives a brighter flavor than bottled juice.",
+          "Select tomatoes that are fully ripe but still firm.",
+          "To reduce the sharp flavor of the onions, try soaking them for a few minutes in cold water before draining and incorporating them into the salad.",
+          "Prepare kachumbari shortly before serving to keep it fresh and crisp. Do not refrigerate for long periods, as the tomatoes may become watery."
+        ],
+        "pageId": 483723,
+        "revision": 4640040,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKachumbari&oldid=4640040",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKachumbari&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-180338",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Kasnocken_(Austrian_Cheese_Dumplings)",
+      "title": "Kasnocken (Austrian Cheese Dumplings)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "¼ L water",
+        "2 eggs",
+        "1 cup all-purpose flour",
+        "¼ cup butter",
+        "120 g fatty cheese plus 120 g low-fat cheese OR 250 g Pinzgauer Bierkäse cheese",
+        "Salt",
+        "Pepper",
+        "1 big onion, cut into rings",
+        "1 bunch of chives, finely chopped"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Mix flour, eggs, water, and salt carefully to get a dough; it should neither be stiff nor too soft.",
+          "Pass the dough through a special press for dumplings into boiling, salted water.",
+          "Boil the small dumplings for about 3 minutes, then drain and rinse them with cold water.",
+          "Melt the butter in a pan, add the dumplings, and season them with salt and pepper.",
+          "Gradually add the grated cheese and stir vigorously.",
+          "When all of the cheese has melted, heat butter in another pan, add the onion rings, and fry them until they become golden brown.",
+          "Top the dumplings with the onion rings and chives."
+        ],
+        "notes": [
+          "Kasnocken are small dumplings combined with melted cheese. In Germany, \"Nocken\" are called \"Spaetzle\". They have their origins in Schwaben, a region in Southern Germany, and are served as a side dish to roasts. People from Austria and from the Allgaeu, a district of Bavaria next to the Austrian border, refined the original Spaetzle and made up their own variety. They added cheese instead of meat and thus created a main dish. In Germany, this dish is called \"Kaesspaetzle\", whereas in Austria it is called \"Kasnocken\". Today, the Pinzgauer Kasnocken are probably the most famous type of cheese dumplings in Austria, and they are popular among both locals and tourists.",
+          "In Salzburg, Kasnocken are traditionally made with the Bierkäse produced in the region of Pinzgau. However, it is also possible to use other sorts of cheese. In order to gain the best possible taste, connoisseurs recommend to prepare and serve the dish in a cast-iron pan. This is usually done in ski lodges and restaurants in the Pinzgau region. The final result, however, mainly depends on one's individual taste; the type of cheese, the amount of onions, and the spices will define the final flavor of the dish. However it is prepared, those who like cheese, will love Kasnocken. And perhaps even those who usually do not like cheese, will relish this traditional Austrian dish.",
+          "Kasnocken are usually served with lettuce and a glass of milk. Since this fare is rather hard to digest, especially for people not used to such opulent meals, the meal may be rounded off with a schnaps."
+        ],
+        "pageId": 180338,
+        "revision": 4511373,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKasnocken+%28Austrian+Cheese+Dumplings%29&oldid=4511373",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKasnocken+%28Austrian+Cheese+Dumplings%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-412243",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Khao_Pad_(Thai_Fried_Rice)",
+      "title": "Khao Pad (Thai Fried Rice)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1 tablespoon vegetable oil",
+        "1 tablespoon minced garlic",
+        "2 eggs",
+        "2 cups cooked rice, cooled",
+        "1 tablespoon fish sauce",
+        "1 tablespoon soy sauce",
+        "1 cup cooked meat (e.g. shrimp, pork, chicken, etc.)",
+        "2 teaspoons sugar",
+        "½ teaspoon ground black pepper",
+        "Spring onion as desired, sliced"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Heat up a frying pan or wok and add the oil, then the minced garlic. Stir fry until fragrant.",
+          "Add the eggs, and stir fry the eggs until cooked.",
+          "Add the rice and stir fry.",
+          "Season with fish sauce, soy sauce, and sugar, then continue frying until the rice is crumbly.",
+          "Add meat, pepper, and spring onions. Stir again until heated through, then transfer to a serving dish."
+        ],
+        "notes": [
+          "Khao pad is Thai fried rice."
+        ],
+        "pageId": 412243,
+        "revision": 4512943,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKhao+Pad+%28Thai+Fried+Rice%29&oldid=4512943",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKhao+Pad+%28Thai+Fried+Rice%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-22970",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Lancashire_Hotpot",
+      "title": "Lancashire Hotpot",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 lb neck of lamb or mutton",
+        "2 large potatoes, sliced",
+        "1 large or 2 small white onions, diced",
+        "Choice of mixed herbs",
+        "500 ml boiling water"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Dice the lamb and set aside. Preheat oven to 325°F / 170°C / Gas mark 3.",
+          "Add a layer of the potatoes to the bottom of a casserole dish, and cover with a handful of the diced onion. Layer the diced lamb on top of this, sprinkling with the herbs.",
+          "Repeat these layers until the dish is full. Top with a final layer of the potatoes.",
+          "Pour boiling water into the dish until filled—if more water is needed, continue to add until topped.",
+          "Bake for at least 1 hour, though traditionally the dish was left baking all day. Mutton will require a longer cooking time."
+        ],
+        "notes": [
+          "Lancashire hotpot, originating from England, is a very easy but delicious baked dish consisting of lamb, onions, potatoes, and herbs.",
+          "A handful of mixed vegetables such as parsnips, turnips, leek or carrots can be added to the dish. It is worth experimenting to find out what combination of flavours you prefer.",
+          "The dish has occasionally been known to be cooked with oysters or with small birds such as snipe, when they were available.",
+          "Flavour can be improved by adding a stock cube or instant gravy granules to the boiling water."
+        ],
+        "pageId": 22970,
+        "revision": 4497923,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALancashire+Hotpot&oldid=4497923",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALancashire+Hotpot&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-247174",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Lechon_Paksiw_(Pork_Roast_Leftovers_in_Sweet_and_Sour_Sauce)",
+      "title": "Lechon Paksiw (Pork Roast Leftovers in Sweet and Sour Sauce)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "1–3 lbs roast pork leftovers",
+        "6–12 cups water",
+        "½ cup cane vinegar",
+        "⅓ cup soy sauce",
+        "1–2 cups liver sauce",
+        "1 head of garlic, cloves crushed",
+        "1–2 tbsp coarse black pepper",
+        "1–2 tbsp brown sugar",
+        "1 banana blossom",
+        "½ cup corn starch (mixed with ½ cup water)",
+        "1 bay leaf"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a large pot, heat 12 cups of water to a brisk boil on high heat.",
+          "Reduce heat to low.",
+          "Add in roast pork leftovers, and all dry ingredients (garlic, black pepper, brown sugar, banana blossom, bay leaf), allow to sit for 30 minutes.",
+          "Once all pieces of the leftover pork is tender (almost falling off the bone), add in vinegar, liver sauce and soy sauce. Let sit for 15 minutes.",
+          "Add in diluted cornstarch to thicken sauce."
+        ],
+        "notes": [
+          "If you have ever hosted a true Filipino party whether it be a birthday, wedding or a community fiesta (feast) then you would know that a party is never complete without Roast Pig or Roast Suckling Pig.",
+          "Oftentimes in these occasions there will be many leftovers of the roast pig mainly around the spine area, ribs and head. This is a great way to economize and reinvent a dish served for yet another day or two."
+        ],
+        "pageId": 247174,
+        "revision": 4506562,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALechon+Paksiw+%28Pork+Roast+Leftovers+in+Sweet+and+Sour+Sauce%29&oldid=4506562",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALechon+Paksiw+%28Pork+Roast+Leftovers+in+Sweet+and+Sour+Sauce%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-457483",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Liberian_Collard_Greens_Stew",
+      "title": "Liberian Collard Greens Stew",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "2 tablespoons vegetable oil",
+        "1 onion, finely chopped",
+        "2 cloves of garlic, minced",
+        "1 tomato, diced",
+        "1 red bell pepper, diced",
+        "1 green bell pepper, diced",
+        "1 teaspoon ground paprika",
+        "½ teaspoon ground cayenne pepper (optional, for heat)",
+        "1 bunch of fresh collard greens, washed and chopped",
+        "Salt, to taste",
+        "2 cups vegetable broth (or water)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "In a large pot, heat the vegetable oil over medium heat.",
+          "Add the chopped onion and minced garlic to the pot. Sauté until the onion becomes translucent and the garlic becomes fragrant.",
+          "Stir in the diced tomato, red bell pepper, and green bell pepper. Cook for a few minutes until the vegetables are softened.",
+          "Add the chopped collard greens to the pot and mix well with the sautéed vegetables.",
+          "Season the stew with ground paprika, ground cayenne pepper (if using), and salt to taste. Stir to coat the collard greens and vegetables with the spices.",
+          "Pour in the vegetable broth (or water) to the pot, ensuring that the collard greens are well covered.",
+          "Cover the pot and let the stew simmer on low heat for about 30–40 minutes, or until the collard greens are tender and flavorful.",
+          "Taste and adjust the seasoning if needed, adding more salt or spices according to your preference.",
+          "Serve as a main dish with rice or bread, and enjoy."
+        ],
+        "notes": [
+          "Liberian collard green stew is a hearty and flavorful dish that is a staple in Liberian cuisine. Made with tender collard greens and a rich tomato-based sauce, this stew is both nutritious and delicious. It can be served as a main course with rice or bread, and it's perfect for sharing with family and friends.",
+          "You can add other vegetables like carrots or sweet potatoes to the stew for extra flavor and nutrition.",
+          "For a richer taste, you can add some coconut milk to the stew during cooking.",
+          "Leftover stew can be stored in an airtight container in the refrigerator for up to 3 days. Reheat before serving."
+        ],
+        "pageId": 457483,
+        "revision": 4518641,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALiberian+Collard+Greens+Stew&oldid=4518641",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALiberian+Collard+Greens+Stew&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-161253",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Liver_Kebabs",
+      "title": "Liver Kebabs",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Main",
+      "categoryEvidenceAt": "2026-10-30T23:32:21.805180+00:00",
+      "ingredients": [
+        "½ kg liver",
+        "1 tsp paprika",
+        "Salt",
+        "Pepper",
+        "1 handful fresh coriander, finely chopped",
+        "2–3 cloves garlic, minced (optional)",
+        "1 tbsp sunflower or olive oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+      "method": {
+        "steps": [
+          "Cut the liver into small cubes about 1 cm square, and put them in a container.",
+          "Add paprika, some salt and pepper, chopped coriander, minced garlic, and oil to the liver.",
+          "Mix this all together and leave to marinate for 30 minutes or more.",
+          "Slide the meat onto skewers, and grill to preferred level of char."
+        ],
+        "notes": [
+          "Liver kebabs taste very good and are ideal for feeding young children liver as long as you don't tell them beforehand what it is. Served with fresh bread and Moroccan Salad, the kebabs make a nice meal.",
+          "In Morocco every home has a shallow round clay pot that is filled with charcoal and used to grill meat and, in many homes, to cook the tagines on. Meat is put onto skewers and then held in a metal griller and cooked over the charcoal. As most Moroccan homes have an outdoor room (patio) everyone just sits round and eats as the meat comes off the grill. No need to wait for good weather to get the barbecue out!"
+        ],
+        "pageId": 161253,
+        "revision": 4516307,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALiver+Kebabs&oldid=4516307",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALiver+Kebabs&action=history",
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
