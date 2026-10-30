@@ -34,12 +34,15 @@ test('collected recipes keep rows beyond twenty through backup, portions and sho
  const bad={...store,saved:{[meal.idMeal]:{meal:{...meal,selectedRecipe:{...record,url:'https://evil.test/recipe'}},wanted:true}}};
  assert.throws(()=>parseBackup(exportBackup(bad)),/invalid.*recipe|invalid.*record/i);
 });
-test('ingredient references expose actual image plus complete adjacent credits and escape all labels',async()=>{
+test('ingredient references render photo-only tiles, retain credits in metadata, and escape labels',async()=>{
  const {ingredientReference}=await import('../src/ingredient-reference.js');
  const photo={id:'garlic',label:'Garlic <fresh>',creator:'Cook & photographer',verified:true,aliases:['garlic'],form:'whole',url:'https://upload.wikimedia.org/garlic.jpg',filePage:'https://commons.wikimedia.org/wiki/File:Garlic.jpg',licence:'CC BY 4.0',licenceUrl:'https://creativecommons.org/licenses/by/4.0/',creditLinks:[{label:'Original source',url:'https://example.org/credit'}]};
- const html=ingredientReference('garlic',[photo]);assert.match(html,/<img /);assert.match(html,/https:\/\/example.org\/credit/);assert.match(html,/Garlic &lt;fresh&gt;/);assert.doesNotMatch(html,/<fresh>/);
- assert.match(ingredientReference('mystery ingredient',[photo]),/Photo not verified/);
- assert.match(ingredientReference('garlic',[{...photo,creditLinks:[{label:'bad',url:'javascript:alert(1)'}]}]),/Photo not verified/);
+  const {ingredientPhotoCredits}=await import('../src/ingredient-photos.js');
+  const html=ingredientReference('garlic',[photo]);assert.match(html,/<img /);assert.doesNotMatch(html,/figcaption|https:\/\/example.org\/credit/);
+  assert.deepEqual(ingredientPhotoCredits(photo),[{label:'Original source',url:'https://example.org/credit'}]);
+  assert.match(html,/Garlic &lt;fresh&gt;/);assert.doesNotMatch(html,/<fresh>/);
+  assert.match(ingredientReference('mystery ingredient',[photo]),/No photo/);
+  assert.match(ingredientReference('garlic',[{...photo,creditLinks:[{label:'bad',url:'javascript:alert(1)'}]}]),/No photo/);
 });
 test('all 1008 collected recipes remain editable and restorable at the former pretty-backup boundary',async()=>{
  const {collectedMeal,toggleCollectedFlag}=await import('../src/selected-kitchen.js');
