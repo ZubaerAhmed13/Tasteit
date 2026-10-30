@@ -5,7 +5,7 @@ on:
       target_total:
         description: 'Target total complete licensed recipes (50–150)'
         required: true
-        default: '100'
+        default: '150'
         type: choice
         options: ['100','150']
   push:
@@ -36,7 +36,7 @@ jobs:
           node-version: '22'
       - name: Collect reviewed Wikibooks content, preserving all existing complete recipes
         env:
-          TARGET_TOTAL: ${{ inputs.target_total || '100' }}
+          TARGET_TOTAL: ${{ inputs.target_total || '150' }}
         run: |
           python3 scripts/collect-complete-recipes.py --append --limit "$TARGET_TOTAL" --min-new 10 --cache /tmp/tasteit-licensed-sources
       - name: Verify original publisher catalogue, licensed recipes, app and build
