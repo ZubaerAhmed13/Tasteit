@@ -52,6 +52,10 @@ jobs:
           git add data/complete-recipes.json docs/recipes/complete-recipes-license.md
           if ! git diff --cached --quiet; then
             git commit -m "data: append validated CC BY-SA complete recipes with pinned revisions"
+            # Other draft-branch commits (for example photo improvements) must survive.
+            # Rebase normally; never force-push or overwrite another contributor.
+            git fetch origin feat/recipe-kitchen-foundation
+            git rebase origin/feat/recipe-kitchen-foundation
             git push origin HEAD:refs/heads/feat/recipe-kitchen-foundation
           fi
       - name: Upload source verification attempts
