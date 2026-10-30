@@ -3397,6 +3397,32 @@
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "Collage of six mustard-related pictures:\nupper left: white mustard seeds\nupper right: white mustard, ground\ncenter left: simple table mustard, with turmeric coloring\ncenter right: Bavarian sweet mustard\nlower left: Dijon mustard\nlower right: Rough French mustard made mainly from black mustard seeds",
       "form": "seeds-powder-prepared-comparison"
+    },
+    {
+      "id": "tofu",
+      "label": "Tofu",
+      "aliases": [
+        "tofu",
+        "firm tofu",
+        "bean curd"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Tofu_%2810059729405%29.jpg/250px-Tofu_%2810059729405%29.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Tofu_(10059729405).jpg",
+      "creator": "United Soybean Board",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "verified": true,
+      "checkedAt": "2026-10-30",
+      "changes": "Wikimedia-generated thumbnail; no other changes.",
+      "description": "An unseasoned block of tofu photographed on a light background.",
+      "exclusions": [
+        "silken tofu",
+        "soft tofu",
+        "tofu skin",
+        "tofu puffs",
+        "fermented tofu",
+        "fried tofu"
+      ]
     }
   ]
 }
