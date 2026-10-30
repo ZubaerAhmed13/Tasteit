@@ -1431,6 +1431,16 @@ document.addEventListener('click', async event => {
   if(action==='account-sign-out') {cloudSync?.disconnect();if(hostAuth){await hostAuth.submit('sign-out');document.querySelector('.account-status')?.focus({preventScroll:true});}return;}
   if(['plan-previous','plan-next','plan-today'].includes(action)){planWeekOffset=action==='plan-today'?0:Math.max(-52,Math.min(52,planWeekOffset+(action==='plan-next'?1:-1)));render();appRoot.querySelector('[data-action="'+action+'"]')?.focus();return;}
   const id = button.dataset.id;
+  if(action==='own-method-clear') {
+    if(!selectedMeal||!collectedRecipe(selectedMeal)||completeMethod(collectedRecipe(selectedMeal)))return;
+    const mealId=selectedMeal.idMeal,existing=savedEntry(mealId);
+    if(!existing.ownMethod||!window.confirm('Remove your saved personal steps for this recipe? This also resets its cooking progress.'))return;
+    const entry={...existing};delete entry.ownMethod;
+    const saved={...store.saved},sessions={...store.cookingSessions};delete sessions[mealId];
+    if(flags(entry)||Object.values(store.plan).includes(mealId))saved[mealId]=entry;else delete saved[mealId];
+    if(!persistStore({...store,saved,cookingSessions:sessions})){notice('Could not update your cooking steps. Nothing changed.');return;}
+    store.saved=saved;store.cookingSessions=sessions;stepIndex=-1;render();notice('Your personal steps were removed; the original publisher link remains.');return;
+  }
   const personalMeal=button.closest('[data-personal-recipe]')?personalRecipeCards.get(id):null;
   if(action==='discovery-page'){discoveryChoice={...discoveryChoice,page:Number(button.dataset.page)};writeRoute();render();document.getElementById('discovery-page-status')?.focus({preventScroll:true});document.getElementById('discovery-results-title')?.scrollIntoView({block:'start'});return;}
   if(action==='use-soon'){void discover('filters',{query:id,area:'',category:'',letter:'',scope:'collection',source:'',course:'',sort:'title',ratedOnly:false});return;}
@@ -1927,6 +1937,21 @@ document.addEventListener('submit', event => {
     render();
     document.getElementById('cookbook-query')?.focus();
     return;
+  }
+  if(event.target.id==='own-method-form') {
+    event.preventDefault();
+    if(!selectedMeal||!collectedRecipe(selectedMeal)||completeMethod(collectedRecipe(selectedMeal)))return;
+    const method=String(new FormData(event.target).get('ownMethod')||'').replace(/\r\n/g,'\n').trim();
+    const lines=method.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+    if(!method||method.length>12000||!lines.length||lines.length>100||lines.some(x=>x.length>1000)) {
+      notice('Use 1–100 cooking steps, one per line, each under 1,000 characters.');return;
+    }
+    const id=selectedMeal.idMeal,saved={...store.saved,[id]:{...savedEntry(id),meal:selectedMeal,ownMethod:lines.join('\n')}};
+    const sessions={...store.cookingSessions};delete sessions[id];
+    if(!persistStore({...store,saved,cookingSessions:sessions})){notice('Could not save the steps. Your previous copy is unchanged.');return;}
+    store.saved=saved;store.cookingSessions=sessions;stepIndex=-1;render();
+    overlayRoot.querySelector('#own-method-input')?.focus({preventScroll:true});
+    notice('Your own cooking steps are saved with this recipe for offline use.');return;
   }
   if (event.target.id === 'recipe-tag-form') {
     event.preventDefault();
