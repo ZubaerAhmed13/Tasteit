@@ -264,6 +264,7 @@ export function parseBackup(text) {
   if (!pantry.every(item => item && typeof item.name === 'string' && item.name.length <= 150) ||
       !Object.entries(saved).every(([key, entry]) => key.length < 220 && entry && typeof entry === 'object' &&
         entry.meal && typeof entry.meal.strMeal === 'string' && entry.meal.strMeal.length <= 200 &&
+        (entry.ownMethod===undefined||(typeof entry.ownMethod==='string'&&entry.ownMethod.length<=12000&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(entry.ownMethod))) &&
         (entry.meal.selectedRecipe===undefined||Boolean(collectedRecipe(entry.meal))&&key===entry.meal.idMeal)) ||
       !Object.entries(plan).every(([key, id]) => validPlanKey(key) && (backup.version===2||key.length===10) && typeof id === 'string')) {
     throw new Error('The backup contains invalid records.');
