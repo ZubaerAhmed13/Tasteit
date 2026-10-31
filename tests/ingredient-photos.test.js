@@ -238,3 +238,9 @@ test('new licensed photos match real raw ingredients without assigning the wrong
   assert.ok(!['miso-paste','bean-sprouts-general','sesame-seeds-toasted'].includes(found?.id),'must not use a different food form: '+line);
  }
 });
+
+test('verified public-domain black pepper never gets confused with peppercorns, other peppers or mixed seasoning',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const line of ['ground black pepper','freshly ground black pepper','ground pepper'])assert.equal(ingredientPhoto(line,p)?.id,'ground-black-pepper',line);
+ for(const line of ['whole peppercorns','white pepper','bell pepper','salt and freshly ground black pepper','cayenne pepper'])assert.notEqual(ingredientPhoto(line,p)?.id,'ground-black-pepper',line);
+});
