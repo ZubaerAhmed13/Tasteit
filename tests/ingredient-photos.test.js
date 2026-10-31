@@ -231,16 +231,21 @@ test('high-frequency cooking photo additions are specific and never substitute a
 
 test('new licensed photos match real raw ingredients without assigning the wrong prepared food',async()=>{
  const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
- const cases=[['1 tbsp miso paste','miso-paste'],['1 tbsp miso','miso-paste'],['toasted sesame seeds','sesame-seeds-toasted'],['roasted sesame seeds','sesame-seeds-toasted'],['fresh bean sprouts','bean-sprouts-general']];
+ const cases=[['1 tbsp miso paste','miso-paste'],['1 tbsp miso','miso-paste'],['toasted sesame seeds','sesame-toasted'],['roasted sesame seeds','sesame-toasted'],['fresh bean sprouts','bean-sprouts-general']];
  for(const [line,id] of cases)assert.equal(ingredientPhoto(line,p)?.id,id,line);
  for(const line of ['red miso','white miso','miso soup','sesame oil','cooked bean sprouts','toasted sesame oil']) {
   const found=ingredientPhoto(line,p);
-  assert.ok(!['miso-paste','bean-sprouts-general','sesame-seeds-toasted'].includes(found?.id),'must not use a different food form: '+line);
+  assert.ok(!['miso-paste','bean-sprouts-general','sesame-toasted'].includes(found?.id),'must not use a different food form: '+line);
  }
 });
 
 test('verified public-domain black pepper never gets confused with peppercorns, other peppers or mixed seasoning',async()=>{
  const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
- for(const line of ['ground black pepper','freshly ground black pepper','ground pepper'])assert.equal(ingredientPhoto(line,p)?.id,'ground-black-pepper',line);
- for(const line of ['whole peppercorns','white pepper','bell pepper','salt and freshly ground black pepper','cayenne pepper'])assert.notEqual(ingredientPhoto(line,p)?.id,'ground-black-pepper',line);
+ for(const line of ['ground black pepper','freshly ground black pepper','ground pepper'])assert.equal(ingredientPhoto(line,p)?.id,'black-pepper',line);
+ for(const line of ['whole peppercorns','white pepper','bell pepper','salt and freshly ground black pepper','cayenne pepper'])assert.notEqual(ingredientPhoto(line,p)?.id,'black-pepper',line);
+});
+
+test('every approved ingredient reference uses a distinct original Commons file',async()=>{
+ const photos=await actualRegistry(),seen=new Set();
+ for(const photo of photos){assert.ok(!seen.has(photo.filePage),'duplicate Commons photo: '+photo.id);seen.add(photo.filePage);}
 });
