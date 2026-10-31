@@ -3825,6 +3825,36 @@
       "verified": true,
       "checkedAt": "2026-10-31",
       "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
+    },
+    {
+      "id": "ground-black-pepper",
+      "label": "Ground black pepper",
+      "aliases": [
+        "ground black pepper",
+        "ground pepper",
+        "freshly ground black pepper",
+        "black pepper powder"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Spilled_Pepper.jpg/250px-Spilled_Pepper.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Spilled_Pepper.jpg",
+      "creator": "Bryanwake",
+      "licence": "Public domain",
+      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Spilled_Pepper.jpg",
+      "form": "ground",
+      "exclusions": [
+        "black peppercorns",
+        "whole peppercorns",
+        "white pepper",
+        "red pepper",
+        "cayenne pepper",
+        "bell pepper",
+        "ground paprika",
+        "black pepper sauce"
+      ],
+      "description": "Ground black pepper, not whole peppercorns or a different pepper variety.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Unmodified Commons thumbnail; original attribution is on the credits page."
     }
   ]
 }
