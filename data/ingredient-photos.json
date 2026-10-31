@@ -3745,6 +3745,84 @@
       "verified": true,
       "checkedAt": "2026-10-31",
       "changes": "Wikimedia-generated thumbnail; no other changes."
+    },
+    {
+      "id": "sesame-seeds-toasted",
+      "label": "Toasted sesame seeds",
+      "aliases": [
+        "toasted sesame seeds",
+        "roasted sesame seeds",
+        "toasted sesame seed",
+        "roasted sesame seed"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Toasted_sesame_seeds_1.jpg/250px-Toasted_sesame_seeds_1.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Toasted_sesame_seeds_1.jpg",
+      "creator": "dabok2014",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "form": "toasted",
+      "exclusions": [
+        "sesame oil",
+        "sesame paste",
+        "tahini",
+        "black sesame seeds"
+      ],
+      "description": "Toasted sesame seeds, not raw seeds or sesame oil.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
+    },
+    {
+      "id": "miso-paste",
+      "label": "Miso paste",
+      "aliases": [
+        "miso",
+        "miso paste",
+        "white miso",
+        "red miso"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Miso_001.jpg/250px-Miso_001.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Miso_001.jpg",
+      "creator": "PublicDomainQ",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "form": "paste",
+      "exclusions": [
+        "miso soup",
+        "miso broth",
+        "miso powder",
+        "shiro dashi",
+        "dashi stock"
+      ],
+      "description": "Miso soybean paste, not a prepared soup.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
+    },
+    {
+      "id": "bean-sprouts-general",
+      "label": "Bean sprouts",
+      "aliases": [
+        "bean sprouts",
+        "bean sprout",
+        "fresh bean sprouts"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Bean_sprouts.jpg/250px-Bean_sprouts.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Bean_sprouts.jpg",
+      "creator": "Ronggy",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "form": "raw",
+      "exclusions": [
+        "cooked bean sprouts",
+        "bean sprout soup",
+        "soybean sprouts",
+        "bean sprouts pancake"
+      ],
+      "description": "Fresh mung bean sprouts.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
     }
   ]
 }
