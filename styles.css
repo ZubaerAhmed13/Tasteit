@@ -77,7 +77,7 @@ h3 { font-size: 24px }
 .recipe-title { display:block; text-align:left; border:none; background:transparent; padding:0; color:var(--ink); font-family:Georgia,serif; font-weight:600; font-size:19px; letter-spacing:-.015em; line-height:1.25 }
 .recipe-title:hover { text-decoration:underline }
 .recipe-meta { color:var(--muted); font-size:12px; display:flex; gap:8px; flex-wrap:wrap }
-.card-bottom { display:flex; align-items:center; justify-content:space-between; border-top:1px solid #f0f0eb; padding-top:11px; gap:8px }
+.card-bottom { display:flex; align-items:center; justify-content:flex-end; border-top:1px solid #f0f0eb; padding-top:11px; gap:8px }
 .source-line { font-size:10px; color:#626f65; letter-spacing:.03em }
 .quick-save { border:1px solid #e1e6dd; background:#fff; border-radius:9px; min-height:31px; padding:6px 10px; font-size:12px; font-weight:700; color:var(--forest) }
 .quick-save.saved { border-color:#eed0c3; color:#a34932; background:#fff2ed }
