@@ -228,3 +228,13 @@ test('high-frequency cooking photo additions are specific and never substitute a
   assert.ok(found?.id!=='cooking-oil-general'&&found?.id!=='curry-leaves-fresh'&&found?.id!=='dijon-mustard'&&found?.id!=='thyme-dried'&&found?.id!=='cinnamon-ground','wrong form must not be shown: '+line);
  }
 });
+
+test('new licensed photos match real raw ingredients without assigning the wrong prepared food',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ const cases=[['1 tbsp miso paste','miso-paste'],['1 tbsp miso','miso-paste'],['toasted sesame seeds','sesame-seeds-toasted'],['roasted sesame seeds','sesame-seeds-toasted'],['fresh bean sprouts','bean-sprouts-general']];
+ for(const [line,id] of cases)assert.equal(ingredientPhoto(line,p)?.id,id,line);
+ for(const line of ['red miso','white miso','miso soup','sesame oil','cooked bean sprouts','toasted sesame oil']) {
+  const found=ingredientPhoto(line,p);
+  assert.ok(!['miso-paste','bean-sprouts-general','sesame-seeds-toasted'].includes(found?.id),'must not use a different food form: '+line);
+ }
+});
