@@ -11,6 +11,7 @@ try{
  await context.addInitScript(data=>{if(!localStorage.getItem('tasteit.local.v1'))localStorage.setItem('tasteit.local.v1',JSON.stringify(data));},seed);
  await context.route(/https:\/\//,r=>r.abort());
  await page.goto(base);await page.locator('[data-action=complete-recipes]').click();await page.waitForFunction(()=>new URL(location.href).searchParams.get('source')==='wikibooks');await page.locator('.recipe-card').first().waitFor();
+ assert.equal(await page.locator('.recipe-card .source-line').count(),0,'recipe cards show no source or photo credit beneath the picture');
  assert.ok((await page.locator('.recipe-availability').allTextContents()).every(s=>s.includes('Full recipe')));
  await page.locator('#recipe-search').fill(full.title);await page.locator('#recipe-search').press('Enter');await page.locator('[data-recipe-id="'+meal.idMeal+'"]').waitFor();
  await page.locator('[data-recipe-id="'+meal.idMeal+'"] .recipe-title').click();await page.locator('[role=dialog] .instruction-list').waitFor();
