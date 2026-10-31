@@ -204,7 +204,10 @@
         "black pepper",
         "ground black pepper",
         "crushed black pepper",
-        "pfeffer"
+        "pfeffer",
+        "ground pepper",
+        "freshly ground black pepper",
+        "black pepper powder"
       ],
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Black_pepper_%28ground%29.jpg/250px-Black_pepper_%28ground%29.jpg",
       "filePage": "https://commons.wikimedia.org/wiki/File:Black_pepper_(ground).jpg",
@@ -215,7 +218,17 @@
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "black pepper (ground)",
-      "form": "ground"
+      "form": "ground",
+      "exclusions": [
+        "black peppercorns",
+        "whole peppercorns",
+        "white pepper",
+        "red pepper",
+        "cayenne pepper",
+        "bell pepper",
+        "ground paprika",
+        "black pepper sauce"
+      ]
     },
     {
       "id": "coriander-leaf",
@@ -1900,7 +1913,9 @@
       "label": "Toasted sesame seeds",
       "aliases": [
         "toasted sesame seeds",
-        "roasted sesame seeds"
+        "roasted sesame seeds",
+        "toasted sesame seed",
+        "roasted sesame seed"
       ],
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Toasted_sesame_seeds_1.jpg/250px-Toasted_sesame_seeds_1.jpg",
       "filePage": "https://commons.wikimedia.org/wiki/File:Toasted_sesame_seeds_1.jpg",
@@ -1911,7 +1926,13 @@
       "checkedAt": "2026-10-24",
       "changes": "Wikimedia-generated thumbnail; no other changes.",
       "description": "Toasted sesame seeds",
-      "form": "toasted"
+      "form": "toasted",
+      "exclusions": [
+        "sesame oil",
+        "sesame paste",
+        "tahini",
+        "black sesame seeds"
+      ]
     },
     {
       "id": "zucchini",
@@ -3747,32 +3768,6 @@
       "changes": "Wikimedia-generated thumbnail; no other changes."
     },
     {
-      "id": "sesame-seeds-toasted",
-      "label": "Toasted sesame seeds",
-      "aliases": [
-        "toasted sesame seeds",
-        "roasted sesame seeds",
-        "toasted sesame seed",
-        "roasted sesame seed"
-      ],
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Toasted_sesame_seeds_1.jpg/250px-Toasted_sesame_seeds_1.jpg",
-      "filePage": "https://commons.wikimedia.org/wiki/File:Toasted_sesame_seeds_1.jpg",
-      "creator": "dabok2014",
-      "licence": "CC0 1.0",
-      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "form": "toasted",
-      "exclusions": [
-        "sesame oil",
-        "sesame paste",
-        "tahini",
-        "black sesame seeds"
-      ],
-      "description": "Toasted sesame seeds, not raw seeds or sesame oil.",
-      "verified": true,
-      "checkedAt": "2026-10-31",
-      "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
-    },
-    {
       "id": "miso-paste",
       "label": "Miso paste",
       "aliases": [
@@ -3825,36 +3820,6 @@
       "verified": true,
       "checkedAt": "2026-10-31",
       "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
-    },
-    {
-      "id": "ground-black-pepper",
-      "label": "Ground black pepper",
-      "aliases": [
-        "ground black pepper",
-        "ground pepper",
-        "freshly ground black pepper",
-        "black pepper powder"
-      ],
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Spilled_Pepper.jpg/250px-Spilled_Pepper.jpg",
-      "filePage": "https://commons.wikimedia.org/wiki/File:Spilled_Pepper.jpg",
-      "creator": "Bryanwake",
-      "licence": "Public domain",
-      "licenceUrl": "https://commons.wikimedia.org/wiki/File:Spilled_Pepper.jpg",
-      "form": "ground",
-      "exclusions": [
-        "black peppercorns",
-        "whole peppercorns",
-        "white pepper",
-        "red pepper",
-        "cayenne pepper",
-        "bell pepper",
-        "ground paprika",
-        "black pepper sauce"
-      ],
-      "description": "Ground black pepper, not whole peppercorns or a different pepper variety.",
-      "verified": true,
-      "checkedAt": "2026-10-31",
-      "changes": "Unmodified Commons thumbnail; original attribution is on the credits page."
     }
   ]
 }
