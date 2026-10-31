@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: "22"
       - name: Check syntax and unit tests
-        run: npm ci && npm run verify && node scripts/audit-ingredient-photos.mjs && npm run build:site && npm run build:vercel
+        run: npm ci && npm run verify && node scripts/audit-ingredient-photos.mjs && python3 scripts/audit-commons-thumbnail-paths.py && npm run build:site && npm run build:vercel
 
   browser:
     name: Browser acceptance (${{ matrix.browser }})
