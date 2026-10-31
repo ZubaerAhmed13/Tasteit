@@ -16,7 +16,7 @@ try{
  // Find a new collected breakfast through the primary search, using the keyboard.
  await page.locator('#recipe-search').fill(breakfast.title);await page.locator('#recipe-search').press('Enter');
  const card=page.locator('[data-recipe-id="'+id+'"]');await card.waitFor();assert.equal(await page.locator('.recipe-card').count(),1);
- assert.ok((await card.locator('.source-rating').innerText()).includes(String(breakfast.rating.value)));assert.ok((await card.locator('.source-line').innerText()).includes('Swasthi'));
+ assert.ok((await card.locator('.source-rating').innerText()).includes(String(breakfast.rating.value)));assert.equal(await card.locator('.source-line').count(),0,'recipe cards must not print source or photo-credit captions');
  const committed=page.url();await card.locator('.quick-save').click();assert.equal(page.url(),committed);
  await card.locator('.recipe-photo').click();await page.locator('#dialog-title').filter({hasText:breakfast.title}).waitFor();
  await page.locator('[role=dialog] [data-action=usual]').click();assert.equal(new URL(page.url()).searchParams.get('q'),breakfast.title);
