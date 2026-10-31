@@ -249,3 +249,11 @@ test('every approved ingredient reference uses a distinct original Commons file'
  const photos=await actualRegistry(),seen=new Set();
  for(const photo of photos){assert.ok(!seen.has(photo.filePage),'duplicate Commons photo: '+photo.id);seen.add(photo.filePage);}
 });
+
+test('the only approved multi-food photograph is explicitly salt and pepper, not arbitrary ingredients',async()=>{
+ const {ingredientPhoto}=await import('../src/ingredient-photos.js'),p=await actualRegistry();
+ for(const name of ['salt and pepper','Salt & pepper','salt and pepper to taste'])
+  assert.equal(ingredientPhoto(name,p)?.id,'salt-and-pepper',name);
+ for(const name of ['salt and pepper and garlic','salt and pepper or oregano','salt and chili powder','garlic and spinach','salt, pepper, oregano'])
+  assert.equal(ingredientPhoto(name,p),null,'a photo must not illustrate an unrelated food mix: '+name);
+});
