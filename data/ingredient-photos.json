@@ -3820,6 +3820,29 @@
       "verified": true,
       "checkedAt": "2026-10-31",
       "changes": "Unmodified Wikimedia-generated thumbnail. Original-file credit retained only on photo-credits page."
+    },
+    {
+      "id": "salt-and-pepper",
+      "label": "Salt and pepper",
+      "aliases": [
+        "salt and pepper",
+        "salt & pepper"
+      ],
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/SaltPepper.jpg/250px-SaltPepper.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:SaltPepper.jpg",
+      "creator": "OmarSharif1234",
+      "licence": "CC0 1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "form": "mixture",
+      "exclusions": [
+        "salt pepper and garlic",
+        "salt and red pepper",
+        "salt and black pepper sauce"
+      ],
+      "description": "A photograph of salt and pepper together, not a substitute for arbitrary food combinations.",
+      "verified": true,
+      "checkedAt": "2026-10-31",
+      "changes": "Unmodified Commons thumbnail; credit appears separately on the photo credits page."
     }
   ]
 }
