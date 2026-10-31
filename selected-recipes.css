@@ -18,3 +18,8 @@
 .selected-ingredients .ingredient-reference{width:96px;max-width:100%}
 .selected-ingredients .ingredient-photo-link,.selected-ingredients .ingredient-reference img{width:96px;height:96px;max-width:100%}
 @media(max-width:700px){.selected-ingredients .ingredient-reference,.selected-ingredients .ingredient-photo-link,.selected-ingredients .ingredient-reference img{width:80px;height:80px}}
+
+/* Keep publisher metadata available, but separate from recipe/photo presentation. */
+.selected-publication-details{margin:12px 0;padding:9px 12px;border:1px solid var(--line,#e1e5de);border-radius:10px;background:rgba(255,255,255,.6)}
+.selected-publication-details summary{cursor:pointer;font-size:12px;font-weight:650;color:var(--forest,#325244)}
+.selected-publication-details .panel-note{margin:9px 0 0;line-height:1.5}
