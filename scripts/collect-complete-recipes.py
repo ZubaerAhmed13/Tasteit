@@ -83,7 +83,7 @@ def extract_sections(content):
 FAVOURITES=['Whole Wheat Pancakes','French Toast','Basic Scrambled Eggs','Basic Omelet','Banana Bread I','Blueberry Pancakes','Scottish Porridge','Upma','Hummus','Guacamole','Guacamole (Chile-Free)','Tomato Soup','Lentil Soup','Vegetable Soup','Greek Salad','Tabouli','Falafel','Chapati','Fried Rice','Chicken Curry','Chicken Curry (Mediterranean-inspired)','Chicken Biryani','Dal','Spaghetti Bolognese','Macaroni and Cheese','Pizza','Chocolate Chip Cookies II','Brownies','Chocolate Cake','Rice Pudding','Apple Crumble','Scones','Garlic Bread','Potato Salad','Mashed Potatoes','Roasted Potatoes','Vegetable Curry','Chili Con Carne','Ratatouille','Pasta Salad','Oatmeal Cookies','Fruit Salad','Cheese Omelette','Spanish Omelet','Almond Pancakes','Banana Nutmeg Pancakes','Chicken Fried Rice','Shakshuka II','Minestrone','Carrot Soup','Peanut Butter Cookies','Shortbread']
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--limit',type=int,default=50);parser.add_argument('--append',action='store_true');parser.add_argument('--min-new',type=int,default=10);parser.add_argument('--cached-only',action='store_true');parser.add_argument('--cache',default='.superpowers/sdd/2026-10-28-complete-recipes/sources');args=parser.parse_args()
- if args.limit<1 or args.limit>150:raise ValueError('Bounded total recipe limit 1–150')
+ if args.limit<1 or args.limit>250:raise ValueError('Bounded total recipe limit 1–250')
  if args.min_new<1 or args.min_new>50:raise ValueError('Expected at least one and at most fifty new recipes')
  root=pathlib.Path('.');cache=pathlib.Path(args.cache);cache.mkdir(parents=True,exist_ok=True)
  current=json.loads((root/'data/complete-recipes.json').read_text()) if args.append else None
@@ -101,7 +101,24 @@ def main():
   candidates.extend(r for r in eligible if course in categories.get(r['sourcePageId'],[]) and 'Easy recipes' in categories.get(r['sourcePageId'],[]) and len(r['title'])<65)
  candidates=list({r['sourcePageId']:r for r in candidates}.values())
  candidates=[r for r in candidates if 'wikibooks-'+str(r['sourcePageId']) not in existing_ids]
- candidates=candidates if args.cached_only else candidates[:350]
+ # Continue from the original collection while favouring underrepresented recipe courses.
+ # Without balancing, the Wikibooks search directory mostly yields breakfasts/mains.
+ counts={}
+ for row in original:counts[row['category']]=counts.get(row['category'],0)+1
+ labels={'Breakfast recipes':'Breakfast','Main course recipes':'Main','Dessert recipes':'Dessert','Appetizer recipes':'Appetiser','Salad recipes':'Salad','Soup recipes':'Soup'}
+ def course_for(row):
+  tags=categories.get(row['sourcePageId'],[])
+  return next((label for cat,label in labels.items() if cat in tags),'Other')
+ if args.append:
+  queued=list(enumerate(candidates));ordered=[]
+  while queued:
+   # Stable fairness: prefer a course with less representation; retain
+   # source-queue order among equally represented candidates.
+   pick=min(range(len(queued)),key=lambda i:(counts.get(course_for(queued[i][1]),0),queued[i][0]))
+   _,item=queued.pop(pick);ordered.append(item)
+   label=course_for(item);counts[label]=counts.get(label,0)+1
+  candidates=ordered
+ candidates=candidates if args.cached_only else candidates[:650]
  checked=datetime.datetime.now(datetime.timezone.utc).isoformat();accepted=list(original);attempts=[]
  # Single publisher, one request in flight; stop on rate/access restrictions.
  blocked=threading.Event()

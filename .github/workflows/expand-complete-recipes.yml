@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       target_total:
-        description: 'Target total complete licensed recipes (50–150)'
+        description: 'Target total complete licensed recipes (150–250)'
         required: true
-        default: '150'
+        default: '200'
         type: choice
-        options: ['100','150']
+        options: ['200','250']
   push:
     branches:
       - feat/recipe-kitchen-foundation
@@ -26,7 +26,7 @@ jobs:
   licensed-expansion:
     if: github.ref == 'refs/heads/feat/recipe-kitchen-foundation'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,7 +36,7 @@ jobs:
           node-version: '22'
       - name: Collect reviewed Wikibooks content, preserving all existing complete recipes
         env:
-          TARGET_TOTAL: ${{ inputs.target_total || '150' }}
+          TARGET_TOTAL: ${{ inputs.target_total || '200' }}
         run: |
           python3 scripts/collect-complete-recipes.py --append --limit "$TARGET_TOTAL" --min-new 10 --cache /tmp/tasteit-licensed-sources
       - name: Verify original publisher catalogue, licensed recipes, app and build
