@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source": "wikibooks",
-  "checkedAt": "2026-10-30T23:32:21.805180+00:00",
+  "checkedAt": "2026-10-31T07:15:24.426553+00:00",
   "licenseInfo": "https://en.wikibooks.org/wiki/Wikibooks:Copyrights",
   "recipes": [
     {
@@ -6845,6 +6845,2261 @@
         "revision": 4516307,
         "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALiver+Kebabs&oldid=4516307",
         "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ALiver+Kebabs&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-470518",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Taco_Soup",
+      "title": "Taco Soup",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 pound ground beef or turkey",
+        "Vegetable oil",
+        "2 cans (29 ounces) diced tomatoes",
+        "2 cans (30.5 ounces) corn kernels",
+        "2 cans (31 ounces) kidney, black, or pinto beans",
+        "1 package (1 ounce / 3 tbsp) taco mix",
+        "2 cups water",
+        "Shredded Mexican-style cheese (optional)",
+        "Tortilla chips (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Heat a heavy skillet or pot over medium-high heat. Add a few tablespoons of vegetable oil, then the ground meat.",
+          "Break the meat up into a few large chunks, but otherwise leave it alone until it has cooked and developed some color.",
+          "Continue gradually breaking up the meat, letting it rest and brown undisturbed in between.",
+          "Remove the meat from the heat, and let the excess fat drain away.",
+          "In stock pot, combine the tomatoes, corn, beans, taco mix, water, and meat.",
+          "Bring to a boil, stirring continuously to prevent sticking. Let simmer for 15 minutes.",
+          "Ladle into bowls, and enjoy with cheese and chips if desired."
+        ],
+        "notes": [
+          "This is an easy weeknight recipe for soup that uses many shelf-stable pantry essentials."
+        ],
+        "pageId": 470518,
+        "revision": 4515587,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATaco+Soup&oldid=4515587",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATaco+Soup&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-134187",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Tom_Yum_Gai",
+      "title": "Tom Yum Gai",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "400 grams (about 1 lb) boneless chicken meat, diced",
+        "3 cups chicken stock",
+        "100 grams (3.5 oz) straw mushrooms, halved",
+        "6 cherry tomatoes",
+        "1 fresh lemongrass stem, cut into short lengths",
+        "2–3 kaffir lime leaves, torn",
+        "3 tbsp Thai fish sauce",
+        "4 tbsp fresh lime juice",
+        "½ tsp sugar",
+        "5–6 hot fresh Thai chilies, just broken with pestle"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Place the stock in a pot, add the lemongrass and kaffir lime leaves, and bring to boil over medium heat.",
+          "Add the chicken meat, mushroom, fish sauce, lime juice, and sugar; cook slowly and uncovered for 10 minutes. Do not stir.",
+          "Add the tomatoes and chilies and cook for 5 more minutes. Remove from heat.",
+          "Serve with steamed jasmine rice."
+        ],
+        "notes": [],
+        "pageId": 134187,
+        "revision": 4610516,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATom+Yum+Gai&oldid=4610516",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATom+Yum+Gai&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-113272",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Tuscan_Bean_Soup",
+      "title": "Tuscan Bean Soup",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "3 cups cranberry or pinto beans",
+        "1 cup spelt or wheat berries (available at gourmet-food shops)",
+        "¼ cup extra-virgin olive oil, plus more for drizzling",
+        "½ pound sweet Italian sausage, casings removed",
+        "1 pound kale, preferably Tuscan, coarse stems removed, cut into thick ribbons",
+        "1 medium-large onion, diced",
+        "1 large carrot, peeled and diced",
+        "1 large rib celery, trimmed and diced",
+        "3 cloves garlic, thinly sliced",
+        "5 cups homemade chicken stock, or canned low-sodium stock, plus more if needed",
+        "1 cup peeled, seeded, and diced tomatoes, or drained canned diced tomatoes",
+        "1 sprig fresh rosemary",
+        "1 sprig fresh sage",
+        "Sea salt and freshly ground pepper",
+        "½ cup freshly grated Parmigiano-Reggiano cheese"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Soak beans and spelt overnight in separate bowls of cold water.",
+          "Drain and set aside.",
+          "Heat olive oil in a large pot over medium-high heat.",
+          "Add sausage.",
+          "Cook stirring occasionally, until meat begins to separate and brown (3–5 minutes).",
+          "Stir in kale, onion, carrot, celery, and garlic.",
+          "Cook until softened (about 10 minutes).",
+          "Add beans, spelt, chicken stock, and tomatoes.",
+          "Bring to boil.",
+          "Stir in rosemary and sage.",
+          "Reduce heat.",
+          "Simmer mixture for 60–70 minutes, until beans are tender; if soup is too thick, add chicken stock.",
+          "Season to taste with salt and pepper.",
+          "Ladle soup into bowls.",
+          "Drizzle with olive oil, and sprinkle on cheese.",
+          "Serve immediately."
+        ],
+        "notes": [
+          "Have this soup first with bread, like ciabatta, then finish with some cold cuts, like salami and prosciutto.",
+          "Instead of using spelt, you can substitute barley.",
+          "If you can't find Tuscan kale, you can use regular kale, mustard greens, or Swiss chard.",
+          "This soup tastes even better the next day."
+        ],
+        "pageId": 113272,
+        "revision": 4515570,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATuscan+Bean+Soup&oldid=4515570",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATuscan+Bean+Soup&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-193771",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Deep_Fried_Pretzels",
+      "title": "Deep Fried Pretzels",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 cup canola oil or vegetable oil",
+        "¼ tsp seasoned salt, garlic salt, or Italian seasoning",
+        "2+ handfuls of pretzels"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Fill a deep saucepan partially full of canola oil. Heat up the oil.",
+          "Cover a paper towel with seasoning (the paper towel will help absorb moisture). Then set paper towel on a plate.",
+          "Use a spatula to drop pretzels into oil. Only leave them in for 2–3 seconds.",
+          "Remove pretzels, and lay them out on bed of seasoning to dry. The oil may be used for multiple batches."
+        ],
+        "notes": [
+          "This is a good snack to serve as an appetizer. You may use a lot of variations on this recipe."
+        ],
+        "pageId": 193771,
+        "revision": 4503381,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADeep+Fried+Pretzels&oldid=4503381",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADeep+Fried+Pretzels&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-461727",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Vegetarian_Rassolnik",
+      "title": "Vegetarian Rassolnik",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1.5 L water",
+        "5 potatoes, sliced",
+        "3 pickled cucumbers, sliced",
+        "1 carrot, finely chopped",
+        "1 large onion, diced",
+        "½ cup cooked rice",
+        "1 bay leaf",
+        "3 tbsp vegetable oil",
+        "Salt"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Bring water to boil. Add the sliced potatoes, cucumbers, carrots, and onions.",
+          "When the vegetables are cooked, add the cooked rice, bay leaf, and oil.",
+          "Bring to a boil.",
+          "Season with salt to taste.",
+          "Serve garnished with chopped herbs."
+        ],
+        "notes": [],
+        "pageId": 461727,
+        "revision": 4494395,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AVegetarian+Rassolnik&oldid=4494395",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AVegetarian+Rassolnik&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-108075",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Deviled_Eggs",
+      "title": "Deviled Eggs",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "6 Large Hard-boiled eggs, halved lengthwise (if not already prepared, add 10-15 mins to prep time.)",
+        "3 tbsps of mayonnaise or creamy salad dressing",
+        "1 tbsp of granulated sugar",
+        "1 tsp of mustard",
+        "1 tsp of vinegar",
+        "Salt to taste",
+        "Pepper to taste",
+        "Paprika (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Extract yolks from the halved eggs and place the yolks in a bowl, being careful not to break the whites.",
+          "Mash yolks with a fork and mix in the remaining ingredients.",
+          "Spoon the mixture back into the egg white halves.",
+          "(Optional) Garnish with a light sprinkling of paprika."
+        ],
+        "notes": [
+          "Serve these deviled eggs for any occasion, whether it be a wedding feast, a picnic in the park, or for lunch or dinner!"
+        ],
+        "pageId": 108075,
+        "revision": 4613698,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADeviled+Eggs&oldid=4613698",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ADeviled+Eggs&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-127703",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:White_Bean_Soup_with_Basil%2C_Rosemary%2C_and_Garlic_Croutons",
+      "title": "White Bean Soup with Basil, Rosemary, and Garlic Croutons",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 cans (2 lbs) white beans, such as cannellini, drained",
+        "2 cups low-sodium chicken broth",
+        "1 cup of your favorite marinara pasta sauce",
+        "2 large garlic cloves, minced",
+        "¼ cup packed fresh basil leaves, or 1 teaspoon dried basil leaves",
+        "1 teaspoon minced fresh rosemary",
+        "¼ teaspoon red pepper flakes"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Purée ingredients in a blender until smooth.",
+          "Pour into a large saucepan or Dutch Oven, and bring to a simmer.",
+          "Simmer, partially covered and stirring frequently, to blend flavors, 4–5 minutes.",
+          "Serve, garnished with croutons."
+        ],
+        "notes": [
+          "Garnish with Quick Garlic Croutons"
+        ],
+        "pageId": 127703,
+        "revision": 4534251,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWhite+Bean+Soup+with+Basil%2C+Rosemary%2C+and+Garlic+Croutons&oldid=4534251",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AWhite+Bean+Soup+with+Basil%2C+Rosemary%2C+and+Garlic+Croutons&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-3444",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:English_Field_Bean_Pate",
+      "title": "English Field Bean Pate",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "½ lb English beans (or tic beans, daffa beans, brown Dutch beans, or foul medames)",
+        "about ¼ pint olive oil",
+        "Salt",
+        "Pepper",
+        "1 large clove garlic, minced",
+        "1 tsp strong-flavoured herba (e.g. thyme, sage or rosemary), minced"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Soak the beans in water overnight.",
+          "Boil beans in plenty of unsalted water for 1 hour until they are soft. Drain beans.",
+          "Mash beans with a fork, pound them in a pestle and mortar, or press them through a sieve or food mill.",
+          "Add the olive oil, salt, pepper, herbs, and garlic. If the purée is too stiff, add some lemon juice, water, or more oil.",
+          "Chill and serve with toast."
+        ],
+        "notes": [],
+        "pageId": 3444,
+        "revision": 4513300,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEnglish+Field+Bean+Pate&oldid=4513300",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AEnglish+Field+Bean+Pate&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-262949",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Yogurt_Curry_Soup_(Kadhi)",
+      "title": "Yogurt Curry Soup (Kadhi)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 cups chickpea flour (besan)",
+        "1½ cups curds/yogurt (dahi)",
+        "1 tsp ginger-green chilli paste",
+        "2 curry leaves (kadi patta)",
+        "2 tbsp sugar",
+        "Salt to taste",
+        "2 tsp ghee (clarified butter)",
+        "½ tsp cumin seeds (jeera)",
+        "½ tsp mustard seeds (rai/sarson)",
+        "1 pinch asafoetida (hing)",
+        "1 red chilli, broken into pieces",
+        "2 tbsp chopped fresh coriander (dhania)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Combine the gram flour, curds and 3 teacups of water in a pot. Beat well.",
+          "Add the chilli-ginger paste, curry leaves, sugar, and salt. Bring to a boil.",
+          "Boil whilst stirring for a while.",
+          "Heat the ghee in a pan, add the cumin and mustard seeds, and toast until light brown. Don't let burn.",
+          "Add the asafoetida and red chilli.",
+          "Add the seasoning mixture to the curry, and boil for a few minutes.",
+          "Sprinkle coriander on top and serve hot."
+        ],
+        "notes": [
+          "Kadhi also known as Karhi or Gujarati Kadhi is a sweet yogurt curry, normally eaten with unleavened flat bread called roti and sabzi in India.",
+          "This is a basic chickpea curry/soup. But, you can make its variations with bitter gourd, pakora, spinach, and more.",
+          "Best served when hot.",
+          "This sweet yogurt curry is popular in Gujarat but in northern India, it is considered too sweet. So, prepare a variation depending on your guests' preference for spice."
+        ],
+        "pageId": 262949,
+        "revision": 4615184,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AYogurt+Curry+Soup+%28Kadhi%29&oldid=4615184",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AYogurt+Curry+Soup+%28Kadhi%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-43109",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Fresh_Mozzarella_Bruschetta",
+      "title": "Fresh Mozzarella Bruschetta",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 long loaf of crusty French bread",
+        "3 medium ripe Roma tomatoes",
+        "3 large fresh mozzarella balls",
+        "24 fresh basil leaves",
+        "Coarse salt",
+        "Black pepper",
+        "Extra virgin olive oil",
+        "Oregano",
+        "Balsamic vinegar"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Cut bread into ½ inch (1.27 cm) slices on the diagonal.",
+          "Lightly toast bread in the oven on both sides.",
+          "Cut tomatoes into ¼ inch (0.75 cm) slices, and place one on each slice of bread.",
+          "Cut mozzarella balls into ¼ inch (0.75cm) slices and place on top of tomato.",
+          "Slice basil into thin strips and sprinkle on top with the oregano.",
+          "Combine olive oil and balsamic vinegar (to taste) in a small bowl",
+          "Drizzle bruschetta with the mixture and sprinkle with salt and pepper."
+        ],
+        "notes": [
+          "Bruschette are small, open-faced sandwiches of tomato and mozzarella cheese. They are delicious, quick and easy to make, and perfect appetizers.",
+          "An optional re-toasting with toppings on will make the mozzarella melt and be even more delicious.",
+          "Authentic Italian bruschetta begins with rubbing roasted garlic cloves on the toasted bread slices."
+        ],
+        "pageId": 43109,
+        "revision": 4605220,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFresh+Mozzarella+Bruschetta&oldid=4605220",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AFresh+Mozzarella+Bruschetta&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-18251",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Zelenchukova_Supa_(Bulgarian_Vegetable_Soup)",
+      "title": "Zelenchukova Supa (Bulgarian Vegetable Soup)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "Salt",
+        "1–2 carrots, diced",
+        "½ ea. celery, diced",
+        "1–2 bell peppers, finely cut",
+        "¼ of a medium-sized cabbage, finely cut",
+        "2–3 potatoes, diced",
+        "Sunflower oil",
+        "1 onion, finely chopped",
+        "2–3 tomatoes, grated",
+        "1 spoonful flour",
+        "1 tsp paprika",
+        "1 beetroot, diced and boiled",
+        "100 g yogurt",
+        "1 egg",
+        "Parsley, finely chopped",
+        "100 g kashkaval (yellow cheese)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Bring a pot of salted water to a boil, then add the carrots, celery, peppers, and cabbage. Cook until soft.",
+          "Add the diced potatoes.",
+          "Heat some oil in a pan, and add the onion. Cook until soft, then stir in the flour, paprika, and tomatoes.",
+          "Stir the onion mixture into the boiling vegetables, and cook for another half hour.",
+          "Add the beetroot.",
+          "Combine the yogurt and egg, carefully mix in a bit of hot broth, then stir this mixture back into the soup to thicken it.",
+          "Season with salt to taste.",
+          "Serve with finely chopped parsley and grated kashkval."
+        ],
+        "notes": [],
+        "pageId": 18251,
+        "revision": 4494292,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AZelenchukova+Supa+%28Bulgarian+Vegetable+Soup%29&oldid=4494292",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AZelenchukova+Supa+%28Bulgarian+Vegetable+Soup%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-220520",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Simple_Buttercream",
+      "title": "Simple Buttercream",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "200 g unsalted butter, softened",
+        "5 ml vanilla extract",
+        "450 g sifted powdered sugar",
+        "30 ml milk"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Cream together butter and vanilla using a mixer.",
+          "Beat in powdered sugar one cup at a time, scraping sides and bottom of bowl regularly. Mixture will be very dry.",
+          "When all the sugar is incorporated, add milk and beat until incorporated."
+        ],
+        "notes": [
+          "Simple buttercream (sometimes called American buttercream, mock cream, or butter icing) is a type of icing or frosting used inside cakes, as a coating, and as decoration.",
+          "To make chocolate buttercream, add 150 g (¾ cup) unsweetened cocoa powder or 3 oz (84 g) melted unsweetened baking chocolate, and increase the milk to 45–60 ml (3–4 tbsp).",
+          "To make lemon buttercream, omit milk and add zest and juice of 1 lemon.",
+          "This is the simplest version of a recipe that has many. One of the most common changes is to substitute margarine or shortening for some or all of the butter. This is prevalent especially in commercial kitchens because it is cheaper and it increases the stability of the icing at room temperature, making it easier to work with, especially in large quantities or for long durations. Buttercreams made with unsalted butter, however, provide a more delicate texture and superior flavor and mouthfeel (texture) to buttercreams made with vegetable shortening."
+        ],
+        "pageId": 220520,
+        "revision": 4517708,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASimple+Buttercream&oldid=4517708",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASimple+Buttercream&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-38126",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Zuppa_alla_Modenese",
+      "title": "Zuppa alla Modenese",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Soup",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 lb spinach",
+        "3 oz butter",
+        "Salt",
+        "1 tbsp grated Parmesan cheese",
+        "2 eggs",
+        "nutmeg"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Wash spinach 5–6 times in clean water, then drain well. Chop very fine and mix with butter and some salt.",
+          "Cook the spinach mixture, then cool it. Purée it and mix in the cheese, eggs, and a pinch of nutmeg.",
+          "Mix in some boiling stock. If desired, place hot coals on the saucepan lid so that the eggs will curdle and thicken the soup.",
+          "Serve with fried croutons."
+        ],
+        "notes": [
+          "Zuppa alla modenese (\"soup in the style of Modena\") is an Italian type of soup made with chicken or veal stock, spinach, butter, salt, eggs, Parmesan cheese, nutmeg and croutons.",
+          "This page incorporates text from the public domain cookbook The Cook's Decameron: A Study In Taste, Containing Over Two Hundred Recipes For Italian Dishes by Emily Waters."
+        ],
+        "pageId": 38126,
+        "revision": 4503089,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AZuppa+alla+Modenese&oldid=4503089",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AZuppa+alla+Modenese&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-439565",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Snickerdoodles_(Boston_Globe)",
+      "title": "Snickerdoodles (Boston Globe)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "¾ cup butter",
+        "2 cups white granulated sugar",
+        "1 cup milk",
+        "3 cups flour",
+        "2 eggs",
+        "2 tsp cream of tartar",
+        "1 tsp baking soda",
+        "Sugar",
+        "Ground cinnamon"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Cream the butter and sugar together.",
+          "Beat in the eggs.",
+          "Combine the flour, cream of tartar, and baking soda.",
+          "Alternately mix the flour and milk into the batter to make a dough.",
+          "Drop dough on a greased or lined baking sheet in spoonfuls.",
+          "Sprinkle with sugar and cinnamon.",
+          "Bake in a quick oven."
+        ],
+        "notes": [
+          "This snickerdoodle recipe is originally from the Boston Globe, June 14, 1898, pg. 8. Attributed to M. Elizabeth Adams."
+        ],
+        "pageId": 439565,
+        "revision": 4523380,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+%28Boston+Globe%29&oldid=4523380",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+%28Boston+Globe%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-106846",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Glazed_Onion_Canapes",
+      "title": "Glazed Onion Canapes",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 onion, finely diced",
+        "½ cup butter or margarine",
+        "2 teaspoons brown sugar",
+        "1 tablespoon honey",
+        "8–10 crackers",
+        "Sour cream"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Melt half the butter in a small saucepan.",
+          "Turn the burner to medium heat. Add the diced onions to the pan.",
+          "Slowly caramelize the onions, adding in the rest of the butter as needed to keep from burning.",
+          "Once caramelized, add the brown sugar and the honey. Combine thoroughly until all the onions are glazed.",
+          "Place onions attractively onto the crackers, and finish with a small dollop of sour cream."
+        ],
+        "notes": [
+          "Keep an eye on the onions—they burn easily.",
+          "Measurements are not exact; play around to see what you like."
+        ],
+        "pageId": 106846,
+        "revision": 4505195,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGlazed+Onion+Canapes&oldid=4505195",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGlazed+Onion+Canapes&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-439567",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Snickerdoodles_(Idaho_Daily_Statesman)",
+      "title": "Snickerdoodles (Idaho Daily Statesman)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 cups white granulated sugar",
+        "½ cup butter",
+        "2 eggs",
+        "1 cup milk",
+        "1 tsp baking soda",
+        "2½ cups flour",
+        "2 tsp cream of tartar",
+        "½ tsp salt",
+        "Cinnamon",
+        "Sugar"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Stir together sugar and butter until creamy.",
+          "Add eggs.",
+          "Dissolve baking soda in milk, then add.",
+          "Add flour, cream of tartar and salt.",
+          "Beat the batter thoroughly.",
+          "Pour in shallow pans.",
+          "Dust the top of the cake with cinnamon and sugar.",
+          "Bake for 15 minutes.",
+          "Cool, then cut in squares."
+        ],
+        "notes": [
+          "This recipe is from the Idaho Daily Statesman (Boise, Idaho), October 20, 1901, pg. 11. Per the source:",
+          "\"Snickerdoodles\" is the somewhat fantastic name of quickly made little cakes especially dear to the children's heart. A recipe for them copied from an old scrapbook [follows]."
+        ],
+        "pageId": 439567,
+        "revision": 4523381,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+%28Idaho+Daily+Statesman%29&oldid=4523381",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+%28Idaho+Daily+Statesman%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-29866",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Gravlax",
+      "title": "Gravlax",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "800 g fresh salmon filet, approximately 2–5 cm thick",
+        "30 ml salt",
+        "30 ml white granulated sugar",
+        "45 ml juniper berries",
+        "300 ml gin (optional)",
+        "5 ml whole or crushed white pepper",
+        "20–40 g fresh dill"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Cut the salmon filet into two equally-sized parts (if you are making gravlax for many people it is fine to use two filets instead). Freeze the salmon for at least 4 days at -18°C or colder to kill any parasites.",
+          "After deep freezing the salmon remove it from the freezer and let it thaw, preferably overnight in the refrigerator. The salmon does not have to be completely thawed for the next steps.",
+          "Combine the salt and sugar. Place the salmon, skin down, on a table. Rub the salt and sugar mix onto the pieces, then apply the juniper berries and pepper. Finally, cover with dill.",
+          "Put one salmon piece on top of another, flesh side to flesh side so the skin it outside on both pieces, and place in a plastic bag. Add any leftover ingredients to the bag along with the gin.",
+          "Seal the bag and place it in the refrigerator. Let the salmon cure in the mixture, turning the bag over once, preferably twice, a day for 4 days.",
+          "After 4 days, the salmon is ready to serve. If you are not going to eat it immediately (it lasts a couple of days) move it to a fresh plastic bag or jar, removing the salty liquid that has formed in the original bag. If you keep it in the original bag the risk is that it may be too salty once you are about to serve it.",
+          "Use a sharp knife to slice thin slices from the salmon at an angle. During slicing, also remove any remaining bones. The larger the piece of salmon the larger the angle and the larger surface area for the produced slices. Large slices look better when served.",
+          "As a main dish, serve with potato stew, boiled potatoes and gravlax sauce, or in a salad. As an appetizer, serve on crispbread or toast. Potato stew with some additional Dijon mustard is excellent addition to gravlax.",
+          "Steps",
+          "Thawed salmon with the required ingredients.",
+          "Apply salt and sugar.",
+          "Apply pepper and juniper berries.",
+          "Cover with dill.",
+          "Place one piece on top of the other.",
+          "Seal the salmon in a plastic bag and refrigerate.",
+          "Serve thin slices of the cured salmon."
+        ],
+        "notes": [
+          "Gravlax is salmon that is cured in salt and sugar. It is a common dish throughout Scandinavia. Gravlax is easy to make and makes a festive dish that is an excellent to serve at parties with many people. The process of curing fish in salt and sugar (grava) is not limited to salmon and works fine with any fatty fish although salmon is definitely the most common choice. Gravlax has been particularly popular and common in the northern regions of Scandinavia whose cold and fresh waters produce salmon of excellent quality. The basic recipe here has been used for generations and has its origins in the northernmost part of Sweden. Gravlax can be used either as a main dish or as an appetizer.",
+          "Use the thick part of the salmon filet found towards the head. Don't use the part closest to the tail, since it is not thick enough.",
+          "The gin can be substituted by lemon or lime juice (like a ceviche).",
+          "The time can be greatly shortened by slicing the salmon thinly before curing it. It can be ready with as little as 4 hours of curing time. However, using this method means it should also be eaten sooner."
+        ],
+        "pageId": 29866,
+        "revision": 4508844,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGravlax&oldid=4508844",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGravlax&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-439569",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Snickerdoodles_I",
+      "title": "Snickerdoodles I",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "344 g all-purpose flour",
+        "¼ tsp salt",
+        "1 tsp baking soda",
+        "2 tsp cream of tartar",
+        "300 g white sugar",
+        "205 g soft shortening",
+        "2 eggs, beaten",
+        "Cinnamon"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 205°C (400°F or Gas Mark 6).",
+          "Combine the flour, salt, baking soda, and cream of tartar.",
+          "Cream together the sugar and shortening. Beat in the eggs.",
+          "Mix the flour mixture into the batter to make a dough.",
+          "Shape dough into little balls, then transfer to a greased or parchment-lined lined baking sheet.",
+          "Bake for 10 minutes or until crisp and light brown.",
+          "Sprinkle generously with cinnamon while hot."
+        ],
+        "notes": [
+          "One recipe for the production of snickerdoodle cookies is as follows."
+        ],
+        "pageId": 439569,
+        "revision": 4519191,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+I&oldid=4519191",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+I&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-4312",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Guacamole_Dip",
+      "title": "Guacamole Dip",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 ripe avocado",
+        "1 cup cream, sour cream, or yoghurt",
+        "1 clove garlic",
+        "¼ regular onion, cut in large pieces",
+        "4 cilantro stems with leaves",
+        "1 serrano chile pepper (optional)",
+        "Milk to thin the dip, as needed",
+        "Salt to taste"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Put the garlic, onion pieces, cilantro and serrano pepper into a blender or food processor. Pulse for a few seconds—don't over do it.",
+          "Halve the avocado and scoop the flesh into the bowl. Add the cream and pulse the blender for a few seconds.",
+          "Taste the mixture and add salt or more seasonings as desired.",
+          "Pulse the blender a little bit more. If the mixture is too thick, add a tablespoon of milk and pulse the blender.",
+          "Serve immediately or store by covering the mixture with plastic wrap."
+        ],
+        "notes": [
+          "Guacamole Dip is a spicy Mexican dip made from avocado and cream. It is the perfect companion for corn chips, totopos, or potato chips. The ingredients and quantities of this recipe are approximate, and they depend on the desired consistency and \"picor\"."
+        ],
+        "pageId": 4312,
+        "revision": 4523400,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGuacamole+Dip&oldid=4523400",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGuacamole+Dip&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-439570",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Snickerdoodles_II",
+      "title": "Snickerdoodles II",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "344 g all-purpose flour",
+        "¼ tsp salt",
+        "1 tsp baking soda",
+        "2 tsp cream of tartar",
+        "200 g white sugar",
+        "100 g soft shortening",
+        "110 g butter",
+        "2 eggs, beaten",
+        "2 tbsp sugar",
+        "1 tsp cinnamon"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 205°C (400°F or Gas Mark 6).",
+          "Mix flour, salt, baking soda, cream of tartar, sugar, shortening, and butter.",
+          "Roll into 1 tbsp balls.",
+          "Mix sugar and cinnamon.",
+          "Roll balls in sugar-cinnamon mixture.",
+          "Bake for 10 minutes or until crisp and light brown.",
+          "Sprinkle generously with cinnamon while hot."
+        ],
+        "notes": [
+          "One recipe for the production of snickerdoodle cookies is as follows."
+        ],
+        "pageId": 439570,
+        "revision": 4515332,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+II&oldid=4515332",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+II&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-4029",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Guacamole_I",
+      "title": "Guacamole I",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "4 avocados",
+        "2 tablespoons pico de gallo",
+        "Juice of ½ lime",
+        "2 chopped Jalapeño OR 2 tablespoons of crushed red pepper OR 1 tablespoon of cayenne pepper",
+        "1 teaspoon salt",
+        "4 teaspoons olive oil",
+        "1 ½ teaspoon minced garlic",
+        "½ teaspoon of ground black pepper",
+        "1 minced jalapeño OR 2 minced serrano chiles OR 2 tablespoon minced of any chile pepper like (adjust for spiciness)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Halve and pit the avocados.",
+          "Score the avocado flesh in a criss-cross pattern without cutting through the skin.",
+          "Scoop out the flesh of one half with a large spoon and place in mixing bowl.",
+          "Add the lime juice and stir to evenly coat the avocados.",
+          "Stir in the pico de gallo, garlic, oil, jalapeño, salt, red pepper, and black pepper, mashing and tossing the avocado pieces until thoroughly mixed.",
+          "Scoop out the remaining avocado chunks and gently mix and toss in the larger pieces. The guacamole is the right consistency when more large pieces than mashed parts remain.",
+          "Garnish with a sprig of cilantro."
+        ],
+        "notes": [
+          "Guacamole is a Mexican paste made from crushed avocado and various seasonings, usually including onions, peppers, garlic and tomatoes. Guacamole is used as a condiment, an ingredient, and as an appetizer when served with tortilla chips.",
+          "Guacamole is a dip originally made to be consumed almost instantly, meaning there is no intention to store it at all, so you can omit the use of any kind of oil or lime juice for these recipes. However, both oil and lime juice can be added so that the guacamole keeps for longer.",
+          "A dollop of Greek yogurt or mashed black beans can add richness and protein.",
+          "To prevent browning, cover the surface with plastic wrap so no air is in contact with the guacamole. Lime juice can also help prevent such oxidation.",
+          "A young chef from El Paso, Texas, has developed a much more effective approach to keep guacamole fresh for up to three times longer than traditional methods. Through trial and error, Alfred M. Gladstein found that the use of a various vegetable oils blended in to the concoction would keep it fresh longer and significantly increase the amount of time before the guacamole browns and spoils. In his studies Gladstein found that mixing olive oil in guacamole worked best when serving the dish independently or with warm foods, while vegetable oil (corn or canola) worked best when the guacamole is served with cold foods and salads. When these techniques are employed, Gladstein, who is also known as Chef Jamir, found that the refrigerated guacamole would stay fresh and green for three days or more. He also notes that when serving the guacamole at room temperature, the oil-treated dish will last up to six to eight hours before starting to brown."
+        ],
+        "pageId": 4029,
+        "revision": 4636788,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGuacamole+I&oldid=4636788",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AGuacamole+I&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-96979",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Snickerdoodles_IV",
+      "title": "Snickerdoodles IV",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "344 g all-purpose flour",
+        "¼ tsp salt",
+        "1 tsp baking soda",
+        "2 tsp cream of tartar",
+        "300 g superfine sugar",
+        "110 g butter",
+        "100 g shortening",
+        "2 eggs",
+        "1 tsp vanilla extract",
+        "3 tbsp sugar",
+        "1½ tsp cinnamon"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F.",
+          "Mix flour, salt, baking soda, cream of tartar. Set aside.",
+          "Beat butter, shortening and sugar.",
+          "Beat in eggs and vanilla.",
+          "Gradually add dry ingredients, mixing fully.",
+          "Roll into 1 tbsp balls.",
+          "Mix sugar and cinnamon.",
+          "Roll balls in sugar-cinnamon mixture.",
+          "Refrigerate for 30 minutes.",
+          "Bake for 10 minutes or until crisp and light brown.",
+          "Let cool completely before eating."
+        ],
+        "notes": [
+          "Snickerdoodles are sugar cookies lightly dusted with cinnamon. They have a characteristically crackly surface, and can be crisp or soft, depending on preference. Some variants include nutmeg, raisins, or nuts. They are a traditional Christmas cookie in North America.",
+          "The Joy of Cooking claims that snickerdoodles are probably German in origin, and that the name is a corruption of the German word for \"snail noodles\" (schneckennudeln)."
+        ],
+        "pageId": 96979,
+        "revision": 4519193,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+IV&oldid=4519193",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnickerdoodles+IV&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-221326",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Hummus_with_Sprouted_Chickpea",
+      "title": "Hummus with Sprouted Chickpea",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 cups chickpeas",
+        "⅓ cup sesame seeds",
+        "3 cloves garlic",
+        "¼ white onion",
+        "1 peeled lemon",
+        "⅓ cup sun-dried tomato",
+        "5 tablespoons agave syrup",
+        "1 teaspoon salt",
+        "3 tablespoons ground cumin",
+        "3 tablespoons fresh parsley",
+        "1 pinch paprika",
+        "2 tablespoons olive oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Soak chickpeas for 12–24 hours then let sprout for 1–2 days. Make sure to rinse three times a day while sprouting.",
+          "Combine all ingredients except olive oil, paprika, and fresh parsley in a blender or food processor, and purée until smooth. Refrigerate for best taste.",
+          "Sprinkle hummus with olive oil, paprika, and parsley when serving."
+        ],
+        "notes": [
+          "Hummus is a classic dish likely originating from mid-eastern cultures. This recipe incorporates entirely raw ingredients for a truly healthy, delicious taste.",
+          "For a spicy taste you may add roasted red chili pepper or a dash of cayenne pepper.",
+          "Adding fresh parsley and paprika along with drizzling olive oil over the hummus really takes it over the top.",
+          "You may serve with pita bread for dipping. Chips or fresh vegetables compliment nicely as well."
+        ],
+        "pageId": 221326,
+        "revision": 4524784,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHummus+with+Sprouted+Chickpea&oldid=4524784",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AHummus+with+Sprouted+Chickpea&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-481930",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Soft_Spice_Cookie",
+      "title": "Soft Spice Cookie",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "3 eggs",
+        "1 cup shortening or butter",
+        "1 pinch of salt",
+        "1½ tsp Vanilla",
+        "½ tsp Lemon Extract",
+        "1 tbl Cinnamon",
+        "½ tsp Nutmeg",
+        "3 tbl Cocoa Powder",
+        "3 tbl Coffee",
+        "1 cup white granulated sugar",
+        "2 tsp baking powder",
+        "2–3 cups flour",
+        "Cinnamon-Sugar, as needed for topping."
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "In a large bowl, beat eggs lightly to break the yolks as one would for scrambled eggs, then mix in the shortening. If using butter, soften it slightly beforehand by heating it a little. The shortening/egg mixture should be loose.",
+          "Mix in the sugar, then add the salt to the liquid mixture.",
+          "Mix in vanilla extract, lemon extract, coffee, cinnamon, nutmeg, and cocoa powder.",
+          "Add the baking powder, then slowly add the flour as needed to reach a proper doughy state (in essence, able to be shaped without sticking to one's hands too much). You may not need all of the flour, or you may even need a little more based on your eggs and how closely you measured.",
+          "Make balls and place onto a greased or parchment-lined pan.",
+          "Top each cookie with a generous amount of cinnamon-sugar.",
+          "Bake in a 175°C (350°F) over for between 15-20 minutes."
+        ],
+        "notes": [
+          "This is a variation of Soft Sugar Cookies based on a spice cake recipe.",
+          "When heating up the butter, make sure that it's only barely solid when it's mixed into the eggs.",
+          "This recipe calls for already-made liquid coffee, not powder."
+        ],
+        "pageId": 481930,
+        "revision": 4624413,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASoft+Spice+Cookie&oldid=4624413",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASoft+Spice+Cookie&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-290852",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Jalapeno_Sausage_and_Bacon_Appetizers_(Atomic_Buffalo_Turds)",
+      "title": "Jalapeno Sausage and Bacon Appetizers (Atomic Buffalo Turds)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "Jalapeño peppers",
+        "Cream cheese",
+        "Cocktail sausages",
+        "Bacon slices"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Halve the jalapeño peppers lengthwise and scrape out membrane and seeds.",
+          "Fill the peppers with cream cheese, and then place a cocktail sausage on top of the cream cheese.",
+          "Cut the bacon slices in half, and wrap each halved pepper in bacon. A cocktail stick or toothpick can be used to hold the ABTs together if needed.",
+          "Cook the ABTs by barbecuing, baking, or grilling. They are done when the bacon is crisped and the jalapeño has softened but not to the point of collapsing. When oven-baked or indirectly grilled, they are typically cooked at approximately 275°F (135°C) for 2 hours, or until bacon is crisped."
+        ],
+        "notes": [
+          "Atomic buffalo turds (also known as ABTs) are a variation of the jalapeño popper.",
+          "Try using cheddar cheese or other cheese in place of the cream cheese.",
+          "If the heat of the jalapeño peppers does not appeal, bell peppers may be used instead—quarter the bell peppers and scrape out the seeds before filling.",
+          "The ABTs can be basted with a barbecue sauce before being cooked."
+        ],
+        "pageId": 290852,
+        "revision": 4514754,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AJalapeno+Sausage+and+Bacon+Appetizers+%28Atomic+Buffalo+Turds%29&oldid=4514754",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AJalapeno+Sausage+and+Bacon+Appetizers+%28Atomic+Buffalo+Turds%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-26548",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Soft_Sugar_Cookies",
+      "title": "Soft Sugar Cookies",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "3 eggs",
+        "1 cup shortening or butter",
+        "Vanilla, to taste",
+        "1 cup white granulated sugar",
+        "1 pinch of salt",
+        "2 tsp baking powder",
+        "2–3 cups flour"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "In a large bowl, beat eggs lightly to break the yolks as one would for scrambled eggs, then mix in the shortening. If using butter, soften it slightly beforehand by heating it a little. The shortening/egg mixture should be loose.",
+          "Mix in the sugar, then add the salt to the liquid mixture.",
+          "Add the baking powder, then slowly add the flour as needed to reach a proper doughy state (in essence, able to be shaped without sticking to one's hands too much). You may not need all of the flour, or you may even need a little more based on your eggs and how closely you measured.",
+          "Make balls and place onto a greased or parchment-lined pan then into an oven heated to 175°C (350°F), and let bake for between 15–20 minutes."
+        ],
+        "notes": [
+          "This recipe for sugar cookies has been running with the Gilbert women of Ontario, Canada for more than 100 years. No one knows where the recipe started, but it's been that way as long as any can recall with no real change.",
+          "Feel free to switch out half the sugar with another sweet item, like honey.",
+          "Using three tablespoons of cocoa powder one can get a slight chocolate flavour to the cookie, without being overtly chocolatey.",
+          "Try adding chocolate chips to the dough.",
+          "Approximately 1 teaspoon of vanilla extract works well for this recipe.",
+          "Adding some cinnamon and nutmeg gives a good flavor.",
+          "When heating up the butter, make sure that it's only barely solid when it's mixed into the eggs."
+        ],
+        "pageId": 26548,
+        "revision": 4540927,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASoft+Sugar+Cookies&oldid=4540927",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASoft+Sugar+Cookies&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-112260",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Kipspek_(Bacon-wrapped_Chicken)",
+      "title": "Kipspek (Bacon-wrapped Chicken)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1–2 chicken breasts, cubed",
+        "Salt",
+        "Black pepper",
+        "Bacon strips",
+        "1–2 eggs",
+        "Fine powdery breadcrumbs",
+        "Toothpicks",
+        "Oil"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Season the chicken with salt and pepper.",
+          "Wrap each cube of chicken in a strip of bacon.",
+          "To make sure the bacon doesn't roll off the chicken, stick a toothpick from one end to the other.",
+          "Roll the kipspek in the breadcrumbs.",
+          "Whisk the eggs, and dip each kipspek in the eggs.",
+          "Roll the kipspek through the breadcrumbs once again. Leave them for about half an hour to dry out the surface.",
+          "Heat the oil in a deep pot.",
+          "Fry the kipspeks until they're golden brown all over.",
+          "Serve with ketchup or mustard—don't forget to remove the toothpick before taking a bite."
+        ],
+        "notes": [
+          "Kipspek, which literally translates from Dutch into \"chickenbacon\", is a very easy snack consisting of cubed chicken wrapped in bacon, which is then breaded and fried."
+        ],
+        "pageId": 112260,
+        "revision": 4513520,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKipspek+%28Bacon-wrapped+Chicken%29&oldid=4513520",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AKipspek+%28Bacon-wrapped+Chicken%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-21640",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Space_Cake",
+      "title": "Space Cake",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 cup finely-ground pure cannabis",
+        "1 cup flour",
+        "1 cup water",
+        "1 tsp baking powder",
+        "1 tbsp cocoa powder",
+        "5 tbsp butter or margarine",
+        "1 cup white granulated sugar"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 200°C.",
+          "Grease a non-stick baking tray or line with parchment paper.",
+          "Place butter and sugar in a bowl, and combine till you have a thick batter.",
+          "Add flour, baking powder, cannabis, and cocoa powder, and combine with small amounts of water at a time until smooth. If adding any additional ingredients, add them now.",
+          "Using a tablespoon, dollop scoops of batter on the tray, ½ inch apart from each other and sides of the tray.",
+          "Place tray in preheated oven, and allow to bake for 10–20 minutes, until center is cooked. Pricking a toothpick in the center will let you know—if the batter sticks to the pick, it's not ready yet.",
+          "Remove from oven, and allow to cool."
+        ],
+        "notes": [
+          "You may wish to replace the standard butter or margarine with THC butter.",
+          "The cocoa powder may be omitted from the recipe if you prefer a chocolate-free version.",
+          "Try adding one or more of the following to the dry ingredients before adding the water: 1 capful mint essence ½ cup chocolate chips (goes well with the mint) ½ cup coconut flakes (an additional 2 tbsp of butter and ¼ cup water may be needed here) 1 dash of Kahlua, rum, or sweet brandy"
+        ],
+        "pageId": 21640,
+        "revision": 4516955,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpace+Cake&oldid=4516955",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpace+Cake&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-101702",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Madbucha_(North_African_Peppers_and_Tomatoes)",
+      "title": "Madbucha (North African Peppers and Tomatoes)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "Oil",
+        "2 onions, chopped",
+        "2 cloves garlic, chopped",
+        "15 tomatoes, cubed",
+        "10 bell peppers, cut into small pieces",
+        "5 chile peppers, chopped small",
+        "330 ml canned tomato paste",
+        "Salt",
+        "Pepper",
+        "Cumin",
+        "Parsley",
+        "Oregano"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Take a pot that is big enough for all of the above ingredients, cover the bottom with oil, and put it on a flame.",
+          "When the oil gets hot, add the onion and garlic.",
+          "When they start to fry, add the rest of the vegetables and salt.",
+          "Mix it up a bit and cover the pot.",
+          "Leave it to cook, mixing it every so often, until the level of the liquid is higher than the level of the vegetables.",
+          "Drain off most (but not all) the liquid.",
+          "Add the tomato paste and the spices.",
+          "Mix, and let it cool."
+        ],
+        "notes": [
+          "Madbucha or matbucha is a North African dish of stewed tomatoes and peppers. It can be used as a side dish with meats, as well as put on bread or white rice. There's more than one way to make it, and the following recipe is a family recipe.",
+          "When chopping the peppers, you want them small but not so small that they disappear when cooked.",
+          "The peppers can be any color, but red is traditional."
+        ],
+        "pageId": 101702,
+        "revision": 4514096,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMadbucha+%28North+African+Peppers+and+Tomatoes%29&oldid=4514096",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMadbucha+%28North+African+Peppers+and+Tomatoes%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-28475",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Spanish_Flan",
+      "title": "Spanish Flan",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "5 eggs",
+        "1 tsp vanilla",
+        "1 can of sweetened condensed milk",
+        "1 can of evaporated milk (large can)",
+        "Caramel ice cream topping"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Heat oven to 375°F.",
+          "Combine all ingredients except caramel topping in blender. Blend for 2 minutes.",
+          "Place a thin layer of caramel topping on bottom of a round pie pan. Pour egg mixture on top of caramel topping.",
+          "Place the smaller pie pan in a larger pan filled with enough water so that it comes about 1 inch up the side of the smaller pan. This will act as a bain marie and stop the flan from burning.",
+          "Place both pans in oven. Cook for 1 hour or until center is firm.",
+          "Remove from oven and let cool.",
+          "Place a round dish over the top of the smaller pan, and flip it over to unmold it. The flan can be served on the dish."
+        ],
+        "notes": [],
+        "pageId": 28475,
+        "revision": 4587149,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpanish+Flan&oldid=4587149",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpanish+Flan&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-140331",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Mushroom_Caps_Stuffed_with_Bacon_and_Cheese",
+      "title": "Mushroom Caps Stuffed with Bacon and Cheese",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "3 oz cream cheese",
+        "¼ teaspoon Worcestershire Sauce",
+        "¼ teaspoon salt",
+        "¼ teaspoon pepper",
+        "¼ cup diced green onions",
+        "2 tablespoons diced green peppers",
+        "Chopped mushroom stems",
+        "2 slices cooked bacon, chopped",
+        "½ cup bread crumbs",
+        "1 tablespoon butter",
+        "2 dozen mushrooms"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 325°F (about 160–165°C).",
+          "Soften cream cheese and put in food processor. Add Worcestershire sauce, salt, and pepper; pulse until mixed.",
+          "Fold in chopped bacon, chopped mushroom stems, diced green onions, and green peppers.",
+          "Set stuffing aside.",
+          "Mix bread crumbs with just enough butter to hold together.",
+          "Stuff mushroom caps with stuffing.",
+          "Top with bread crumbs.",
+          "Bake for 5 minutes."
+        ],
+        "notes": [],
+        "pageId": 140331,
+        "revision": 4524822,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMushroom+Caps+Stuffed+with+Bacon+and+Cheese&oldid=4524822",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AMushroom+Caps+Stuffed+with+Bacon+and+Cheese&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-219286",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Pan-Fried_White_Brined_Cheese_(Saganaki)",
+      "title": "Pan-Fried White Brined Cheese (Saganaki)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 large slice of salty, brined white cheese (e.g. feta, sirene)",
+        "1 tablespoon olive oil (not extra virgin)",
+        "1 large lemon wedge",
+        "A small amount of flour (optional)",
+        "Pita or other bread (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Heat a small frying pan over medium-high heat.",
+          "While the pan heats, cut the cheese into slices of the desired size and thickness. Thicker slices will take longer to melt through and may result in burning, while thinner ones will have less chance to brown.",
+          "Optionally, dredge the slices in flour—this will create a darker and slightly crispier crust, but is an optional step as the cheese will acquire a very slight crust on its own by virtue of the oil and high heat. It will also reduce the spitting somewhat.",
+          "Add the oil to the hot pan and swirl it around. When the oil shimmers and seems to become more fluid, it is ready. Add the cheese and step back—it will spit due to the brine-water on the cheese.",
+          "Flip the cheese after a minute or two. A slice of ¾ centimeter should get about 1–2 minutes per side.",
+          "Serve immediately, with lemon and (optionally) bread."
+        ],
+        "notes": [
+          "Saganaki is a Greek or Greek-American dish consisting of a hard, white, brined cheese cooked simply with olive oil in a hot pan (traditionally a two-handed vessel whence the name of the dish), usually served with lemon. In American restaurants, it is sometimes flambeed with various liqueurs at the table. In Greece, it is a traditional dish to have both with liquor (as a meze) or at the beginning of the meal to whet the appetite.",
+          "The best and most traditional cheese to use is feta, kefalograviera, kasseri, or kefalotyri."
+        ],
+        "pageId": 219286,
+        "revision": 4613881,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APan-Fried+White+Brined+Cheese+%28Saganaki%29&oldid=4613881",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APan-Fried+White+Brined+Cheese+%28Saganaki%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-91852",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Strawberry_Shortcut_Cake",
+      "title": "Strawberry Shortcut Cake",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 cup mini marshmallows",
+        "2 cups frozen, sliced strawberries in syrup, completely thawed",
+        "1 pkg (3 oz) strawberry jello powder (known as jelly outside of North America)",
+        "2¼ cups flour",
+        "1½ cups white granulated sugar",
+        "3 tsp baking powder",
+        "½ tsp salt",
+        "½ cup shortening",
+        "1 cup milk",
+        "3 eggs",
+        "1 tsp vanilla"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Generously grease the bottom of a 13x9-inch cake pan.",
+          "Sprinkle marshmallows evenly over bottom of pan.",
+          "Thoroughly combine completely thawed strawberries and syrup with dry jello; set aside.",
+          "In a large mixing bowl, combine remaining ingredients. Mix at low speed until moistened; beat 3 minutes at medium speed, scraping sides of bowl occasionally.",
+          "Pour batter over marshmallows, and spread out. Spoon strawberry mixture evenly over batter.",
+          "Bake at 350°F for 45–60 minutes or until golden brown and a toothpick inserted in center comes out clean.",
+          "Serve warm or cool with ice cream or whipped cream."
+        ],
+        "notes": [
+          "This strawberry shortcut cake is one of those recipes from the 1970s with lots of already-processed ingredients. It's very moist because the syrupy strawberry mixture starts on top and soaks through as the cake bakes."
+        ],
+        "pageId": 91852,
+        "revision": 4522836,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AStrawberry+Shortcut+Cake&oldid=4522836",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AStrawberry+Shortcut+Cake&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-77701",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Papadam_(Black_Gram_Flatbread)",
+      "title": "Papadam (Black Gram Flatbread)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "8 cups black gram flour",
+        "1 tsp cracked black pepper",
+        "1 tsp ground cumin seeds",
+        "½ tsp salt",
+        "¼ cup water (or more if needed)",
+        "Oil for frying"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Mix together the flour, pepper, cumin, and salt.",
+          "Add water and knead the dough until it is smooth. You may have to add some water, depending on the flour.",
+          "Split the dough into 10–15 balls.",
+          "Roll out one ball at a time to a very thin round layer on a slightly oiled surface.",
+          "Dry the papadams in the oven for an hour (at about 100°C or 200°F).",
+          "Keep them in an airtight container.",
+          "Fry the papadams in oil until they are crispy but not too brown."
+        ],
+        "notes": [
+          "Papadam (also papadum, poppadom, papar, and appalam) is an Indian and Sri Lankan flatbread. Typically, it is prepared using black gram bean flour, rice flour, or lentil flour with salt and peanut oil added. The ingredients are made into a dough and formed into a thin, round shape similar to a tortilla. As the dough is prepared, the papadam can be seasoned with a variety of different ingredients such as chilies, cumin, garlic, black pepper, or other spices.",
+          "Papadams are cooked by deep-frying in oil, which causes them to expand and crispen. They may also be cooked by roasting them over an open flame, in a toaster oven, or in a microwave oven. Depending on the cooking method they may be either soft and moist or crisp in texture.",
+          "Usually served as a complement to a main dish in South Asia, a relatively recent Western practice is to treat them as a snack or as an appetizer to be topped with chutney, various dips or salsas. Commonly made in different sizes, the smaller ones are for snacks and the larger variety may be used as a food wrap."
+        ],
+        "pageId": 77701,
+        "revision": 4515421,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APapadam+%28Black+Gram+Flatbread%29&oldid=4515421",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APapadam+%28Black+Gram+Flatbread%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-421882",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Sugar_Pie",
+      "title": "Sugar Pie",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 pie crust",
+        "½ cup butter",
+        "¼ cup cornstarch (flour can work if cornstarch is unavailable)",
+        "1 cup white granulated sugar",
+        "1 cup milk",
+        "1 cup whipping cream",
+        "Cinnamon or nutmeg to sprinkle on top of pie (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to about 375°F (190–200°C)",
+          "In large saucepan, simmer milk without boiling.",
+          "Dissolve sugar, cornstarch and butter into milk. Stir gently and allow to thicken for about 5 minutes.",
+          "Pour mixture into pie crust and gently transfer into oven. Bake for about 22 minutes.",
+          "Optionally engage broiler for a few minutes to caramelize the top of the pie."
+        ],
+        "notes": [
+          "Sugar pie is a traditional American pie known by several other names, including \"Desperation Pie\" (due to low ingredient count) and \"Sugar Cream Pie\". Under the last name, it is the official pie of the state of Indiana."
+        ],
+        "pageId": 421882,
+        "revision": 4540928,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASugar+Pie&oldid=4540928",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASugar+Pie&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-60091",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Potato_Skins",
+      "title": "Potato Skins",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "8 small baking potatoes",
+        "Vegetable oil",
+        "Garlic salt",
+        "2 cups shredded cheddar cheese",
+        "12 slices bacon (optional), cooked and crumbled",
+        "2 tablespoons chopped fresh chives, divided"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Scrub potatoes and rub skins with oil. Prick each potato several times with a fork.",
+          "Bake potatoes at 400°F for 30–45 minutes or until potatoes are done. Allow potatoes to cool to touch.",
+          "Cut top third off each potato; discard tops. Carefully scoop out pulp, leaving about ⅛ inch-thick shells. Reserve potato pulp for other uses.",
+          "Fry potato skins in hot oil (375°F) for 3–4 minutes or until browned. Remove potato skins and drain on paper towels.",
+          "Place potato skins, cut side up, on an ungreased baking sheet. Sprinkle with garlic salt and cheddar cheese. Broil 6 inches from heat for 30 seconds or until cheese melts.",
+          "Top potato skins with bacon if using them and 1 tablespoon chives.",
+          "Press green chiles between paper towels to remove excess moisture. Combine chilies, sour cream and red pepper in a small bowl; stir well. Top with remaining 1 tablespoon chives. Serve with potato skins."
+        ],
+        "notes": [
+          "Potato skins is a dish made with potato halves, cheese, bacon, green onions, and sour cream.",
+          "You don't have to make the chili sour cream—you can just put a spoonful of sour cream right onto of the potato skin.",
+          "You can also bake these off in the oven to melt the cheese if you don't want to fry them in oil."
+        ],
+        "pageId": 60091,
+        "revision": 4515186,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APotato+Skins&oldid=4515186",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3APotato+Skins&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-4161",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Sunglow_Motel-Cafe_Pickle_Pie",
+      "title": "Sunglow Motel-Cafe Pickle Pie",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "5 eggs",
+        "2 cups white granulated sugar",
+        "1 tsp cinnamon",
+        "1 tsp nutmeg",
+        "1 tsp lemon extract",
+        "2 tbsp cornstarch",
+        "1 cup + 2 tbsp light cream",
+        "⅛ cup margarine, melted",
+        "12 oz sweet pickles, drained and ground",
+        "2 unbaked 9-inch pie shells"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Beat eggs and sugar until lemon-colored and thick; beat in cinnamon, nutmeg, lemon extract, cornstarch, cream and margarine.",
+          "Stir ground sweet pickles into mixture.",
+          "Pour pickle mixture into unbaked pie shells.",
+          "Bake at 350°F for 1–1.25 hours, until a knife inserted in center comes out clean."
+        ],
+        "notes": [
+          "The Sunglow Motel-Cafe in Bicknell, Utah serves the unique pickle pie, developed by Cula Ekker. This is their recipe, as it appeared in a Salt Lake Tribune article that is framed and hangs on the cafe's wall."
+        ],
+        "pageId": 4161,
+        "revision": 4517293,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASunglow+Motel-Cafe+Pickle+Pie&oldid=4517293",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASunglow+Motel-Cafe+Pickle+Pie&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-12195",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Sunshine_Cake",
+      "title": "Sunshine Cake",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "6 eggs, separated",
+        "⅓ tsp cream of tartar",
+        "1 cup white granulated sugar",
+        "¾ cup flour",
+        "1 tsp lemon juice",
+        "1 tsp vanilla"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Whip the yolks with a rotary beater until they are thick and lemon-colored.",
+          "Whip the egg whites until they are foamy, add the cream of tartar, and continue whipping until they are dry.",
+          "Fold the sugar into the egg whites, then then fold the yolks into this mixture.",
+          "Sift the flour several times and add it.",
+          "Add the lemon juice and vanilla.",
+          "Pour batter into a sponge-cake pan, and bake."
+        ],
+        "notes": [
+          "Nothing more delicious in the way of cake can be made than sunshine cake. It is especially nice to serve with a frozen dessert of some kind, for it is not too rich and it is attractive in color.",
+          "Original source is Woman's Institute Library of Cookery, Vol. 4 at Project Gutenberg"
+        ],
+        "pageId": 12195,
+        "revision": 4516961,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASunshine+Cake&oldid=4516961",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASunshine+Cake&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-247444",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Red_and_White_Onion_Tapenade",
+      "title": "Red and White Onion Tapenade",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 garlic clove",
+        "6 oz pitted Kalamata olives",
+        "⅓ cup chopped white onions",
+        "⅓ cup chopped red onions",
+        "2 tbsp capers, rinsed and drained",
+        "1 tbsp grated lemon peel",
+        "1 tbsp fresh thyme leaves",
+        "¼ cup olive oil",
+        "Toasted baguette or rustic bread slices"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "In food processor with motor running, drop in garlic and chop. Turn off motor and add olives, onions, capers, lemon peel and thyme. Pulse to chop to coarse consistency.",
+          "Add olive oil and pulse to just blend keeping texture in mixture.",
+          "Serve with toasted baguette or rustic bread slices."
+        ],
+        "notes": [],
+        "pageId": 247444,
+        "revision": 4509971,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARed+and+White+Onion+Tapenade&oldid=4509971",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARed+and+White+Onion+Tapenade&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-205974",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Sweet_Rice_Fritters",
+      "title": "Sweet Rice Fritters",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 cups cooked sticky rice",
+        "2 eggs, beaten",
+        "½ cup granulated sugar",
+        "All-purpose flour",
+        "2½ quarts vegetable oil",
+        "Powdered sugar (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Combine rice, eggs, and sugar. Form into 3-inch balls. Dredge in flour and set aside 2–3 minutes.",
+          "Heat oil to 375°F. Add rice balls and, working in batches, fry until golden brown and heated through.",
+          "Drain fritters on a cooling rack set in a sheet pan.",
+          "If desired, dust with powdered sugar before serving."
+        ],
+        "notes": [],
+        "pageId": 205974,
+        "revision": 4517769,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASweet+Rice+Fritters&oldid=4517769",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASweet+Rice+Fritters&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-469311",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Romanian_Roasted_Eggplant_Spread_II",
+      "title": "Romanian Roasted Eggplant Spread II",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 ea. (1–1½ pounds) medium-large eggplant (any variety)",
+        "½ large or 1 medium onion, finely diced or grated",
+        "3 tablespoons sunflower oil",
+        "½ tsp salt",
+        "1–2 tablespoons mayonnaise (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Roast the eggplants. This can be done in a variety of ways, but the flesh should be fully cooked and the skin should be burned and falling off easily. An effective method is to prick the eggplants and place them in a preheated 400 °F oven until the skin is charred and a fork easily pierces the vegetable all the way through.",
+          "Skin the the eggplants—the skin should come off easily by hand. Use the back of a table knife to scrape off any residual eggplant from the skin once the skin is removed—this portion of eggplant retains the smoky flavor and should not be discarded.",
+          "Finely chop or blend the eggplant flesh. The consistency should be smooth, like a purée.",
+          "Transfer the eggplant to a bowl, and mix in the other ingredients. The amounts can be adjusted for taste.",
+          "Chill in the fridge until serving."
+        ],
+        "notes": [
+          "Salată de vinete (eggplant salad) is a common Romanian spread made with eggplants and onion. It is usually eaten with bread.",
+          "For garnish, you may add olives, tomatoes, the Romanian cheese telemea (similar to feta), or sometimes even peppers.",
+          "Do not use olive oil because it makes the dish bitter.[1][2]",
+          "The dish improves overnight as the onion flavor permeates the eggplant.",
+          "If the dish seems too strong tasting or too bitter for you, make sure you try including the mayonnaise.",
+          "Baba ganoush is a similar Middle Eastern spread, but it uses tahini and lemon."
+        ],
+        "pageId": 469311,
+        "revision": 4505504,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARomanian+Roasted+Eggplant+Spread+II&oldid=4505504",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ARomanian+Roasted+Eggplant+Spread+II&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-39694",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Sweet_Rice_I",
+      "title": "Sweet Rice I",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "3 cups water",
+        "1½ cups white rice",
+        "1½ tins (about 2 ½ cups / 600 g) evaporated milk",
+        "2 tins (2 ½ cups / 600 g) sweetened condensed milk",
+        "2 cinnamon sticks",
+        "1 tbsp vanilla essence",
+        "4 tbsp raisins (optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Bring water to a boil. Add rice, and boil until very soft. Most of the water should be absorbed by the rice. Add more water if necessary.",
+          "Add evaporated milk, condensed milk, cinnamon sticks, and vanilla essence.",
+          "Cook over medium heat, stirring once in a while to prevent sticking, until mixture has thickened and reached a pudding-like consistency.",
+          "Remove from heat, and stir in raisins.",
+          "Let stand."
+        ],
+        "notes": [
+          "Sweet rice is a rice pudding that can be served hot or cold."
+        ],
+        "pageId": 39694,
+        "revision": 4517887,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASweet+Rice+I&oldid=4517887",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASweet+Rice+I&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-76186",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Teurgoule_(Norman_Cinnamon_Rice_Pudding)",
+      "title": "Teurgoule (Norman Cinnamon Rice Pudding)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "200 g fine granulated sugar",
+        "175 g round-grain rice",
+        "1 pinch of salt",
+        "¼ tsp powdered cinnamon",
+        "2 L whole milk"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat your oven to 150°C (thermostat 2).",
+          "Mix the sugar, milk, rice, salt, and cinnamon in a terrine bowl.",
+          "Put the mix in the oven for 5 hours while making sure no one opens the oven door.",
+          "The rice must absorb approximately three-quarters of the milk and must be covered by a brown skin.",
+          "Let the pudding cool down and serve at room temperature."
+        ],
+        "notes": [
+          "Teurgoule is a cinnamon-flavoured rice pudding that is a speciality of Normandy. The name comes from the Norman language and means twist mouth, a reference to the faces supposedly pulled by someone tasting it due to the spiciness of the dish.",
+          "Teurgoule even has a brotherhood, La Confrérie Gastronomique de la Teurgoule which is based in Houlgate and presides over the annual Teurgoule cooking competition. The presiding members wear the brotherhood's ceremonial robe which is green and orange with a cape. The brotherhood keeps the official recipe."
+        ],
+        "pageId": 76186,
+        "revision": 4522390,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATeurgoule+%28Norman+Cinnamon+Rice+Pudding%29&oldid=4522390",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATeurgoule+%28Norman+Cinnamon+Rice+Pudding%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-258900",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Scotch_Bonnet_Pepper_Poppers",
+      "title": "Scotch Bonnet Pepper Poppers",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "24 Scotch bonnet peppers",
+        "1 cup whole milk ricotta cheese",
+        "½ cup freshly-grated Parmesan cheese",
+        "¼ cup minced onion",
+        "¼ pound Italian sausage"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 350°F.",
+          "Fry sausage on medium-high heat, chopping as it cooks until it is the size of small peas. Drain and cool slightly.",
+          "In a bowl, mix ricotta, Parmesan, and onion with sausage to form the filling.",
+          "Cut tops of peppers about ¼ inch below the stem. Set tops aside.",
+          "With a sharp knife, scoop out seeds and membrane from each pepper. Mix as much of the seeds and membrane into the filling as needed to regulate heat. For example, moderate poppers use seeds and membrane from 6–8 peppers. Moderate poppers nicely complement the cocktail hour. For very hot poppers, leave the seeds and membranes in each pepper.",
+          "Using your fingers, stuff each pepper with filling. Replace tops.",
+          "Place poppers on parchment-lined tray and bake 15–20 minutes or until desired.",
+          "Cool slightly before serving."
+        ],
+        "notes": [],
+        "pageId": 258900,
+        "revision": 4515015,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AScotch+Bonnet+Pepper+Poppers&oldid=4515015",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AScotch+Bonnet+Pepper+Poppers&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-4164",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Traditional_Pound_Cake",
+      "title": "Traditional Pound Cake",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "½ pound self-raising flour",
+        "½ pound butter",
+        "½ pound (4 ea.) eggs",
+        "½ pound caster sugar",
+        "1 tsp vanilla extract (optional)",
+        "½ pound assorted dried fruit (currants, sultanas, and raisins, with perhaps a lesser quantity of glacé cherries; optional)"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat the oven to 175°C (350°F or Gas Mark 4).",
+          "Cream the butter and sugar together until fluffy.",
+          "Beat in the eggs and add the vanilla extract.",
+          "Gradually sift in the dry ingredients.",
+          "Transfer to a greased and floured baking pan.",
+          "Bake for 35 minutes or until a skewer inserted shows no moist crumbs when removed."
+        ],
+        "notes": [
+          "A traditional pound cake recipe would specify one pound each of flour, butter, eggs, and sugar. These quantities are too great for most modern families, but an excellent cake can be made with half quantities. It is usual to weigh the eggs first and then use the same weights of the other ingredients; with a traditional pair of kitchen scales, the eggs are simply used instead of weights.",
+          "½ pound (or lb) is equal to 1 cup or 8 oz or approximately 227 grams (or g). Needless to say, in this recipe, 250 grams of each ingredient could be used."
+        ],
+        "pageId": 4164,
+        "revision": 4516964,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATraditional+Pound+Cake&oldid=4516964",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATraditional+Pound+Cake&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-168646",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Snails_with_Garlic_Butter_(Escargots_%C3%A0_la_Bourguignonne)",
+      "title": "Snails with Garlic Butter (Escargots à la Bourguignonne)",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "24 canned snails",
+        "½ lb butter, softened",
+        "1 tbsp minced shallots",
+        "1 tsp grated or minced garlic",
+        "1½ tbsp fresh chopped parsley",
+        "Salt to taste",
+        "Pepper, to taste",
+        "24 snail shells, with snail serving dishes, and snail tongs OR 4 glazed indented earthenware snail serving dishes OR 24 small mushroom caps, trimmed and de-gilled"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 400°F.",
+          "Drain and rinse the snails.",
+          "Combine the butter with the shallots, garlic, parsley, salt, and pepper, and blend well.",
+          "Sauté the mushroom caps, if using, in a small amount of garlic butter until cooked but still firm. Remove from the heat.",
+          "If using snail shells, place a snail in each shell and fill the rest of the space with garlic butter. If using a snail dish without the shells, place a snail in each indentation and fill the rest of the space with garlic butter. If using mushroom caps, place 2–3 snails in each cap and top with a generous amount of garlic butter.",
+          "Heat the snails in the oven for 5–7 minutes, and serve with copious quantities of French bread for soaking up the garlic butter."
+        ],
+        "notes": [
+          "Escargots à la bourguignonne is a French dish of snails with garlic butter."
+        ],
+        "pageId": 168646,
+        "revision": 4502308,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnails+with+Garlic+Butter+%28Escargots+%C3%A0+la+Bourguignonne%29&oldid=4502308",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASnails+with+Garlic+Butter+%28Escargots+%C3%A0+la+Bourguignonne%29&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-181464",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Tres_Leches_Cake_II",
+      "title": "Tres Leches Cake II",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 box of white cake mix, preferably with pudding in the mix",
+        "1 can of sweetened condensed milk",
+        "1 can of evaporated milk",
+        "1 cup of heavy whipping cream or half and half",
+        "1 container of cool whip"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Prepare cake mix as directed on the package. Transfer to a greased baking dish or cake pan, and bake per the directions.",
+          "While the cake is baking, combine the sweetened condensed milk, evaporated milk, and heaving whipping cream to make the milk mixture. Mix well.",
+          "When the cake is finished baking, remove from the oven and poke holes all over the top of the cake with a fork.",
+          "Pour all of the milk mixture on top of the cake.",
+          "Cover the cake, and refrigerate it for 8 hours or overnight.",
+          "Immediately before serving, spread cake with cool whip or as guests prefer."
+        ],
+        "notes": [
+          "Tres leches cake is a popular Latin American dessert using 3 types of milk.",
+          "Regular cake frosting is an option, although the cake becomes very sweet. Cool whip is found to add just the right touch of sweetness.",
+          "You can also prepare 2 cakes. After soaking with the milk mixture, add your choice of filling on top of the first cake layer. Then, place the second cake layer on top and soak with milk mixture—this can be a very messy process, so take care to prevent milk from seeping out of the cake sides and bottom. Frost or spread with cool whip as normal.",
+          "Liqueur can be added to the milk mixture for flavoring."
+        ],
+        "pageId": 181464,
+        "revision": 4516966,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATres+Leches+Cake+II&oldid=4516966",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ATres+Leches+Cake+II&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-224070",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Spicy_Cheddar_Dip_with_Olives",
+      "title": "Spicy Cheddar Dip with Olives",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "1 package (6 ea.) 6-inch (15 cm) pita pockets",
+        "8 oz sharp cheddar cheese, shredded or diced very small",
+        "1 cup mayonnaise",
+        "3 oz black olives, sliced into rings",
+        "4 oz canned diced green chiles",
+        "1 small tomato, diced",
+        "2 green onions, cut into ¼-inch pieces",
+        "2 tbsp garlic powder, or to taste",
+        "2 tbsp hot sauce, or to taste"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Slice pitas as you would a pizza, into triangles. Separate pita triangles into halves, and place on a cookie sheet, inside surface up.",
+          "Toast in oven until golden brown, but not dark and bitter. This results in novel chips used to scoop the dip.",
+          "Combine the cheese, mayonnaise, chiles, half the olives, garlic powder, and hot sauce.",
+          "Microwave on high until the edges liquefy and bubble, then mix until everything is of the same consistency. Repeat this process until the whole bowl is creamy and a rich orange color.",
+          "Garnish the dip with the remaining olives, green onions, and tomatoes. Standard garnishing technique calls for arranging the remaining black olives, green onions, and diced tomatoes into a bulls-eye pattern.",
+          "Serve the dip with the pita chips."
+        ],
+        "notes": [
+          "Spicy cheddar dip with olives is the end all-be all of appetizers. People will line up to get another taste of this. It has enough calories to knock you off your feet. Be careful when serving it before a dinner, as it is quite filling. Some people eat so much of this that they can't handle the main course! This would be suitable as the centerpiece while watching the game, or as a wonderful treat during parties."
+        ],
+        "pageId": 224070,
+        "revision": 4621658,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpicy+Cheddar+Dip+with+Olives&oldid=4621658",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpicy+Cheddar+Dip+with+Olives&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-45616",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Vanilla_Crisps",
+      "title": "Vanilla Crisps",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Dessert",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "½ cup butter or margarine",
+        "½ cup shortening",
+        "⅔ cup white granulated sugar",
+        "1 teaspoon salt",
+        "2 teaspoons vanilla",
+        "2 eggs",
+        "2 ½ cups all-purpose flour"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Preheat oven to 375°F.",
+          "Cream butter, shortening and sugar together.",
+          "Add salt and vanilla.",
+          "One at a time, beat eggs into mixture.",
+          "Stir flour into mixture to make dough.",
+          "Roll dough into small balls and press into circular shapes on ungreased cookie sheet.",
+          "Bake for 8–10 minutes.",
+          "Remove immediately from pan and allow to cool."
+        ],
+        "notes": [
+          "A vanilla crisp is a tasty cookie that is much like a sugar cookie, but takes less time to make.",
+          "Unlike sugar cookies, there is no need to chill before baking.",
+          "To give an extra taste, add 1 teaspoon of almond extract."
+        ],
+        "pageId": 45616,
+        "revision": 4515344,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AVanilla+Crisps&oldid=4515344",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3AVanilla+Crisps&action=history",
+        "license": "CC-BY-SA-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution": "Wikibooks contributors",
+        "changes": "Links and formatting converted to plain text. Source primary quantities retained; secondary parenthetical unit conversions omitted where present. Procedure wording retained; introductory recipe context retained as notes."
+      }
+    },
+    {
+      "id": "wikibooks-203876",
+      "source": "wikibooks",
+      "url": "https://en.wikibooks.org/wiki/Cookbook:Spicy_Plantain_Chips",
+      "title": "Spicy Plantain Chips",
+      "author": "Wikibooks contributors",
+      "cuisine": "",
+      "category": "Appetiser",
+      "categoryEvidenceAt": "2026-10-31T07:15:24.426553+00:00",
+      "ingredients": [
+        "2 green plantains, mashed",
+        "1 tsp salt",
+        "1 tsp freshly ground black pepper",
+        "1 serrano chile, seeded and minced",
+        "1 tbsp minced garlic",
+        "2 quarts peanut or canola oil for deep-frying"
+      ],
+      "rating": null,
+      "photoUrl": null,
+      "checkedAt": "2026-10-31T07:15:24.426553+00:00",
+      "method": {
+        "steps": [
+          "Combine plantains, salt, black pepper, the chile, and garlic. Shape into rounds about the size of a thin slice of potato.",
+          "Heat oil to 375°F. Add rounds, 6–8 at a time, and fry until golden brown and crispy on the outside.",
+          "Drain on a cooling rack set above a sheet pan, and season immediately with salt and freshly ground black pepper.",
+          "Serve warm or room temperature."
+        ],
+        "notes": [],
+        "pageId": 203876,
+        "revision": 4510470,
+        "revisionUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpicy+Plantain+Chips&oldid=4510470",
+        "historyUrl": "https://en.wikibooks.org/w/index.php?title=Cookbook%3ASpicy+Plantain+Chips&action=history",
         "license": "CC-BY-SA-4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "attribution": "Wikibooks contributors",
