@@ -1,0 +1,63 @@
+name: Verify Tasteit
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+# Keep just the newest PR verification when several commits arrive in a row.
+concurrency:
+  group: tasteit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check syntax and unit tests
+        run: npm ci && npm run verify && node scripts/audit-ingredient-photos.mjs && python3 scripts/audit-commons-thumbnail-paths.py --strict && npm run build:site && npm run build:vercel
+
+  browser:
+    name: Browser acceptance (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install browser test runtime
+        run: |
+          # 1.56 has an upstream WebKit reload crash (microsoft/playwright#37766).
+          npm ci
+          npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Run headless browser acceptance
+        env:
+          TASTEIT_BROWSER: ${{ matrix.browser }}
+        run: |
+          node tests/everyday-cooking-browser.mjs
+          node tests/coherent-interface-browser.mjs
+          node tests/browser-smoke.mjs
+          node tests/discovery-browser.mjs
+          node tests/kitchen-browser.mjs
+          node tests/personalisation-browser.mjs
+          node tests/continuity-browser.mjs
+          node tests/vercel-browser.mjs
+          node tests/complete-recipes-browser.mjs
+          node tests/selected-sources-browser.mjs
+          # Independent fresh sessions guard the Firefox focus/click regression.
+          # Every execution must pass; these are stability checks, not retries.
+          if [ "$TASTEIT_BROWSER" = firefox ]; then
+            node tests/continuity-browser.mjs
+            node tests/continuity-browser.mjs
+          fi
