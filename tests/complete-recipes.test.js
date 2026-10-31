@@ -12,6 +12,8 @@ test('full methods require exact source/revision/licence identity and bounded co
 test('licensed release only appends complete recipes without changing the original collection',async()=>{
  const bytes=await readFile('data/selected-recipes.json');assert.equal(createHash('sha256').update(bytes).digest('hex'),'18c8faacebf59ea2e28484a5e226a5d48a521b47ee77bd8f4e2962cc65f28e67');
  const old=JSON.parse(bytes).recipes,data=JSON.parse(await readFile('data/complete-recipes.json','utf8'));assert.equal(old.length,1108);assert.equal(data.source,'wikibooks');assert.ok(data.recipes.length>=50&&data.recipes.length<=250,'bounded, verifiable recipe total');
+ const original200=JSON.parse(await readFile('tests/fixtures/complete-recipe-baseline-200.json','utf8'));
+ assert.deepEqual(data.recipes.slice(0,original200.length).map(r=>({id:r.id,title:r.title,revision:r.method.revision,ingredientCount:r.ingredients.length,stepCount:r.method.steps.length})),original200,'original 200 licensed source methods must keep their identity and size');
  const original150=JSON.parse(await readFile('tests/fixtures/complete-recipe-baseline-150.json','utf8'));
  assert.deepEqual(data.recipes.slice(0,original150.length).map(r=>({id:r.id,title:r.title,revision:r.method.revision,ingredientCount:r.ingredients.length,stepCount:r.method.steps.length})),original150,'earlier 150 licensed recipes must retain stable IDs, titles, source revisions and method/ingredient counts');
  const baseline=JSON.parse(await readFile('tests/fixtures/complete-recipe-baseline.json','utf8'));
