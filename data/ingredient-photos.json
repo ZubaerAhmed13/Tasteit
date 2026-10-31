@@ -3777,9 +3777,7 @@
       "label": "Miso paste",
       "aliases": [
         "miso",
-        "miso paste",
-        "white miso",
-        "red miso"
+        "miso paste"
       ],
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Miso_001.jpg/250px-Miso_001.jpg",
       "filePage": "https://commons.wikimedia.org/wiki/File:Miso_001.jpg",
@@ -3792,7 +3790,11 @@
         "miso broth",
         "miso powder",
         "shiro dashi",
-        "dashi stock"
+        "dashi stock",
+        "white miso",
+        "red miso",
+        "dark miso",
+        "awase miso"
       ],
       "description": "Miso soybean paste, not a prepared soup.",
       "verified": true,
