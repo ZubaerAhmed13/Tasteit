@@ -74,7 +74,8 @@ function findIngredientPhoto(input,compiled) {
   if(!primary.includes(' '+best.word+' ')&&!/^\d[\d\s]*(?:(?:g|kg|mg|ml|l|el|tl|tsp|tbsp|cups?|bottles?)\s*)?(?:dry)?$/.test(aliasSegments[0]))return null;
   if(aliasSegments.slice(1).some(segment=>segment.replace(best.word,'').trim().split(/\s+/).filter(Boolean).some(word=>!detailWords.has(word)&&!/^\d+(?:g|kg|mg|ml|l|cm|mm)?$/.test(word))))return null;
  }
- if(mixedConnector&&/\b(or|and|oder|und)\b/.test(singleFoodDescription(aliasSegments[0]))&&!(best.photo.form==='roasted'&&/\broasted and shredded\b/.test(text)&&!/\b(or|and|oder|und)\b/.test(text.replace(/\broasted and shredded\b/g,'roasted shredded'))))return null;
+ const safeSeasoningPair=best.photo.id==='salt-and-pepper'&&['salt and pepper','salt and pepper to taste'].includes(norm(text));
+ if(mixedConnector&&/\b(or|and|oder|und)\b/.test(singleFoodDescription(aliasSegments[0]))&&!safeSeasoningPair&&!(best.photo.form==='roasted'&&/\broasted and shredded\b/.test(text)&&!/\b(or|and|oder|und)\b/.test(text.replace(/\broasted and shredded\b/g,'roasted shredded'))))return null;
  // Distinct foods in one primary ingredient line require an explicit combined reference.
  if(matches.some(x=>x.photo.id!==best.photo.id&&!best.word.includes(x.word)&&!x.word.includes(best.word)))return null;
  if(preparations.some(p=>(' '+text+' ').includes(' '+p+' ')&&!(' '+best.word+' ').includes(' '+p+' ')))return null;
