@@ -15,7 +15,7 @@ let photoState='loading',curationState='loading',curationPayload=null,curationFe
 const reference=line=>'<div data-ingredient-reference="'+esc(line)+'">'+ingredientReference(line,photos)+'</div>';
 function recipeCard(r) {
  const saved=savedState['selected-'+r.id]||{};
- const saveButtons=['wanted','usual'].map(field=>'<button type="button" class="btn secondary small" data-save-recipe="'+esc(r.id)+'" data-save-flag="'+field+'" aria-pressed="'+Boolean(saved[field])+'">'+(saved[field]?'✓ ':'+ ')+(field==='wanted'?'Want to try':'My usual dishes')+'</button>').join('');
+ const saveButtons=['wanted','usual','avoided'].map(field=>'<button type="button" class="btn secondary small" data-save-recipe="'+esc(r.id)+'" data-save-flag="'+field+'" aria-pressed="'+Boolean(saved[field])+'">'+(saved[field]?'✓ ':'+ ')+(field==='wanted'?'Want to try':field==='usual'?'My usual dishes':'Don’t try')+'</button>').join('');
  const source=SOURCES.find(s=>s.id===r.source);
  return '<article class="selected-card" data-recipe-id="'+esc(r.id)+'">'+(r.photoUrl?'<a class="selected-recipe-photo" href="./?recipe=selected-'+esc(r.id)+'" data-return-recipe="'+esc(r.id)+'"><img src="'+esc(r.photoUrl)+'" alt="'+esc(r.title)+' — original publisher photograph" loading="lazy" referrerpolicy="no-referrer"></a>':'')+
   '<div class="selected-card-content">'+'<p class="selected-curation-label" data-world-id="'+esc(r.id)+'"'+(worldIds.has(r.id)?'':' hidden')+'>World favourite</p>'+'<h2><a href="./?recipe=selected-'+esc(r.id)+'" data-return-recipe="'+esc(r.id)+'">'+esc(r.title)+'</a></h2>'+
@@ -119,7 +119,7 @@ results.addEventListener('click',event=>{
   if(!persistStore(next))throw new Error('Your browser could not save this recipe. Nothing changed.');
   savedState=next.saved;render();
   document.querySelector('[data-save-recipe="'+record.id+'"][data-save-flag="'+field+'"]')?.focus();
-  message.textContent=(next.saved['selected-'+record.id]?.[field]?'Saved to ':'Removed from ')+(field==='wanted'?'Want to try':'My usual dishes')+'. Find your saved lists on the home page.';
+  message.textContent=(next.saved['selected-'+record.id]?.[field]?'Saved to ':'Removed from ')+(field==='wanted'?'Want to try':field==='usual'?'My usual dishes':'Don’t try')+'. Find your saved lists in My cookbook.';
  }catch(error){message.textContent=error.message||'Could not save your recipe. Nothing changed.';}
 });
 document.getElementById('selected-pagination').addEventListener('click',event=>{

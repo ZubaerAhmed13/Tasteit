@@ -53,7 +53,7 @@ export function recommendRecipes(candidates,saved,pantry,profile=emptyTasteProfi
   const hidden=new Set(profile.hiddenRecipeIds);
   const ranked=[];
   for(const meal of pool.values()) {
-    if(hidden.has(meal.idMeal))continue;
+    if(hidden.has(meal.idMeal) || saved[meal.idMeal]?.avoided)continue;
     const ingredients=ingredientsOf(meal);
     if(avoided.size && (collectedRecipe(meal)||!ingredients.length || ingredients.some(x=>avoided.has(normalizeIngredient(x.name)))))continue;
     const entry=saved[meal.idMeal]||{},reasons=[];

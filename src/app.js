@@ -14,7 +14,7 @@ import { emptyRightsReview, rightsReviewChecklist } from './rights-review.js';
 import { sourceImageTitles, commonsFileMetadata } from './source-media.js';
 import { recipeTitleIndex, possibleSourceMatches } from './source-overlap.js';
 import { buildResearchPriority, researchQueueCounts, TRIAGE_MODES } from './research-priority.js';
-import { addTag, removeTag, tagsOf, collectionTags, filterCookbook } from './organise.js';
+import { addTag, removeTag, tagsOf, collectionTags, filterCookbook, toggleRecipeChoice } from './organise.js';
 import { emptyTasteProfile,createTasteProfile,recommendRecipes } from './personalisation.js';
 import { createCloudSync,SYNC_KEY,SYNC_META_KEY } from './cloud-sync.js';
 import {createHostAuth,accountMarkup} from './host-auth.js';
@@ -173,10 +173,10 @@ function findMeal(id) {
   return activeMeals.find(x => x.idMeal === id) || worldMeals.find(x=>x.idMeal===id) || store.saved[id]?.meal || (selectedMeal?.idMeal === id ? selectedMeal : null);
 }
 function savedEntry(id) {
-  return store.saved[id] || { meal: findMeal(id), wanted: false, usual: false, favourite: false, cookedCount: 0 };
+  return store.saved[id] || { meal: findMeal(id), wanted: false, usual: false, favourite: false, avoided: false, cookedCount: 0 };
 }
 function flags(entry) {
-  return Boolean(entry && (entry.wanted || entry.usual || entry.favourite || entry.cookedCount > 0 || tagsOf(entry).length || Boolean(entry.ownMethod) || validServings(entry.baseServings)));
+  return Boolean(entry && (entry.wanted || entry.usual || entry.favourite || entry.avoided || entry.cookedCount > 0 || tagsOf(entry).length || Boolean(entry.ownMethod) || validServings(entry.baseServings)));
 }
 function updateNav() {
   document.querySelectorAll('[data-nav]').forEach(button => {
@@ -516,7 +516,7 @@ function card(meal, kitchenExplanation = false, personalReasons = null) {
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(mealCategory) + '</span></div>' +
-    reason + (collectedRecipe(meal)?'<p class="recipe-availability">'+(completeMethod(collectedRecipe(meal))?'Full recipe · steps included':savedEntry(meal.idMeal).ownMethod?'My steps · available offline':'Ingredients · method at source')+'</p>':'') + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom">' +
+    reason + (entry.avoided?'<p class="recipe-availability">Don’t try · on your list</p>':'') + (collectedRecipe(meal)?'<p class="recipe-availability">'+(completeMethod(collectedRecipe(meal))?'Full recipe · steps included':savedEntry(meal.idMeal).ownMethod?'My steps · available offline':'Ingredients · method at source')+'</p>':'') + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom">' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div>' +
     (personalReasons?'<div class="personal-reasons"><span class="eyebrow">WHY THIS DISH</span><ul>'+personalReasons.map(reason=>'<li>'+escapeHtml(reason)+'</li>').join('')+'</ul><button type="button" class="btn ghost small" data-action="taste-hide" data-id="'+id+'" aria-label="Not for me: '+escapeHtml(meal.strMeal)+'">Not for me</button></div>':'')+'</article>';
 }
@@ -692,7 +692,7 @@ function libraryPage() {
   const all = filterCookbook(store.saved);
   const tags = collectionTags(store.saved);
   const list = filterCookbook(store.saved,{collection:libraryTab,tag:libraryTag,query:librarySearch,sort:librarySort});
-  const choices = [{key:'all',name:'All recipes'},{key:'wanted',name:'Want to try'},{key:'usual',name:'My usual dishes'},{key:'favourite',name:'Favourites'},{key:'cooked',name:'Cooked before'}];
+  const choices = [{key:'all',name:'All recipes'},{key:'wanted',name:'Want to try'},{key:'usual',name:'My usual dishes'},{key:'favourite',name:'Favourites'},{key:'cooked',name:'Cooked before'},{key:'avoided',name:'Don’t try'}];
   return '<div class="page-top"><div class="eyebrow">CURATED BY YOU</div><h1>My personal <em>cookbook.</em></h1><p class="lead">Keep your usual dishes, cooking history and want-to-try recipes easy to find.</p></div>' +
     '<div class="section-head"><div><h3>Your collection</h3><p>' + all.length + ' saved or cooked dishes</p></div><button class="btn" type="button" data-action="new-recipe">+ Add my recipe</button></div>' +
     personalRecipeForm() +
@@ -1302,6 +1302,7 @@ function renderDialog() {
       '</div></form></section>':'';
     contents = '<div class="dialog-content"><div class="dialog-actions">' + actionButton('wanted',meal,'＋','Want to try') +
       actionButton('usual',meal,'↻','My usual dishes') + actionButton('favourite',meal,'♡','Favourite') +
+       actionButton('avoided',meal,'×','Don’t try') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
       '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><div class="field"><label for="recipe-plan-slot">Meal</label><select id="recipe-plan-slot" name="slot">'+MEAL_SLOTS.map(slot=>'<option value="'+slot+'"'+(slot==='dinner'?' selected':'')+'>'+slotLabel(slot)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + '<div data-planning-metadata>'+planningMetadataMarkup(meal)+'</div>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
@@ -1405,9 +1406,9 @@ async function markRecipe(id, field, provided=null) {
   if (!collectedRecipe(meal)&&(!ingredientsOf(meal).length || !meal.strInstructions)) {
     try { meal = await mealDetails(id); } catch { notice('Recipe details could not load. Try again.'); return; }
   }
-  const entry = {...savedEntry(id),meal};
+  let entry = {...savedEntry(id),meal};
   if (field === 'cookedCount') entry.cookedCount = (Number(entry.cookedCount) || 0) + 1;
-  else entry[field] = !entry[field];
+  else entry = toggleRecipeChoice(entry,field);
   const saved = {...store.saved};
   if (flags(entry) || Object.values(store.plan).includes(id)) saved[id] = entry;
   else delete saved[id];
@@ -1417,7 +1418,7 @@ async function markRecipe(id, field, provided=null) {
   store.saved=saved;
   if (selectedMeal?.idMeal === id) selectedMeal = meal;
   render();
-  notice(field === 'cookedCount' ? 'Added to your cooking history!' : 'Your cookbook is updated.');
+  notice(field === 'cookedCount' ? 'Added to your cooking history!' : field==='avoided' ? (entry.avoided?'Added to Don’t try. Cooking history is kept.':'Removed from Don’t try.') : 'Your cookbook is updated.');
   } finally { recipeMutations.delete(id); }
 }
 
@@ -1590,7 +1591,7 @@ document.addEventListener('click', async event => {
     catch { notice('Could not copy the link. You can copy it from your browser address bar.'); }
     return;
   }
-  if (['wanted','usual','favourite'].includes(action)) { await markRecipe(id,action,personalMeal); return; }
+  if (['wanted','usual','favourite','avoided'].includes(action)) { await markRecipe(id,action,personalMeal); return; }
   if (action === 'cook-done') { if (!selectedMeal || selectedMeal.idMeal !== id) return; stepIndex = -1; cookingStockSnapshot=consumptionReview(selectedMeal,store.pantry,savedEntry(id).baseServings,detailTargetServings); showCookingLog = true; renderDialog(); overlayRoot.querySelector('#cooking-rating')?.focus(); return; }
   if (action === 'cancel-cook-log') { showCookingLog = false; renderDialog(); return; }
   if (action === 'featured') { await discover(); return; }

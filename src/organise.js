@@ -29,16 +29,25 @@ export function collectionTags(saved) {
   }
   return [...map.values()].sort((a,b) => a.name.localeCompare(b.name));
 }
+// Reversible preference; never discard a saved cooking history or method.
+export function toggleRecipeChoice(entry,field) {
+  if (!['wanted','usual','favourite','avoided'].includes(field)) throw new Error('Unknown recipe choice.');
+  const next={...entry,[field]:!entry?.[field]};
+  if (field==='avoided' && next.avoided) { next.wanted=false; next.usual=false; }
+  if ((field==='wanted' || field==='usual' || field==='favourite') && next[field]) next.avoided=false;
+  return next;
+}
 export function filterCookbook(saved, { collection = 'all', tag = '', query = '', sort = 'name' } = {}) {
   const needle = String(query).trim().toLocaleLowerCase();
   const tagNeedle = normaliseTag(tag).toLocaleLowerCase();
   const entries = Object.values(saved).filter(entry => {
     if (!entry?.meal || typeof entry.meal.strMeal !== 'string') return false;
-    if (!entry.wanted && !entry.usual && !entry.favourite && !(entry.cookedCount > 0) && !tagsOf(entry).length && !entry.baseServings) return false;
+    if (!entry.wanted && !entry.usual && !entry.favourite && !entry.avoided && !(entry.cookedCount > 0) && !tagsOf(entry).length && !entry.baseServings) return false;
     if (collection === 'wanted' && !entry.wanted) return false;
     if (collection === 'usual' && !entry.usual) return false;
     if (collection === 'favourite' && !entry.favourite) return false;
     if (collection === 'cooked' && !(entry.cookedCount > 0)) return false;
+    if (collection === 'avoided' && !entry.avoided) return false;
     if (tagNeedle && !tagsOf(entry).some(x => x.toLocaleLowerCase() === tagNeedle)) return false;
     return !needle || [entry.meal.strMeal,entry.meal.strArea,...tagsOf(entry)]
       .filter(x => typeof x === 'string').some(x => x.toLocaleLowerCase().includes(needle));
