@@ -102,7 +102,7 @@ try{
  holdPhotos=false;assert.ok(releasePhotos);releasePhotos();
  const actualPhoto=page.locator('.ingredient-list .ingredient-reference img').first();await actualPhoto.waitFor();await actualPhoto.scrollIntoViewIfNeeded();await page.waitForFunction(()=>{const img=document.querySelector('.ingredient-list .ingredient-reference img');return img?.complete&&img.naturalWidth>0;});await actualPhoto.evaluate(img=>img.decode());assert.ok(await actualPhoto.evaluate(img=>img.naturalWidth>0));
  assert.equal(await page.locator('#recipe-tag-input').inputValue(),'Keep my draft');assert.equal(await page.locator('#recipe-tag-input').evaluate(node=>node===document.activeElement),true);
- assert.ok((await page.locator('[role=dialog]').innerText()).includes('Open original cooking method'));assert.deepEqual(providerLookups,[]);
+ assert.ok((await page.locator('[role=dialog]').innerText()).includes('Add your own cooking steps'));assert.deepEqual(providerLookups,[]);
  await actualPhoto.dispatchEvent('error');assert.ok(await page.locator('.ingredient-list .ingredient-photo-missing').filter({hasText:'Photo unavailable'}).count()>0);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.reload();await page.locator('[role=dialog]').waitFor();assert.equal(await page.locator('.ingredient-list li').count(),kitchenRecipe.ingredients.length);assert.deepEqual(providerLookups,[]);
@@ -214,7 +214,7 @@ try{
  await recovery.context().setOffline(true);await recovery.locator('[data-nav=discover]').click();
  await recovery.locator('#recipe-search').fill('poha');await recovery.locator('#search-form button').click();
  await recovery.locator('.recipe-title').filter({hasText:offlineRecord.title}).waitFor();await recovery.locator('.recipe-title').filter({hasText:offlineRecord.title}).click();
- await recovery.locator('[role=dialog]').waitFor();assert.ok((await recovery.locator('[role=dialog]').innerText()).includes('Open original cooking method'));
+ await recovery.locator('[role=dialog]').waitFor();assert.ok((await recovery.locator('[role=dialog]').innerText()).includes('Add your own cooking steps'));
  await recovery.context().setOffline(false);
  assert.deepEqual(errors,[]);console.log('PASS selected sources: allowlisted recipe collection, genuine rating/count, ingredient photos/credits, filters, gaps and mobile');
 }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}

@@ -638,3 +638,8 @@ h3 { font-size: 24px }
 .own-method-editor textarea{display:block;width:100%;min-height:148px;padding:12px 14px;border:1px solid #ced8cc;border-radius:10px;background:white;color:var(--ink);font:inherit;line-height:1.6;resize:vertical}
 .own-method-editor textarea:focus-visible{outline:3px solid #9bbdb1;outline-offset:2px}
 .own-method-editor .dialog-actions{margin-top:12px}
+
+/* Recipe-source provenance remains accessible without interrupting guided cooking. */
+.recipe-provenance {margin:14px 0 10px;border:1px solid var(--line,#dae1d8);border-radius:12px;padding:9px 14px;background:rgba(255,255,255,.6)}
+.recipe-provenance summary {cursor:pointer;min-height:36px;display:flex;align-items:center;font-size:13px;font-weight:650}
+.recipe-provenance .dialog-actions {padding:12px 0 4px;flex-wrap:wrap}
