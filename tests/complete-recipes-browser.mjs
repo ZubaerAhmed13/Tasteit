@@ -32,7 +32,17 @@ try{
  while(await page.locator('[data-action=step-next]').count())await page.locator('[data-action=step-next]').click();await page.locator('[data-action=cook-done]').click();await page.locator('#cooking-log-form button[type=submit]').click();await page.locator('#cooking-log-form').waitFor({state:'hidden'});
  // An unsaved complete recipe must open with full steps even after server shutdown.
  const fresh=licensed.find(r=>r.id!==full.id && r.method.steps.length>1);
- await page.goto(base+'?scope=cooking&q='+encodeURIComponent(fresh.title));
+ // Use in-app navigation: Firefox disallows a fresh network navigation offline.
+ await page.keyboard.press('Escape');
+ await page.locator('.site-nav [data-nav=discover]').click();
+ const filterPanel=page.locator('#discovery-filter-panel');
+ if(!await filterPanel.evaluate(node=>node.open))
+   await page.locator('#discovery-filter-panel > summary').click();
+ await page.locator('#discover-scope').selectOption('cooking');
+ await page.locator('#discovery-filters button[type=submit]').click();
+ await page.locator('#recipe-search').fill(fresh.title);
+ await page.locator('#recipe-search').press('Enter');
+ await page.locator('[data-recipe-id="selected-'+fresh.id+'"]').waitFor();
  await page.locator('[data-recipe-id="selected-'+fresh.id+'"] .recipe-title').click();
  await page.locator('[role=dialog] .instruction-list').waitFor();
  assert.deepEqual(await page.locator('.instruction-list > li').allTextContents(),fresh.method.steps);
