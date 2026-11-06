@@ -443,10 +443,21 @@ async function discover(mode='featured', value='', {history=true}={}) {
   try {
     let meals,warning='';
     if(globalThis.navigator?.onLine===false) {
-      const available=offlineRecipes(store.saved,{});
-      meals=discoveryMode==='pantry'?available:discoveryChoice.scope==='provider'?offlineRecipes(store.saved,normaliseFilters(currentRoute())):searchRecipeCollection([],Object.fromEntries(available.map(m=>[m.idMeal,{...store.saved[m.idMeal],meal:m}])),currentRoute());
+      const savedOffline=offlineRecipes(store.saved,{});
+      // The service worker precaches the public, licensed complete collection.
+      // Preserve previously saved records even when the cached catalogue fails.
+      let publicOffline=[];
+      if(discoveryMode!=='pantry' && discoveryChoice.scope!=='provider' &&
+         (discoveryChoice.scope==='cooking' || discoveryChoice.source==='wikibooks')) {
+        try {publicOffline=await collectionLoader.load();}catch{publicOffline=[];}
+      }
+      meals=discoveryMode==='pantry'?savedOffline:discoveryChoice.scope==='provider'?
+        offlineRecipes(store.saved,normaliseFilters(currentRoute())):
+        searchRecipeCollection(publicOffline,Object.fromEntries(savedOffline.map(m=>[m.idMeal,{...store.saved[m.idMeal],meal:m}])),currentRoute());
       if(discoveryMode==='pantry')meals=rankByKitchen(meals,store.pantry);
-      warning='You are offline. Showing recipe details saved in this browser. Photos and new source recipes need a connection.';
+      warning=publicOffline.length?
+        'Offline · complete in-app recipes and your saved cookbook are available. New source updates need a connection.':
+        'Offline · showing recipes saved in this browser. Reconnect once to prepare the full internal collection.';
     } else if(discoveryMode==='pantry') {
       kitchenSelection=reconcileKitchenSelection(store.pantry,kitchenSelection);
       if(!kitchenSelection.length)kitchenSelection=initialKitchenSelection(store.pantry);

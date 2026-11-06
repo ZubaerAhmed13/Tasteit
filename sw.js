@@ -2,7 +2,7 @@
 const CACHE='tasteit-shell-__TASTEIT_BUILD__';
 const PHOTO_CACHE='tasteit-ingredient-thumbnails-v1';
 const MAX_SAVED_PHOTOS=160;
-const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest','./photo-credits.html','./data/ingredient-photos.json',
+const ASSETS=['./','./styles.css','./favicon.svg','./app.webmanifest','./photo-credits.html','./selected-recipes.html','./selected-recipes.css','./data/complete-recipes.json','./data/selected-recipes.json','./data/world-favourites-100.json','./data/ingredient-photos.json',
   './src/recipe-presentation.js','./src/recipe-metadata.js','./src/meal-plan.js','./src/recipe-planning.js','./src/discovery-options.js','./src/recipe-discovery.js','./src/api.js','./src/app.js','./src/cloud-sync.js','./src/cooking.js','./src/editorial.js',
   './src/kitchen-discovery.js','./src/kitchen-flow.js','./src/model.js','./src/navigation.js',
   './src/offline.js','./src/host-auth.js','./src/organise.js','./src/pantry-batches.js','./src/pantry-bulk.js',
