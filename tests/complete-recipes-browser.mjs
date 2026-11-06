@@ -70,6 +70,7 @@ try{
   const controls=page.locator('#discovery-filter-panel');
   if(!await controls.evaluate(n=>n.open))await page.locator('#discovery-filter-panel > summary').click();
   await page.locator('#discover-scope').selectOption('collection');
+  await page.locator('#discover-source').selectOption(''); // Search all publishers, not the previous Wikibooks filter.
   await page.locator('#discovery-filters button[type=submit]').click();
   await page.locator('#recipe-search').fill('poha');
   await page.locator('#search-form button').click();
