@@ -1,17 +1,29 @@
-import {validateRecipe,filterRecipes,recipeCourses} from './selected-sources.js';
+import {validateRecipe,filterRecipes,recipeCourses,completeMethod} from './selected-sources.js';
 import {collectedMeal,collectedRecipe} from './selected-kitchen.js';
 import {ingredientsOf} from './model.js';
 import {normaliseFilters} from './navigation.js';
 import {discoveryOptions} from './discovery-options.js';
 import {collectionJson} from './collection-request.js';
 const norm=x=>String(x||'').toLocaleLowerCase();
+// A recipe is ready for in-app cooking only if its actual steps are present.
+// Third-party ingredient listings alone must never imply a complete method.
+export function canCookInside(meal,entry={}) {
+ const source=collectedRecipe(meal);
+ if(source)return Boolean(completeMethod(source)?.steps?.length ||
+   (typeof entry?.ownMethod==='string' && entry.ownMethod.trim()));
+ return typeof meal?.strInstructions==='string' && Boolean(meal.strInstructions.trim());
+}
 export function searchRecipeCollection(records,saved={},input={}) {
  const f={...normaliseFilters(input),...discoveryOptions(input)},meals=new Map();
- if(f.scope!=='saved')for(const r of filterRecipes(records,f))meals.set('selected-'+r.id,collectedMeal(r));
+ if(f.scope!=='saved')for(const r of filterRecipes(records,f)){
+  if(f.scope==='cooking'&&!r.method)continue;
+  meals.set('selected-'+r.id,collectedMeal(r));
+ }
  for(const entry of Object.values(saved)) {
   const meal=entry?.meal;if(!meal?.idMeal||meals.has(meal.idMeal))continue;
   const r=collectedRecipe(meal);
   if(meal.idMeal.startsWith('selected-')&&!r)continue;
+  if(f.scope==='cooking'&&!canCookInside(meal,entry))continue;
   if(f.source&&r?.source!==f.source||f.ratedOnly&&!r?.rating||f.course&&!recipeCourses(r||{category:meal.strCategory}).includes(f.course))continue;
   if(f.query&&!norm([meal.strMeal,...ingredientsOf(meal).map(x=>x.name)].join(' ')).includes(norm(f.query)))continue;
   meals.set(meal.idMeal,meal);

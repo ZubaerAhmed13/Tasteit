@@ -44,3 +44,19 @@ test('partial retries retain each validated snapshot through alternating and sim
  broken=new Set(['selected-recipes','complete-recipes']);assert.deepEqual((await loader.load()).map(r=>r.id),[records[0].id,full.id]);assert.ok(loader.originalError&&loader.completeError);
  broken.clear();assert.deepEqual((await loader.load()).map(r=>r.id),[records[0].id,full.id]);assert.equal(loader.originalError+loader.completeError,'');
 });
+
+test('cook-inside search includes only complete recipes or personally written steps',async()=>{
+ const full=JSON.parse(await readFile('data/complete-recipes.json','utf8')).recipes[0];
+ const reference=records[0],linked=collectedMeal(reference);
+ const personal={idMeal:'personal-tested',strMeal:'My family rice',strArea:'Home',strInstructions:'Cook rice in water.',strIngredient1:'Rice'};
+ const saved={[linked.idMeal]:{meal:linked,ownMethod:'Wash rice, then cook it.',wanted:true},
+  [personal.idMeal]:{meal:personal,usual:true}};
+ const result=discovery.searchRecipeCollection([reference,full],saved,{scope:'cooking'});
+ assert.ok(result.some(x=>x.idMeal==='selected-'+full.id));
+ assert.ok(result.some(x=>x.idMeal===linked.idMeal));
+ assert.ok(result.some(x=>x.idMeal===personal.idMeal));
+ assert.equal(result.length,3,'publisher ingredient references without personal steps are excluded');
+ assert.equal(discovery.canCookInside(linked),false);
+ assert.equal(discovery.canCookInside(linked,saved[linked.idMeal]),true);
+ assert.equal(discovery.searchRecipeCollection([reference],{}, {scope:'cooking'}).length,0);
+});
