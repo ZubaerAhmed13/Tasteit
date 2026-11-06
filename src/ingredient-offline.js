@@ -10,7 +10,7 @@ export function recipeIngredientPhotoUrls(ingredients=[],registry=[]) {
  }
  return [...urls];
 }
-export async function saveRecipeIngredientPhotos(ingredients,registry,{worker=globalThis.navigator?.serviceWorker?.controller,Channel=globalThis.MessageChannel,timeoutMs=20000}={}) {
+export async function saveRecipeIngredientPhotos(ingredients,registry,{worker=globalThis.navigator?.serviceWorker?.controller,Channel=globalThis.MessageChannel,timeoutMs=60000}={}) {
  const urls=recipeIngredientPhotoUrls(ingredients,registry);
  if(!urls.length)return {requested:0,saved:0,failed:0};
  if(!worker||typeof Channel!=='function')throw new Error('Offline photos are not ready. Reopen TasteIt after offline access is prepared.');
