@@ -37,7 +37,7 @@ try{
  await page.keyboard.press('Escape');
  assert.equal(await page.locator('#app').count(),1,'closing a recipe offline must retain the app document');
  await page.evaluate(title=>{
-   history.pushState({tasteit:true,recipeOverlay:false,scrollY:0},'',
+   history.replaceState({tasteit:true,recipeOverlay:false,scrollY:0},'',
      '?scope=cooking&q='+encodeURIComponent(title));
    window.dispatchEvent(new PopStateEvent('popstate'));
  },fresh.title);

@@ -195,7 +195,10 @@ function writeRoute({replace=false,recipeOverlay=false}={}) {
   const url=routeUrl(currentRoute(),window.location.href);
   if(!replace && url.href===window.location.href)return;
   if(!replace)window.history.replaceState({...window.history.state,scrollY:window.scrollY},'',window.location.href);
-  window.history[replace?'replaceState':'pushState']({tasteit:true,recipeOverlay,scrollY:window.scrollY,returnRecipe:dialogReturnId,returnKind:dialogReturnKind,returnHref:dialogReturnHref},'',url.href);
+  // Firefox can treat newly pushed history entries as document traversals while
+  // fully offline. Keep filtering/bookmark URL updates inside the current entry.
+  const useReplace=replace || globalThis.navigator?.onLine===false;
+  window.history[useReplace?'replaceState':'pushState']({tasteit:true,recipeOverlay:useReplace?false:recipeOverlay,scrollY:window.scrollY,returnRecipe:dialogReturnId,returnKind:dialogReturnKind,returnHref:dialogReturnHref},'',url.href);
 }
 function stopDiscovery() {
   requestNumber++; controller?.abort(); loading=false;
