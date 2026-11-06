@@ -6,7 +6,7 @@
 
 ## Complete recipes
 
-The main catalogue now includes **50 complete CC BY-SA 4.0 Wikibooks recipes** alongside the unchanged **1,108 publisher records**. Home → **Browse complete recipes** opens ingredients, numbered logical steps, notes and guided cooking with manual timers and saved progress. Source quantities require manual adjustment for selected portions. Save a full recipe and wait for **Ready offline** before disconnecting; its text and credits remain available without a publisher request. Older publisher records keep their original source methods.
+The draft collection includes **200 complete CC BY-SA 4.0 Wikibooks recipes** alongside the unchanged **1,108 publisher references**. Choose **Cook in TasteIt** to see recipes with real internal steps (including methods you personally saved). Guided cooking, saved steps, timers, shopping and your cookbook stay inside the app. Publisher-only records can be opened as ingredient references; they do not claim to contain licensed instructions. Source attribution stays under expandable credits, not beneath photographs. Once **Ready offline** appears, the verified application shell and complete licensed catalogue are cached; saved personal methods remain available without an outside site. Original source quantities require manual adjustment for portions.
 
 [Text credits](docs/recipes/complete-recipes-license.md) · [Verified release and decisions](docs/releases/2026-10-28-complete-recipes.md)
 
