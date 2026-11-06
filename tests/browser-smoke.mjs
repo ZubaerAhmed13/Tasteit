@@ -297,7 +297,7 @@ try {
   await page.getByRole('button',{name:'Increase servings'}).click();
   assert.equal(await page.locator('[data-target-servings]').innerText(),'3');
   assert.ok((await page.locator('.ingredient-list').innerText()).includes('1.5 cup'),'rice should scale from one cup for 2 to 1.5 cups for 3');
-  assert.equal(await page.getByRole('link',{name:'Watch source video'}).count(),1,'source video links are visible when provided');
+  await page.locator('.recipe-provenance > summary').click();assert.equal(await page.getByRole('link',{name:'Watch source video'}).count(),1,'source video remains accessible inside the optional credits disclosure');
   // Guided cooking persists the step and timer across dialog closing and reload.
   await page.locator('[data-action="start-cooking"]').click();
   await page.getByRole('heading',{name:'Step 1 of 2'}).waitFor();
