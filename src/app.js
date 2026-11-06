@@ -456,8 +456,8 @@ async function discover(mode='featured', value='', {history=true}={}) {
         searchRecipeCollection(publicOffline,Object.fromEntries(savedOffline.map(m=>[m.idMeal,{...store.saved[m.idMeal],meal:m}])),currentRoute());
       if(discoveryMode==='pantry')meals=rankByKitchen(meals,store.pantry);
       warning=publicOffline.length?
-        'Offline · complete in-app recipes and your saved cookbook are available. New source updates need a connection.':
-        'Offline · showing recipes saved in this browser. Reconnect once to prepare the full internal collection.';
+        'You are offline. Complete in-app recipes and your saved cookbook are available. New source updates need a connection.':
+        'You are offline. Showing recipes saved in this browser. Reconnect once to prepare the full internal collection.';
     } else if(discoveryMode==='pantry') {
       kitchenSelection=reconcileKitchenSelection(store.pantry,kitchenSelection);
       if(!kitchenSelection.length)kitchenSelection=initialKitchenSelection(store.pantry);
