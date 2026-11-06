@@ -33,8 +33,9 @@ try{
  // An unsaved complete recipe must open with full steps even after server shutdown.
  const fresh=licensed.find(r=>r.id!==full.id && r.method.steps.length>1);
  // Browser offline mode (especially Firefox) forbids document navigations.
- // Exercise the application's own bookmark/popstate handler without an HTTP request.
+ // Closing the current recipe must not navigate the browser away from TasteIt.
  await page.keyboard.press('Escape');
+ assert.equal(await page.locator('#app').count(),1,'closing a recipe offline must retain the app document');
  await page.evaluate(title=>{
    history.pushState({tasteit:true,recipeOverlay:false,scrollY:0},'',
      '?scope=cooking&q='+encodeURIComponent(title));

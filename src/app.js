@@ -1361,11 +1361,10 @@ function closeDialog({history=true}={}) {
   }
   dialogReturnFocus=null;dialogReturnId='';
   if(history && wasOpen) {
-    // Offline Firefox may treat history.back() as a document navigation and
-    // replace a working cached app with the browser's network error page.
-    // Close the overlay inside the SPA without touching the network instead.
-    if(window.history.state?.recipeOverlay && globalThis.navigator?.onLine!==false)window.history.back();
-    else writeRoute({replace:true});
+    // Always dismiss in-app. Browser history traversal can trigger a full
+    // document request in Firefox, replacing a working offline app with an error.
+    // Actual browser Back continues to use the popstate/restoreRoute handler.
+    writeRoute({replace:true});
   }
 }
 function recipeStatus(message,failed=false) {
