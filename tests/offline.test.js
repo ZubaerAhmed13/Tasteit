@@ -11,11 +11,11 @@ test('offline discovery filters saved details without inventing remote matches',
   assert.equal(offlineRecipes(saved,{}).length,2);
   assert.equal(offlineRecipes(saved,{area:'Turkish'}).length,0);
 });
-async function worker({stores=new Map(),network={mode:'online'},version='first',install=true}={}) {
+async function worker({stores=new Map(),network={mode:'online'},version='first',install=true,photos=[]}={}) {
   const handlers={},base='https://tasteit.test/';
   const key=x=>new URL(typeof x==='string'?x:x.url,base).href;
   const caches={async open(name){if(!stores.has(name))stores.set(name,new Map());const items=stores.get(name);return{
-    async put(req,res){items.set(key(req),res.clone());},async match(req){return items.get(key(req))?.clone();},async delete(req){return items.delete(key(req));}};},
+    async put(req,res){items.set(key(req),res.clone());},async match(req){return items.get(key(req))?.clone();},async delete(req){return items.delete(key(req));},async keys(){return [...items.keys()];}};},
     async keys(){return [...stores.keys()];},async delete(name){return stores.delete(name);}};
   const self={registration:{scope:base},location:{href:base+'sw.js',origin:'https://tasteit.test'},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(name,fn)=>{handlers[name]=fn;}};
   const app='<meta name="application-name" content="Tasteit"><main id="app">Tasteit</main>';
@@ -27,6 +27,8 @@ async function worker({stores=new Map(),network={mode:'online'},version='first',
       // Mirror the real content types for every shell resource, including the
       // separate photo-credits page and the immutable ingredient photo index.
       if(url.endsWith('.html'))return new Response(app,{headers:{'content-type':'text/html'}});
+      if(url===base+'data/ingredient-photos.json')return new Response(JSON.stringify({version:1,photos}),{headers:{'content-type':'application/json'}});
+      if(url.startsWith('https://thumb.wikimedia.org/wikipedia/commons/thumb/'))return new Response('reviewed image bytes',{headers:{'content-type':'image/jpeg'}});
       return new Response(url.endsWith('.json')?'{}':'asset',{headers:{'content-type':url.endsWith('.css')?'text/css':url.endsWith('.svg')?'image/svg+xml':url.endsWith('.webmanifest')?'application/manifest+json':url.endsWith('.json')?'application/json':'text/javascript'}});
     }};
   vm.runInNewContext((await readFile('sw.js','utf8')).replace('__TASTEIT_BUILD__',version),sandbox);
@@ -35,7 +37,9 @@ async function worker({stores=new Map(),network={mode:'online'},version='first',
   return {stores,network,installation,mode:v=>{network.mode=v;},
     async ready(){let pending,result;handlers.message({data:'TASTEIT_OFFLINE_STATUS',ports:[{postMessage:value=>{result=value.ready;}}],waitUntil:p=>{pending=p;}});await pending;return result;},
     async asset(path){let response;handlers.fetch({request:new Request(base+path),respondWith:p=>{response=p;}});return response;},async navigate(){let response;handlers.fetch({request:{url:base,method:'GET',mode:'navigate'},respondWith:p=>{response=p;},waitUntil:()=>{}});return response;},
-    intercept(url){let handled=false;handlers.fetch({request:{url,method:'GET',mode:'cors'},respondWith:()=>{handled=true;},waitUntil:()=>{}});return handled;}};
+    intercept(url){let handled=false;handlers.fetch({request:{url,method:'GET',mode:'cors'},respondWith:()=>{handled=true;},waitUntil:()=>{}});return handled;},
+    async savePhotos(urls){let pending,result;handlers.message({data:{type:'TASTEIT_CACHE_RECIPE_PHOTOS',urls},ports:[{postMessage:v=>{result=v;}}],waitUntil:p=>{pending=p;}});await pending;return result;},
+    async image(url){const request=new Request(url,{mode:'no-cors'});Object.defineProperty(request,'destination',{value:'image'});let response;handlers.fetch({request,respondWith:p=>{response=p;},waitUntil:()=>{}});return response;}};
 }
 test('offline worker serves the app shell but never intercepts APIs or external photos',async()=>{
   const w=await worker();w.mode('offline');
@@ -87,4 +91,38 @@ test('saved publisher metadata remains searchable offline without copied methods
  assert.equal(offlineRecipes(saved,{query:'lasagna'}).length,0);
  const broken={...meal,selectedRecipe:{...record,url:'https://invalid.example/recipe'}};
  assert.equal(offlineRecipes({x:{meal:broken}}).length,0);
+});
+
+const verifiedThumbnail=id=>({
+ id,label:id,aliases:[id],url:'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/'+id+'.jpg/250px-'+id+'.jpg',
+ filePage:'https://commons.wikimedia.org/wiki/File:'+id+'.jpg',
+ creator:'Test attribution',licence:'CC BY-SA 4.0',licenceUrl:'https://creativecommons.org/licenses/by-sa/4.0/',verified:true
+});
+test('recipe photos download only from reviewed Commons thumbnails, with reliable offline reuse',async()=>{
+ const onion=verifiedThumbnail('Onion'),unverified=verifiedThumbnail('Unreviewed'),bad={...unverified,verified:false};
+ const w=await worker({photos:[onion,bad]});
+ assert.equal(await w.ready(),true);
+ assert.deepEqual(await w.savePhotos([onion.url]),{ok:true,saved:1,failed:0});
+ assert.deepEqual(await w.savePhotos([onion.url]),{ok:true,saved:1,failed:0},'already-cached images are not redownloaded');
+ assert.deepEqual(await w.savePhotos([unverified.url]),{ok:false},'metadata not independently approved must be rejected');
+ assert.deepEqual(await w.savePhotos(['https://www.themealdb.com/a.jpg']),{ok:false},'publisher images are out of scope');
+ assert.deepEqual(await w.savePhotos([onion.url,onion.url]),{ok:false},'duplicate download entries are not allowed');
+ const cached=w.stores.get('tasteit-ingredient-thumbnails-v1');
+ assert.equal(cached.size,1);
+ w.mode('offline');
+ assert.equal((await(await w.image(onion.url)).text()),'reviewed image bytes');
+ assert.equal(cached.size,1);
+});
+test('offline ingredient photo cache evicts the oldest entry beyond 160 thumbnails',async()=>{
+ const photos=Array.from({length:161},(_,n)=>verifiedThumbnail('Cache'+n));
+ const w=await worker({photos});
+ for(let i=0;i<photos.length;i+=40) {
+  const result=await w.savePhotos(photos.slice(i,i+40).map(p=>p.url));
+  assert.equal(result.ok,true);assert.equal(result.failed,0);
+ }
+ const cached=w.stores.get('tasteit-ingredient-thumbnails-v1');
+ assert.equal(cached.size,160);
+ assert.equal(cached.has(photos[0].url),false);
+ assert.equal(cached.has(photos.at(-1).url),true);
+ assert.deepEqual(await w.savePhotos(photos.map(p=>p.url)),{ok:false},'each user download is capped at 40 images');
 });

@@ -43,6 +43,7 @@ try{
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.locator('.recipe-card .recipe-photo').first().click();await page.locator('[role=dialog]').waitFor();
  const reference=page.locator('.ingredient-reference').first();await reference.waitFor();assert.equal(await reference.locator('figcaption').count(),0,'ingredient photos have no captions beneath them');assert.ok(await reference.locator('.ingredient-photo-link').getAttribute('data-photo-url'));
+  assert.ok(await page.locator('[data-action="save-ingredient-photos"]').count()>0,'recipe ingredients offer an explicit offline-photo pack when reviewed pictures are available');
   const viewerTrigger=reference.locator('.ingredient-photo-link');
   await viewerTrigger.click();
   await page.locator('dialog.ingredient-photo-viewer[open]').waitFor();
