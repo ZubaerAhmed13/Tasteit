@@ -5,7 +5,7 @@ test('ingredient previews use an internal accessible dialog instead of image-hos
  const source=await readFile(new URL('../src/ingredient-lightbox.js',import.meta.url),'utf8');
  const reference=await readFile(new URL('../src/ingredient-reference.js',import.meta.url),'utf8');
  const worker=await readFile(new URL('../sw.js',import.meta.url),'utf8');
- assert.match(source,/document.createElement\('dialog'\)/);
+ assert.match(source,/root.createElement\('dialog'\)/);
  assert.match(source,/\.showModal\(/);
  assert.match(source,/returnFocus/);
  assert.match(source,/upload.wikimedia.org/);
