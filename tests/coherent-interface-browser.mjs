@@ -25,7 +25,7 @@ try{
  await page.keyboard.press('Escape');await page.locator('[role=dialog]').waitFor({state:'hidden'});assert.equal(page.url(),committed);
  await page.waitForFunction(recipeId=>document.activeElement?.dataset.id===recipeId,id);
  await page.locator('.site-nav [data-nav=discover]').click();await page.locator('#home-usual .recipe-title').filter({hasText:breakfast.title}).waitFor();await page.locator('#home-wanted .recipe-title').filter({hasText:breakfast.title}).waitFor();
- await page.locator('#home-usual .recipe-title').filter({hasText:breakfast.title}).click();await page.locator('[role=dialog]').waitFor();assert.ok((await page.locator('[role=dialog]').innerText()).includes('Open original cooking method'));
+ await page.locator('#home-usual .recipe-title').filter({hasText:breakfast.title}).click();await page.locator('[role=dialog]').waitFor();assert.ok((await page.locator('[role=dialog]').innerText()).includes('Add your own cooking steps'));
  await page.keyboard.press('Escape');await page.locator('.site-nav [data-nav=plan]').click();await page.waitForFunction(({day,id})=>document.querySelector('[data-plan-day="'+day+'"]')?.value===id,{day,id});
  // Full filtered route survives page changes, saves, reload and browser Back.
  await page.goto(base+'?course=breakfast&source=swasthi&sort=rating&rated=1&page=2');await page.locator('#discovery-page-status').filter({hasText:'Page 2'}).waitFor();

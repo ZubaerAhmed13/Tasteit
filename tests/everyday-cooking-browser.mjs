@@ -42,7 +42,7 @@ try {
  await page.locator('[data-action=timer-start]').click();
  const endsAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')).cookingSessions['selected-recipetineats-chicken-curry'].endsAt);
  assert.ok(endsAt>Date.now());assert.ok((await page.locator('[data-action=step-next]').count())===0);
- assert.equal(await page.getByRole('link',{name:'Open original cooking method'}).getAttribute('href'),'https://www.recipetineats.com/chicken-curry/');
+ assert.ok((await page.locator('.cook-step').innerText()).includes('Preparation'));await page.locator('.recipe-provenance > summary').click();assert.equal(await page.getByRole('link',{name:'Original source'}).getAttribute('href'),'https://www.recipetineats.com/chicken-curry/');
  await page.keyboard.press('Escape');await page.reload();await page.locator('.recipe-card').first().waitFor();
  await page.goto(base+'?recipe=selected-recipetineats-chicken-curry');await page.locator('[data-action=start-cooking]').click();
  assert.equal(await page.locator('[data-preparation-index="0"]').isChecked(),true);
