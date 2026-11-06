@@ -1,0 +1,43 @@
+name: Collect Wikibooks research leads
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/recipe-kitchen-foundation
+    paths:
+      - scripts/collect-wikibooks.mjs
+
+permissions:
+  contents: write
+
+jobs:
+  linked-research-leads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Collect linked Wikimedia Cookbook titles only
+        run: node scripts/collect-wikibooks.mjs
+      - name: Commit source-only research queue to feature branch
+        if: success() && github.ref == 'refs/heads/feat/recipe-kitchen-foundation'
+        run: |
+          mkdir -p data
+          cp artifacts/wikibooks-research-queue.json data/wikibooks-research-queue.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/wikibooks-research-queue.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: add Wikibooks linked recipe leads for editorial review"
+            git push origin HEAD:refs/heads/feat/recipe-kitchen-foundation
+          fi
+      - name: Upload source review queue
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tasteit-wikibooks-research-leads
+          path: artifacts/wikibooks-research-queue.json
+          retention-days: 30
+          if-no-files-found: warn

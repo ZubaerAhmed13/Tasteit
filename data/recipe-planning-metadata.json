@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "scope": "Small source-checked sample. Unlisted recipe times, yields and quantities are unknown.",
+  "recipes": [
+    {"id":"recipetineats-chicken-curry","url":"https://www.recipetineats.com/chicken-curry/","verified":true,"checkedAt":"2026-10-27","prepMinutes":8,"cookMinutes":20,"totalMinutes":28,"yieldText":"Servings 4"},
+    {"id":"recipetineats-spaghetti-bolognese","url":"https://www.recipetineats.com/spaghetti-bolognese/","verified":true,"checkedAt":"2026-10-27","prepMinutes":10,"cookMinutes":30,"totalMinutes":40,"yieldText":"5 servings"},
+    {"id":"goodfood-recipes-shakshuka","url":"https://www.bbcgoodfood.com/recipes/shakshuka","verified":true,"checkedAt":"2026-10-27","prepMinutes":5,"cookMinutes":20,"totalMinutes":null,"yieldText":"Serves 2"}
+  ]
+}

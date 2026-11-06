@@ -1,0 +1,625 @@
+{
+  "version": 1,
+  "policy": "research-only-never-auto-deduplicate",
+  "providerRecords": 790,
+  "wikibooksLeads": 3799,
+  "possibleOverlapLeads": 38,
+  "confirmedDuplicates": 0,
+  "rows": [
+    {
+      "wikibooksId": "wikibooks:140336",
+      "wikibooksTitle": "Apple Cake",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AApple_Cake",
+      "providerMatches": [
+        {
+          "id": "53380",
+          "name": "Apple cake",
+          "country": "Netherlands",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53380",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:471689",
+      "wikibooksTitle": "Banana Pancakes",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ABanana_Pancakes",
+      "providerMatches": [
+        {
+          "id": "52855",
+          "name": "Banana Pancakes",
+          "country": "United States",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52855",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:18584",
+      "wikibooksTitle": "Beans and Rice",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ABeans_and_Rice",
+      "providerMatches": [
+        {
+          "id": "53506",
+          "name": "Rice and Beans",
+          "country": "Cayman Islands",
+          "category": "Vegetarian",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53506",
+          "matchType": "same-words-reordered"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:127883",
+      "wikibooksTitle": "Black Bean Soup",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ABlack_Bean_Soup",
+      "providerMatches": [
+        {
+          "id": "53546",
+          "name": "Black Bean soup",
+          "country": "Cuba",
+          "category": "Starter",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53546",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:214343",
+      "wikibooksTitle": "Challah",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AChallah",
+      "providerMatches": [
+        {
+          "id": "53310",
+          "name": "Challah",
+          "country": "Poland",
+          "category": "Side",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53310",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:200938",
+      "wikibooksTitle": "Chicken Fried Rice",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AChicken_Fried_Rice",
+      "providerMatches": [
+        {
+          "id": "53367",
+          "name": "Chicken Fried Rice",
+          "country": "China",
+          "category": "Chicken",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53367",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:133204",
+      "wikibooksTitle": "Christmas Cake",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AChristmas_Cake",
+      "providerMatches": [
+        {
+          "id": "52990",
+          "name": "Christmas cake",
+          "country": "United Kingdom",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52990",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:64884",
+      "wikibooksTitle": "Date Squares",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ADate_Squares",
+      "providerMatches": [
+        {
+          "id": "53338",
+          "name": "Date squares",
+          "country": "Canada",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53338",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:39461",
+      "wikibooksTitle": "Duck Confit",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ADuck_Confit",
+      "providerMatches": [
+        {
+          "id": "52907",
+          "name": "Duck Confit",
+          "country": "France",
+          "category": "Miscellaneous",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52907",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:71932",
+      "wikibooksTitle": "English Breakfast",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AEnglish_Breakfast",
+      "providerMatches": [
+        {
+          "id": "52895",
+          "name": "English Breakfast",
+          "country": "United Kingdom",
+          "category": "Breakfast",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52895",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:86404",
+      "wikibooksTitle": "Falafel",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AFalafel",
+      "providerMatches": [
+        {
+          "id": "53266",
+          "name": "Falafel",
+          "country": "Turkey",
+          "category": "Vegetarian",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53266",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:126418",
+      "wikibooksTitle": "Fish Pie",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AFish_Pie",
+      "providerMatches": [
+        {
+          "id": "52802",
+          "name": "Fish pie",
+          "country": "United Kingdom",
+          "category": "Seafood",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52802",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:37252",
+      "wikibooksTitle": "French Omelette",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AFrench_Omelette",
+      "providerMatches": [
+        {
+          "id": "52915",
+          "name": "French Omelette",
+          "country": "France",
+          "category": "Miscellaneous",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52915",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:222678",
+      "wikibooksTitle": "French Onion Soup",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AFrench_Onion_Soup",
+      "providerMatches": [
+        {
+          "id": "52903",
+          "name": "French Onion Soup",
+          "country": "France",
+          "category": "Side",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52903",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:28229",
+      "wikibooksTitle": "Frikadeller (Danish Meatballs)",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AFrikadeller_(Danish_Meatballs)",
+      "providerMatches": [
+        {
+          "id": "53553",
+          "name": "Frikadeller - Danish Meatballs",
+          "country": "Denmark",
+          "category": "Pork",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53553",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:181025",
+      "wikibooksTitle": "General Tso's Chicken",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AGeneral_Tso's_Chicken",
+      "providerMatches": [
+        {
+          "id": "52951",
+          "name": "General Tsos Chicken",
+          "country": "China",
+          "category": "Chicken",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52951",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:23143",
+      "wikibooksTitle": "Hot and Sour Soup",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AHot_and_Sour_Soup",
+      "providerMatches": [
+        {
+          "id": "52954",
+          "name": "Hot and Sour Soup",
+          "country": "China",
+          "category": "Pork",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52954",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:103063",
+      "wikibooksTitle": "Irish Stew",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AIrish_Stew",
+      "providerMatches": [
+        {
+          "id": "52781",
+          "name": "Irish stew",
+          "country": "Ireland",
+          "category": "Beef",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52781",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:102202",
+      "wikibooksTitle": "Jam Roly-Poly",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AJam_Roly-Poly",
+      "providerMatches": [
+        {
+          "id": "52890",
+          "name": "Jam Roly-Poly",
+          "country": "United Kingdom",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52890",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:386980",
+      "wikibooksTitle": "Jamaican Banana Fritters",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AJamaican_Banana_Fritters",
+      "providerMatches": [
+        {
+          "id": "53351",
+          "name": "Jamaican Banana Fritters",
+          "country": "Jamaica",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53351",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:398768",
+      "wikibooksTitle": "Jamaican Rice and Peas",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AJamaican_Rice_and_Peas",
+      "providerMatches": [
+        {
+          "id": "53357",
+          "name": "Jamaican Rice and Peas",
+          "country": "Jamaica",
+          "category": "Vegetarian",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53357",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:29911",
+      "wikibooksTitle": "Kung Pao Chicken",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AKung_Pao_Chicken",
+      "providerMatches": [
+        {
+          "id": "52945",
+          "name": "Kung Pao Chicken",
+          "country": "China",
+          "category": "Chicken",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52945",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:22970",
+      "wikibooksTitle": "Lancashire Hotpot",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ALancashire_Hotpot",
+      "providerMatches": [
+        {
+          "id": "52884",
+          "name": "Lancashire hotpot",
+          "country": "United Kingdom",
+          "category": "Lamb",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52884",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:180900",
+      "wikibooksTitle": "Macaroni Pie",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AMacaroni_Pie",
+      "providerMatches": [
+        {
+          "id": "53461",
+          "name": "Macaroni Pie",
+          "country": "Barbados",
+          "category": "Pasta",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53461",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:33062",
+      "wikibooksTitle": "Matar Paneer",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AMatar_Paneer",
+      "providerMatches": [
+        {
+          "id": "52865",
+          "name": "Matar Paneer",
+          "country": "India",
+          "category": "Vegetarian",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52865",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:28941",
+      "wikibooksTitle": "New York Cheesecake",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ANew_York_Cheesecake",
+      "providerMatches": [
+        {
+          "id": "52858",
+          "name": "New York cheesecake",
+          "country": "United States",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52858",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:17921",
+      "wikibooksTitle": "Pad Thai",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3APad_Thai",
+      "providerMatches": [
+        {
+          "id": "53191",
+          "name": "Pad Thai",
+          "country": "Thailand",
+          "category": "Seafood",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53191",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:34828",
+      "wikibooksTitle": "Peanut Butter Cookies",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3APeanut_Butter_Cookies",
+      "providerMatches": [
+        {
+          "id": "52958",
+          "name": "Peanut Butter Cookies",
+          "country": "United States",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52958",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:218081",
+      "wikibooksTitle": "Polish Doughnuts (Paczki)",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3APolish_Doughnuts_(Paczki)",
+      "providerMatches": [
+        {
+          "id": "53298",
+          "name": "Polish doughnuts (Pączki)",
+          "country": "Poland",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53298",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:21711",
+      "wikibooksTitle": "Poutine",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3APoutine",
+      "providerMatches": [
+        {
+          "id": "52804",
+          "name": "Poutine",
+          "country": "Canada",
+          "category": "Miscellaneous",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52804",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:152959",
+      "wikibooksTitle": "Rye Bread",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ARye_Bread",
+      "providerMatches": [
+        {
+          "id": "53308",
+          "name": "Rye bread",
+          "country": "Poland",
+          "category": "Side",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53308",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:22971",
+      "wikibooksTitle": "Spaghetti alla Carbonara",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ASpaghetti_alla_Carbonara",
+      "providerMatches": [
+        {
+          "id": "52982",
+          "name": "Spaghetti alla Carbonara",
+          "country": "Italy",
+          "category": "Pasta",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52982",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:32897",
+      "wikibooksTitle": "Strawberry Rhubarb Pie",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AStrawberry_Rhubarb_Pie",
+      "providerMatches": [
+        {
+          "id": "53005",
+          "name": "Strawberry Rhubarb Pie",
+          "country": "United Kingdom",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53005",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:415042",
+      "wikibooksTitle": "Stuffed Grape Leaves",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AStuffed_Grape_Leaves",
+      "providerMatches": [
+        {
+          "id": "53435",
+          "name": "Stuffed Grape Leaves",
+          "country": "Armenia",
+          "category": "Side",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53435",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:421882",
+      "wikibooksTitle": "Sugar Pie",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ASugar_Pie",
+      "providerMatches": [
+        {
+          "id": "52931",
+          "name": "Sugar Pie",
+          "country": "Canada",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52931",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:126203",
+      "wikibooksTitle": "Summer Pudding",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ASummer_Pudding",
+      "providerMatches": [
+        {
+          "id": "52889",
+          "name": "Summer Pudding",
+          "country": "United Kingdom",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52889",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:108460",
+      "wikibooksTitle": "Tarte Tatin",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3ATarte_Tatin",
+      "providerMatches": [
+        {
+          "id": "52909",
+          "name": "Tarte Tatin",
+          "country": "France",
+          "category": "Dessert",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52909",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    },
+    {
+      "wikibooksId": "wikibooks:16170",
+      "wikibooksTitle": "Toad in the Hole",
+      "wikibooksUrl": "https://en.wikibooks.org/wiki/Cookbook%3AToad_in_the_Hole",
+      "providerMatches": [
+        {
+          "id": "52822",
+          "name": "Toad In The Hole",
+          "country": "United Kingdom",
+          "category": "Pork",
+          "detailEndpoint": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52822",
+          "matchType": "same-normalised-title"
+        }
+      ],
+      "reviewStatus": "possible-overlap-not-confirmed"
+    }
+  ],
+  "createdAt": "2026-10-23T16:19:35.100Z",
+  "notes": [
+    "Matches are title similarities, not proofs of equivalent recipes.",
+    "Check ingredients, methods, regional variants, cultural origin and independent source links.",
+    "No recipe, photo or text licensing permission is inferred.",
+    "None of the original source records are removed from the 30-per-category coverage counts."
+  ]
+}

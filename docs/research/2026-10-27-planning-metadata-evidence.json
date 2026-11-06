@@ -1,0 +1,47 @@
+{
+  "scope": "Three recipe planning metadata checks; not full-catalogue coverage.",
+  "records": [
+    {
+      "url": "https://www.recipetineats.com/chicken-curry/",
+      "status": 200,
+      "title": "Chicken Curry - RecipeTin Eats",
+      "checkedAt": "2026-10-27",
+      "scrapeId": "01a17c16-203f-7298-9a69-60c5e4b702a5",
+      "fields": {
+        "title": "Chicken Curry",
+        "prepMinutes": 8,
+        "cookMinutes": 20,
+        "totalMinutes": 28,
+        "yieldText": "Servings 4"
+      }
+    },
+    {
+      "url": "https://www.recipetineats.com/spaghetti-bolognese/",
+      "status": 200,
+      "title": "Spaghetti Bolognese - RecipeTin Eats",
+      "checkedAt": "2026-10-27",
+      "scrapeId": "01a17c16-20f9-71bd-8c60-38b79fb44b79",
+      "fields": {
+        "title": "Spaghetti Bolognese",
+        "prepMinutes": 10,
+        "cookMinutes": 30,
+        "totalMinutes": 40,
+        "yieldText": "5 servings"
+      }
+    },
+    {
+      "url": "https://www.bbcgoodfood.com/recipes/shakshuka",
+      "status": 200,
+      "title": "Easy shakshuka recipe (with video) | Good Food",
+      "checkedAt": "2026-10-27",
+      "scrapeId": "01a17c16-2069-7095-8690-1de018ff3685",
+      "fields": {
+        "title": "Shakshuka",
+        "prepMinutes": 5,
+        "cookMinutes": 20,
+        "totalMinutes": null,
+        "yieldText": "Serves 2"
+      }
+    }
+  ]
+}

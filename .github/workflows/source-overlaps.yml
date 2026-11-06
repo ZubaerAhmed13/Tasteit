@@ -1,0 +1,43 @@
+name: Review possible recipe source overlaps
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/recipe-kitchen-foundation
+    paths:
+      - scripts/build-source-overlaps.mjs
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Compare documented source names conservatively
+        run: node scripts/build-source-overlaps.mjs
+      - name: Save source overlap review on development branch only
+        if: success() && github.ref == 'refs/heads/feat/recipe-kitchen-foundation'
+        run: |
+          cp artifacts/source-overlap-review.json data/source-overlap-review.json
+          cp artifacts/source-overlap-review.csv data/source-overlap-review.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/source-overlap-review.json data/source-overlap-review.csv
+          if ! git diff --cached --quiet; then
+            git commit -m "data: record possible cross-source duplicate titles for human review"
+            git push origin HEAD:refs/heads/feat/recipe-kitchen-foundation
+          fi
+      - name: Upload human review reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tasteit-cross-source-overlap-research
+          path: artifacts/source-overlap-review.*
+          retention-days: 30
+          if-no-files-found: warn
