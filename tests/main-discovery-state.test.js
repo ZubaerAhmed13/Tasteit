@@ -34,9 +34,12 @@ test('offline collection discovery retains composed publisher/course/rating filt
  const p=await controller({online:false});const {collectedMeal}=await import('../src/selected-kitchen.js');const saved=Object.fromEntries(records.map(r=>{const m=collectedMeal(r);return [m.idMeal,{meal:m,wanted:true}];}));p.run('store.saved='+JSON.stringify(saved));
  await p.run("discover('filters',{source:'swasthi',course:'breakfast',ratedOnly:true,sort:'rating'},{history:false})");assert.equal(p.run('activeMeals.length'),51);assert.ok(p.run("activeMeals.every(m=>m.selectedRecipe.source==='swasthi'&&m.selectedRecipe.rating)"));
 });
-test('offline primary search includes saved ingredient metadata',async()=>{
+test('offline primary search includes saved recipes alongside unsaved cached catalogue matches',async()=>{
  const p=await controller({online:false}),record=records.find(r=>r.id==='swasthi-poha-recipe-kanda-batata-poha'),{collectedMeal}=await import('../src/selected-kitchen.js'),meal=collectedMeal(record);p.run('store.saved='+JSON.stringify({[meal.idMeal]:{meal,wanted:true}}));
- await p.run("discover('search','beaten rice',{history:false})");assert.equal(p.run('activeMeals[0]?.idMeal'),meal.idMeal);
+ await p.run("discover('search','beaten rice',{history:false})");
+ assert.ok(p.run('activeMeals.some(m=>m.idMeal==="'+meal.idMeal+'")'),'the saved recipe must remain discoverable');
+ assert.ok(p.run('activeMeals.length>1'),'cached unsaved publisher matches are also included');
+ assert.equal(p.providerCalls(),0,'offline catalogue search must not request the remote API');
 });
 test('provider scope clears unsupported committed collection filters',async()=>{
  const p=await controller();await p.run("discover('filters',{query:'poha',source:'swasthi',course:'breakfast',ratedOnly:true,sort:'rating'},{history:false})");await p.run("discover('filters',{scope:'provider'},{history:false})");
