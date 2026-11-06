@@ -39,7 +39,7 @@ try{
  await page.locator('.selected-publication-details summary').click();
  assert.ok((await page.locator('.selected-publication-details').innerText()).includes('Publisher: RecipeTin Eats'));
 
- assert.equal(await page.locator('.selected-card a.btn').first().getAttribute('href'),'https://www.recipetineats.com/chicken-curry/');
+ assert.equal(await page.locator('.selected-card a.btn').first().getAttribute('href'),'./?recipe=selected-'+catalogue.recipes.find(r=>r.url==='https://www.recipetineats.com/chicken-curry/').id);
  await page.locator('.selected-ingredients summary').click();assert.equal(await page.locator('.selected-ingredients li').count(),11);
  assert.ok(await page.locator('.ingredient-reference').count()>0,'ingredient reference slots are present');
  assert.equal(await page.locator('.ingredient-reference figcaption').count(),0,'no caption or source beneath photos');
@@ -49,7 +49,7 @@ try{
  if(await firstImage.count())await firstImage.evaluate(image=>image.dispatchEvent(new Event('error',{bubbles:true})));
  await page.locator('.ingredient-photo-missing').first().waitFor({timeout:10000});
  assert.ok(await page.locator('footer a[href="./photo-credits.html"]').count()>0,'photo creators and licences are accessible on a separate page');
- await page.locator('#selected-source').selectOption('allrecipes');await page.locator('#selected-query').fill('');await page.locator('#selected-filters button[type=submit]').click();await page.locator('#selected-reset').waitFor();
+ await page.locator('#selected-source').selectOption('recipetineats');await page.locator('#selected-query').fill('a recipe name that cannot possibly match 938471');await page.locator('#selected-filters button[type=submit]').click();await page.locator('#selected-reset').waitFor();
  await page.locator('#selected-reset').click();assert.equal(await page.locator('.selected-card').count(),initial);
  await page.locator('#selected-rated').uncheck();await page.locator('#selected-filters button[type=submit]').click();assert.ok((await page.locator('#selected-status').innerText()).startsWith(catalogue.recipes.length+' of '+catalogue.recipes.length));
  // Unrated historical entries remain accessible, including on later pages.
@@ -96,7 +96,7 @@ try{
  // Deterministic image bytes test actual IMG rendering, not live Commons uptime.
  await page.route(/https:\/\/(?:upload|thumb)\.wikimedia\.org\//,route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGP4DwQACfsD/fteaysAAAAASUVORK5CYII=','base64')}));
  const providerLookups=[];page.on('request',r=>{if(r.url().includes('lookup.php?i=selected-'))providerLookups.push(r.url());});
- await kitchenCard.getByRole('link',{name:'Open in my kitchen →',exact:true}).click();await page.locator('[role=dialog] #recipe-tag-input').fill('Keep my draft');
+ await kitchenCard.getByRole('link',{name:'Open in TasteIt →',exact:true}).click();await page.locator('[role=dialog] #recipe-tag-input').fill('Keep my draft');
  assert.ok((await page.locator('#home-usual').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes(kitchenRecipe.title));assert.ok((await page.locator('#home-wanted').innerText()).includes('My other saved dish'));
  assert.equal(await page.locator('.ingredient-list li').count(),kitchenRecipe.ingredients.length);
  holdPhotos=false;assert.ok(releasePhotos);releasePhotos();
