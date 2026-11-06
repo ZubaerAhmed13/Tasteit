@@ -7,15 +7,16 @@ const safePhotoUrl=raw=>{
  url.pathname.startsWith('/wikipedia/commons/')?url.href:null;}
  catch{return null;}
 };
-export function installIngredientLightbox(root=document){
+export function installIngredientLightbox(root){
+ if(!root?.addEventListener||!root?.createElement||!root?.body)return;
  let dialog=null,returnFocus=null;
  function ensureDialog(){
   if(dialog)return dialog;
-  dialog=document.createElement('dialog');
+  dialog=root.createElement('dialog');
   dialog.className='ingredient-photo-viewer';
   dialog.setAttribute('aria-labelledby','ingredient-photo-viewer-title');
   dialog.innerHTML='<div class="ingredient-photo-viewer-header"><h2 id="ingredient-photo-viewer-title"></h2><button type="button" data-photo-close aria-label="Close ingredient picture">×</button></div><img alt="">';
-  document.body.appendChild(dialog);
+  root.body.appendChild(dialog);
   const close=()=>{
    if(typeof dialog.close==='function')dialog.close();
    else {dialog.removeAttribute('open');returnFocus?.focus?.({preventScroll:true});}

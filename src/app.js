@@ -32,7 +32,7 @@ import {installIngredientLightbox} from './ingredient-lightbox.js';
 
 const appRoot = document.getElementById('app');
 const overlayRoot = document.getElementById('overlay-root');
-installIngredientLightbox();
+installIngredientLightbox(document);
 const toastRoot = document.getElementById('toast');
 const store = loadStore();
 let recoveryViewRaw=null;

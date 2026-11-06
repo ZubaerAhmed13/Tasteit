@@ -10,7 +10,7 @@ import {readSelectedRoute,selectedRouteUrl} from './selected-navigation.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const link=(url,label,extra='')=>'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" '+extra+'>'+esc(label)+'</a>';
 const form=document.getElementById('selected-filters'),status=document.getElementById('selected-status'),results=document.getElementById('selected-results');
-installIngredientLightbox();
+installIngredientLightbox(document);
 let recipes=[],photos=[],snapshot=null,worldFavourites=null,worldIds=new Set(),pageNumber=1,appliedFilters=null,savedState=loadStore().saved;
 let catalogueReady=false,metadataStarted=false,optionsReady=false,formTouched=false,restorePending=false;
 let photoState='loading',curationState='loading',curationPayload=null,curationFetched=false,photoRequest=0,curationRequest=0;
