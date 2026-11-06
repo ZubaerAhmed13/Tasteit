@@ -451,20 +451,28 @@ async function discover(mode='featured', value='', {history=true}={}) {
     let meals,warning='';
     if(globalThis.navigator?.onLine===false) {
       const savedOffline=offlineRecipes(store.saved,{});
-      // The service worker precaches the public, licensed complete collection.
-      // Preserve previously saved records even when the cached catalogue fails.
+      // Both curated catalogues belong to the verified offline shell.
+      // Search their actual metadata and methods even if a dish was never saved.
+      // The "Cook in TasteIt" scope still excludes unlicensed publisher methods.
       let publicOffline=[];
-      if(discoveryMode!=='pantry' && discoveryChoice.scope!=='provider' &&
-         (discoveryChoice.scope==='cooking' || discoveryChoice.source==='wikibooks')) {
+      if(discoveryMode!=='pantry' && !['provider','saved'].includes(discoveryChoice.scope)) {
         try {publicOffline=await collectionLoader.load();}catch{publicOffline=[];}
+      }
+      if(thisRequest!==requestNumber||signal.aborted)return;
+      if(publicOffline.length) {
+        collectionRecords=publicOffline;
+        cuisines=recipeCuisineOptions(providerCuisines,publicOffline,store.saved);
       }
       meals=discoveryMode==='pantry'?savedOffline:discoveryChoice.scope==='provider'?
         offlineRecipes(store.saved,normaliseFilters(currentRoute())):
-        searchRecipeCollection(publicOffline,Object.fromEntries(savedOffline.map(m=>[m.idMeal,{...store.saved[m.idMeal],meal:m}])),currentRoute());
+        searchRecipeCollection(publicOffline,store.saved,currentRoute());
       if(discoveryMode==='pantry')meals=rankByKitchen(meals,store.pantry);
-      warning=publicOffline.length?
-        'You are offline. Complete in-app recipes and your saved cookbook are available. New source updates need a connection.':
-        'You are offline. Showing recipes saved in this browser. Reconnect once to prepare the full internal collection.';
+      const completeCount=publicOffline.filter(recipe=>recipe.method).length;
+      warning=completeCount?
+        'You are offline. Your local recipe collection and complete in-app cooking steps are available. New updates require a connection.':
+        publicOffline.length?
+        'You are offline. Your local ingredient references and saved cookbook are available. Complete steps could not be loaded.':
+        'You are offline. Showing your saved cookbook. Reconnect once to prepare all internal recipes.';
     } else if(discoveryMode==='pantry') {
       kitchenSelection=reconcileKitchenSelection(store.pantry,kitchenSelection);
       if(!kitchenSelection.length)kitchenSelection=initialKitchenSelection(store.pantry);
@@ -534,7 +542,7 @@ function card(meal, kitchenExplanation = false, personalReasons = null) {
     photo(meal) + (analysis ? '<span class="mini-pill">' + (useSoon.length ? 'Use soon: ' + escapeHtml(useSoon.slice(0,2).join(', ')) : analysis.isQuantityConfirmed ? 'Amounts confirmed*' : analysis.percent + '% names on hand*') + '</span>' : '<span class="mini-pill">' + escapeHtml(region) + '</span>') + '</button>' +
     '<div class="recipe-body"><button type="button" class="recipe-title" data-action="open" data-id="' + id + '">' + escapeHtml(meal.strMeal) + '</button>' +
     '<div class="recipe-meta"><span>' + escapeHtml(region) + '</span><span>·</span><span>' + escapeHtml(mealCategory) + '</span></div>' +
-    reason + (entry.avoided?'<p class="recipe-availability">Don’t try · on your list</p>':'') + (collectedRecipe(meal)?'<p class="recipe-availability">'+(completeMethod(collectedRecipe(meal))?'Full recipe · steps included':savedEntry(meal.idMeal).ownMethod?'My steps · available offline':'Ingredients · method at source')+'</p>':'') + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom">' +
+    reason + (entry.avoided?'<p class="recipe-availability">Don’t try · on your list</p>':'') + (collectedRecipe(meal)?'<p class="recipe-availability">'+(completeMethod(collectedRecipe(meal))?'Full recipe · steps included':savedEntry(meal.idMeal).ownMethod?'My steps · available offline':'Ingredients · add your steps')+'</p>':'') + recipeRatingMarkup(collectedRecipe(meal)) + '<div class="card-bottom">' +
     '<button type="button" class="quick-save' + (isSaved ? ' saved' : '') + '" data-action="wanted" data-id="' + id + '" aria-pressed="' + isSaved + '">' + (isSaved ? '✓ Want to try' : '+ Want to try') + '</button></div></div>' +
     (personalReasons?'<div class="personal-reasons"><span class="eyebrow">WHY THIS DISH</span><ul>'+personalReasons.map(reason=>'<li>'+escapeHtml(reason)+'</li>').join('')+'</ul><button type="button" class="btn ghost small" data-action="taste-hide" data-id="'+id+'" aria-label="Not for me: '+escapeHtml(meal.strMeal)+'">Not for me</button></div>':'')+'</article>';
 }

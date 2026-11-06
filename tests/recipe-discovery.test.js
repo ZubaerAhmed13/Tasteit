@@ -60,3 +60,14 @@ test('cook-inside search includes only complete recipes or personally written st
  assert.equal(discovery.canCookInside(linked,saved[linked.idMeal]),true);
  assert.equal(discovery.searchRecipeCollection([reference],{}, {scope:'cooking'}).length,0);
 });
+
+test('full offline collection filters both unsaved references and complete licensed cooking methods',async()=>{
+ const complete=JSON.parse(await readFile('data/complete-recipes.json','utf8')).recipes;
+ const publisher=records.find(r=>r.id==='swasthi-poha-recipe-kanda-batata-poha');
+ assert.ok(publisher);
+ const all=discovery.searchRecipeCollection([publisher,complete[0]],{}, {scope:'collection'});
+ assert.deepEqual(new Set(all.map(row=>row.idMeal)),new Set(['selected-'+publisher.id,'selected-'+complete[0].id]));
+ const cook=discovery.searchRecipeCollection([publisher,complete[0]],{}, {scope:'cooking'});
+ assert.deepEqual(cook.map(row=>row.idMeal),['selected-'+complete[0].id]);
+ assert.equal(discovery.canCookInside(collectedMeal(publisher)),false);
+});

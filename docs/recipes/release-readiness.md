@@ -19,7 +19,7 @@ Updated: 2026-11-06. Scope: draft PR #1 on `feat/recipe-kitchen-foundation` (not
 ## Internal cooking implementation (draft)
 - **Cook in TasteIt** lists records with complete licensed methods, personal methods, or other existing full instructions. Publisher-only ingredient lists are never presented as full in-app directions.
 - Publisher reference cards open TasteIt first. Original publisher links remain in optional **Sources & credits** disclosures.
-- Complete recipes are pre-cached after **Ready offline**. Chromium and WebKit browser acceptance covers opening an *unsaved* complete recipe after server shutdown. Firefox browser acceptance covers cached catalogue presence, saved recipe reload and offline guided cooking; changing to an unsaved recipe while forcibly offline remains **unverified** in Firefox and is not a release claim.
+- Both the complete recipe collection and the publisher-reference collection are pre-cached after **Ready offline**. All collection filters now search locally when offline; only real steps appear in **Cook in TasteIt**, and publisher reference cards instead offer personal-method entry. Chromium and WebKit browser acceptance covers opening an *unsaved* complete recipe and unsaved publisher reference after server shutdown. Firefox acceptance covers both cached catalogues, saved recipe reload and offline guided cooking; opening an unsaved recipe while forcibly offline remains **unverified** in Firefox.
 - Ingredient photographs are still third-party Commons thumbnails or original publisher links; only viewed Commons thumbnails are cached. Image authenticity and completeness remain unverified.
 - These changes remain in the draft feature branch, not production.
 

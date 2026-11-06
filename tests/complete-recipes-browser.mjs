@@ -38,9 +38,9 @@ try{
  // cooking flow above remains fully exercised in Firefox.
  if(process.env.TASTEIT_BROWSER==='firefox') {
    const cached=await page.evaluate(async()=>{
-     const file=new URL('./data/complete-recipes.json',location.href).href;
-     const response=await caches.match(file);
-     return Boolean(response?.ok);
+     const urls=['./data/complete-recipes.json','./data/selected-recipes.json'];
+     const entries=await Promise.all(urls.map(file=>caches.match(new URL(file,location.href).href)));
+     return entries.every(response=>Boolean(response?.ok));
    });
    assert.equal(cached,true,'Firefox has the complete licensed catalogue in its offline cache');
  } else {
@@ -62,6 +62,20 @@ try{
   await page.locator('[data-recipe-id="selected-'+fresh.id+'"] .recipe-title').click();
   await page.locator('[role=dialog] .instruction-list').waitFor();
   assert.deepEqual(await page.locator('.instruction-list > li').allTextContents(),fresh.method.steps);
+  // Even without individually saving them, publisher ingredient references
+  // should be searchable inside the cached catalogue, without copied methods.
+  const publisher=original.find(r=>r.id==='swasthi-poha-recipe-kanda-batata-poha');
+  assert.ok(publisher,'test fixture needs the original source reference');
+  await page.keyboard.press('Escape');
+  const controls=page.locator('#discovery-filter-panel');
+  if(!await controls.evaluate(n=>n.open))await page.locator('#discovery-filter-panel > summary').click();
+  await page.locator('#discover-scope').selectOption('collection');
+  await page.locator('#discovery-filters button[type=submit]').click();
+  await page.locator('#recipe-search').fill('poha');
+  await page.locator('#search-form button').click();
+  await page.locator('[data-recipe-id="selected-'+publisher.id+'"]').waitFor();
+  await page.locator('[data-recipe-id="selected-'+publisher.id+'"] .recipe-title').click();
+  assert.ok((await page.locator('[role=dialog]').innerText()).includes('Add your own cooking steps'));
  }
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')).saved);assert.equal(saved[meal.idMeal].cookedCount,1);assert.deepEqual(saved[legacy.idMeal],seed.saved[legacy.idMeal]);assert.deepEqual(publisherRequests,[]);assert.deepEqual(errors,[]);
  console.log('PASS complete recipes: licensed discovery, numbered steps, cooking/timer/checklist, backup, real offline reload/resume/finish and an unsaved complete recipe, original collection and 320px reflow.');
