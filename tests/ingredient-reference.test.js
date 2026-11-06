@@ -8,6 +8,9 @@ test('ingredient picture has no under-image caption, link to source, or license 
  const markup=ingredientReference('1 onion',photos);
  assert.match(markup,/<img /);
  assert.match(markup,/class="ingredient-photo-link"/);
+ assert.match(markup,/<button type="button"/);
+ assert.match(markup,/data-photo-url="https:\/\//);
+ assert.doesNotMatch(markup,/target="_blank"|href=/);
  assert.doesNotMatch(markup,/<figcaption|creator|licence|credits|Source|commons.wikimedia.org\/wiki\/File:/i);
 });
 test('unknown ingredients never display an unrelated photo',()=>{

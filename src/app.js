@@ -28,9 +28,11 @@ import {discoveryOptions} from './discovery-options.js';
 import {createRecipeCollectionLoader,searchRecipeCollection,recipeCuisineOptions} from './recipe-discovery.js';
 import { validateRecipe,SOURCES,RECIPE_COURSES,recipePage,completeMethod } from './selected-sources.js';
 import { ingredientReference } from './ingredient-reference.js';
+import {installIngredientLightbox} from './ingredient-lightbox.js';
 
 const appRoot = document.getElementById('app');
 const overlayRoot = document.getElementById('overlay-root');
+installIngredientLightbox();
 const toastRoot = document.getElementById('toast');
 const store = loadStore();
 let recoveryViewRaw=null;

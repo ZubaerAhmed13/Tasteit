@@ -42,7 +42,14 @@ try{
  assert.equal(await page.locator('#discover-course').evaluate(n=>n===document.activeElement),true,JSON.stringify(await page.evaluate(()=>({open:document.querySelector('#discovery-filter-panel')?.open,focus:document.activeElement?.outerHTML,course:document.querySelector('#discover-course')?.getBoundingClientRect().toJSON()}))));
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.locator('.recipe-card .recipe-photo').first().click();await page.locator('[role=dialog]').waitFor();
- const reference=page.locator('.ingredient-reference').first();await reference.waitFor();assert.equal(await reference.locator('figcaption').count(),0,'ingredient photos have no captions beneath them');assert.ok(await reference.locator('.ingredient-photo-link').getAttribute('href'));
+ const reference=page.locator('.ingredient-reference').first();await reference.waitFor();assert.equal(await reference.locator('figcaption').count(),0,'ingredient photos have no captions beneath them');assert.ok(await reference.locator('.ingredient-photo-link').getAttribute('data-photo-url'));
+  const viewerTrigger=reference.locator('.ingredient-photo-link');
+  await viewerTrigger.click();
+  await page.locator('dialog.ingredient-photo-viewer[open]').waitFor();
+  assert.equal(await page.locator('dialog.ingredient-photo-viewer img').getAttribute('src'),await viewerTrigger.getAttribute('data-photo-url'));
+  await page.locator('.ingredient-photo-viewer [data-photo-close]').click();
+  await page.locator('dialog.ingredient-photo-viewer[open]').waitFor({state:'hidden'});
+  assert.equal(await page.locator('[role=dialog]').count(),1,'closing ingredient zoom must not close the recipe');
  const photo=page.locator('.dialog-photo').first();if(await photo.count()){const before=await photo.boundingBox();await photo.dispatchEvent('error');const after=await page.locator('.dialog-photo-unavailable').boundingBox();assert.ok(after.height>=before.height-1);}
  // 320 CSS px is the reflow width of a 1280px viewport at 400% magnification.
  await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.ok((await page.locator('#recipe-plan-form button').boundingBox()).height>=44);assert.equal(await reference.locator('figcaption').count(),0,'ingredient photos have no captions beneath them');
