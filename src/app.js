@@ -28,6 +28,7 @@ import {discoveryOptions} from './discovery-options.js';
 import {createRecipeCollectionLoader,searchRecipeCollection,recipeCuisineOptions} from './recipe-discovery.js';
 import { validateRecipe,SOURCES,RECIPE_COURSES,recipePage,completeMethod } from './selected-sources.js';
 import { ingredientReference } from './ingredient-reference.js';
+import {recipeIngredientPhotoUrls,saveRecipeIngredientPhotos} from './ingredient-offline.js';
 import {installIngredientLightbox} from './ingredient-lightbox.js';
 
 const appRoot = document.getElementById('app');
@@ -1287,6 +1288,9 @@ function renderDialog() {
       '<button type="button" class="btn ghost" data-action="exit-cooking">View full recipe</button></div>' +
       '<p class="panel-note">Your progress is saved on this device. Closing the recipe does not erase it.</p></div>';
   } else {
+    const approvedIngredientPhotos=recipeIngredientPhotoUrls(ingredientItems.map(x=>x.name),ingredientPhotos);
+    const offlinePhotosButton=approvedIngredientPhotos.length?
+      '<button type="button" class="btn secondary small" data-action="save-ingredient-photos">↓ Save '+approvedIngredientPhotos.length+' ingredient photos offline</button>':'';
     const ingredientHtml = ingredientItems.length ? '<ul class="ingredient-list">' + measuredScore.availability.map((x,i) => {
       const enough = x.status === 'enough';
       const marker = enough ? '✓ ' : x.status === 'review' ? '? ' : '○ ';
@@ -1333,7 +1337,7 @@ function renderDialog() {
        actionButton('avoided',meal,'×','Don’t try') +
       '<button type="button" class="btn secondary small" data-action="cook-done" data-id="' + escapeHtml(meal.idMeal) + '">✓ I cooked this' + (savedEntry(meal.idMeal).cookedCount ? ' (' + savedEntry(meal.idMeal).cookedCount + ')' : '') + '</button></div>' +
       (meal.strPersonal ? '<button class="btn secondary small" type="button" data-action="edit-recipe" data-id="' + escapeHtml(meal.idMeal) + '" style="margin-top:9px">✎ Edit my recipe</button>' : '') +
-      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><div class="field"><label for="recipe-plan-slot">Meal</label><select id="recipe-plan-slot" name="slot">'+MEAL_SLOTS.map(slot=>'<option value="'+slot+'"'+(slot==='dinner'?' selected':'')+'>'+slotLabel(slot)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + '<div data-planning-metadata>'+planningMetadataMarkup(meal)+'</div>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3><p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
+      '<p class="panel-note" style="margin-top:12px">* Estimates only. Check freshness, units and food safety before cooking.</p>' + '<form id="recipe-plan-form" class="recipe-plan-form"><div class="field"><label for="recipe-plan-day">Plan this recipe</label><select id="recipe-plan-day" name="day">'+nextSevenDates().map(d=>'<option value="'+d.key+'">'+escapeHtml(d.label+' · '+d.date)+'</option>').join('')+'</select></div><div class="field"><label for="recipe-plan-slot">Meal</label><select id="recipe-plan-slot" name="slot">'+MEAL_SLOTS.map(slot=>'<option value="'+slot+'"'+(slot==='dinner'?' selected':'')+'>'+slotLabel(slot)+'</option>').join('')+'</select></div><button class="btn secondary" type="submit">Add to plan</button></form>' + '<div data-planning-metadata>'+planningMetadataMarkup(meal)+'</div>' + servingControls + tagEditor + '<div class="dialog-columns"><section><h3>Ingredients</h3>'+offlinePhotosButton+'<p class="panel-note" style="margin-bottom:14px">' + (ingredientItems.length ? measuredScore.have.length + ' of ' + ingredientItems.length + ' ingredient names in your kitchen. ' + (measuredScore.isQuantityConfirmed ? 'All listed amounts appear sufficient.*' : 'See amounts and stock checks below.*') + '' : 'Ingredients pending') + '</p>' + ingredientHtml +
       '</section><section><h3>How to make it</h3>' + (collectedRecipe(meal)&&!fullMethod&&!ownMethod?'<p class="panel-note">This publisher reference has ingredients but no reusable instructions. Add your own cooking steps below to make it a complete recipe inside TasteIt. Ingredient amounts remain as written.</p>':parts.length ? '<ol class="instruction-list">' + parts.map(t => '<li>' + escapeHtml(t) + '</li>').join('') + '</ol>' : '<p class="panel-note">Instructions unavailable.</p>') +
       ownMethodEditor + (fullMethod?recipeMethodNotes(fullMethod)+recipeTextCredit(meal)+(store.saved[meal.idMeal]?'<p class="panel-note">Saved in this browser for offline cooking. Open Tasteit online once to prepare offline access.</p>':'<p class="panel-note">Save this full recipe to keep its ingredients, steps and credits available offline.</p><button type="button" class="btn secondary" data-action="wanted" data-id="'+escapeHtml(meal.idMeal)+'">Save recipe for offline</button>'):'') +
       (parts.length || collectedRecipe(meal) ? '<div class="dialog-actions" style="margin-top:20px"><button type="button" class="btn" data-action="start-cooking">' + (collectedRecipe(meal)&&!fullMethod&&!ownMethod?(store.cookingSessions?.[meal.idMeal]?'Resume preparation &amp; timer →':'Prepare ingredients &amp; timer →'):(store.cookingSessions?.[meal.idMeal] ? 'Resume guided cooking →' : 'Start guided cooking →')) + '</button>' +
@@ -1463,6 +1467,18 @@ document.addEventListener('click', async event => {
   if(action==='account-sign-out') {cloudSync?.disconnect();if(hostAuth){await hostAuth.submit('sign-out');document.querySelector('.account-status')?.focus({preventScroll:true});}return;}
   if(['plan-previous','plan-next','plan-today'].includes(action)){planWeekOffset=action==='plan-today'?0:Math.max(-52,Math.min(52,planWeekOffset+(action==='plan-next'?1:-1)));render();appRoot.querySelector('[data-action="'+action+'"]')?.focus();return;}
   const id = button.dataset.id;
+  if(action==='save-ingredient-photos') {
+     if(!selectedMeal||button.disabled)return;
+     button.disabled=true;
+     try {
+       const report=await saveRecipeIngredientPhotos(ingredientsOf(selectedMeal).map(item=>item.name),ingredientPhotos);
+       notice(report.failed?
+         'Saved '+report.saved+' ingredient photos offline; '+report.failed+' could not be downloaded.':
+         'Saved '+report.saved+' ingredient photos for offline cooking on this device.');
+     }catch(error){notice(error.message||'Could not save offline ingredient photos.');}
+     finally {if(button.isConnected)button.disabled=false;}
+     return;
+  }
   if(action==='own-method-clear') {
     if(!selectedMeal||!collectedRecipe(selectedMeal)||completeMethod(collectedRecipe(selectedMeal)))return;
     const mealId=selectedMeal.idMeal,existing=savedEntry(mealId);

@@ -7,7 +7,7 @@ Updated: 2026-11-06. Scope: draft PR #1 on `feat/recipe-kitchen-foundation` (not
 - **1,108** original publisher references, maintained without copying cooking directions that were not licensed for redistribution.
 - **189** reviewed Commons ingredient-photo references. Photo tiles show no caption, source text or attribution beneath the image. Licence/creator details live at `photo-credits.html`.
 - For source-linked publisher recipes, users can write **their own** cooking steps, store them with their saved recipe, back them up and follow them offline. These are personal user-authored notes, not publisher content.
-- The offline application shell includes the licensed recipe catalogue, publisher-reference catalogue, and photo-credit index; up to 160 previously viewed Wikimedia Commons ingredient thumbnails are kept for use without a connection. Missing images remain missing rather than being replaced with unrelated stock photos.
+- The offline application shell includes the licensed recipe catalogue, publisher-reference catalogue, and photo-credit index. A per-recipe **Save ingredient photos offline** button prepares up to 40 unique rights-reviewed 250px Commons thumbnails; at most 160 thumbnails are kept in local browser storage. Already-viewed approved thumbnails remain available too. The user must be online to download images not already cached. This does not use Cloudflare server storage or copy publisher-owned dish photos. Missing/unsupported images are never replaced with stock photos.
 
 ## Explicit coverage limits
 - **Publisher instructions:** not all 1,108 original publisher records have an independently licensed, in-app method. Do not present them as complete. They retain their author link unless the user supplies their own method.
@@ -20,7 +20,7 @@ Updated: 2026-11-06. Scope: draft PR #1 on `feat/recipe-kitchen-foundation` (not
 - **Cook in TasteIt** lists records with complete licensed methods, personal methods, or other existing full instructions. Publisher-only ingredient lists are never presented as full in-app directions.
 - Publisher reference cards open TasteIt first. Original publisher links remain in optional **Sources & credits** disclosures.
 - Both the complete recipe collection and the publisher-reference collection are pre-cached after **Ready offline**. All collection filters now search locally when offline; only real steps appear in **Cook in TasteIt**, and publisher reference cards instead offer personal-method entry. Chromium and WebKit browser acceptance covers opening an *unsaved* complete recipe and unsaved publisher reference after server shutdown. Firefox acceptance covers both cached catalogues, saved recipe reload and offline guided cooking; opening an unsaved recipe while forcibly offline remains **unverified** in Firefox.
-- Ingredient photographs are still third-party Commons thumbnails or original publisher links; only viewed Commons thumbnails are cached. Image authenticity and completeness remain unverified.
+- Ingredient photos are third-party reviewed Commons thumbnails or original publisher references. Reviewed ingredient thumbnails can be prepared in advance per recipe, locally; original publisher photos are never copied into the ingredient cache. Image authenticity and completeness remain unverified.
 - These changes remain in the draft feature branch, not production.
 
 ## Release gates
