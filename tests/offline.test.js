@@ -38,7 +38,7 @@ async function worker({stores=new Map(),network={mode:'online'},version='first',
     async ready(){let pending,result;handlers.message({data:'TASTEIT_OFFLINE_STATUS',ports:[{postMessage:value=>{result=value.ready;}}],waitUntil:p=>{pending=p;}});await pending;return result;},
     async asset(path){let response;handlers.fetch({request:new Request(base+path),respondWith:p=>{response=p;}});return response;},async navigate(){let response;handlers.fetch({request:{url:base,method:'GET',mode:'navigate'},respondWith:p=>{response=p;},waitUntil:()=>{}});return response;},
     intercept(url){let handled=false;handlers.fetch({request:{url,method:'GET',mode:'cors'},respondWith:()=>{handled=true;},waitUntil:()=>{}});return handled;},
-    async savePhotos(urls){let pending,result;handlers.message({data:{type:'TASTEIT_CACHE_RECIPE_PHOTOS',urls},ports:[{postMessage:v=>{result=v;}}],waitUntil:p=>{pending=p;}});await pending;return result;},
+    async savePhotos(urls){let pending,result;handlers.message({data:{type:'TASTEIT_CACHE_RECIPE_PHOTOS',urls},ports:[{postMessage:v=>{result=v;}}],waitUntil:p=>{pending=p;}});await pending;return JSON.parse(JSON.stringify(result));},
     async image(url){const request=new Request(url,{mode:'no-cors'});Object.defineProperty(request,'destination',{value:'image'});let response;handlers.fetch({request,respondWith:p=>{response=p;},waitUntil:()=>{}});return response;}};
 }
 test('offline worker serves the app shell but never intercepts APIs or external photos',async()=>{
