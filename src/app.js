@@ -193,6 +193,10 @@ function currentRoute() {
 }
 function writeRoute({replace=false,recipeOverlay=false}={}) {
   const url=routeUrl(currentRoute(),window.location.href);
+  // In fully offline Firefox, changing filter URLs can trigger a document load
+  // despite the SPA. Search and cooking still work using local app state.
+  // Explicit dialog dismissal may safely replace its existing URL entry.
+  if(!replace && globalThis.navigator?.onLine===false)return;
   if(!replace && url.href===window.location.href)return;
   if(!replace)window.history.replaceState({...window.history.state,scrollY:window.scrollY},'',window.location.href);
   // Firefox can treat newly pushed history entries as document traversals while

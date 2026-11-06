@@ -32,15 +32,20 @@ try{
  while(await page.locator('[data-action=step-next]').count())await page.locator('[data-action=step-next]').click();await page.locator('[data-action=cook-done]').click();await page.locator('#cooking-log-form button[type=submit]').click();await page.locator('#cooking-log-form').waitFor({state:'hidden'});
  // An unsaved complete recipe must open with full steps even after server shutdown.
  const fresh=licensed.find(r=>r.id!==full.id && r.method.steps.length>1);
- // Browser offline mode (especially Firefox) forbids document navigations.
- // Closing the current recipe must not navigate the browser away from TasteIt.
+ // The whole flow stays within the running app while its server is shut down.
+ // No address/history change is needed to filter cached recipes offline.
  await page.keyboard.press('Escape');
- assert.equal(await page.locator('#app').count(),1,'closing a recipe offline must retain the app document');
- await page.evaluate(title=>{
-   history.replaceState({tasteit:true,recipeOverlay:false,scrollY:0},'',
-     '?scope=cooking&q='+encodeURIComponent(title));
-   window.dispatchEvent(new PopStateEvent('popstate'));
- },fresh.title);
+ assert.equal(await page.locator('#app').count(),1,'closing offline must retain the app document');
+ await page.locator('.site-nav [data-nav=discover]').click();
+ const filterPanel=page.locator('#discovery-filter-panel');
+ if(!await filterPanel.evaluate(n=>n.open))
+   await page.locator('#discovery-filter-panel > summary').click();
+ await page.locator('#discover-scope').selectOption('cooking');
+ await page.locator('#discovery-filters button[type=submit]').click();
+ await page.waitForFunction(()=>!document.querySelector('.loading-screen') &&
+   document.querySelector('#discover-scope')?.value==='cooking');
+ await page.locator('#recipe-search').fill(fresh.title);
+ await page.locator('#search-form button').click();
  await page.locator('[data-recipe-id="selected-'+fresh.id+'"]').waitFor();
  await page.locator('[data-recipe-id="selected-'+fresh.id+'"] .recipe-title').click();
  await page.locator('[role=dialog] .instruction-list').waitFor();
