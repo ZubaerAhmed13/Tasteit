@@ -30,7 +30,13 @@ try{
  const session=await page.evaluate(id=>JSON.parse(localStorage.getItem('tasteit.local.v1')).cookingSessions[id],meal.idMeal);assert.ok(session.endsAt>Date.now());
  await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  while(await page.locator('[data-action=step-next]').count())await page.locator('[data-action=step-next]').click();await page.locator('[data-action=cook-done]').click();await page.locator('#cooking-log-form button[type=submit]').click();await page.locator('#cooking-log-form').waitFor({state:'hidden'});
+ // An unsaved complete recipe must open with full steps even after server shutdown.
+ const fresh=licensed.find(r=>r.id!==full.id && r.method.steps.length>1);
+ await page.goto(base+'?scope=cooking&q='+encodeURIComponent(fresh.title));
+ await page.locator('[data-recipe-id="selected-'+fresh.id+'"] .recipe-title').click();
+ await page.locator('[role=dialog] .instruction-list').waitFor();
+ assert.deepEqual(await page.locator('.instruction-list > li').allTextContents(),fresh.method.steps);
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('tasteit.local.v1')).saved);assert.equal(saved[meal.idMeal].cookedCount,1);assert.deepEqual(saved[legacy.idMeal],seed.saved[legacy.idMeal]);assert.deepEqual(publisherRequests,[]);assert.deepEqual(errors,[]);
- console.log('PASS complete recipes: licensed discovery, numbered steps, cooking/timer/checklist, backup, real offline reload/resume/finish, original collection and 320px reflow.');
+ console.log('PASS complete recipes: licensed discovery, numbered steps, cooking/timer/checklist, backup, real offline reload/resume/finish and an unsaved complete recipe, original collection and 320px reflow.');
 }catch(error){if(page)console.log('Complete-recipe diagnostics',await page.evaluate(()=>({url:location.href,dialog:document.querySelector('[role=dialog]')?.innerText,offline:document.getElementById('offline-status')?.textContent})).catch(()=>({})));throw error;}
 finally{await browser?.close();if(server.listening)await new Promise(r=>server.close(r));}
